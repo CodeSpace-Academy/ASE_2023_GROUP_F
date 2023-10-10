@@ -1,13 +1,25 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.MONGODB_URI;
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
+let client;
+
+try {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("Environment variable MONGODB_URI is not defined.");
   }
-});
+
+  const uri = process.env.MONGODB_URI;
+
+  client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  });
+} catch (error) {
+  console.error('Error connecting to MongoDB:', error);
+}
+
+
 
 export default client;
