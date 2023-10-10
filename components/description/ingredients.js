@@ -3,7 +3,7 @@ function Ingredients(props){
 
   return(
     <>
-      {ingredients.map((ingredient) => {
+      {ingredients.map((ingredient) => (
         <div>
           <h3>{ingredient}</h3>
           <div>
@@ -12,7 +12,7 @@ function Ingredients(props){
             <button>+</button>
           </div>
         </div>
-      })}
+      ))}
     </>
   );
 }
