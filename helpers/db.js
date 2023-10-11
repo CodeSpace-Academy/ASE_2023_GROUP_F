@@ -1,25 +1,24 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import * as dotenv from "dotenv";
+dotenv.config();
 
-let client;
+// Require necessary modules
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
-try {
-  if (!process.env.MONGODB_URI) {
-    throw new Error("Environment variable MONGODB_URI is not defined.");
-  }
+// Define the MongoDB connection string
+const uri = process.env.URI;
 
-  const uri = process.env.MONGODB_URI;
-
-  client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-  });
-} catch (error) {
-  console.error('Error connecting to MongoDB:', error);
+if (!uri) {
+  console.error("env values are not present.");
+  process.exit(1); // Exit the application with an error code
 }
 
-
+// Create a MongoClient with the specified options
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 
 export default client;
