@@ -1,57 +1,11 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
 import { getRecipeById } from "@/dummy_data";
-import Instructions from "@/components/instructions/instructions";
-import Ingredients from "@/components/ingredients/ingredients";
 import Details from "@/components/description/details";
 
-function SingleRecipe({ recipe, error, recipeIdProp }) {
-  const router = useRouter();
-  const { recipeId } = router.query;
-
-  const [showInstructions, setShowInstructions] = useState(false);
-  const [showIngredients, setShowIngredients] = useState(false);
-
-  const toggleInstructions = () => {
-    setShowInstructions(!showInstructions);
-
-    if (showIngredients) {
-      setShowIngredients(false);
-    }
-  };
-
-  const toggleIngredients = () => {
-    setShowIngredients(!showIngredients);
-
-    if (showInstructions) {
-      setShowInstructions(false);
-    }
-  };
-
+function SingleRecipe({ recipe, error}) {
   return (
-    <div>
-      <h1>{recipe ? recipe.title : "Recipe Not Found"}</h1>
-
-      {error && <p>Failed to load data. Please try again later.</p>}
-
-      <button onClick={toggleIngredients}>
-        {showIngredients ? "Hide Ingredients" : "View Ingredients"}
-      </button>
-
-      <button onClick={toggleInstructions}>
-        {showInstructions ? "Hide Instructions" : "View Instructions"}
-      </button>
-
-      {showIngredients && !error && (
-        <Ingredients ingredients={recipe.ingredients} />
-      )}
-
-      {showInstructions && !error && (
-        <Instructions instructions={recipe.instructions} />
-      )}
-
-      <Details data={recipeIdProp} error={error} />
-    </div>
+    <>
+      <Details recipe={recipe} error={error} />
+    </>
   );
 }
 
@@ -73,7 +27,6 @@ export async function getServerSideProps({ params }) {
     props: {
       recipe,
       error,
-      recipeIdProp: recipeId,
     },
   };
 }

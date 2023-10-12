@@ -2,12 +2,9 @@ import Ingredients from "../ingredients/ingredients";
 import Instructions from "../instructions/instructions";
 import { useState } from "react";
 
-function Details(props) {
+function Details({recipe, error}) {
   const [showInstructions, setShowInstructions] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
-
-  const { data, error } = props;
-  console.log("details component: " + props);
 
   const toggleInstructions = () => {
     setShowInstructions(!showInstructions);
