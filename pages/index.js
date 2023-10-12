@@ -1,7 +1,16 @@
-export default function Home() {
+import RecipeList from '@/components/ReceipList';
+
+
+function Home() {
+
   return (
-    <>
-      <h1>HomePage</h1>
-    </>
+    <div>
+      <RecipeList />
+    </div>
   )
 }
+
+export default Home;
+
+
+
