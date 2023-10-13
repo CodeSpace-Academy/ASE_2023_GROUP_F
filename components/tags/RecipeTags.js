@@ -1,27 +1,16 @@
 
-import { dummyRecipes } from  '../../pages/tags/dummyRecipes'; 
+    import React from 'react'; 
 
-
-function RecipeTags() {
-
- 
-   return (
-    <div>
-      {dummyRecipes.map((recipe) => (
-        <div key={recipe.id}>
-          <ul>
-            {recipe.tags.map((tag) => (
-             <>
-             {console.log(recipe.tags)}
-              <li key={tag}>{tag}</li>
-             </>
-            ))}
-          </ul>
+    function RecipeTags(props) {
+      const { tags } = props; 
+    
+      return (
+        <div>
+          {tags.map(tag => (
+            <button key={tag}>{tag}</button> 
+          ))}
         </div>
-      ))}
-
-    </div>
-  );
-}
-
-export default RecipeTags;
+      );
+    }
+    
+    export default RecipeTags;
