@@ -23,8 +23,6 @@ const RecipeList = () => {
     callViewRecipes();
   }, []);
 
-  console.log('result', recipes);
-
   if (recipes.length === 0) {
     return <p>Loading...</p>;
   }
