@@ -22,3 +22,5 @@ const client = new MongoClient(uri, {
 });
 
 export default client;
+
+export const db = "devdb"
