@@ -1,10 +1,16 @@
+import RecipeList from "../components/recipe-collection/RecipeList";
 
 
-const Home = () => {
+function Home() {
 
-	return(
-		<h1>Home page</h1>
-	)
-};
+  return (
+    <div>
+      <RecipeList />
+    </div>
+  )
+}
 
 export default Home;
+
+
+
