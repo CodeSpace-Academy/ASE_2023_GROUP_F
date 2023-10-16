@@ -1,4 +1,4 @@
-import RecipeList from '@/components/ReceipList';
+import RecipeList from "@/components/recipe-collection/RecipeList";
 
 
 function Home() {
