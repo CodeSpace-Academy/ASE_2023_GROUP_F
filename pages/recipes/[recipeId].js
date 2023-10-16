@@ -1,10 +1,10 @@
 import { getRecipeById } from "@/dummy_data";
-import Details from "@/components/description/details";
+import Details from "@/components/details/details";
 
 function SingleRecipe({ recipe, error}) {
   return (
     <>
-      <Details recipe={recipe} error={error} />
+      <Details recipe={recipe} error={error}/>
     </>
   );
 }

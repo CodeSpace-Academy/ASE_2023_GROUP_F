@@ -23,5 +23,6 @@ body {
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+  rgb(var(--background-start-rgb));
+  font-family: Arial, Helvetica, sans-serif;
 }

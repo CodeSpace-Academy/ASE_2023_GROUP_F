@@ -1,6 +1,8 @@
 import classes from "./instructions.module.css";
 import React from "react";
 
+import { ToggleButton } from "@mui/material";
+
 function Instructions(props) {
   const { instructions } = props;
 
@@ -12,24 +14,9 @@ function Instructions(props) {
           <div className={classes.instruction}>{item}</div>
         </div>
       ))}
+      <ToggleButton value="start_cooking">Start Cooking</ToggleButton>
     </div>
   );
 }
 
 export default Instructions;
-// import React from "react";
-
-// const Instructions = ({ instructions }) => {
-//   return (
-//     <div>
-//       <h2>Instructions</h2>
-//       <ul>
-//         {instructions.map((instruction, index) => (
-//           <li key={index}>{instruction}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default Instructions;

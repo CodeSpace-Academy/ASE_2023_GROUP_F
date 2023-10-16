@@ -1,4 +1,5 @@
 import classes from "./ingredients.module.css";
+import { ToggleButton } from "@mui/material";
 
 function Ingredients(props) {
   const { ingredients } = props;
@@ -12,6 +13,7 @@ function Ingredients(props) {
           <div className={classes.measurment}>{item[1]}</div>
         </div>
       ))}
+      <ToggleButton value="add_to_cart">Add to cart</ToggleButton>
     </div>
   );
 }
