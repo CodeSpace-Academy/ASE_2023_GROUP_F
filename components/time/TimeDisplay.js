@@ -1,20 +1,21 @@
 import React from 'react';
 
-function formatTime(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-  if (hours > 0 && remainingMinutes > 0) {
-    return `${hours} hrs ${remainingMinutes} mins`;
-  } else if (hours > 0) {
-    return `${hours} hrs`;
-  } else {
-    return `${remainingMinutes} mins`;
-  }
-}
-
 const TimeDisplay = ({ recipe }) => {
+
+  function formatTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    if (hours > 0 && remainingMinutes > 0) {
+      return `${hours} hrs ${remainingMinutes} mins`;
+    } else if (hours > 0) {
+      return `${hours} hrs`;
+    } else {
+      return `${remainingMinutes} mins`;
+    }
+  }
+
   if (!recipe) {
-    return null; // Return null or handle the case when recipe is undefined.
+    return null; 
   }
 
   const formattedPrepTime = formatTime(recipe.prep);
