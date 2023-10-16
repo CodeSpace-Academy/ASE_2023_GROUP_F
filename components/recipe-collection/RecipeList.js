@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import RecipeCard from '../card/RecipeCard';
 import Button from '../UI/Button';
-import { getViewRecipes } from '@/lib/view-recipes';
+import { getViewRecipes } from '../../lib/view-recipes';
 
 const RecipeList = () => {
   const [recipes , setRecipes] = useState([]);
