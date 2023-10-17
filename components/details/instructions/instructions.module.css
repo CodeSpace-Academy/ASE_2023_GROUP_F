@@ -1,0 +1,17 @@
+.card {
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+}
+
+.step_number {
+  margin: 2px;
+  color: cadetblue;
+}
+
+.instruction {
+  margin: 2px;
+  padding-left: 15px;
+}
