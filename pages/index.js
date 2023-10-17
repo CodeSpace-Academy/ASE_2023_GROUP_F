@@ -1,5 +1,5 @@
 import RecipeList from "../components/recipe-collection/RecipeList";
-import Tags from "../components/fails-to-load-error/tagsError";
+import HandleNetworkError from "../components/fails-to-load-error/networkError";
 
 function Home() {
   const recipe = {
@@ -8,8 +8,7 @@ function Home() {
 
   return (
     <div>
-      <RecipeList />
-      {/* <Tags recipe={recipe} /> */}
+       <RecipeList />
     </div>
   )
 }

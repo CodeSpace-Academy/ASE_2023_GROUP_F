@@ -1,4 +1,4 @@
-const Tags = ({ recipe }) => {
+const HandleNetworkError = ({ recipe, message, datakey, children }) => {
   try {
     if (!recipe) {
       return <div>Loading please wait...</div>;
@@ -6,20 +6,21 @@ const Tags = ({ recipe }) => {
 
     return (
       <>
-        <h3 className="mt-2 text-lg font-semibold">Tags:</h3>
+        <h3 className="mt-2 text-lg font-semibold">{message}:</h3>
         <ul className="list-disc list-inside">
-          {recipe.tags.map((tag, index) => (
+          {recipe[datakey].map((item, index) => (
             <li key={index} className="text-gray-600">
-              {tag}
+              {item}
             </li>
           ))}
         </ul>
+        {children}
       </>
     );
   } catch (error) {
     console.error("An error occurred:", error);
-    return <div>Failed to load tags!</div>;
+    return <div>Failed to load {message}!</div>;
   }
 };
 
-export default Tags;
+export default HandleNetworkError;
