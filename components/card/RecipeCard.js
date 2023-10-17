@@ -4,14 +4,11 @@ import TimeIcon from "../icons/TimeIcon";
 import ServingIcon from "../icons/ServingIcon";
 
 const RecipeCard = (props) => {
-	const { title, images , recipe} = props;
+	const { title, images, recipe } = props; 
+
 	const [currentImage, setCurrentImage] = useState(0);
 
-	const humanReadable = new Date(published).toLocaleDateString("en-US", {
-		day: "numeric",
-		month: "long",
-		year: "numeric",
-	});
+	
 
 	const changeImage = (direction) => {
 		const newIndex = (currentImage + direction + images.length) % images.length;
@@ -44,11 +41,11 @@ const RecipeCard = (props) => {
 				<div className="flex flex-col h-40 justify-between">
 					<div className="font-bold text-xl">{title}</div>
 					<div className="flex items-center gap-2 p-2">
-					<span className="span"><TimeIcon /></span>
-					<TimeDisplay recipe={recipe}/>
+						<span className="meaningful-class-name"><TimeIcon /></span>
+						<TimeDisplay recipe={recipe} />
 					</div>
 					<div className="flex items-center gap-2 p-1">
-						{recipe.servings ? (<> <ServingIcon /><p>Serving:{recipe.servings}</p></>) : ''}
+						{recipe.servings && <><ServingIcon /><p>Serving: {recipe.servings}</p></>}
 					</div>
 				</div>
 			</div>
