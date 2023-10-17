@@ -1,4 +1,4 @@
-import client, { db } from "../../helpers/db";
+import {client, db} from "../../helpers/db";
 
 export default async function handler(req, res) {
 	if (req.method === "GET") {
