@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import DateIcon from "../icons/DateIcon";
 import ArrowIcon from "../icons/ArrowPointer";
+import TimeDisplay from "../time/TimeDisplay";
 
 const RecipeCard = (props) => {
-	const { title, images, published } = props;
+	const { title, images, published , recipe} = props;
 	const [currentImage, setCurrentImage] = useState(0);
 
 	const humanReadable = new Date(published).toLocaleDateString("en-US", {
@@ -45,6 +46,7 @@ const RecipeCard = (props) => {
 						<DateIcon />
 						<time>{humanReadable}</time>
 					</div>
+					<TimeDisplay recipe={recipe}/>
 					<div className="flex items-center gap-2 mx-20 transition-transform transform hover:scale-150">
 						<ArrowIcon />
 					</div>
