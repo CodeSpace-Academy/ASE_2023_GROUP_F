@@ -1,19 +1,11 @@
 import React, { useState } from "react";
-import DateIcon from "../icons/DateIcon";
-import ArrowIcon from "../icons/ArrowPointer";
-import { ChevronLeft, ChevronRight} from 'react-feather'
+import { ChevronLeft, ChevronRight} from 'react-feather';
 
 
 const RecipeCard = (props) => {
 	const { title, images, published } = props;
 	const [currentImage, setCurrentImage] = useState(0);
-	const [imageCount, setImageCount] = useState(1);
-
-	const humanReadable = new Date(published).toLocaleDateString("en-US", {
-		day: "numeric",
-		month: "long",
-		year: "numeric",
-	});
+	
 
 	const changeImage = (direction) => {
 		const newIndex = (currentImage + direction + images.length) % images.length;
