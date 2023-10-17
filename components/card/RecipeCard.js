@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import DateIcon from "../icons/DateIcon";
 import TimeDisplay from "../time/TimeDisplay";
 import TimeIcon from "../icons/TimeIcon";
 import ServingIcon from "../icons/ServingIcon";
 
 const RecipeCard = (props) => {
-	const { title, images, published , recipe} = props;
+	const { title, images , recipe} = props;
 	const [currentImage, setCurrentImage] = useState(0);
 
 	const humanReadable = new Date(published).toLocaleDateString("en-US", {
