@@ -13,7 +13,7 @@ if (!uri) {
 }
 
 // Create a MongoClient with the specified options
-const client = new MongoClient(uri, {
+export const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -21,6 +21,37 @@ const client = new MongoClient(uri, {
   },
 });
 
-export default client;
 
-export const db = "devdb"
+
+
+ async function fetchData() {
+  try {
+    // Connect to MongoDB
+    await client.connect();
+
+    // Get a reference to the database
+    const database = client.db('devdb');
+
+    // Get a reference to the collection you want to query
+    const collection = database.collection('recipes'); 
+
+    // Fetch data from the collection (e.g., find all documents)
+    const documents = await collection.find({}).limit(100).toArray();
+
+    return documents
+
+    // Handle the fetched data
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  } finally {
+    // Close the MongoDB client when done
+    if (client) {
+      await client.close();
+      console.log('Closed MongoDB connection');
+    }
+  }
+  
+}
+
+
+export default fetchData;
