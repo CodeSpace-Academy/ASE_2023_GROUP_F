@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 			await client.connect();
 			const database = client.db(db);
 			const collection = database.collection("recipes");
-			const documents = await collection.find({}).limit(100).toArray();
+			const documents = await collection.find({}).limit(20).toArray();
 
 			res.status(200).json({ recipes: documents });
 		} catch (error) {
