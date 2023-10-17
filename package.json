@@ -14,7 +14,8 @@
     "mongodb": "^6.1.0",
     "next": "13.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-feather": "^2.0.10"
   },
   "devDependencies": {
     "autoprefixer": "^10",
