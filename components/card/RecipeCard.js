@@ -44,10 +44,6 @@ const RecipeCard = (props) => {
 			<div className="px-6 py-11 bg-gray-200 rounded">
 				<div className="flex flex-col h-40 justify-between">
 					<div className="font-bold text-xl">{title}</div>
-					<div className="flex items-center gap-2">
-						<DateIcon />
-						<time>{humanReadable}</time>
-					</div>
 					<div className="flex items-center gap-2 p-2">
 					<span className="span"><TimeIcon /></span>
 					<TimeDisplay recipe={recipe}/>
