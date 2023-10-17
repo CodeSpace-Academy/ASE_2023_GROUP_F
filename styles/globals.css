@@ -27,3 +27,8 @@
 body{
   margin-left: 16px;
 }
+
+.span{
+  padding-left: -10px;
+}
+
