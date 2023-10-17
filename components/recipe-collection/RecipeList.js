@@ -26,6 +26,7 @@ const RecipeList = (props) => {
 						title={recipe.title}
 						images={recipe.images}
 						published={recipe.published}
+						recipe={recipe}
 					/>
 				))}
 			</div>

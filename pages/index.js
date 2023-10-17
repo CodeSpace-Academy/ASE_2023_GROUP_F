@@ -1,4 +1,3 @@
-import { getViewRecipes } from "@/lib/view-recipes";
 import RecipeList from "../components/recipe-collection/RecipeList";
 
 function Home(props) {
@@ -15,7 +14,8 @@ export default Home;
 
 export async function getStaticProps() {
   try {
-    const response = await fetch('http://localhost:3000//api/recipes');
+    const url = 'http://localhost:3000/api/recipes'
+    const response = await fetch(url);
     const data = await response.json();
     const recipes = data.recipes;
 
