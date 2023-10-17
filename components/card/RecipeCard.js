@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import DateIcon from "../icons/DateIcon";
 import ArrowIcon from "../icons/ArrowPointer";
+import { ChevronLeft, ChevronRight} from 'react-feather'
+
 
 const RecipeCard = (props) => {
 	const { title, images, published } = props;
 	const [currentImage, setCurrentImage] = useState(0);
+	const [imageCount, setImageCount] = useState(1);
 
 	const humanReadable = new Date(published).toLocaleDateString("en-US", {
 		day: "numeric",
@@ -25,18 +28,22 @@ const RecipeCard = (props) => {
 					src={images[currentImage]}
 					alt={`Recipe image ${currentImage + 1}`}
 				/>
-				<button
-					className="absolute top-1/2 transform -translate-y-1/2 left-4 text-6xl text-blue hover:text-indigo-500 transition duration-300 ease-in-out"
-					onClick={() => changeImage(-1)}
-				>
-					&lt;
-				</button>
-				<button
-					className="absolute top-1/2 transform -translate-y-1/2 right-4 text-6xl text-blue hover:text-indigo-500 transition duration-300 ease-in-out"
-					onClick={() => changeImage(1)}
-				>
-					&gt;
-				</button>
+				<div className="absolute inset-0 flex items-center justify-between p-4">
+					<button  className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white" 
+					onClick={() => changeImage(-1)}>
+						<ChevronLeft size={20} />
+					</button>
+					<button className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+					onClickCapture={()=> changeImage(1)}>
+					<ChevronRight size={20} />
+					</button>
+				</div>
+				<div className="absolute bottom-4 right-0 left-0">
+					<div className ="flex items-center justify-center gap-2">
+					
+						
+					</div>
+				</div>
 			</div>
 			<div className="px-6 py-4 bg-gray-200 rounded">
 				<div className="flex flex-col h-40 justify-between">
