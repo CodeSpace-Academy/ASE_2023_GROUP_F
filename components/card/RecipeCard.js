@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight} from 'react-feather';
+import { ChevronLeft, ChevronRight } from 'react-feather'; 
 import TimeDisplay from "../time/TimeDisplay";
 import TimeIcon from "../icons/TimeIcon";
 import ServingIcon from "../icons/ServingIcon";
+
 
 const RecipeCard = (props) => {
 	const { title, images, recipe } = props; 
