@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import DateIcon from "../icons/DateIcon";
-import ArrowIcon from "../icons/ArrowPointer";
 import TimeDisplay from "../time/TimeDisplay";
+import TimeIcon from "../icons/TimeIcon";
+import ServingIcon from "../icons/ServingIcon";
 
 const RecipeCard = (props) => {
 	const { title, images, published , recipe} = props;
@@ -39,16 +40,20 @@ const RecipeCard = (props) => {
 					&gt;
 				</button>
 			</div>
-			<div className="px-6 py-4 bg-gray-200 rounded">
+
+			<div className="px-6 py-11 bg-gray-200 rounded">
 				<div className="flex flex-col h-40 justify-between">
 					<div className="font-bold text-xl">{title}</div>
 					<div className="flex items-center gap-2">
 						<DateIcon />
 						<time>{humanReadable}</time>
 					</div>
+					<div className="flex items-center gap-2 p-2">
+					<span className="span"><TimeIcon /></span>
 					<TimeDisplay recipe={recipe}/>
-					<div className="flex items-center gap-2 mx-20 transition-transform transform hover:scale-150">
-						<ArrowIcon />
+					</div>
+					<div className="flex items-center gap-2 p-1">
+						{recipe.servings ? (<> <ServingIcon /><p>Serving:{recipe.servings}</p></>) : ''}
 					</div>
 				</div>
 			</div>

@@ -5,7 +5,7 @@ function DateIcon() {
         fill='none'
         viewBox='0 0 24 24'
         stroke='currentColor'
-        style={{width:'25px', height:'25px'}}
+        style={{width:'24px', height:'24px'}}
       >
         <path
           strokeLinecap='round'
