@@ -1,3 +1,5 @@
+//Network error
+
 const HandleNetworkError = ({ recipe, message, datakey, children }) => {
   try {
     if (!recipe) {
