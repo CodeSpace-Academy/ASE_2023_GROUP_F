@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'react-feather';
 import TimeDisplay from "../time/TimeDisplay";
 import TimeIcon from "../icons/TimeIcon";
 import ServingIcon from "../icons/ServingIcon";
+import Link from 'next/link';
 
 
 const RecipeCard = (props) => {
@@ -44,6 +45,7 @@ const RecipeCard = (props) => {
 
 			</div>
 
+			<Link href={`/recipes/${recipe._id}`}>
 			<div className="px-6 py-11 bg-gray-200 rounded">
 				<div className="flex flex-col h-40 justify-between">
 					<div className="font-bold text-xl">{title}</div>
@@ -56,6 +58,7 @@ const RecipeCard = (props) => {
 					</div>
 				</div>
 			</div>
+			</Link>
 		</div>
 	);
 };
