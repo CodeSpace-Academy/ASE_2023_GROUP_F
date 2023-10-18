@@ -5,9 +5,8 @@ import { useState } from "react";
 
 import { ToggleButton } from "@mui/material";
 
-function Details(props) {
+function Details({recipe, error}) {
   const [toggleList, setToggleList] = useState('ingredients');
-  console.log("recipe details:" + props.recipe);
 
   function toggleInstructions(){
     setToggleList('instructions')
@@ -15,6 +14,14 @@ function Details(props) {
 
   function toggleIngredients(){
     setToggleList('ingredients')
+  }
+
+  if(error){
+    return <div>Error: {error}</div>
+  }
+
+  if(!recipe){
+    return <div>Loading...</div>
   }
 
   return (

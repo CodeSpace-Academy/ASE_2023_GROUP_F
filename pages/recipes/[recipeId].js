@@ -1,26 +1,25 @@
 import Details from "@/components/details/details";
 import { getSingleRecipe } from "@/lib/view-recipes";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useMount } from "react-use";
 
 function SingleRecipe({ recipeId }) {
   const [recipe, setRecipe] = useState()
   const [error, setError] = useState('')
 
-  useEffect(() => {
+  useMount(() => {
     async function getRecipeById(){
       try{
         const result = await getSingleRecipe(recipeId)
+        console.log(result);
         setRecipe(result.recipe);
-        console.log('current recipe: ' + result.recipe);
       }catch(error){
         console.log(`something went wrong: ${error}`)
       }
     }
 
     getRecipeById()
-  },[])
-
-  console.log('recipeId recipe :' + recipe)
+  })
 
   return (
     <>
