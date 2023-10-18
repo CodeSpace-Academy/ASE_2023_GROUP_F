@@ -10,7 +10,7 @@ if (!uri) {
   process.exit(1); 
 }
 
-export const db = "devdb";
+export const db = "devdb"
 
 export const client = new MongoClient(uri, {
   serverApi: {
@@ -41,3 +41,11 @@ async function fetchData() {
 }
 
 export default fetchData;
+
+
+export async function fetchRecipes() {
+  const response = await fetch('/api/recipes');
+  const data = await response.json();
+  return data;
+}
+
