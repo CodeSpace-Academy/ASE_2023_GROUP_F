@@ -3,39 +3,38 @@ import React from 'react';
 function RecipeAllergens(props) {
   const { allergens, ingredients } = props;
 
-  const allergensInIngredients = () => {
-    const allergensFound = [];
+  // Initialize an array to store allergens found
+  const allergensFound = [];
 
-    for (const allergen of allergens) {
-      for (const ingredientKey in ingredients) {
-        if (ingredients.hasOwnProperty(ingredientKey)) {
-          const ingredient = ingredients[ingredientKey];
-
-          if (ingredient.toLowerCase().includes(allergen.toLowerCase())) {
-            allergensFound.push(allergen);
-            break;
-          }
-        }
+  // Ensure allergens is iterable
+  if (allergens && typeof allergens[Symbol.iterator] === 'function') {
+    allergens.forEach((allergen) => {
+      console.log('hdtr',allergen)
+      if (ingredients.hasOwnProperty(allergen)) {
+        // If the allergen is a key in the ingredients object
+        allergensFound.push(allergen);
+        
       }
-    }
+    });
+  }
 
-    return allergensFound;
-  };
+ 
 
-  const allergensFound = allergensInIngredients();
+  if (allergensFound.length === 0) {
+    return (
+      <div>
+        <p>No allergens found in the ingredients.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h3>Allergens Found:</h3>
-      {allergensFound.length > 0 ? (
-        <ul>
-          {allergensFound.map((allergen) => (
-            <li key={allergen}>{allergen}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No allergens found in the ingredients.</p>
-      )}
+      <ul>
+        {allergensFound.map((allergen) => (
+          <li key={allergen}>{allergen}</li>
+        ))}
+      </ul>
     </div>
   );
 }
