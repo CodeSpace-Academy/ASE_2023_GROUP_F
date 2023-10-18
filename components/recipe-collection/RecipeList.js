@@ -14,8 +14,8 @@ const RecipeList = () => {
         try {
             const result = await getViewRecipes();
             setRecipes(result.recipes);
-            const initialVisibleRecipes = result.recipes.slice(0, 20);
-            const initialRemainingRecipes = result.recipes.length - 20;
+            const initialVisibleRecipes = result.recipes.slice(0, 100);
+            const initialRemainingRecipes = result.recipes.length - 100;
             setVisibleRecipes(initialVisibleRecipes);
             setRemainingRecipes(initialRemainingRecipes);
           }catch (error) {
@@ -35,10 +35,10 @@ const RecipeList = () => {
   const showMoreRecipes = () => {
     const nextBatch = recipes.slice(
       visibleRecipes.length,
-      visibleRecipes.length + 20
+      visibleRecipes.length + 100
     );
     setVisibleRecipes([...visibleRecipes, ...nextBatch]);
-    setRemainingRecipes((prev) => prev - 20);
+    setRemainingRecipes((prev) => prev - 100);
   };
 
   return (
