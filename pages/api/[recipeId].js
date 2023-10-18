@@ -3,7 +3,6 @@ import {client, db} from "../../helpers/db";
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const recipeId = req.query.recipeId
-    console.log('api id =', recipeId)
     try {
       await client.connect();
       const database = client.db(db);
