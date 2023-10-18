@@ -1,36 +1,30 @@
 import Details from "@/components/details/details";
-import { getViewRecipes } from "@/lib/view-recipes";
+import { getSingleRecipe } from "@/lib/view-recipes";
 import { useState, useEffect } from "react";
 
-function getRecipeById(array, id) {
-  return array.find((recipe) => recipe._id === id);
-}
-
 function SingleRecipe({ recipeId }) {
-  const [recipes, setRecipes] = useState([])
+  const [recipe, setRecipe] = useState()
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const getRecipes = async () => {
+    async function getRecipeById(){
       try{
-        const results = await getViewRecipes();
-        setRecipes(results)
+        const result = await getSingleRecipe(recipeId)
+        setRecipe(result.recipe);
+        console.log('current recipe: ' + result.recipe);
       }catch(error){
-        console.log(`something went wrong: ${error}`);
-        setError(error)
+        console.log(`something went wrong: ${error}`)
       }
     }
 
-    getRecipes()
-  }, [])
+    getRecipeById()
+  },[])
 
-  const arrayOfRecipes = Object.entries(recipes)
-
-  const actualRecipe = getRecipeById(arrayOfRecipes[0][1], recipeId);
+  console.log('recipeId recipe :' + recipe)
 
   return (
     <>
-      <Details recipe={actualRecipe} error={error}/>
+      <Details recipe={recipe} error={error}/>
     </>
   );
 }

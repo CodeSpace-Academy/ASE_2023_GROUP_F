@@ -5,8 +5,9 @@ import { useState } from "react";
 
 import { ToggleButton } from "@mui/material";
 
-function Details({recipe, error}) {
+function Details(props) {
   const [toggleList, setToggleList] = useState('ingredients');
+  console.log("recipe details:" + props.recipe);
 
   function toggleInstructions(){
     setToggleList('instructions')
