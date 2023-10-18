@@ -4,20 +4,42 @@ import Button from '../UI/Button';
 import { getViewRecipes } from '../../lib/view-recipes';
 import Link from 'next/link';
 
-const RecipeList = (props) => {
-	const { viewRecipes } = props;
+const RecipeList = () => {
+  const [recipes , setRecipes] = useState([]);
+  const [visibleRecipes, setVisibleRecipes] = useState([]);
+  const [remainingRecipes, setRemainingRecipes] = useState(0);
 
-	const [visibleRecipes, setVisibleRecipes] = useState(viewRecipes.slice(0, 20));
-	const [remainingRecipes, setRemainingRecipes] = useState(viewRecipes.length - 20);
+  useEffect(() => {
+    const callViewRecipes = async () => {
+        try {
+            const result = await getViewRecipes();
+            setRecipes(result.recipes);
+            const initialVisibleRecipes = result.recipes.slice(0, 100);
+            const initialRemainingRecipes = result.recipes.length - 100;
+            setVisibleRecipes(initialVisibleRecipes);
+            setRemainingRecipes(initialRemainingRecipes);
+          }catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    };
 
-	const showMoreRecipes = () => {
-		const nextBatch = viewRecipes.slice(
-			visibleRecipes.length,
-			visibleRecipes.length + 20
-		);
-		setVisibleRecipes([...visibleRecipes, ...nextBatch]);
-		setRemainingRecipes((prev) => prev - 20);
-	};
+    callViewRecipes();
+  }, []);
+
+ 
+
+  if (recipes.length === 0) {
+    return <p>Loading...</p>;
+  }
+
+  const showMoreRecipes = () => {
+    const nextBatch = recipes.slice(
+      visibleRecipes.length,
+      visibleRecipes.length + 100
+    );
+    setVisibleRecipes([...visibleRecipes, ...nextBatch]);
+    setRemainingRecipes((prev) => prev - 100);
+  };
 
   return (
     <>

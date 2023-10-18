@@ -3,40 +3,42 @@ import { getSingleRecipe } from "@/lib/view-recipes";
 import { useState, useEffect } from "react";
 
 function SingleRecipe({ recipeId }) {
-  const [recipe, setRecipe] = useState()
-  const [error, setError] = useState('')
+  const [recipe, setRecipe] = useState(null); 
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function getRecipeById(){
-      try{
-        const result = await getSingleRecipe(recipeId)
+      try {
+        const result = await getSingleRecipe(recipeId);
         setRecipe(result.recipe);
-        console.log('current recipe: ' + result.recipe);
-      }catch(error){
-        console.log(`something went wrong: ${error}`)
+      } catch (error) {
+        console.error(`something went wrong: ${error}`);
+        setError('Error fetching recipe data.'); 
       }
     }
 
-    getRecipeById()
-  },[])
+    getRecipeById();
+  }, [recipeId]);
 
-  console.log('recipeId recipe :' + recipe)
+  if (recipe === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      <Details recipe={recipe} error={error}/>
+      <Details recipe={recipe} error={error} />
     </>
   );
 }
 
 export default SingleRecipe;
 
-export async function getServerSideProps({params}){
-  const {recipeId} = params
+export async function getServerSideProps({ params }) {
+  const { recipeId } = params;
 
-  return{
+  return {
     props: {
       recipeId
     }
-  }
+  };
 }
