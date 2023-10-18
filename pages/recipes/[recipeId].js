@@ -4,38 +4,40 @@ import { useState } from "react";
 import { useMount } from "react-use";
 
 function SingleRecipe({ recipeId }) {
-  const [recipe, setRecipe] = useState()
-  const [error, setError] = useState('')
+  const [recipe, setRecipe] = useState(null); 
+  const [error, setError] = useState('');
 
   useMount(() => {
     async function getRecipeById(){
       try{
         const result = await getSingleRecipe(recipeId)
-        console.log(result);
         setRecipe(result.recipe);
+        console.log('current recipe: ' + result.recipe);
       }catch(error){
         console.log(`something went wrong: ${error}`)
       }
     }
 
     getRecipeById()
-  })
+  },[])
+
+  console.log('recipeId recipe :' + recipe)
 
   return (
     <>
-      <Details recipe={recipe} error={error}/>
+      <Details recipe={recipe} error={error} />
     </>
   );
 }
 
 export default SingleRecipe;
 
-export async function getServerSideProps({params}){
-  const {recipeId} = params
+export async function getServerSideProps({ params }) {
+  const { recipeId } = params;
 
-  return{
+  return {
     props: {
       recipeId
     }
-  }
+  };
 }
