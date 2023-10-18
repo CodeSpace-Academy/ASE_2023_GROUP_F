@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import RecipeCard from '../card/RecipeCard';
 import Button from '../UI/Button';
 import { getViewRecipes } from '../../lib/view-recipes';
+import Link from 'next/link';
 
 const RecipeList = () => {
   const [recipes , setRecipes] = useState([]);
@@ -44,13 +45,14 @@ const RecipeList = () => {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {visibleRecipes.map((recipe) => (
-          <RecipeCard
+        <Link href={`/recipes/${recipe._id}`}>
+		  <RecipeCard
             key={recipe._id}
             title={recipe.title}
             images={recipe.images}
             published={recipe.published}
             recipe={recipe}
-          />
+          /></Link>
         ))}
       </div>
       {visibleRecipes.length < recipes.length && (
