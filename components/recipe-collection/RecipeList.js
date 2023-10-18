@@ -17,7 +17,7 @@ const RecipeList = () => {
         const result = await getViewRecipes();
         setRecipes(result.recipes);
         const initialVisibleRecipes = result.recipes.slice(0, 100);
-        const initialRemainingRecipes = result.recipes.length - 100;
+        const initialRemainingRecipes = result.count - 100;
         setVisibleRecipes(initialVisibleRecipes);
         setRemainingRecipes(initialRemainingRecipes);
         setLoading(false);
