@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (req.method === "PATCH") {
     const recipeId = req.query.recipeId;
     const updatedData = req.body;
-    console.log("updated data:", updatedData);
+   
     try {
       await client.connect();
       const database = client.db(db);
