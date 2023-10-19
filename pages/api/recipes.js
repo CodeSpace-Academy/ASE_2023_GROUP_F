@@ -1,4 +1,4 @@
-import {client, db} from "../../helpers/db";
+import { client, db } from "../../helpers/db";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -7,8 +7,10 @@ export default async function handler(req, res) {
       const database = client.db(db);
       const collection = database.collection("recipes");
 
-      const documents = await collection.find({}).limit(200).toArray();
-      const number = await collection.countDocuments()
+      const limit = parseInt(req.query.limit) || 200; 
+
+      const documents = await collection.find({}).limit(limit).toArray();
+      const number = await collection.countDocuments();
 
       res.status(200).json({ recipes: documents, count: number });
     } catch (error) {
