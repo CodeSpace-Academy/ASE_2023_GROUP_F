@@ -4,14 +4,15 @@ const HandleNetworkError = ({ children, errorType }) => {
 
   if (errorMessage) {
     return (
-      <div>
-        <p>{errorMessage}</p>
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+        <span className="block sm:inline">{errorMessage}</span>
       </div>
     );
   }
 
   return children;
 };
+
 
 //The getErrorMessage function maps the errorType to the appropriate error message.
 function getErrorMessage(errorType) {
