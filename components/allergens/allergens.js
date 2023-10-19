@@ -4,20 +4,18 @@ function RecipeAllergens(props) {
   const { allergens, ingredients } = props;
 
   const allergensInIngredients = () => {
+    const allergensArr = allergens[0].allergens
     const allergensFound = [];
 
-    for (const allergen of allergens) {
-      for (const ingredientKey in ingredients) {
-        if (ingredients.hasOwnProperty(ingredientKey)) {
-          const ingredient = ingredients[ingredientKey];
+    allergensArr.map((allergen) => {
+      const foundInIngredients = Object.keys(ingredients).some((ingredientKey) =>
+        ingredientKey.toLowerCase().includes(allergen.toLowerCase())
+      );
 
-          if (ingredient.toLowerCase().includes(allergen.toLowerCase())) {
-            allergensFound.push(allergen);
-            break;
-          }
-        }
+      if (foundInIngredients) {
+        allergensFound.push(allergen);
       }
-    }
+    });
 
     return allergensFound;
   };
@@ -26,16 +24,15 @@ function RecipeAllergens(props) {
 
   return (
     <div>
-      <h3>Allergens Found:</h3>
-      {allergensFound.length > 0 ? (
-        <ul>
-          {allergensFound.map((allergen) => (
-            <li key={allergen}>{allergen}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No allergens found in the ingredients.</p>
-      )}
+      <p>
+        {allergensFound.length > 0 ? (
+          <span>
+            <strong>Notice:</strong> The following allergens are found in the recipe's ingredients: {allergensFound.join(', ')}.
+          </span>
+        ) : (
+          <span>No allergens found in the ingredients.</span>
+        )}
+      </p>
     </div>
   );
 }
