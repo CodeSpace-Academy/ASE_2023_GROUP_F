@@ -15,3 +15,8 @@
   margin: 2px;
   padding-left: 15px;
 }
+
+.textarea {
+  width: 200%;
+  resize: vertical;
+}
