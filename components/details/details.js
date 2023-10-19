@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button, ToggleButton } from "@mui/material";
 import {KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight} from '@mui/icons-material';
 import classNames from "classnames";
+import RecipeTags from "../tags/RecipeTags";
 
 import RecipeBanner from "./recipeBanner/recipeBanner";
 import SideBar from "./sideBar/sideBar";
@@ -46,6 +47,7 @@ function Details(props) {
             {recipe.description}<a href="_blank">View More</a>
           </p>
         </div>
+		
         <div className="flex flex-row">
           <Button onClick={toggleSideBarHandler}>
               {toggleSideBar ? <KeyboardDoubleArrowRight/> : <KeyboardDoubleArrowLeft/>}
@@ -53,8 +55,13 @@ function Details(props) {
           <div className={wrapping}>
             <SideBar nutrition={recipe.nutrition} state={toggleSideBar}/>
           </div>
+		  
         </div>
+		
       </div>
+	  <div>
+		  <RecipeTags tags={recipe.tags}/>
+		</div>
 
         <div className="w-screen mr-5">
           <div className="text-center m-5">        
