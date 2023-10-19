@@ -4,7 +4,7 @@ function RecipeAllergens(props) {
   const { allergens, ingredients } = props;
 
   const allergensInIngredients = () => {
-    const allergensArr = allergens[0].allergens
+    const allergensArr = allergens
     const allergensFound = [];
 
     allergensArr.map((allergen) => {
