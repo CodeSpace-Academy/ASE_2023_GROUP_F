@@ -95,7 +95,7 @@ function Details(props) {
 
         {toggleList && <Ingredients ingredients={recipe.ingredients} />}
 
-        {!toggleList && <Instructions instructions={recipe.instructions} />}
+        {!toggleList && <Instructions instructions={recipe.instructions} description={recipe.discription} />}
       </div>
     </>
   );
