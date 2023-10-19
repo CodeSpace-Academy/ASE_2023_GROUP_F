@@ -23,17 +23,18 @@ function RecipeAllergens(props) {
   const allergensFound = allergensInIngredients();
 
   return (
-    <div>
-      <p>
-        {allergensFound.length > 0 ? (
-          <span>
-            <strong>Notice:</strong> The following allergens are found in the recipe's ingredients: {allergensFound.join(', ')}.
-          </span>
-        ) : (
-          <span>No allergens found in the ingredients.</span>
-        )}
-      </p>
-    </div>
+    <div className="bg-yellow-100 border border-yellow-300 text-yellow-900 p-4 rounded-lg mb-4">
+    <p>
+      {allergensFound.length > 0 ? (
+        <span>
+          <strong>Notice:</strong> The following allergens are found in the recipe's ingredients: <strong>{allergensFound.join(', ')}</strong>.
+        </span>
+      ) : (
+        <span>No allergens found in the ingredients.</span>
+      )}
+    </p>
+  </div>
+  
   );
 }
 
