@@ -1,7 +1,7 @@
 import Ingredients from "./ingredients/ingredients";
 import Instructions from "./instructions/instructions";
 import Description from "../description/description";
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import { Button, ToggleButton } from "@mui/material";
 import {
   KeyboardDoubleArrowLeft,
@@ -12,12 +12,31 @@ import RecipeTags from "../tags/RecipeTags";
 
 import RecipeBanner from "./recipeBanner/recipeBanner";
 import SideBar from "./sideBar/sideBar";
+import { getAllergens } from "@/lib/view-recipes";
+import RecipeAllergens from "../allergens/allergens";
 
 function Details(props) {
   const { recipe } = props;
 
   const [toggleList, setToggleList] = useState(true);
   const [toggleSideBar, setToggleSideBar] = useState(false);
+  const [allergens, setAllergens] = useState([]);
+
+  useEffect(() => {
+    const callAllergens = async() =>{
+
+      try{
+        const data = await getAllergens()
+      setAllergens(data.allergens[0].allergens)
+      return data.allergens[0].allergens
+      }catch(error){
+        console.error(error)
+      }
+    }
+
+    const result = callAllergens()
+    console.log('result',result)
+  },[]) 
 
   function toggleIngredients() {
     setToggleList(true);
@@ -73,6 +92,9 @@ function Details(props) {
       </div>
       <div>
         <RecipeTags tags={recipe.tags} />
+      </div>
+      <div>
+        <RecipeAllergens allergens={allergens} ingredients={recipe.ingredients}/>
       </div>
 
       <div className="w-screen mr-5">
