@@ -44,7 +44,7 @@ function RecipeBanner({images, prepTime, cookTime, servingAmount}){
           <Button endIcon={<ArrowCircleRight/>} onClick={next}>
           </Button>
         </div>
-        <div className="flex flex-row bottom-10">
+        <div className="flex flex-row bottom-0 absolute">
           <div className="bg-white p-9 text-center ">
             Cook time <br/>{cookTime} mins
           </div>

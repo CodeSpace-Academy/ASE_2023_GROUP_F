@@ -8,13 +8,13 @@ function Instructions(props) {
 
   return (
     <div>
-      <div className="bg-green-500 h-96 overflow-y-auto">
+      <div className="bg-green-500 p-8">
         {instructions.map((item, index) => (
           <Card key={index} className="m-8 p-8">
             <div className=''>{index + 1}: {item} </div>
           </Card>
         ))}
-        <div className='text-center m-5'>
+        <div className='text-center'>
           <Button value="start_cooking" variant="contained">
             <Link href=''>
               Inspect Instructions 

@@ -7,13 +7,13 @@ function Ingredients(props) {
 
   return (
     <div>
-      <div className="bg-red-400 h-96 overflow-y-auto">
+      <div className="bg-red-400 p-8">
         {ingredient.map((item, index) => (
           <Card key={index} className="m-8 p-8">
             <div className="">{item[0]}: {item[1]}</div>
           </Card>
         ))}
-        <div className='text-center m-5'>
+        <div className='text-center'>
           <Button value="add_to_cart" variant="contained">Add to cart</Button>  
         </div>
       </div>
