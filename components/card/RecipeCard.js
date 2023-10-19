@@ -18,7 +18,7 @@ const RecipeCard = (props) => {
 	};
 
 	return (
-		<div className="max-w-xm rounded overflow-hidden shadow-lg mx-auto my-4 relative transition-transform duration-300 transform hover:scale-105">
+		<div className="max-w-xm rounded-md overflow-hidden shadow-lg mx-auto my-4 relative transition-transform duration-300 transform hover:scale-105">
 			<div className="h-80 relative">
 				<img
 					className="w-full h-full object-cover"
