@@ -1,48 +1,72 @@
 import Ingredients from "./ingredients/ingredients";
 import Instructions from "./instructions/instructions";
-import Description from "./description/description";
 import { useState } from "react";
+import { Button, ToggleButton } from "@mui/material";
+import {KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight} from '@mui/icons-material';
+import classNames from "classnames";
 
-import { ToggleButton } from "@mui/material";
+import RecipeBanner from "./recipeBanner/recipeBanner";
+import SideBar from "./sideBar/sideBar";
 
 function Details(props) {
 	const { recipe } = props;
 
-	const [toggleList, setToggleList] = useState("ingredients");
-  const [error , setError] = useState(false)
+	const [toggleList, setToggleList] = useState(true);
+	const [toggleSideBar, setToggleSideBar] = useState(false);
 	
-	function toggleInstructions() {
-		setToggleList("instructions");
+	function listToggleHandler() {
+		setToggleList(!toggleList);
 	}
 
-	function toggleIngredients() {
-		setToggleList("ingredients");
-	}
+  const wrapping = classNames(
+    'bg-gray-300 p-5',
+    {
+      ['w-10']: !toggleSideBar
+    }
+  )
+
+  function toggleSideBarHandler(){
+    setToggleSideBar(!toggleSideBar)
+  }
 
 	return (
 		<>
-			<Description
-				description={recipe.description}
-				title={recipe.title}
-				nutrition={recipe.nutrition}
-				prepTime={recipe.prep}
-			/>
+      <div className='text-center text-6xl my-10 font-sans border-double border-4 bg-sky-300'>
+        {recipe.title}
+      </div>
 
+      <div className="flex flex-row bg-gray-100 p-5">
+        <div className="mr-5">
+          <RecipeBanner images={recipe.images} prepTime={recipe.prep} cookTime={recipe.cook} servingAmount={recipe.servings}/>
+        </div>
 
-			<ToggleButton value="ingredients" onClick={toggleIngredients}>
-				Ingredients
-			</ToggleButton>
-			<ToggleButton value="instructions" onClick={toggleInstructions}>
-				Instructions
-			</ToggleButton>
+        <div className="w-screen mr-5">
+          {toggleList && (
+            <Ingredients ingredients={recipe.ingredients} />
+          )}
 
-			{toggleList === "ingredients" && !error && (
-				<Ingredients ingredients={recipe.ingredients} />
-			)}
+          {!toggleList && (
+            <Instructions instructions={recipe.instructions} />
+          )}
 
-			{toggleList === "instructions" && !error && (
-				<Instructions instructions={recipe.instructions} />
-			)}
+          <div className="text-center m-5">        
+            <ToggleButton value="ingredients" onClick={listToggleHandler}>
+              {toggleList ? 'ingredients' : 'instructions'}
+            </ToggleButton>
+          </div>
+        </div>
+
+        <Button onClick={toggleSideBarHandler}>
+            {toggleSideBar ? <KeyboardDoubleArrowRight/> : <KeyboardDoubleArrowLeft/>}
+        </Button>    
+        <div className={wrapping}>
+          <SideBar nutrition={recipe.nutrition} state={toggleSideBar}/>
+        </div>
+      </div>
+
+      <p className="text-xl m-10">
+        {recipe.description}<a href="_blank">View More</a>
+      </p>
 		</>
 	);
 }

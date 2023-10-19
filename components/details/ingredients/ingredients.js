@@ -1,5 +1,5 @@
-import classes from "./ingredients.module.css";
-import { ToggleButton } from "@mui/material";
+import React from 'react';
+import { ToggleButton, Card, Button } from '@mui/material';
 
 function Ingredients(props) {
   const { ingredients } = props;
@@ -7,13 +7,16 @@ function Ingredients(props) {
 
   return (
     <div>
-      {ingredient.map((item, index) => (
-        <div key={index} className={classes.card}>
-          <div className={classes.ingredient}>{item[0]} </div>
-          <div className={classes.measurment}>{item[1]}</div>
+      <div className="bg-red-400 h-96 overflow-y-auto">
+        {ingredient.map((item, index) => (
+          <Card key={index} className="m-8 p-8">
+            <div className="">{item[0]}: {item[1]}</div>
+          </Card>
+        ))}
+        <div className='text-center m-5'>
+          <Button value="add_to_cart" variant="contained">Add to cart</Button>  
         </div>
-      ))}
-      <ToggleButton value="add_to_cart">Add to cart</ToggleButton>
+      </div>
     </div>
   );
 }

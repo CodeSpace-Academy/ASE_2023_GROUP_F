@@ -21,7 +21,8 @@ module.exports = {
 
       },
       fontFamily: {
-        body: ['Nunito']
+        body: ['Nunito'],
+        italianno: ['Italianno', 'cursive'],
       }
     },
   },
