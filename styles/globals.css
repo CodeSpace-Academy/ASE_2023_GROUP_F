@@ -31,4 +31,17 @@ body{
 .span{
   padding-left: -10px;
 }
+/* Add this to your CSS file or module */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  animation: marquee 20s linear infinite;
+}
+
 
