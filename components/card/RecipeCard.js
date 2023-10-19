@@ -45,6 +45,7 @@ const RecipeCard = (props) => {
 			</div>
 
 			<Link href={`/recipes/${recipe._id}`}>
+			<div className="inset-0 transform  hover:scale-90 transition duration-300">
 			<div className="px-6 py-11 bg-gray-200 rounded">
 				<div className="flex flex-col h-40 justify-between">
 					<div className="font-bold text-xl">{title}</div>
@@ -56,6 +57,7 @@ const RecipeCard = (props) => {
 						{recipe.servings && <><ServingIcon /><p>Serving: {recipe.servings}</p></>}
 					</div>
 				</div>
+			</div>
 			</div>
 			</Link>
 		</div>
