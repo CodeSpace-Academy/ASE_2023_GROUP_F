@@ -2,6 +2,7 @@ import Ingredients from "./ingredients/ingredients";
 import Instructions from "./instructions/instructions";
 import Description from "./description/description";
 import { useState } from "react";
+import RecipeTags from "../tags/RecipeTags";
 
 import { ToggleButton } from "@mui/material";
 
@@ -17,6 +18,9 @@ function Details(props) {
 
 	function toggleIngredients() {
 		setToggleList("ingredients");
+	}
+	function toggleTags() {
+		setToggleList("tags");
 	}
 
 	return (
@@ -35,6 +39,9 @@ function Details(props) {
 			<ToggleButton value="instructions" onClick={toggleInstructions}>
 				Instructions
 			</ToggleButton>
+			<ToggleButton value="tags" onClick={toggleTags}>
+				Tags
+			</ToggleButton>
 
 			{toggleList === "ingredients" && !error && (
 				<Ingredients ingredients={recipe.ingredients} />
@@ -42,6 +49,9 @@ function Details(props) {
 
 			{toggleList === "instructions" && !error && (
 				<Instructions instructions={recipe.instructions} />
+			)}
+			{toggleList === "tags" && !error && (
+				<RecipeTags tags={recipe.tags}/>
 			)}
 		</>
 	);
