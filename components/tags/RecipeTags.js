@@ -12,7 +12,7 @@ function RecipeTags(props) {
 
   return (
   
-    <div className= 'marquee'>
+    <div>
     <ul className="list-none p-0 animate-slideRight">
       {tags.map((tag) => (
         <li
