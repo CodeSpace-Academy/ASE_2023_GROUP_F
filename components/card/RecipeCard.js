@@ -7,13 +7,14 @@ import Link from "next/link";
 
 const RecipeCard = (props) => {
 	const { title, images, recipe } = props;
-
 	const [currentImage, setCurrentImage] = useState(0);
 
 	const changeImage = (direction) => {
 		const newIndex = (currentImage + direction + images.length) % images.length;
 		setCurrentImage(newIndex);
 	};
+
+	const areButtonsVisible = images.length > 1;
 
 	return (
 		<div className="max-w-xm rounded-md overflow-hidden shadow-lg mx-auto my-4 relative transition-transform duration-300 transform hover:scale-105">
@@ -23,20 +24,22 @@ const RecipeCard = (props) => {
 					src={images[currentImage]}
 					alt={`Recipe image ${currentImage + 1}`}
 				/>
-				<div className="absolute inset-0 flex items-center justify-between p-4">
-					<button
-						className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
-						onClick={() => changeImage(-1)}
-					>
-						<ChevronLeft size={20} />
-					</button>
-					<button
-						className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
-						onClickCapture={() => changeImage(1)}
-					>
-						<ChevronRight size={20} />
-					</button>
-				</div>
+				{areButtonsVisible && (
+					<div className="absolute inset-0 flex items-center justify-between p-4">
+						<button
+							className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+							onClick={() => changeImage(-1)}
+						>
+							<ChevronLeft size={20} />
+						</button>
+						<button
+							className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+							onClickCapture={() => changeImage(1)}
+						>
+							<ChevronRight size={20} />
+						</button>
+					</div>
+				)}
 				<div className="absolute bottom-4 right-0 left-0">
 					<div className="flex items-center justify-center gap-2"></div>
 				</div>
