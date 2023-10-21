@@ -37,7 +37,7 @@ function RecipeBanner({ images, prepTime, cookTime, servingAmount }) {
 					height={650}
 				/>
 				<div className="absolute top-0 right-0">
-					<Link href="recipes/instructions">
+					<Link href="/recipes/instructions">
 						<Button variant="contained" color="secondary" size="small">
 							Start Cooking
 						</Button>

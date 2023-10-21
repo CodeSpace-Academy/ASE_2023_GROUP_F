@@ -19,8 +19,9 @@ function Description(props) {
       year: "numeric",
     };
     const formattedDate = currentDate.toLocaleDateString(undefined, options);
-
+  
     const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`;
+  
     try {
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: "PATCH",
@@ -29,7 +30,8 @@ function Description(props) {
         },
         body: JSON.stringify({ description: updatedDescription }),
       });
-
+      
+  
       if (response.ok) {
         console.log("Description updated successfully");
         setIsEditing(false);
@@ -40,6 +42,7 @@ function Description(props) {
       console.error("Error updating description:", error);
     }
   };
+  
 
   return (
     <div>
