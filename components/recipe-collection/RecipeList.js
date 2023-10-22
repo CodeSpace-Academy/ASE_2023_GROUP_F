@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecipeCard from '../card/RecipeCard';
 import CardSkeleton from '../skeletonCard/skeleton';
 import { getViewRecipes } from '../../lib/view-recipes';
+import Button from '../UI/Button';
 
 const PAGE_SIZE = 50;
 
@@ -19,7 +20,7 @@ const RecipeList = ({ recipes, count }) => {
       try {
         const nextPage = currentPage + 1;
         const result = await getViewRecipes(nextPage * PAGE_SIZE);
-        setVisibleRecipes(result.recipes.slice((nextPage - 1) * PAGE_SIZE, nextPage * PAGE_SIZE));
+        setVisibleRecipes(result.recipes); 
         setCurrentPage(nextPage);
       } catch (error) {
         console.error('Error fetching more recipes:', error);
@@ -29,15 +30,25 @@ const RecipeList = ({ recipes, count }) => {
     }
   };
 
-  const showPreviousRecipes = () => {
+  const showPreviousRecipes = async () => {
     if (currentPage > 1) {
       setLoading(true);
-      const previousPage = currentPage - 1;
-      setVisibleRecipes(recipes.slice((previousPage - 1) * PAGE_SIZE, previousPage * PAGE_SIZE));
-      setCurrentPage(previousPage);
-      setLoading(false);
+      try {
+        const previousPage = currentPage - 1;
+        const result = await getViewRecipes((previousPage - 1) * PAGE_SIZE);
+        setVisibleRecipes(result.recipes);
+        setCurrentPage(previousPage);
+      } catch (error) {
+        console.error('Error fetching previous recipes:', error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
+
+  useEffect(() => {
+    setLoading(false);
+  }, [visibleRecipes]);
 
   return (
     <>
@@ -80,11 +91,7 @@ const RecipeList = ({ recipes, count }) => {
 
       {remainingRecipes > 0 && (
         <div className="mt-4">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Show Remaining ({remainingRecipes})
-          </button>
+          <Button remainingRecipes={remainingRecipes} />
         </div>
       )}
     </>
