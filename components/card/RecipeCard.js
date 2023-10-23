@@ -15,6 +15,7 @@ const RecipeCard = (props) => {
 		setCurrentImage(newIndex);
 	};
 
+	const isButtonVisible = images.length > 1;
 	return (
 		<div className="rounded overflow-hidden shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-110 mx-8 my-8">
 			<div className="mx-8 mt-6 relative ">
@@ -23,20 +24,24 @@ const RecipeCard = (props) => {
 					src={images[currentImage]}
 					alt={`Recipe image ${currentImage + 1}`}
 				/>
-				<div className="absolute inset-0 flex items-center justify-between p-4">
-					<button
-						className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
-						onClick={() => changeImage(-1)}
-					>
-						<ChevronLeft size={20} />
-					</button>
-					<button
-						className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
-						onClickCapture={() => changeImage(1)}
-					>
-						<ChevronRight size={20} />
-					</button>
-				</div>
+
+				{isButtonVisible && (
+					<div className="absolute inset-0 flex items-center justify-between p-4">
+						<button
+							className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+							onClick={() => changeImage(-1)}
+						>
+							<ChevronLeft size={20} />
+						</button>
+						<button
+							className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+							onClickCapture={() => changeImage(1)}
+						>
+							<ChevronRight size={20} />
+						</button>
+					</div>
+				)}
+				
 				<div className="absolute bottom-4 right-0 left-0">
 					<div className="flex items-center justify-center gap-2"></div>
 				</div>
