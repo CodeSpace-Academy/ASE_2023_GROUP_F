@@ -1,60 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import RecipeCard from '../card/RecipeCard';
-import Button from '../UI/Button';
-import { getViewRecipes } from '../../lib/view-recipes';
 import CardSkeleton from '../skeletonCard/skeleton';
+import { getViewRecipes } from '../../lib/view-recipes';
+import Button from '../UI/Button';
 
-const RecipeList = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [visibleRecipes, setVisibleRecipes] = useState([]);
-  const [remainingRecipes, setRemainingRecipes] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [limit, setLimit] = useState(100);
+const PAGE_SIZE = 50;
+const INITIAL_LOAD_SIZE = 50;
 
-  useEffect(() => {
-    const callViewRecipes = async () => {
-      try {
-        const result = await getViewRecipes(limit);
-        setRecipes(result.recipes);
-        const initialVisibleRecipes = result.recipes.slice(0, limit);
-        const initialRemainingRecipes = result.count - limit;
-        setVisibleRecipes(initialVisibleRecipes);
-        setRemainingRecipes(initialRemainingRecipes);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      }
-    };
+const RecipeList = (props) => {
+  const { recipes, count } = props;
+  const [visibleRecipes, setVisibleRecipes] = useState(recipes);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-    callViewRecipes();
-  }, [limit]);
+  const totalPages = Math.ceil(count / PAGE_SIZE);
+  const remainingRecipes = count - visibleRecipes.length;
 
-  const showMoreRecipes = () => {
-    setLimit(prevLimit => prevLimit + 100);
+
+  const loadMoreRecipes = async () => {
+    setLoading(true);
+    try {
+      const startIndex = currentPage * PAGE_SIZE ; 
+      const result = await getViewRecipes(startIndex, PAGE_SIZE);
+      setVisibleRecipes([...visibleRecipes, ...result.recipes]);
+      setCurrentPage(currentPage + 1);
+    } catch (error) {
+      console.error('Error fetching more recipes:', error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   return (
-    <>
-      {!loading && visibleRecipes.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {visibleRecipes.map(recipe => (
-            <RecipeCard
-              key={recipe._id}
-              title={recipe.title}
-              images={recipe.images}
-              published={recipe.published}
-              recipe={recipe}
-            />
-          ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      {visibleRecipes.map((recipe) => (
+        <RecipeCard
+          key={recipe._id}
+          title={recipe.title}
+          images={recipe.images}
+          published={recipe.published}
+          recipe={recipe}
+        />
+      ))}
+      {loading && <div className="skeleton-container"><CardSkeleton/></div>} 
+      {count > INITIAL_LOAD_SIZE && (
+        <div className="mt-4 text-center">
+          <p className="text-gray-500">
+            Showing page {currentPage} of {totalPages}
+          </p>
+          {remainingRecipes > 0 && (
+            <div className="mt-2">
+              <Button remainingRecipes={remainingRecipes} onClick={loadMoreRecipes} />
+            </div>
+          )}
         </div>
-      ) : (
-        <CardSkeleton />
       )}
-
-      {!loading && remainingRecipes > 0 && (
-        <Button onClick={showMoreRecipes} remainingRecipes={remainingRecipes} />
-      )}
-    </>
+    </div>
   );
 };
 

@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { Card, Button, TextField } from "@mui/material";
 
 function Instructions(props) {
-  const { recipeId, instructions, userName , description } = props;
+  const { recipeId, instructions, userName } = props;
   const [editableIndex, setEditableIndex] = useState(-1);
-  const [editedInstructions, setEditedInstructions] = useState([
-    ...instructions,
-  ]);
+  const [editedInstructions, setEditedInstructions] = useState([...instructions]);
   const [modifiedInstructions, setModifiedInstructions] = useState({});
-  const [editedDescription , setEditedDEscription] = useState([])
-  const [updatedDescription , setUpdatedDescription] = useState([])
 
   const handleEdit = (index) => {
     setEditableIndex(index);
@@ -35,21 +30,12 @@ function Instructions(props) {
         }
       );
 
-      const updatedDescription = editedDescription.map(
-        (description, index) => {
-          if (updatedDescription[index]) {
-            return `${description} (edited by ${userName} on ${formattedDate})`;
-          }
-          return description;
-        }
-      );
-
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ instructions: updatedInstructions , description:{updatedDescription} }),
+        body: JSON.stringify({ instructions: updatedInstructions }),
       });
 
       if (response.ok) {
@@ -72,18 +58,6 @@ function Instructions(props) {
     setEditedInstructions(updatedInstructions);
   };
 
-  const handleDescriptionInputChange = (index , value) =>{
-
-    const modifiedDescriptionCopy = { ...updatedDescription };
-    modifiedDescriptionCopy[index] = true;
-    setModifiedInstructions(modifiedDescriptionCopy);
-
-    const updatedDescription = [...editedDescription];
-    updatedDescription[index] = value;
-    setEditedInstructions(updatedDescription);
-
-  }
-
   return (
     <div>
       <div className="bg-green-500 h-96 overflow-y-auto">
@@ -96,12 +70,6 @@ function Instructions(props) {
                   value={editedInstructions[index]}
                   fullWidth
                   onChange={(e) => handleInputChange(index, e.target.value)}
-                />
-                <TextField
-                  multiline
-                  value={updatedDescription[index]}
-                  fullWidth
-                  onChange={(e) => handleDescriptionInputChange(index, e.target.value)}
                 />
                 <div className="text-center m-5">
                   <Button
@@ -116,7 +84,6 @@ function Instructions(props) {
             ) : (
               <div onClick={() => handleEdit(index)}>
                 {index + 1}: {editedInstructions[index]}
-                {index + 1}: {editedDescription[index]}
               </div>
             )}
           </Card>
