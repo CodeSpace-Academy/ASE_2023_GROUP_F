@@ -7,6 +7,7 @@ import Link from "next/link";
 
 const RecipeCard = (props) => {
 	const { title, images, recipe } = props;
+
 	const [currentImage, setCurrentImage] = useState(0);
 
 	const changeImage = (direction) => {
@@ -14,42 +15,38 @@ const RecipeCard = (props) => {
 		setCurrentImage(newIndex);
 	};
 
-	const areButtonsVisible = images.length > 1;
-
 	return (
-		<div className="max-w-xm rounded-md overflow-hidden shadow-lg mx-auto my-4 relative transition-transform duration-300 transform hover:scale-105">
-			<div className="h-80 relative">
+		<div className="rounded overflow-hidden shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-110 mx-8 my-8">
+			<div className="mx-8 mt-6 relative ">
 				<img
-					className="w-full h-full object-cover"
+					className="w-full"
 					src={images[currentImage]}
 					alt={`Recipe image ${currentImage + 1}`}
 				/>
-				{areButtonsVisible && (
-					<div className="absolute inset-0 flex items-center justify-between p-4">
-						<button
-							className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
-							onClick={() => changeImage(-1)}
-						>
-							<ChevronLeft size={20} />
-						</button>
-						<button
-							className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
-							onClickCapture={() => changeImage(1)}
-						>
-							<ChevronRight size={20} />
-						</button>
-					</div>
-				)}
+				<div className="absolute inset-0 flex items-center justify-between p-4">
+					<button
+						className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+						onClick={() => changeImage(-1)}
+					>
+						<ChevronLeft size={20} />
+					</button>
+					<button
+						className="p-1 rounded-full shadow bg-white 80 text-gray-800 hover:bg-white"
+						onClickCapture={() => changeImage(1)}
+					>
+						<ChevronRight size={20} />
+					</button>
+				</div>
 				<div className="absolute bottom-4 right-0 left-0">
 					<div className="flex items-center justify-center gap-2"></div>
 				</div>
 			</div>
 
-			<Link href={`/recipes/${recipe._id}`}>
-				<div className="inset-0 transform  hover:scale-90 transition duration-300">
-					<div className="px-6 py-11 bg-gray-200 rounded">
-						<div className="flex flex-col h-40 justify-between">
-							<div className="font-bold text-xl">{title}</div>
+			
+				<div className="inset-0 transform">
+					<div className="px-6 py-11  rounded mx-8 hover:text-black hover:bg-gray-200">
+						<div className="flex flex-col justify-between">
+							<div className="font-semibold font-serif text-lg flex justify-center items-center">{title}</div>
 							<div className="flex items-center gap-2 p-2">
 								<span className="meaningful-class-name">
 									<TimeIcon />
@@ -67,7 +64,16 @@ const RecipeCard = (props) => {
 						</div>
 					</div>
 				</div>
+
+			{/* View Recipe button */}
+				
+			<div className="flex justify-center items-center py-3">
+			<button className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+			<Link href={`/recipes/${recipe._id}`}>
+				View Recipe
 			</Link>
+			</button>
+			</div>
 		</div>
 	);
 };
