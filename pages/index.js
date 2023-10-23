@@ -1,6 +1,8 @@
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
-import { getRecipes } from "./api/pre-render";
+import { getRecipes } from "./api/pre-render"
+import SearchBar from "@/components/search-functionality/search-bar";
+
 
 function Home(props) {
 
@@ -8,7 +10,10 @@ function Home(props) {
 
   return (
     <div>
+
       <RecipeList recipes={recipes} count={count} />
+      <SearchBar/>
+
     </div>
   );
 }
