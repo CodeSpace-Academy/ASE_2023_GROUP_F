@@ -10,10 +10,8 @@ function Home(props) {
 
   return (
     <div>
-
-      <RecipeList recipes={recipes} count={count} />
       <SearchBar/>
-
+      <RecipeList recipes={recipes} count={count} />
     </div>
   );
 }
