@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight } from "react-feather";
+import { ChevronLeft, ChevronRight, Heart } from "react-feather";
 import TimeDisplay from "../time/TimeDisplay";
 import TimeIcon from "../icons/TimeIcon";
 import ServingIcon from "../icons/ServingIcon";
@@ -18,13 +18,29 @@ const RecipeCard = (props) => {
 
 	const toggleFavorite = async () => {
 		try {
-			const confirmed = window.confirm(
-				isFavorite
-					? "Are you sure you want to remove this recipe from favorites?"
-					: "Are you sure you want to add this recipe to favorites?"
-			);
-	
-			if (confirmed) {
+			if (isFavorite) {
+				const confirmed = window.confirm(
+					"Are you sure you want to remove this recipe from favorites?",
+				);
+				if (confirmed) {
+					const response = await fetch("/api/recipes", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							recipeId: recipe._id,
+							isFavorite: false,
+						}),
+					});
+
+					if (response.ok) {
+						setIsFavorite(false);
+					} else {
+						console.error("Failed to update favorite status");
+					}
+				}
+			} else {
 				const response = await fetch("/api/recipes", {
 					method: "POST",
 					headers: {
@@ -32,12 +48,12 @@ const RecipeCard = (props) => {
 					},
 					body: JSON.stringify({
 						recipeId: recipe._id,
-						isFavorite: !isFavorite,
+						isFavorite: true,
 					}),
 				});
-	
+
 				if (response.ok) {
-					setIsFavorite(!isFavorite);
+					setIsFavorite(true);
 				} else {
 					console.error("Failed to update favorite status");
 				}
@@ -46,7 +62,6 @@ const RecipeCard = (props) => {
 			console.error("Error updating favorite status:", error);
 		}
 	};
-	
 
 	const isButtonVisible = images.length > 1;
 
@@ -110,7 +125,12 @@ const RecipeCard = (props) => {
 					className={`text-gray-900 hover:text-white bg-gray-200 hover:bg-gray-400 border border-gray-300 focus:ring-2 focus:ring-gray-300 rounded-full text-sm px-6 py-2 focus:outline-none`}
 					onClick={toggleFavorite}
 				>
-					{isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+					{isFavorite ? (
+						<Heart size={18} fill="red" />
+					) : (
+						<Heart size={18} fill="none" />
+					)}
+					{isFavorite ? " Remove from Favorites" : " Add to Favorites"}
 				</button>
 			</div>
 
