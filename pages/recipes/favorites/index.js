@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RecipeList from '@/components/recipe-collection/RecipeList';
+import CardSkeleton from '@/components/skeletonCard/skeleton';
 
 const FavoriteRecipesPage = () => {
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -27,7 +28,7 @@ const FavoriteRecipesPage = () => {
     }, []);
 
     if (isLoading) {
-        return <p>....Loading....</p>;
+        return <CardSkeleton/>;
     }
 
     return (
