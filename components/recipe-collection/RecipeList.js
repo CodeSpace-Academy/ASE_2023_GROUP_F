@@ -8,13 +8,20 @@ const PAGE_SIZE = 50;
 const INITIAL_LOAD_SIZE = 50;
 
 const RecipeList = (props) => {
-  const { recipes, count } = props;
-  const [visibleRecipes, setVisibleRecipes] = useState(recipes);
+  const { visibleRecipes : initialRecipes, count } = props;
+  const [visibleRecipes, setVisibleRecipes] = useState(initialRecipes);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(count / PAGE_SIZE);
+
+  if( !visibleRecipes){
+
+    return <p>Loading...</p>
+  }
+
   const remainingRecipes = count - visibleRecipes.length;
+
 
 
   const loadMoreRecipes = async () => {
@@ -30,8 +37,8 @@ const RecipeList = (props) => {
       setLoading(false);
     }
   };
-  
 
+  
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
       {visibleRecipes.map((recipe) => (
