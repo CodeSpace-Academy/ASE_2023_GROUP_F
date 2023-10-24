@@ -33,7 +33,7 @@ const FavoriteRecipesPage = () => {
 
     return (
         <div>
-            <h1>Favorite Recipes</h1>
+            <h1>Favorite Recipes ({favoriteRecipes.length})</h1>
             {favoriteRecipes.length > 0 ? (
                 <RecipeList visibleRecipes={favoriteRecipes} />
             ) : (
