@@ -32,12 +32,12 @@ const FavoriteRecipesPage = () => {
     }
 
     return (
-        <div>
-            <h1>Favorite Recipes ({favoriteRecipes.length})</h1>
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipes.length})</h1>
             {favoriteRecipes.length > 0 ? (
                 <RecipeList visibleRecipes={favoriteRecipes} />
             ) : (
-                <p>No favorite recipes found.</p>
+                <p className="text-gray-600 text-3xl font-bold">No favorite recipes found.</p>
             )}
         </div>
     );
