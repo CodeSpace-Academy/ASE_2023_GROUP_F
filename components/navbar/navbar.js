@@ -2,23 +2,25 @@ import Link from 'next/link';
 
 function NavBar() {
 
-    return (
+  return (
+    <div className="font-serif grid md:grid-cols-3 bg-gray-200 shadow-xl rounded-md">
+      <div className="md:col-span-1 md:flex md:justify-end">
+        <nav className="text-right">
+          <div className="flex justify-between items-center">
+            <h1 className="font-bold text-4xl uppercase p-4 border-b border-gray-100">
+              <Link href="/" className="hover:text-red-700 text-black-500 sm:text-black-500 lg:text-black-500">
+                Recipe App
+              </Link>
+            </h1>
+            <div className="px-4 cursor-pointer md:hidden" id="burger">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+              </svg>
+            </div>
+          </div>
 
-        <div className="grid md:grid-cols-3 bg-slate-200">
-            <div className="md:col-span-1 md:flex md:justify-end">
-                <nav className="text-right">
-                    <div className="flex justify-between items-center">
-                        <h1 className=" font-bold text-4xl uppercase p-4 border-b border-gray-100">
-                            <Link href="/" className="hover:text-gray-700 text-green-500 sm:text-red-500 lg:text-blue-500">Recipes App</Link>
-                        </h1>
-                        <div className="px-4 cursor-pointer md:hidden" id="burger">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
-                            </svg>
-
-                        </div>
-                    </div>
-                    <ul className="text-sm mt-6 hidden md:block" id="menu">
+          <div>
+          <ul className="text-sm mt-6 hidden md:block" id="menu">
                         <li className="py-1 text-gray-700 font-bold">
                             <Link href="/" className="px-4 flex justify-end border-r-4 border-primary">
                                 <span>Home</span>
@@ -44,11 +46,12 @@ function NavBar() {
                                 </svg>
                             </Link>
                         </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    );
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  );
 }
 
 export default NavBar;
