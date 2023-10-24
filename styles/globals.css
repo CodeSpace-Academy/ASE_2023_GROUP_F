@@ -57,7 +57,9 @@ body {
 .toggle_button {
   display: block;
 }
-
+.components_container {
+  display: inline-block;
+}
 .side-by-side {
   display: none;
 }
@@ -65,6 +67,10 @@ body {
 /* Media query to hide toggle buttons and show both components side by side on screens larger than 768px */
 @media (min-width: 769px) {
   .toggle_button {
+    display: none;
+  }
+
+  .components_container {
     display: none;
   }
 

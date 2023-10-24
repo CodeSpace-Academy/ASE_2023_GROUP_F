@@ -116,7 +116,7 @@ function Details(props) {
           </Button>
         </div>
         {toggleIngredients === null ? (
-          <div className=" side-by-side">
+          <div className="components_container side-by-side">
             <Ingredients
               className="ingredients"
               ingredients={recipe.ingredients}
