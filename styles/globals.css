@@ -2,39 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
-  font-family: 'Waterfall';
+  font-family: "Waterfall";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/waterfall/v3/MCoRzAfo293fACdFKcwo3bv9.woff2)
-    format('woff2');
+    format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
     U+FEFF, U+FFFD;
 }
-.card{
-  @apply bg-white rounded overflow-hidden shadow-md relative
+.card {
+  @apply bg-white rounded overflow-hidden shadow-md relative;
 }
-.badge{
-  @apply bg-secondary-100 text-secondary-200 text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2
+.badge {
+  @apply bg-secondary-100 text-secondary-200 text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2;
 }
 .btn {
   @apply rounded-full py-2 px-3 uppercase text-xs font-bold cursor-pointer tracking-wider;
 }
 
-body{
+body {
   margin-left: 16px;
 }
 
-.span{
+.span {
   padding-left: -10px;
 }
 /* Add this to your CSS file or module */
 @keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .marquee {
@@ -44,5 +47,40 @@ body{
   animation: marquee 20s linear infinite;
 }
 
+/* Default styles for components (hide both by default) */
+.ingredients,
+.instructions {
+  display: none;
+}
 
+/* Styles for the toggle buttons */
+.toggle_button {
+  display: block;
+}
+.components_container {
+  display: inline-block;
+}
+.side-by-side {
+  display: none;
+}
 
+/* Media query to hide toggle buttons and show both components side by side on screens larger than 768px */
+@media (min-width: 769px) {
+  .toggle_button {
+    display: none;
+  }
+
+  .components_container {
+    display: none;
+  }
+
+  .side-by-side {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+  }
+  .ingredients,
+  .instructions {
+    width: 100%;
+  }
+}
