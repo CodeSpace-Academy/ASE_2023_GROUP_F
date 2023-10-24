@@ -46,6 +46,11 @@ function NavBar() {
                                 </svg>
                             </Link>
                         </li>
+                        <li className="py-1">
+                            <Link href="/recipes/favorites" className="px-4 flex justify-end border-r-4 border-white">
+                                <span>Favorites</span>
+                            </Link>
+                        </li>
             </ul>
           </div>
         </nav>
