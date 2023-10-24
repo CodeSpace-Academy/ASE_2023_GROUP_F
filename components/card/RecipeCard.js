@@ -18,26 +18,35 @@ const RecipeCard = (props) => {
 
 	const toggleFavorite = async () => {
 		try {
-			const response = await fetch("/api/recipes", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					recipeId: recipe._id,
-					isFavorite: !isFavorite,
-				}),
-			});
-
-			if (response.ok) {
-				setIsFavorite(!isFavorite);
-			} else {
-				console.error("Failed to update favorite status");
+			const confirmed = window.confirm(
+				isFavorite
+					? "Are you sure you want to remove this recipe from favorites?"
+					: "Are you sure you want to add this recipe to favorites?"
+			);
+	
+			if (confirmed) {
+				const response = await fetch("/api/recipes", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						recipeId: recipe._id,
+						isFavorite: !isFavorite,
+					}),
+				});
+	
+				if (response.ok) {
+					setIsFavorite(!isFavorite);
+				} else {
+					console.error("Failed to update favorite status");
+				}
 			}
 		} catch (error) {
 			console.error("Error updating favorite status:", error);
 		}
 	};
+	
 
 	const isButtonVisible = images.length > 1;
 
