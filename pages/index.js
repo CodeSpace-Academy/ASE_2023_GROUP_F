@@ -6,12 +6,12 @@ import SearchBar from "@/components/search-functionality/search-bar";
 
 function Home(props) {
 
-  const {recipes , count} = props
+  const {visibleRecipes , count} = props
 
   return (
     <div>
       <SearchBar/>
-      <RecipeList recipes={recipes} count={count} />
+      <RecipeList visibleRecipes={visibleRecipes} count={count} />
     </div>
   );
 }
@@ -21,7 +21,7 @@ export async function getStaticProps() {
     const { recipes, count } = await getRecipes(50);
     return {
       props: {
-        recipes,
+        visibleRecipes:recipes,
         count,
       },
       revalidate:60
