@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import RecipeCard from '../card/RecipeCard';
 import CardSkeleton from '../skeletonCard/skeleton';
-import { getViewRecipes } from '../../lib/view-recipes';
+import { getViewRecipes, getViewRecipesBySteps, getViewRecipesByAscending, getViewRecipesByDescending } from '../../lib/view-recipes';
 import Button from '../UI/Button';
+import FilterBySteps from '../search-functionality/number-of-steps-filter';
 
 const PAGE_SIZE = 50;
 const INITIAL_LOAD_SIZE = 50;
@@ -37,33 +38,35 @@ const RecipeList = (props) => {
       setLoading(false);
     }
   };
-
   
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-      {visibleRecipes.map((recipe) => (
-        <RecipeCard
-          key={recipe._id}
-          title={recipe.title}
-          images={recipe.images}
-          published={recipe.published}
-          recipe={recipe}
-        />
-      ))}
-      {loading && <div className="skeleton-container"><CardSkeleton/></div>} 
-      {count > INITIAL_LOAD_SIZE && (
-        <div className="mt-4 text-center">
-          <p className="text-gray-500">
-            Showing page {currentPage} of {totalPages}
-          </p>
-          {remainingRecipes > 0 && (
-            <div className="mt-2">
-              <Button remainingRecipes={remainingRecipes} onClick={loadMoreRecipes} />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    <>
+      {/* <FilterBySteps */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
+        {visibleRecipes.map((recipe) => (
+          <RecipeCard
+            key={recipe._id}
+            title={recipe.title}
+            images={recipe.images}
+            published={recipe.published}
+            recipe={recipe}
+          />
+        ))}
+        {loading && <div className="skeleton-container"><CardSkeleton/></div>} 
+        {count > INITIAL_LOAD_SIZE && (
+          <div className="mt-4 text-center">
+            <p className="text-gray-500">
+              Showing page {currentPage} of {totalPages}
+            </p>
+            {remainingRecipes > 0 && (
+              <div className="mt-2">
+                <Button remainingRecipes={remainingRecipes} onClick={loadMoreRecipes} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

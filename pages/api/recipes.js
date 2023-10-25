@@ -1,6 +1,9 @@
 import { client, db } from "../../helpers/db";
 
 export default async function handler(req, res) {
+  const filter = JSON.parse(req.query.filter)
+  console.log('Filter category:', filter.category)
+
   if (req.method === "GET") {
     try {
       await client.connect();
@@ -9,7 +12,7 @@ export default async function handler(req, res) {
 
       const limit = parseInt(req.query.limit) || 200; 
 
-      const documents = await collection.find({}).limit(limit).toArray();
+      const documents = await collection.find(filter).limit(limit).toArray();
       const number = await collection.countDocuments();
 
       res.status(200).json({ recipes: documents, count: number });
