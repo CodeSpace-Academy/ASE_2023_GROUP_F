@@ -23,8 +23,6 @@ const RecipeList = (props) => {
 
   const remainingRecipes = count - visibleRecipes.length;
 
-
-
   const loadMoreRecipes = async () => {
     setLoading(true);
     try {
@@ -38,10 +36,24 @@ const RecipeList = (props) => {
       setLoading(false);
     }
   };
+
+  async function filterByNumberOfSteps(numInstructions){
+    setLoading(true);
+    try{
+      const startIndex = currentPage * PAGE_SIZE ; 
+      const result = await getViewRecipes(startIndex, PAGE_SIZE, numInstructions);
+      setVisibleRecipes([...visibleRecipes, ...result.recipes]);
+      setCurrentPage(currentPage + 1);
+    } catch (error) {
+      console.error('Error fetching more recipes:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
   
   return (
     <>
-      {/* <FilterBySteps */}
+      <FilterBySteps filterFunc={filterByNumberOfSteps}/>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
         {visibleRecipes.map((recipe) => (
           <RecipeCard

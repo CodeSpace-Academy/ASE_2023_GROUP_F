@@ -1,8 +1,7 @@
-import { Co2Sharp } from "@mui/icons-material";
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 
-function FilterBySteps({recipesByInstructions, recipesInAscending, recipesInDescending}) {
+function FilterBySteps({filterFunc}) {
   const [numberOfSteps, setNumberOfSTeps] = useState(1);
 
   function valueHandler(event) {
@@ -12,20 +11,12 @@ function FilterBySteps({recipesByInstructions, recipesInAscending, recipesInDesc
   }
 
   function loadingFilterHandler(){
-    recipesByInstructions(numberOfSteps)
-  }
-
-  function handleAscending(){
-    recipesInAscending()
-  }
-
-  function handleDescending(){
-    recipesInDescending()
+    filterFunc(parseInt(numberOfSteps))
   }
 
   return (
     <>
-      <Button onClick={handleAscending}>Ascending</Button>
+      <Button>Ascending</Button>
       <Box>
         <TextField
           id="number-of-steps"
@@ -36,7 +27,7 @@ function FilterBySteps({recipesByInstructions, recipesInAscending, recipesInDesc
         />
         <Button type="submit" onClick={loadingFilterHandler}>Filter</Button>
       </Box>
-      <Button onClick={handleDescending}>Descending</Button>
+      <Button>Descending</Button>
     </>
   );
 }
