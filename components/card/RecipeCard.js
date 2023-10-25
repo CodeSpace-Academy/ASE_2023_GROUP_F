@@ -4,6 +4,8 @@ import TimeDisplay from "../time/TimeDisplay";
 import TimeIcon from "../icons/TimeIcon";
 import ServingIcon from "../icons/ServingIcon";
 import Link from "next/link";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const RecipeCard = (props) => {
 	const { title, images, recipe } = props;
@@ -88,6 +90,7 @@ const RecipeCard = (props) => {
 						>
 							<ChevronRight size={20} />
 						</button>
+
 					</div>
 				)}
 
@@ -97,7 +100,7 @@ const RecipeCard = (props) => {
 			</div>
 
 			<div className="inset-0 transform">
-				<div className="px-6 py-11  rounded mx-8 hover:text-black hover:bg-gray-200">
+				<div className="px-6 py-4  rounded mx-8 hover:text-black hover:bg-gray-200">
 					<div className="flex flex-col justify-between">
 						<div className="font-semibold font-serif text-lg flex justify-center items-center">
 							{title}
@@ -120,18 +123,13 @@ const RecipeCard = (props) => {
 				</div>
 			</div>
 
-			<div className="flex justify-center items-center mt-4">
-				<button
-					className={`text-gray-900 hover:text-white bg-gray-200 hover:bg-gray-400 border border-gray-300 focus:ring-2 focus:ring-gray-300 rounded-full text-sm px-6 py-2 focus:outline-none`}
+			<div className="flex justify-center items-center">
+				<div
+					style={{ cursor: 'pointer' }}
 					onClick={toggleFavorite}
 				>
-					{isFavorite ? (
-						<Heart size={18} fill="red" />
-					) : (
-						<Heart size={18} fill="none" />
-					)}
-					{isFavorite ? " Remove from Favorites" : " Add to Favorites"}
-				</button>
+					{isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+				</div>
 			</div>
 
 			<div className="flex justify-center items-center py-3">
