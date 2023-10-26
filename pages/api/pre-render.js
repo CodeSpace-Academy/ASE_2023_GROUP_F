@@ -1,4 +1,4 @@
-import connectToDatabase from "../../database/datalayer";
+import connectToDatabase from "../../database/dataLayer";
 
 
 export async function getRecipes(limit = 50) {
