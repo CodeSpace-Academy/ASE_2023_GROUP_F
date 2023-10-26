@@ -17,7 +17,7 @@ const RecipeList = (props) => {
 
   if( !visibleRecipes){
 
-    return <p>Loading...</p>
+    return <p>Loading...123</p>
   }
 
   const remainingRecipes = count - visibleRecipes.length;
