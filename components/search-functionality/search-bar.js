@@ -3,8 +3,9 @@ import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-
 import Modal from './Modal'
+import Stack from '@mui/material/Stack'
+import Chip from '@mui/material/Chip'
 
 const SearchBar = () => {
   const [open, setOpen] = useState(false)
@@ -22,12 +23,28 @@ const SearchBar = () => {
     setAppliedFilters(filters)
   }
 
+  const handleDelete = (filterType, filterValue) => {
+    const updatedFilters = { ...appliedFilters }
+    updatedFilters[filterType] = updatedFilters[filterType].filter(
+      (item) => item !== filterValue
+    )
+    setAppliedFilters(updatedFilters)
+  }
+
   const renderFilter = (name, value) => {
     if (value.length > 0) {
       return (
         <div key={name}>
           <strong>{name}: </strong>
-          {value.join(', ')}
+          <Stack direction="row" spacing={1}>
+            {value.map((filter, index) => (
+              <Chip
+                key={index}
+                label={filter}
+                onDelete={() => handleDelete(name.toLowerCase(), filter)}
+              />
+            ))}
+          </Stack>
         </div>
       )
     }
@@ -79,7 +96,15 @@ const SearchBar = () => {
         {appliedFilters.instructionsFilter !== null && (
           <div>
             <strong>Instructions Filter: </strong>
-            {appliedFilters.instructionsFilter}
+            <Chip
+              label={appliedFilters.instructionsFilter.toString()}
+              onDelete={() =>
+                handleDelete(
+                  'instructionsfilter',
+                  appliedFilters.instructionsFilter
+                )
+              }
+            />
           </div>
         )}
       </div>

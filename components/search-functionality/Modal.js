@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 import classes from './modal.module.css'
-
-import Slider from '@mui/material/Slider'
-import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
@@ -13,7 +10,6 @@ function Modal(props) {
   const [instructionsFilter, setInstructionsFilter] = useState(10)
   const [ingredients, setIngredients] = useState('')
 
-  //
   const applyFiltersAndCloseModal = () => {
     const appliedFilters = {
       categories: categoriesArray,
@@ -22,31 +18,29 @@ function Modal(props) {
       instructionsFilter: instructionsFilter,
     }
 
-    applyFilters(appliedFilters) // Pass the applied filters to the parent
+    applyFilters(appliedFilters)
     handleClose()
   }
-  //keeps the state and the displayed value of the text field in sync
+
   const handleIngredientsChange = (event) => {
     setIngredients(event.target.value)
   }
+
   const handleCategoriesChange = (event) => {
     setCategories(event.target.value)
   }
+
   const handleTagsChange = (event) => {
     setTags(event.target.value)
   }
-  function valuetext(value) {
-    return `${value}`
-  }
 
-  //defaultValues
   const clearAllFilters = () => {
     setCategories('')
     setTags('')
     setIngredients('')
     setInstructionsFilter(10)
   }
-  // array containing individual values
+
   const ingredientsArray = ingredients.split(',').map((item) => item.trim())
   const categoriesArray = categories.split(',').map((item) => item.trim())
   const tagsArray = tags.split(',').map((item) => item.trim())
@@ -84,29 +78,17 @@ function Modal(props) {
               value={ingredients}
               onChange={handleIngredientsChange}
             />
-            <br />
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => setIngredients('')}
-            >
-              Clear Ingredients
-            </Button>
           </div>
 
-          <h4>Number of Instrutions:</h4>
-          <Box sx={{ width: 300 }}>
-            <Slider
-              aria-label="Custom marks"
-              size="large"
-              value={instructionsFilter}
-              onChange={(e, newValue) => setInstructionsFilter(newValue)}
-              getAriaValueText={valuetext}
-              step={1}
-              valueLabelDisplay="auto"
-            />
-          </Box>
-
+          <h4>Number of Instructions:</h4>
+          <TextField
+            type="number"
+            value={instructionsFilter}
+            onChange={(e) =>
+              setInstructionsFilter(Math.max(1, parseInt(e.target.value)))
+            }
+          />
+          <br />
           <Button
             color="secondary"
             size="small"
@@ -131,4 +113,5 @@ function Modal(props) {
     </div>
   )
 }
+
 export default Modal
