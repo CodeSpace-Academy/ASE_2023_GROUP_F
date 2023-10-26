@@ -3,7 +3,7 @@ import connectToDatabase from "../../database/datalayer";
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      const database = connectToDatabase();
+      const database = await connectToDatabase();
       const collection = database.collection("categories");
       const documents = await collection.find({}).toArray();
 

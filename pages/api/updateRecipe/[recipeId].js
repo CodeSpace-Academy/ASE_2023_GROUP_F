@@ -1,4 +1,4 @@
-import connectToDatabase from "@/database/datalayer";
+import connectToDatabase from "../../database/datalayer";
 
 export default async function handler(req, res) {
   console.log("update recipe api");
