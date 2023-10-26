@@ -1,6 +1,6 @@
 import { client, db } from "../../helpers/db";
 
-export async function getRecipes(limit = 50) {
+export async function getRecipes(limit = 48) {
   try {
     await client.connect();
     const database = client.db(db);
