@@ -23,6 +23,23 @@ const RecipeList = (props) => {
 
   const remainingRecipes = count - visibleRecipes.length;
 
+  const filter = {
+		// tags: {
+		// 	$elemMatch: {
+		// 		$eq: "Vegan",
+		// 	},
+		// },
+		// category: "Vegetable",
+		// "instructions.4": {
+		// 	$exists: false,
+		// },
+		// "ingredients.flour": {
+		// 	$exists: true,
+		// },
+    title: 'Cabbage Soup'
+	};
+
+  
   const loadMoreRecipes = async () => {
     setLoading(true);
     try {
@@ -36,13 +53,13 @@ const RecipeList = (props) => {
       setLoading(false);
     }
   };
-
-  async function filterByNumberOfSteps(numInstructions){
+  
+  async function filterByNumberOfSteps(){
     setLoading(true);
     try{
       const startIndex = currentPage * PAGE_SIZE ; 
-      const result = await getViewRecipes(startIndex, PAGE_SIZE, numInstructions);
-      setVisibleRecipes([...visibleRecipes, ...result.recipes]);
+      const result = await getViewRecipes(startIndex, PAGE_SIZE, filter);
+      setVisibleRecipes([...visibleRecipes,...result.recipes]);
       setCurrentPage(currentPage + 1);
     } catch (error) {
       console.error('Error fetching more recipes:', error);
@@ -50,7 +67,7 @@ const RecipeList = (props) => {
       setLoading(false);
     }
   }
-  
+
   return (
     <>
       <FilterBySteps filterFunc={filterByNumberOfSteps}/>

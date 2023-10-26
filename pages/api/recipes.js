@@ -2,7 +2,9 @@ import { client, db } from "../../helpers/db";
 
 export default async function handler(req, res) {
   const filter = JSON.parse(req.query.filter)
-  console.log('Filter category:', filter.instructions)
+  const category = filter.title
+  console.log('filter object: ',filter)
+  console.log('category object: ',filter.title)
 
   if (req.method === "GET") {
     try {
@@ -12,13 +14,8 @@ export default async function handler(req, res) {
 
       const limit = parseInt(req.query.limit) || 200; 
 
-      let documents
-
-      if(filter.instructions.$size > 0){
-        documents = await collection.find(filter).limit(limit).toArray();
-      }else{
-        documents = await collection.find({}).limit(limit).toArray();
-      }
+      const documents = await collection.find({category}).limit(limit).toArray();
+      console.log('documents: ', documents)
 
       const number = await collection.countDocuments();
 
