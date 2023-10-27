@@ -1,4 +1,4 @@
-import { client, db } from "../../../helpers/db";
+import connectToDatabase from "../../../database/database";
 
 export default async function handler(req, res) {
   console.log("update recipe api");
@@ -7,8 +7,8 @@ export default async function handler(req, res) {
     const updatedData = req.body;
    
     try {
-      await client.connect();
-      const database = client.db(db);
+      
+      const database = await connectToDatabase()
       const collection = database.collection("recipes");
       const result = await collection.updateOne(
         { _id: recipeId },
@@ -23,8 +23,6 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error("Error updating data:", error);
       res.status(500).json({ message: "Data update failed" });
-    } finally {
-      await client.close();
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });

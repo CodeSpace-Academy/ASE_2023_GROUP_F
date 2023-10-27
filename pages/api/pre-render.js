@@ -1,9 +1,9 @@
-import { client, db } from "../../helpers/db";
+import connectToDatabase from "../../database/database";
+
 
 export async function getRecipes(limit = 48) {
   try {
-    await client.connect();
-    const database = client.db(db);
+    const database = await connectToDatabase();
     const collection = database.collection("recipes");
 
     const documents = await collection.find({}).limit(limit).toArray();
@@ -13,7 +13,5 @@ export async function getRecipes(limit = 48) {
   } catch (error) {
     console.error("Error fetching data:", error);
     throw new Error("Data fetching failed");
-  } finally {
-    await client.close();
   }
 }
