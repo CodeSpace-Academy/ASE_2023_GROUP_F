@@ -1,7 +1,7 @@
 import connectToDatabase from "../../database/dataLayer";
 
 
-export async function getRecipes(limit = 50) {
+export async function getRecipes(limit = 48) {
   try {
     const database = await connectToDatabase();
     const collection = database.collection("recipes");

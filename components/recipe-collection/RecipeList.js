@@ -4,8 +4,8 @@ import CardSkeleton from '../skeletonCard/skeleton';
 import { getViewRecipes } from '../../lib/view-recipes';
 import Button from '../UI/Button';
 
-const PAGE_SIZE = 50;
-const INITIAL_LOAD_SIZE = 50;
+const PAGE_SIZE = 48;
+const INITIAL_LOAD_SIZE = 48;
 
 const RecipeList = (props) => {
   const { visibleRecipes : initialRecipes, count } = props;
@@ -40,31 +40,36 @@ const RecipeList = (props) => {
 
   
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-      {visibleRecipes.map((recipe) => (
-        <RecipeCard
-          key={recipe._id}
-          title={recipe.title}
-          images={recipe.images}
-          published={recipe.published}
-          recipe={recipe}
-        />
-      ))}
-      {loading && <div className="skeleton-container"><CardSkeleton/></div>} 
-      {count > INITIAL_LOAD_SIZE && (
-        <div className="mt-4 text-center">
-          <p className="text-gray-500">
-            Showing page {currentPage} of {totalPages}
-          </p>
-          {remainingRecipes > 0 && (
-            <div className="mt-2">
-              <Button remainingRecipes={remainingRecipes} onClick={loadMoreRecipes} />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+        {visibleRecipes.map((recipe) => (
+          <RecipeCard
+            key={recipe._id}
+            title={recipe.title}
+            images={recipe.images}
+            published={recipe.published}
+            recipe={recipe}
+          />
+        ))}
+      </div>
+      <div>
+        {loading && <div className="skeleton-container"><CardSkeleton/></div>} 
+        {count > INITIAL_LOAD_SIZE && (
+          <div className="mt-4 text-center">
+            <p className="text-gray-500">
+              Showing page {currentPage} of {totalPages}
+            </p>
+            {remainingRecipes > 0 && (
+              <div className="mt-2">
+                <Button remainingRecipes={remainingRecipes} onClick={loadMoreRecipes} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </>
   );
+  
 };
 
 export default RecipeList;
