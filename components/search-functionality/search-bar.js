@@ -6,6 +6,9 @@ import Select from '@mui/material/Select'
 import Modal from './Modal'
 import Stack from '@mui/material/Stack'
 import Chip from '@mui/material/Chip'
+import { getViewRecipes } from '@/lib/view-recipes'
+
+const PAGE_SIZE = 48
 
 const SearchBar = () => {
   const [open, setOpen] = useState(false)
@@ -19,8 +22,10 @@ const SearchBar = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const handleApplyFilters = (filters) => {
+  const handleApplyFilters =async (filters) => {
     setAppliedFilters(filters)
+
+    const filtering = await getViewRecipes(0 , PAGE_SIZE , filters)
   }
 
   const handleDelete = (filterType, filterValue) => {
@@ -32,7 +37,7 @@ const SearchBar = () => {
   }
 
   const renderFilter = (name, value) => {
-    if (value.length > 0) {
+    if (value && value.length > 0) {
       return (
         <div key={name}>
           <strong>{name}: </strong>

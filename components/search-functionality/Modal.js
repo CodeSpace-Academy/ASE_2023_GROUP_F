@@ -19,6 +19,7 @@ function Modal(props) {
     }
 
     applyFilters(appliedFilters)
+    console.log('appliedFilters:', appliedFilters)
     handleClose()
   }
 

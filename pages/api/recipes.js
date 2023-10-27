@@ -1,6 +1,10 @@
 import { client, db } from "../../helpers/db";
 
 export default async function handler(req, res) {
+
+	const filter = req.query.filter
+
+	console.log('/api/recipes' , filter)
   if (req.method === "GET") {
     try {
       await client.connect();
@@ -9,8 +13,8 @@ export default async function handler(req, res) {
 
       const limit = parseInt(req.query.limit) || 200; 
 
-      const documents = await collection.find({}).limit(limit).toArray();
-      const number = await collection.countDocuments();
+      const documents = await collection.find(filter).limit(limit).toArray();
+      const number = await collection.countDocuments(filter);
 
       res.status(200).json({ recipes: documents, count: number });
     } catch (error) {
