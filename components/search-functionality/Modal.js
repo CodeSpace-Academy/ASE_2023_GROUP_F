@@ -12,10 +12,10 @@ function Modal(props) {
 
   const applyFiltersAndCloseModal = () => {
     const appliedFilters = {
-      categories: categoriesArray,
-      tags: tagsArray,
-      ingredients: ingredientsArray,
-      instructionsFilter: instructionsFilter,
+      category: categories,
+      tags: { $elemMatch: { $eq: tags } },
+      ingredients: ingredients,
+      instructions: instructionsFilter,
     }
 
     applyFilters(appliedFilters)
@@ -42,9 +42,9 @@ function Modal(props) {
     setInstructionsFilter(10)
   }
 
-  const ingredientsArray = ingredients.split(',').map((item) => item.trim())
-  const categoriesArray = categories.split(',').map((item) => item.trim())
-  const tagsArray = tags.split(',').map((item) => item.trim())
+  // const ingredientsArray = ingredients.split(',').map((item) => item.trim())
+  // const categoriesArray = categories.split(',').map((item) => item.trim())
+  // const tagsArray = tags.split(',').map((item) => item.trim())
 
   return (
     <div className={classes.modalBackdrop}>

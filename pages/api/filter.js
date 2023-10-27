@@ -1,17 +1,37 @@
 import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
+  const filter = JSON.parse(req.query.filter);
+  const limit = parseInt(req.query.limit) || 200;
 
-	console.log('/api/recipes')
   if (req.method === "GET") {
     try {
       const database = await connectToDatabase();
       const collection = database.collection("recipes");
 
-      const limit = parseInt(req.query.limit) || 200;
+      const queryFilter = {};
 
-      const documents = await collection.find({}).limit(limit).toArray();
-      const number = await collection.countDocuments();
+      if (filter.category) {
+        queryFilter.category = filter.category;
+      }
+
+      if (filter.tags) {
+        queryFilter.tags = filter.tags;
+      }
+
+      if (filter.ingredients) {
+        queryFilter[`ingredients.${filter.ingredients}`] = { $exists: true };
+      }
+    
+
+      const documents = await collection
+        .find(queryFilter)
+        .limit(limit)
+        .toArray();
+
+        console.log('queryFilter' , queryFilter)
+
+      const number = await collection.countDocuments(queryFilter);
 
       res.status(200).json({ recipes: documents, count: number });
     } catch (error) {
@@ -30,9 +50,7 @@ export default async function handler(req, res) {
       );
 
       res.status(200).json({
-        message: `Recipe ${
-          isFavorite ? "marked as" : "unmarked from"
-        } favorite`,
+        message: `Recipe ${isFavorite ? "marked as" : "unmarked from"} favorite`,
       });
     } catch (error) {
       console.error("Error updating favorite status:", error);
