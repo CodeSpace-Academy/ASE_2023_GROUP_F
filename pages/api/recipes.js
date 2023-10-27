@@ -18,8 +18,7 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "POST") {
     try {
-      await client.connect();
-      const database = client.db(db);
+      const database = await connectToDatabase();
       const collection = database.collection("recipes");
 
       const { recipeId, isFavorite } = req.body;

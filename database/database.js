@@ -18,16 +18,6 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }});
 
-async function initializeMongoClient() {
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Failed to connect to MongoDB", error);
-    process.exit(1);
-  }
-}
 
-initializeMongoClient();
 
 export { client, dbName };
