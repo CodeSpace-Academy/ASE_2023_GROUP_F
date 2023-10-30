@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import classes from './modal.module.css'
+
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
@@ -7,9 +8,10 @@ function Modal(props) {
   const { handleClose, applyFilters } = props
   const [categories, setCategories] = useState('')
   const [tags, setTags] = useState('')
-  const [instructionsFilter, setInstructionsFilter] = useState(10)
+  const [instructionsFilter, setInstructionsFilter] = useState(null)
   const [ingredients, setIngredients] = useState('')
 
+  //
   const applyFiltersAndCloseModal = () => {
     const appliedFilters = {
       categories: categoriesArray,
@@ -21,26 +23,25 @@ function Modal(props) {
     applyFilters(appliedFilters)
     handleClose()
   }
-
+  //keeps the state and the displayed value of the text field in sync
   const handleIngredientsChange = (event) => {
     setIngredients(event.target.value)
   }
-
   const handleCategoriesChange = (event) => {
     setCategories(event.target.value)
   }
-
   const handleTagsChange = (event) => {
     setTags(event.target.value)
   }
 
+  //defaultValues
   const clearAllFilters = () => {
     setCategories('')
     setTags('')
     setIngredients('')
-    setInstructionsFilter(10)
+    setInstructionsFilter(null)
   }
-
+  // array containing individual values
   const ingredientsArray = ingredients.split(',').map((item) => item.trim())
   const categoriesArray = categories.split(',').map((item) => item.trim())
   const tagsArray = tags.split(',').map((item) => item.trim())
@@ -78,9 +79,11 @@ function Modal(props) {
               value={ingredients}
               onChange={handleIngredientsChange}
             />
+            <br />
           </div>
 
-          <h4>Number of Instructions:</h4>
+          <h4>Number of Instrutions:</h4>
+
           <TextField
             type="number"
             value={instructionsFilter}
@@ -89,6 +92,7 @@ function Modal(props) {
             }
           />
           <br />
+
           <Button
             color="secondary"
             size="small"
@@ -113,5 +117,4 @@ function Modal(props) {
     </div>
   )
 }
-
 export default Modal

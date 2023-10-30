@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import Button from '@mui/material/Button'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+
+import { Chip, Button, InputLabel, FormControl, Select } from '@mui/material'
+
 import Modal from './Modal'
-import Stack from '@mui/material/Stack'
-import Chip from '@mui/material/Chip'
 
 const SearchBar = () => {
   const [open, setOpen] = useState(false)
@@ -23,66 +20,71 @@ const SearchBar = () => {
     setAppliedFilters(filters)
   }
 
-  const handleDelete = (filterType, filterValue) => {
-    const updatedFilters = { ...appliedFilters }
-    updatedFilters[filterType] = updatedFilters[filterType].filter(
-      (item) => item !== filterValue
-    )
-    setAppliedFilters(updatedFilters)
-  }
-
-  const renderFilter = (name, value) => {
-    if (value.length > 0) {
-      return (
-        <div key={name}>
-          <strong>{name}: </strong>
-          <Stack direction="row" spacing={1}>
-            {value.map((filter, index) => (
-              <Chip
-                key={index}
-                label={filter}
-                onDelete={() => handleDelete(name.toLowerCase(), filter)}
-              />
-            ))}
-          </Stack>
-        </div>
-      )
-    }
-    return null
+  // Function to handle filter deletion
+  const handleDeleteFilter = (filterName, filterValue) => {
+    setAppliedFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: prevFilters[filterName].filter(
+        (value) => value !== filterValue
+      ),
+    }))
   }
 
   return (
     <div>
-      <label htmlFor="search" />
-      <input type="text" id="search" placeholder="Search...." />
+      <div>
+        <label htmlFor="search" />
+        <input
+          type="text"
+          id="search"
+          placeholder="Search...."
+          style={{ marginBottom: '1rem' }}
+        />
 
-      <Button variant="outlined" size="large" onClick={handleOpen}>
-        Filters
-      </Button>
-
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-        <Select
-          native
-          defaultValue=""
-          id="grouped-native-select"
-          label="Grouping"
+        <Button
+          style={{
+            fontSize: '16px',
+            margin: '1rem',
+            minWidth: 120,
+            // display: 'block',
+          }}
+          variant="outlined"
+          size="large"
+          onClick={handleOpen}
         >
-          <option aria-label="None" value="" />
-          <optgroup label="Prep Time">
-            <option value={1}>Prep ASC</option>
-            <option value={2}>Prep DESC</option>
-          </optgroup>
-          <optgroup label="Cook Time">
-            <option value={3}>Cook ASC</option>
-            <option value={4}>Cook DESC</option>
-          </optgroup>
-          <optgroup label="Date Created">
-            <option value={3}>Date ASC</option>
-            <option value={4}>Date DESC</option>
-          </optgroup>
-        </Select>
-      </FormControl>
+          Filters
+        </Button>
+
+        <FormControl
+          sx={{ m: 1, minWidth: 120 }}
+          style={{
+            // display: 'block',
+            marginBottom: '1rem',
+          }}
+        >
+          <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+          <Select
+            native
+            defaultValue=""
+            id="grouped-native-select"
+            label="Grouping"
+          >
+            <option aria-label="None" value="" />
+            <optgroup label="Prep Time">
+              <option value={1}>Prep ASC</option>
+              <option value={2}>Prep DESC</option>
+            </optgroup>
+            <optgroup label="Cook Time">
+              <option value={3}>Cook ASC</option>
+              <option value={4}>Cook DESC</option>
+            </optgroup>
+            <optgroup label="Date Created">
+              <option value={3}>Date ASC</option>
+              <option value={4}>Date DESC</option>
+            </optgroup>
+          </Select>
+        </FormControl>
+      </div>
 
       {open && (
         <Modal handleClose={handleClose} applyFilters={handleApplyFilters} />
@@ -90,19 +92,36 @@ const SearchBar = () => {
 
       <div>
         <h2>Applied Filters:</h2>
-        {renderFilter('Categories', appliedFilters.categories)}
-        {renderFilter('Tags', appliedFilters.tags)}
-        {renderFilter('Ingredients', appliedFilters.ingredients)}
+        {Object.entries(appliedFilters).map(
+          ([filterName, filterValues]) =>
+            filterName !== 'instructionsFilter' &&
+            Array.isArray(filterValues) &&
+            filterValues.length > 0 && (
+              <div key={filterName}>
+                <strong>{filterName}:</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                  {filterValues.map((value) => (
+                    <Chip
+                      key={value}
+                      label={value}
+                      onDelete={() => handleDeleteFilter(filterName, value)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )
+        )}
+
         {appliedFilters.instructionsFilter !== null && (
           <div>
-            <strong>Instructions Filter: </strong>
+            <strong>Instructions Filter:</strong>
             <Chip
-              label={appliedFilters.instructionsFilter.toString()}
+              label={appliedFilters.instructionsFilter}
               onDelete={() =>
-                handleDelete(
-                  'instructionsfilter',
-                  appliedFilters.instructionsFilter
-                )
+                setAppliedFilters((prevFilters) => ({
+                  ...prevFilters,
+                  instructionsFilter: null,
+                }))
               }
             />
           </div>
