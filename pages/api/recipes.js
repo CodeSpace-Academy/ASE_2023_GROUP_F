@@ -2,7 +2,6 @@ import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
 
-	console.log('/api/recipes')
   if (req.method === "GET") {
     try {
       const database = await connectToDatabase();
