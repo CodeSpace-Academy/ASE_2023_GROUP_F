@@ -12,15 +12,15 @@ function Home({ visibleRecipes, count }) {
 	const [filteredRecipesCount, setFilteredRecipesCount] = useState(count);
   const [appliedFilters , setAppliedFilters] = useState({});
 
-	const handleApplyFilters = async (filters , sort) => {
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters , sort);
+	const handleApplyFilters = async (filters) => {
+		const filtering = await getViewRecipes(0, PAGE_SIZE, filters );
 		setFilteredRecipes(filtering.recipes);
 		setFilteredRecipesCount(filtering.totalRecipes);
 
-		console.log(sort , '%%%%%%')
+		
 	};
 
-  console.log('parent component',appliedFilters)
+  
 
 	return (
 		<div>

@@ -2,8 +2,6 @@ import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
-	const title = filter.title
-	console.log(filter.title, "filter.instructions");
 	const limit = parseInt(req.query.limit) || 200;
 
 	if (req.method === "GET") {
@@ -47,8 +45,6 @@ export default async function handler(req, res) {
 				.find(queryFilter)
 				.limit(limit)
 				.toArray();
-
-			console.log("queryFilter", queryFilter);
 
 			const number = await collection.countDocuments(queryFilter);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -9,7 +9,6 @@ import Modal from "./Modal";
 const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
 	const [open, setOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
-	// const [sortBy, setSortBy] = useState("");
 	const [selectedFilters, setSelectedFilters] = useState({
 		category: [],
 		tags: [],
@@ -50,6 +49,10 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
 		setSortBy(event.target.value) 
 	  }
 
+    useEffect(() => {
+      applyFilters({ title: searchTerm });
+    }, [searchTerm]);
+  
 	return (
 		<div>
 			<label htmlFor="search" />
