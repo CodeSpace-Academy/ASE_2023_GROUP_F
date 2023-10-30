@@ -18,7 +18,7 @@ function Home(props) {
 
 export async function getStaticProps() {
   try {
-    const { recipes, count } = await getRecipes(50);
+    const { recipes, count } = await getRecipes(48);
     return {
       props: {
         visibleRecipes:recipes,

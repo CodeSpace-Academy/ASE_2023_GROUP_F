@@ -121,6 +121,7 @@ function Details(props) {
 
 				{!toggleList && (
 					<Instructions
+					recipeId = {recipe._id}
 						instructions={recipe.instructions}
 						description={recipe.discription}
 					/>
