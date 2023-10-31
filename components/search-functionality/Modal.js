@@ -1,49 +1,54 @@
-import React, { useState } from 'react'
-import classes from './modal.module.css'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
+import React, { useState, useEffect } from "react";
+import classes from "./modal.module.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 function Modal(props) {
-  const { handleClose, applyFilters } = props
-  const [categories, setCategories] = useState('')
-  const [tags, setTags] = useState('')
-  const [instructionsFilter, setInstructionsFilter] = useState(10)
-  const [ingredients, setIngredients] = useState('')
+  const { handleClose, applyFilters} = props;
+  const [categories, setCategories] = useState("");
+  const [tags, setTags] = useState("");
+  const [instructionsFilter, setInstructionsFilter] = useState(4);
+  const [ingredients, setIngredients] = useState("");
 
-  const applyFiltersAndCloseModal = () => {
+  const applyFiltersAndCloseModal = async () => {
     const appliedFilters = {
-      categories: categoriesArray,
-      tags: tagsArray,
-      ingredients: ingredientsArray,
-      instructionsFilter: instructionsFilter,
-    }
+      category: categories,
+      tags: Array.isArray(tags)
+        ? tags
+        : tags
+        ? tags.split(",").map((tag) => tag.trim())
+        : [],
+      ingredients: ingredients,
+      instructions: instructionsFilter,
+      isFavorite: true,
+    };
 
-    applyFilters(appliedFilters)
-    handleClose()
-  }
+    await applyFilters(appliedFilters);
+    handleClose();
+  };
 
   const handleIngredientsChange = (event) => {
-    setIngredients(event.target.value)
-  }
+    setIngredients(event.target.value);
+  };
 
   const handleCategoriesChange = (event) => {
-    setCategories(event.target.value)
-  }
+    setCategories(event.target.value);
+  };
 
   const handleTagsChange = (event) => {
-    setTags(event.target.value)
-  }
+    setTags(event.target.value);
+  };
+
+  const handleInstructionChange = (event) => {
+    setInstructionsFilter(Math.max(1, parseInt(event.target.value)));
+  };
 
   const clearAllFilters = () => {
-    setCategories('')
-    setTags('')
-    setIngredients('')
-    setInstructionsFilter(10)
-  }
-
-  const ingredientsArray = ingredients.split(',').map((item) => item.trim())
-  const categoriesArray = categories.split(',').map((item) => item.trim())
-  const tagsArray = tags.split(',').map((item) => item.trim())
+    setCategories("");
+    setTags("");
+    setIngredients("");
+    setInstructionsFilter(4);
+  };
 
   return (
     <div className={classes.modalBackdrop}>
@@ -84,10 +89,9 @@ function Modal(props) {
           <TextField
             type="number"
             value={instructionsFilter}
-            onChange={(e) =>
-              setInstructionsFilter(Math.max(1, parseInt(e.target.value)))
-            }
+            onChange={handleInstructionChange}
           />
+
           <br />
           <Button
             color="secondary"
@@ -111,7 +115,7 @@ function Modal(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Modal
+export default Modal;
