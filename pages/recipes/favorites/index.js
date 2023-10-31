@@ -23,13 +23,10 @@ const FavoriteRecipesPage = () => {
         fetchFavoriteRecipes();
     }, []);
 
-    console.log(favoriteRecipes , 'favorite')
 
     if (isLoading && !favoriteRecipes) {
         return <CardSkeleton/>;
     }
-
-    console.log('Fetching favorite recipes',favoriteRecipes)
 
     return (
         <div className="container mx-auto p-4">
