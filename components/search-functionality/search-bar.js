@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import Modal from "./Modal";
-import debounce from "lodash/debounce"; 
+import { debounce } from "lodash";
 
 const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
   const [open, setOpen] = useState(false);
@@ -17,14 +17,17 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
     instructions: null,
   });
 
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleApplyFilters = async (filters) => {
     const nonEmptyFilters = {};
     for (const key in filters) {
-      if (filters[key] !== null && filters[key] !== "" && filters[key].length > 0) {
+      if (
+        filters[key] !== null &&
+        filters[key] !== "" &&
+        filters[key].length > 0
+      ) {
         nonEmptyFilters[key] = filters[key];
       }
     }
@@ -43,12 +46,9 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
     setAppliedFilters(updatedFilters);
   };
 
-  const handleSortChange = (event) => {
-    
-  };
+  const handleSortChange = (event) => {};
 
   useEffect(() => {
-    
     const debouncedApplyFilters = debounce((title) => {
       applyFilters({ title });
     }, 500);

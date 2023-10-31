@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 function Modal(props) {
-  const { handleClose, applyFilters, searchTerm, updateSearchTerm } = props;
+  const { handleClose, applyFilters} = props;
   const [categories, setCategories] = useState("");
   const [tags, setTags] = useState("");
   const [instructionsFilter, setInstructionsFilter] = useState(4);
