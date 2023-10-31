@@ -31,13 +31,16 @@ const FavoriteRecipesPage = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipes?.length})</h1>
-            {favoriteRecipes?.length > 0 ? (
+            {isLoading ? (
+                <CardSkeleton />
+            ) : favoriteRecipes?.length > 0 ? (
                 <RecipeList visibleRecipes={favoriteRecipes} />
             ) : (
                 <p className="text-gray-600 text-3xl font-bold">No favorite recipes found.</p>
             )}
         </div>
     );
+    
 };
 
 export default FavoriteRecipesPage;
