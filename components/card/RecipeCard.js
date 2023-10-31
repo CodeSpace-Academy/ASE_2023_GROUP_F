@@ -68,13 +68,26 @@ const RecipeCard = (props) => {
 	const isButtonVisible = images.length > 1;
 
 	return (
-		<div className="rounded overflow-hidden shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-110 mx-8 my-8">
+		<div className=" bg-slate-200  rounded overflow-hidden shadow-md relative ">
 			<div className="mx-8 mt-6 relative ">
 				<img
-					className="w-full"
+					className="w-full h-32 sm:h-48 object"
 					src={images[currentImage]}
 					alt={`Recipe image ${currentImage + 1}`}
+
 				/>
+				
+				<div className=" bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0 ml-2 mt-2">
+				<div className="flex justify-center items-center">
+					<div
+						style={{ cursor: 'pointer' }}
+						onClick={toggleFavorite}
+					>
+						{isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+					</div>
+				</div>
+					
+				</div>
 
 				{isButtonVisible && (
 					<div className="absolute inset-0 flex items-center justify-between p-4">
@@ -93,6 +106,7 @@ const RecipeCard = (props) => {
 
 					</div>
 				)}
+
 
 				<div className="absolute bottom-4 right-0 left-0">
 					<div className="flex items-center justify-center gap-2"></div>
@@ -123,14 +137,7 @@ const RecipeCard = (props) => {
 				</div>
 			</div>
 
-			<div className="flex justify-center items-center">
-				<div
-					style={{ cursor: 'pointer' }}
-					onClick={toggleFavorite}
-				>
-					{isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
-				</div>
-			</div>
+
 
 			<div className="flex justify-center items-center py-3">
 				<button className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">

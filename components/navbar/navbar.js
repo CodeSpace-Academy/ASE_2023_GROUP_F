@@ -4,12 +4,24 @@ function NavBar() {
 	return (
 		<div className="font-serif bg-gray-200 text-black shadow-xl rounded-md my-6">
 			<div className="container mx-auto flex justify-between items-center p-4">
+
+
 				<Link
 					href="/"
-					className="text-4xl font-bold uppercase hover:text-red-700 flex items-center"
+					className="text-4xl font-bold  hover:text-red-700 flex items-center"
 				>
-					Recipe App
+
+					<div>
+					
+						<img src="images/recipe.png" alt="recipe" className=" sm:h-16 sm:w-40 md:h-12 md:w-32 lg:h-20 lg:w-60" />
+
+					</div>
+
 				</Link>
+
+
+
+
 				<ul className="flex space-x-6">
 					<li className="flex items-center">
 						<Link href="/" className="hover:text-red-700">
@@ -68,6 +80,10 @@ function NavBar() {
 						</Link>
 					</li>
 				</ul>
+				<div className="flex md:justify-end">
+					<Link href="#" className="btn text-primary border-primary md:border-2">Log In</Link>
+					<Link href="#" className="btn text-primary ml-2  border-primary md:border-2" >Sign Up</Link>
+				</div>
 			</div>
 		</div>
 	);
