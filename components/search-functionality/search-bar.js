@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { Chip, Button, InputLabel, FormControl, Select } from '@mui/material'
 import { debounce } from 'lodash'
 import Modal from './Modal'
+import {filterContext, FilterProvider} from './filterContext';
 
 const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
   const [open, setOpen] = useState(false)
@@ -14,6 +15,11 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
     ingredients: [],
     instructions: null,
   })
+
+  ////////////////////////////////////////////////////////
+  const { filters, setFilters } = useContext(filterContext);
+  console.log("filters from useContext",filters)
+
   // const [sortBy, setSortBy] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
@@ -70,19 +76,20 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
 
   const handleSortChange = (event) => {}
 
-  useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ title })
-    }, 500)
+  // useEffect(() => {
+  //   const debouncedApplyFilters = debounce((title) => {
+  //     applyFilters({ title })
+  //   }, 500)
 
-    debouncedApplyFilters(searchTerm)
+  //   debouncedApplyFilters(searchTerm)
 
-    return () => {
-      debouncedApplyFilters.cancel()
-    }
-  }, [searchTerm])
+  //   return () => {
+  //     debouncedApplyFilters.cancel()
+  //   }
+  // }, [searchTerm])
 
   return (
+    <FilterProvider>
     <div>
       <label htmlFor="search" />
       <input
@@ -126,9 +133,9 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
         <Modal
           handleClose={handleClose}
           applyFilters={handleApplyFilters}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          instructions={appliedFilters.instructions}
+          // searchTerm={searchTerm}
+          // setSearchTerm={setSearchTerm}
+          // instructions={appliedFilters.instructions}
         />
       )}
 
@@ -176,6 +183,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
         onClick={handleResetFilters}
       />
     </div>
+    </FilterProvider>
   )
 }
 
