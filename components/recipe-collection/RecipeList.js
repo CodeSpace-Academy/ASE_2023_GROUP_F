@@ -35,7 +35,7 @@ const RecipeList = ({ visibleRecipes, count, appliedFilters , setRecipes }) => {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
-        {visibleRecipes.map((recipe) => (
+        {Array.isArray(visibleRecipes) && visibleRecipes.map((recipe) => (
           <RecipeCard
             key={recipe._id}
             title={recipe.title}
