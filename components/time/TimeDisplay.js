@@ -23,7 +23,7 @@ const TimeDisplay = ({ recipe }) => {
   const totalCookingTime = recipe.prep + recipe.cook;
 
   return (
-    <div className="time-information ">
+    <div className="time-information">
       <span className="flex items-center">
         <PrepIcon fill="#000000" width="40" height="50" />
         <span className="ml-2"> <strong>Prep Time</strong> <br/>{formattedPrepTime}</span>
