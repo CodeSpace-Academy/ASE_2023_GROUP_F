@@ -1,14 +1,16 @@
 import Link from "next/link";
+import LogoIcon from "../icons/logoIcon";
 
 function NavBar() {
   return (
-    <div className="font-serif bg-gray-200 text-black shadow-xl rounded-md my-6 mx-0 sticky top-0 z-20">
+    <div className=" bg-gray-200 text-black shadow-xl rounded-md my-6 mx-0 sticky top-0 z-20">
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link
           href="/"
-          className="text-4xl font-bold uppercase hover:text-red-700 flex items-center"
+          className="text-4xl font-bold hover:text-blue-950 flex items-center"
         >
-          Recipe App
+          <LogoIcon fill="#000000" width="70" height="70" />
+          <span>Foodie'sDelight</span>
         </Link>
         <ul className="flex space-x-6">
           <li className="flex items-center">
