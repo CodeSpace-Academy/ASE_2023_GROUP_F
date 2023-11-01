@@ -3,7 +3,7 @@ const Button = (props) => {
 	return (
 		<div className="flex justify-center items-center mt-4">
 			<button
-				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded sm:w-32 md:w-40 lg:w-48 xl:w-56"
+				className="bg-slate-300 hover:bg-gray-600 hover:text-white border font-bold py-2 px-4 rounded-full shadow sm:w-32 md:w-40 lg:w-48 xl:w-56"
 				onClick={onClick}
 			>
 				Show More Recipes ({remainingRecipes})

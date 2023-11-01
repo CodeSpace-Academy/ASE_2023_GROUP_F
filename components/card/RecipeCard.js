@@ -68,7 +68,7 @@ const RecipeCard = (props) => {
   const isButtonVisible = images.length > 1;
 
   return (
-  <div className="bg-slate-200 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-110 ">
+  <div className="bg-slate-200 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105 ">
     <div className="relative mx-8 mt-6 rounded-lg">
       <div className=" h-56 overflow-hidden">
         <Image
@@ -97,7 +97,7 @@ const RecipeCard = (props) => {
         </div>
       )}
 
-      <div className="bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0 ml-2 mt-2">
+      <div className="bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0  mr-2 mt-2">
         <div className="flex items-center justify-center gap-2">
          
           <div style={{ cursor: "pointer" }} onClick={toggleFavorite}>
@@ -108,9 +108,9 @@ const RecipeCard = (props) => {
     </div>
 
     <div className="inset-0 transform">
-      <div className="px-6 py-4 rounded-lg mx-8 hover:text-black hover:bg-gray-200">
+      <div className="px-6 py-4 rounded-lg mx-8 hover:text-black hover:bg-slate-300">
         <div className="flex flex-col justify-between">
-          <div className="font-semibold font-serif text-lg flex justify-center items-center p-4 text-blue-950 shadow-md mb-7 rounded-2xl">
+          <div className="font-semibold font-serif text-lg flex justify-center items-center p-4  shadow-sm mb-7 rounded-xl">
             <strong>{title}</strong>
           </div>
           <div className="flex items-center gap-2 p-2">
@@ -132,7 +132,7 @@ const RecipeCard = (props) => {
     </div>
 
     <div className="flex justify-center items-center py-3">
-      <button className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+      <button className=" hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
         <Link href={`/recipes/${recipe._id}`}>View Recipe</Link>
       </button>
     </div>
