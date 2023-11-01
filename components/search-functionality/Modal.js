@@ -1,54 +1,64 @@
-import React, { useState, useEffect } from "react";
-import classes from "./modal.module.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react'
+import classes from './modal.module.css'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
 function Modal(props) {
-  const { handleClose, applyFilters} = props;
-  const [categories, setCategories] = useState("");
-  const [tags, setTags] = useState("");
-  const [instructionsFilter, setInstructionsFilter] = useState(4);
-  const [ingredients, setIngredients] = useState("");
+  const { handleClose, applyFilters, searchTerm } = props
+  const [categories, setCategories] = useState('')
+  const [tags, setTags] = useState('')
+  const [instructionsFilter, setInstructionsFilter] = useState(null)
+  const [ingredients, setIngredients] = useState('')
 
   const applyFiltersAndCloseModal = async () => {
     const appliedFilters = {
-      category: categories,
+      category: Array.isArray(categories)
+        ? categories
+        : categories
+        ? categories.split(',').map((categories) => categories.trim())
+        : [],
       tags: Array.isArray(tags)
         ? tags
         : tags
-        ? tags.split(",").map((tag) => tag.trim())
+        ? tags.split(',').map((tag) => tag.trim())
         : [],
-      ingredients: ingredients,
-      instructions: instructionsFilter,
+      ingredients: Array.isArray(ingredients)
+        ? ingredients
+        : ingredients
+        ? ingredients.split(',').map((ingredient) => ingredient.trim())
+        : [],
+      instructions:
+        instructionsFilter !== null ? instructionsFilter : instructionsFilter,
+      title: searchTerm,
       isFavorite: true,
-    };
+    }
 
-    await applyFilters(appliedFilters);
-    handleClose();
-  };
+    await applyFilters(appliedFilters)
+    handleClose()
+  }
 
   const handleIngredientsChange = (event) => {
-    setIngredients(event.target.value);
-  };
+    setIngredients(event.target.value)
+  }
 
   const handleCategoriesChange = (event) => {
-    setCategories(event.target.value);
-  };
+    setCategories(event.target.value)
+  }
 
   const handleTagsChange = (event) => {
-    setTags(event.target.value);
-  };
+    setTags(event.target.value)
+  }
 
   const handleInstructionChange = (event) => {
-    setInstructionsFilter(Math.max(1, parseInt(event.target.value)));
-  };
+    setInstructionsFilter(Math.max(1, parseInt(event.target.value)))
+  }
 
   const clearAllFilters = () => {
-    setCategories("");
-    setTags("");
-    setIngredients("");
-    setInstructionsFilter(4);
-  };
+    setCategories('')
+    setTags('')
+    setIngredients('')
+    setInstructionsFilter(null)
+  }
 
   return (
     <div className={classes.modalBackdrop}>
@@ -115,7 +125,7 @@ function Modal(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Modal;
+export default Modal
