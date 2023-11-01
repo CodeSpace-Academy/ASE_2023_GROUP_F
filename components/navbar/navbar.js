@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LogoIcon from "../icons/logoIcon";
+import LogoIcon from "../icons/LogoIcon";
 
 function NavBar() {
   return (

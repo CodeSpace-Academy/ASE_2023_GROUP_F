@@ -71,7 +71,7 @@ function Modal(props) {
           <h2 className="mb-2 mr-5 font-bold">Filter</h2>
           <div>
             <TextField
-              className="mb-2 font-bold"
+              className="mb-2 "
               id="outlined-basic"
               label="Categories"
               variant="outlined"
@@ -80,7 +80,7 @@ function Modal(props) {
             />
             <br />
             <TextField
-              className="mb-2 font-bold"
+              className="mb-2 "
               id="outlined-basic"
               label="Tags"
               variant="outlined"
