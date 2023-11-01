@@ -32,6 +32,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
   const handleClose = () => setOpen(false)
 
   const handleApplyFilters = async (filters) => {
+    console.log('Applied filters',filters)
     const nonEmptyFilters = {}
     for (const key in filters) {
       if (
@@ -76,20 +77,20 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
 
   const handleSortChange = (event) => {}
 
-  // useEffect(() => {
-  //   const debouncedApplyFilters = debounce((title) => {
-  //     applyFilters({ title })
-  //   }, 500)
+  useEffect(() => {
+    const debouncedApplyFilters = debounce((title) => {
+      applyFilters({ title })
+    }, 500)
 
-  //   debouncedApplyFilters(searchTerm)
+    debouncedApplyFilters(searchTerm)
 
-  //   return () => {
-  //     debouncedApplyFilters.cancel()
-  //   }
-  // }, [searchTerm])
+    return () => {
+      debouncedApplyFilters.cancel()
+    }
+  }, [searchTerm])
 
   return (
-    <FilterProvider>
+    
     <div>
       <label htmlFor="search" />
       <input
@@ -133,9 +134,9 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
         <Modal
           handleClose={handleClose}
           applyFilters={handleApplyFilters}
-          // searchTerm={searchTerm}
-          // setSearchTerm={setSearchTerm}
-          // instructions={appliedFilters.instructions}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          instructions={appliedFilters.instructions}
         />
       )}
 
@@ -183,7 +184,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
         onClick={handleResetFilters}
       />
     </div>
-    </FilterProvider>
+    
   )
 }
 

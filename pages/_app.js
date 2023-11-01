@@ -5,10 +5,12 @@ import { FilterProvider } from '../components/search-functionality/filterContext
 export default function App({ Component, pageProps }) {
 
   return (
+    <Layout>
     <FilterProvider>
-      <Layout>
+      
         <Component {...pageProps} />
-      </Layout>
+      
     </FilterProvider>
+    </Layout>
   )
 }

@@ -78,7 +78,7 @@ function Modal(props) {
   };
 
   return (
-    <FilterProvider>
+    
       <div className={classes.modalBackdrop}>
         <div className={classes.modalContent}>
           <span className={classes.closeButton} onClick={handleClose}>
@@ -92,6 +92,7 @@ function Modal(props) {
                 id="outlined-basic"
                 label="Categories"
                 variant="outlined"
+                name="categories"
                 value={filters.categories}
                 onChange={handleChange}
               />
@@ -100,6 +101,7 @@ function Modal(props) {
                 id="outlined-basic"
                 label="Tags"
                 variant="outlined"
+                name="tags"
                 value={filters.tags}
                 onChange={handleChange}
               />
@@ -108,6 +110,7 @@ function Modal(props) {
                 id="outlined-basic"
                 label="Ingredients"
                 variant="outlined"
+                name="ingredients"
                 value={filters.ingredients}
                 onChange={handleChange}
               />
@@ -116,6 +119,7 @@ function Modal(props) {
             <h4>Number of Instructions:</h4>
             <TextField
               type="number"
+              name="instructions"
               value={filters.instructions}
               onChange={handleChange}
             />
@@ -143,7 +147,7 @@ function Modal(props) {
           </div>
         </div>
       </div>
-    </FilterProvider>
+   
   );
 }
 
