@@ -35,23 +35,25 @@ function Home({ visibleRecipes, count }) {
 	);
 }
 
-export async function getStaticProps() {
-	try {
-		const { recipes, count } = await getRecipes(48);
-		return {
-			props: {
-				visibleRecipes: recipes,
-				count,
-			},
-			revalidate: 60,
-		};
-	} catch (error) {
-		return {
-			props: {
-				error: "Failed to fetch data",
-			},
-		};
-	}
+export async function getServerSideProps() {
+
+  console.log('getServerSideProps is running');
+  try {
+    const { recipes, count } = await getRecipes(filters);
+    return {
+      props: {
+        visibleRecipes: recipes,
+        count,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    return {
+      props: {
+        error: "Failed to fetch data",
+      },
+    };
+  }
 }
 
 export default Home;

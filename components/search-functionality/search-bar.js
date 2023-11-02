@@ -181,3 +181,4 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 };
 
 export default SearchBar;
+

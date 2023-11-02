@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import classes from "./modal.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { filterContext, FilterProvider } from "./filterContext";
+import { filterContext } from "./filterContext";
 
 function Modal(props) {
   const { handleClose, applyFilters, searchTerm } = props;
@@ -107,3 +107,4 @@ function Modal(props) {
 }
 
 export default Modal;
+

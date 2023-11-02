@@ -1,7 +1,11 @@
 import connectToDatabase from "../../database/database";
 
 
-export async function getRecipes(limit = 48) {
+export async function getRecipes(filters) {
+
+  console.log('filters console', filters)
+
+  const limit = 48
   try {
     const database = await connectToDatabase();
     const collection = database.collection("recipes");
