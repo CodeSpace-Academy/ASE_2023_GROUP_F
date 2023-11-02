@@ -193,4 +193,4 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 	);
 };
 
-export default SearchBar;
+export default SearchBar
