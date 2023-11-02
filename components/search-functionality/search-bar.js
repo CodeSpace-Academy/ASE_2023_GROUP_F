@@ -8,12 +8,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
   const [open, setOpen] = useState(false)
   const [noFiltersApplied, setNoFiltersApplied] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  })
+
   // const [sortBy, setSortBy] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
@@ -47,13 +42,17 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
 
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters }
-    updatedFilters[filterType] = updatedFilters[filterType].filter(
-      (item) => item !== filterValue
-    )
-    setSelectedFilters(updatedFilters)
-    setUpdateAppliedfilter(updatedFilters) // Update the state
 
-    // Call applyFilters with the updated filters
+    if (Array.isArray(updatedFilters[filterType])) {
+      updatedFilters[filterType] = updatedFilters[filterType].filter(
+        (item) => item !== filterValue
+      )
+    } else {
+      updatedFilters[filterType] = []
+    }
+
+    setSelectedFilters(updatedFilters)
+
     handleApplyFilters(updatedFilters)
   }
 
@@ -134,40 +133,59 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
 
       <div>
         <h2>Applied Filters:</h2>
-        {Array.isArray(selectedFilters.category) &&
-          selectedFilters.category.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete('category', filter)}
-            />
-          ))}
-
-        {selectedFilters.tags.map((filter, index) => (
-          <Chip
-            key={index}
-            label={filter}
-            onDelete={() => handleDelete('tags', filter)}
-          />
-        ))}
-        {Array.isArray(selectedFilters.ingredients) &&
-          selectedFilters.ingredients.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete('ingredients', filter)}
-            />
-          ))}
-        {selectedFilters.instructions !== null && (
-          <Chip
-            label={selectedFilters.instructions}
-            onDelete={() =>
-              handleDelete('instructions', selectedFilters.instructions)
-            }
-          />
+        {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
+          filterName !== 'instructions' &&
+          Array.isArray(filterValues) &&
+          filterValues.length > 0 ? (
+            <div
+              key={filterName}
+              style={{
+                display: 'inline-block',
+                marginRight: '1rem',
+                maxWidth: 500,
+              }}
+            >
+              <strong>{filterName}:</strong>
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {filterValues.map((value, index) => (
+                  <Chip
+                    key={index}
+                    label={value}
+                    onDelete={() => handleDelete(filterName, value)}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null
         )}
+
+        {selectedFilters.instructions !== null &&
+          selectedFilters.instructions !== '' && (
+            <div
+              style={{
+                display: 'inline-block',
+                marginRight: '1rem',
+                maxWidth: 500,
+              }}
+            >
+              <strong>Instructions:</strong>
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Chip
+                  label={selectedFilters.instructions}
+                  onDelete={() =>
+                    setSelectedFilters((prevFilters) => ({
+                      ...prevFilters,
+                      instructions: null,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          )}
       </div>
+
       {noFiltersApplied && <p>No filters have been applied.</p>}
+
       <Chip
         color="secondary"
         label="Clear All Filters"

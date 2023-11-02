@@ -57,7 +57,7 @@ function Modal(props) {
     setCategories('')
     setTags('')
     setIngredients('')
-    setInstructionsFilter(null)
+    setInstructionsFilter('')
   }
 
   return (
