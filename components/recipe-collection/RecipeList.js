@@ -1,47 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import RecipeCard from '../card/RecipeCard';
-import CardSkeleton from '../skeletonCard/skeleton';
-import { getViewRecipes } from '../../lib/view-recipes';
-import Button from '../UI/Button';
+import React, { useState } from "react";
+import RecipeCard from "../card/RecipeCard";
+import CardSkeleton from "../skeletonCard/skeleton";
+import Button from "../UI/Button";
+import { getViewRecipes } from "@/lib/view-recipes";
 
 const PAGE_SIZE = 48;
 const INITIAL_LOAD_SIZE = 48;
 
-const RecipeList = (props) => {
-  const { visibleRecipes : initialRecipes, count } = props;
-  const [visibleRecipes, setVisibleRecipes] = useState(initialRecipes);
-  const [loading, setLoading] = useState(false);
+const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes }) => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(count / PAGE_SIZE);
-
-  if( !visibleRecipes){
-
-    return <p>Loading...123</p>
-  }
-
   const remainingRecipes = count - visibleRecipes.length;
-
-
 
   const loadMoreRecipes = async () => {
     setLoading(true);
     try {
-      const startIndex = currentPage * PAGE_SIZE ; 
-      const result = await getViewRecipes(startIndex, PAGE_SIZE);
-      setVisibleRecipes([...visibleRecipes, ...result.recipes]);
+      const startIndex = currentPage * PAGE_SIZE;
+      const result = await getViewRecipes(
+        startIndex,
+        PAGE_SIZE,
+        appliedFilters
+      );
+      setRecipes([...visibleRecipes, ...result.recipes]);
       setCurrentPage(currentPage + 1);
     } catch (error) {
-      console.error('Error fetching more recipes:', error);
+      console.error("Error fetching more recipes:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  
+  if (loading) {
+    return <CardSkeleton />;
+  }
+
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 mt-5">
         {visibleRecipes.map((recipe) => (
           <RecipeCard
             key={recipe._id}
@@ -53,15 +49,17 @@ const RecipeList = (props) => {
         ))}
       </div>
       <div>
-        {loading && <div className="skeleton-container"><CardSkeleton/></div>} 
         {count > INITIAL_LOAD_SIZE && (
           <div className="mt-4 text-center">
-            <p className="text-gray-500">
+            <p className="text-gray-500 font-bold">
               Showing page {currentPage} of {totalPages}
             </p>
             {remainingRecipes > 0 && (
               <div className="mt-2">
-                <Button remainingRecipes={remainingRecipes} onClick={loadMoreRecipes} />
+                <Button
+                  remainingRecipes={remainingRecipes}
+                  onClick={loadMoreRecipes}
+                />
               </div>
             )}
           </div>
@@ -69,7 +67,6 @@ const RecipeList = (props) => {
       </div>
     </>
   );
-  
 };
 
 export default RecipeList;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RecipeList from '@/components/recipe-collection/RecipeList';
 import CardSkeleton from '@/components/skeletonCard/skeleton';
+import { getFavoriteRecipes } from '@/lib/view-recipes';
 
 const FavoriteRecipesPage = () => {
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -9,14 +10,9 @@ const FavoriteRecipesPage = () => {
     useEffect(() => {
         const fetchFavoriteRecipes = async () => {
             try {
-                const response = await fetch('/api/recipes');
-                if (response.ok) {
-                    const data = await response.json();
-                    const favoriteRecipes = data.recipes.filter(recipe => recipe.isFavorite);
-                    setFavoriteRecipes(favoriteRecipes);
-                } else {
-                    console.error('Failed to fetch favorite recipes');
-                }
+                const recipes = await getFavoriteRecipes();
+              
+                setFavoriteRecipes(recipes);
             } catch (error) {
                 console.error('Error fetching favorite recipes:', error);
             } finally {
@@ -27,20 +23,24 @@ const FavoriteRecipesPage = () => {
         fetchFavoriteRecipes();
     }, []);
 
-    if (isLoading) {
+
+    if (!favoriteRecipes) {
         return <CardSkeleton/>;
     }
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipes.length})</h1>
-            {favoriteRecipes.length > 0 ? (
+            <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipes?.length})</h1>
+            {isLoading ? (
+                <CardSkeleton />
+            ) : favoriteRecipes?.length > 0 ? (
                 <RecipeList visibleRecipes={favoriteRecipes} />
             ) : (
                 <p className="text-gray-600 text-3xl font-bold">No favorite recipes found.</p>
             )}
         </div>
     );
+    
 };
 
 export default FavoriteRecipesPage;
