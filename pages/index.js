@@ -10,25 +10,36 @@ const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
 	const { filters, setFilters, filteredRecipes, setFilteredRecipes } = useContext(filterContext);
+  const [NoResults , setNoResults] = useState(false);
 
 	useEffect(() => {
 		setFilteredRecipes(visibleRecipes);
-	}, []);
+	}, [visibleRecipes]);
 
 	const handleApplyFilters = async (filters, sort) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
+
+    if(filtering.recipes.length === 0 ){
+
+      setNoResults(true);
+    }
+   
 	};
 
 	return (
-		<div>
+		<div className="container mx-auto p-4">
 			<SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} />
-			<RecipeList
+			{NoResults ? <p className="text-red-500">No recipes for the applied filters</p> : (
+        <RecipeList
 				visibleRecipes={filteredRecipes}
 				count={count}
 				appliedFilters={filters}
 				setRecipes={setFilteredRecipes}
+        searchQuery={filters.title}
 			/>
+      )}
+			
 		</div>
 	);
 }

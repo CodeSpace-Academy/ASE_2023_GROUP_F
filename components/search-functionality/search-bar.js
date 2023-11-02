@@ -84,68 +84,69 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		};
 	}, [searchTerm]);
 
-	  return (
-    <div>
-      <div className="flex container items-center justify-between">
-        <Button
-          variant="outlined"
-          size="large"
-          onClick={handleOpen}
-          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
-        >
-          Filters
-        </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
-          <label htmlFor="search" />
-          <input
-            className="rounded text-2xl p-2"
-            type="text"
-            id="search"
-            placeholder="Search...."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+	
 
-          <FormControl
-            className="border-gray-800 hover:bg-slate-200"
-            sx={{ m: 1, minWidth: 120 }}
-          >
-            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-            <Select
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Grouping"
-             
-            >
-              <option aria-label="None" value="" />
-              <optgroup label="Prep Time">
-                <option value={1}>Prep ASC</option>
-                <option value={-1}>Prep DESC</option>
-              </optgroup>
-              <optgroup label="Cook Time">
-                <option value={1}>Cook ASC</option>
-                <option value={-1}>Cook DESC</option>
-              </optgroup>
-              <optgroup label="Date Created">
-                <option value={1}>Date ASC</option>
-                <option value={-1}>Date DESC</option>
-              </optgroup>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
+	return (
+		<div>
+			<div className="flex container items-center justify-between">
+				<Button
+					variant="outlined"
+					size="large"
+					onClick={handleOpen}
+					className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+				>
+					Filters
+				</Button>
+				<div className="flex mx-auto gap-80 items-center space-x-5">
+					<label htmlFor="search" />
+					<input
+						className="rounded text-2xl p-2"
+						type="text"
+						id="search"
+						placeholder="Search...."
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
 
-      {open && (
-        <Modal
-          handleClose={handleClose}
-          applyFilters={handleApplyFilters}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          instructions={appliedFilters.instructions}
-        />
-      )}
-<div>
+					<FormControl
+						className="border-gray-800 hover:bg-slate-200"
+						sx={{ m: 1, minWidth: 120 }}
+					>
+						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+						<Select
+							native
+							defaultValue=""
+							id="grouped-native-select"
+							label="Grouping"
+						>
+							<option aria-label="None" value="" />
+							<optgroup label="Prep Time">
+								<option value={1}>Prep ASC</option>
+								<option value={-1}>Prep DESC</option>
+							</optgroup>
+							<optgroup label="Cook Time">
+								<option value={1}>Cook ASC</option>
+								<option value={-1}>Cook DESC</option>
+							</optgroup>
+							<optgroup label="Date Created">
+								<option value={1}>Date ASC</option>
+								<option value={-1}>Date DESC</option>
+							</optgroup>
+						</Select>
+					</FormControl>
+				</div>
+			</div>
+
+			{open && (
+				<Modal
+					handleClose={handleClose}
+					applyFilters={handleApplyFilters}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					instructions={appliedFilters.instructions}
+				/>
+			)}
+			<div>
 				<h2>Applied Filters:</h2>
 				{Array.isArray(selectedFilters.category) &&
 					selectedFilters.category.map((filter, index) => (
@@ -181,15 +182,15 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 				)}
 			</div>
 			{noFiltersApplied && <p>No filters have been applied.</p>}
-      <Chip
-        color="secondary"
-        label="Clear All Filters"
-        size="small"
-        variant="outlined"
-        onClick={handleResetFilters}
-      />
-    </div>
-  );
+			<Chip
+				color="secondary"
+				label="Clear All Filters"
+				size="small"
+				variant="outlined"
+				onClick={handleResetFilters}
+			/>
+		</div>
+	);
 };
 
 export default SearchBar;
