@@ -8,37 +8,7 @@ function Modal(props) {
   const { handleClose, applyFilters, searchTerm } = props;
 
   const { filters, setFilters } = useContext(filterContext);
-  // const [categories, setCategories] = useState('')
-  // const [tags, setTags] = useState('')
-  // const [instructionsFilter, setInstructionsFilter] = useState(null)
-  // const [ingredients, setIngredients] = useState('')
-
-  // const applyFiltersAndCloseModal = async () => {
-  //   const appliedFilters = {
-  //     category: Array.isArray(categories)
-  //       ? categories
-  //       : categories
-  //       ? categories.split(",").map((categories) => categories.trim())
-  //       : [],
-  //     tags: Array.isArray(tags)
-  //       ? tags
-  //       : tags
-  //       ? tags.split(",").map((tag) => tag.trim())
-  //       : [],
-  //     ingredients: Array.isArray(ingredients)
-  //       ? ingredients
-  //       : ingredients
-  //       ? ingredients.split(",").map((ingredient) => ingredient.trim())
-  //       : [],
-  //     instructions:
-  //       instructions !== null ? instructions : instructions,
-  //     title: searchTerm,
-  //     isFavorite: true,
-  //   };
-
-  //   await applyFilters(appliedFilters);
-  //   handleClose();
-  // };
+  
   const applyFiltersAndCloseModal = async () => {
     await applyFilters(filters);
     handleClose();
@@ -52,21 +22,6 @@ function Modal(props) {
     }));
   };
 
-  // const handleIngredientsChange = (event) => {
-  //   setIngredients(event.target.value)
-  // }
-
-  // const handleCategoriesChange = (event) => {
-  //   setCategories(event.target.value)
-  // }
-
-  // const handleTagsChange = (event) => {
-  //   setTags(event.target.value)
-  // }
-
-  // const handleInstructionChange = (event) => {
-  //   setInstructionsFilter(Math.max(1, parseInt(event.target.value)))
-  // }
 
   const clearAllFilters = () => {
     setFilters({

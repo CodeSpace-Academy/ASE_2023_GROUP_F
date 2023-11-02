@@ -4,6 +4,7 @@ export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
 	const limit = parseInt(req.query.limit) || 200;
 
+
 	if (req.method === "GET") {
 		try {
 			const database = await connectToDatabase();
@@ -38,7 +39,7 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.instructions) {
-				queryFilter[`instructions.${filter.instructions}`] = { $exists: true };
+				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
 			}
 
 			const documents = await collection
