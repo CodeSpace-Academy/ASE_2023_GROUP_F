@@ -1,88 +1,90 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
+import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
-  const [open, setOpen] = useState(false);
-  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
-  // const [sortBy, setSortBy] = useState("");
-  const [selectedFilters, setSelectedFilters] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
+const SearchBar = ({ applyFilters, appliedFilters }) => {
+	const [open, setOpen] = useState(false);
+	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+		category: [],
+		tags: [],
+		ingredients: [],
+		instructions: null,
+	});
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+	const { filters, setFilters } = useContext(filterContext);
 
-  const handleApplyFilters = async (filters) => {
-    const nonEmptyFilters = {};
-    for (const key in filters) {
-      if (
-        filters[key] !== null &&
-        filters[key] !== "" &&
-        filters[key].length > 0
-      ) {
-        nonEmptyFilters[key] = filters[key];
-      }
-    }
+	console.log("filters from useContext", filters);
 
-    if (Object.keys(nonEmptyFilters).length > 0) {
-      await applyFilters(nonEmptyFilters);
-      setNoFiltersApplied(false); // Filters are applied
-    }
-    setAppliedFilters(filters);
-    setSelectedFilters(filters);
-  };
+	const [selectedFilters, setSelectedFilters] = useState({
+		category: [],
+		tags: [],
+		ingredients: [],
+		instructions: null,
+	});
 
-  const handleDelete = (filterType, filterValue) => {
-    const updatedFilters = { ...selectedFilters };
-    updatedFilters[filterType] = updatedFilters[filterType].filter(
-      (item) => item !== filterValue
-    );
-    setSelectedFilters(updatedFilters);
-    setUpdateAppliedfilter(updatedFilters); // Update the state
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
-    // Call applyFilters with the updated filters
-    handleApplyFilters(updatedFilters);
-  };
+	const handleApplyFilters = async (filters) => {
+		console.log("Applied filters", filters);
+		const nonEmptyFilters = {};
+		for (const key in filters) {
+			if (
+				filters[key] !== null &&
+				filters[key] !== "" &&
+				filters[key].length > 0
+			) {
+				nonEmptyFilters[key] = filters[key];
+			}
+		}
 
-  const handleResetFilters = () => {
-    setSelectedFilters({
-      category: [],
-      tags: [],
-      ingredients: [],
-      instructions: null,
-    });
-    applyFilters({});
-    setNoFiltersApplied(true); // Filters are cleared
-  };
+		if (Object.keys(nonEmptyFilters).length > 0) {
+			await applyFilters(nonEmptyFilters);
+			setNoFiltersApplied(false);
+		}
+		setSelectedFilters(filters);
+	};
 
-  const handleSortChange = (event) => {};
+	const handleDelete = (filterType, filterValue) => {
+		const updatedFilters = { ...selectedFilters };
+		updatedFilters[filterType] = updatedFilters[filterType].filter(
+			(item) => item !== filterValue,
+		);
+		setSelectedFilters(updatedFilters);
+		setUpdateAppliedfilter(updatedFilters);
 
-  useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ title });
-    }, 500);
+		handleApplyFilters(updatedFilters);
+	};
 
-    debouncedApplyFilters(searchTerm);
+	const handleResetFilters = () => {
+		setSelectedFilters({
+			category: [],
+			tags: [],
+			ingredients: [],
+			instructions: null,
+		});
+		applyFilters({});
+		setNoFiltersApplied(true);
+	};
 
-    return () => {
-      debouncedApplyFilters.cancel();
-    };
-  }, [searchTerm]);
+	useEffect(() => {
+		const debouncedApplyFilters = debounce((title) => {
+			applyFilters({ title });
+		}, 500);
 
-  return (
+		debouncedApplyFilters(searchTerm);
+
+		return () => {
+			debouncedApplyFilters.cancel();
+		};
+	}, [searchTerm]);
+
+	  return (
     <div>
       <div className="flex container items-center justify-between">
         <Button
@@ -114,7 +116,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
               defaultValue=""
               id="grouped-native-select"
               label="Grouping"
-              onChange={handleSortChange}
+             
             >
               <option aria-label="None" value="" />
               <optgroup label="Prep Time">
@@ -143,47 +145,42 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
           instructions={appliedFilters.instructions}
         />
       )}
-
-      <div>
-        <h2 className="font-bold">Applied Filters:</h2>
-        {Array.isArray(selectedFilters.category) &&
-          selectedFilters.category.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("category", filter)}
-            />
-          ))}
-
-        {selectedFilters.tags.map((filter, index) => (
-          <Chip
-            key={index}
-            label={filter}
-            onDelete={() => handleDelete("tags", filter)}
-          />
-        ))}
-        {Array.isArray(selectedFilters.ingredients) &&
-          selectedFilters.ingredients.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("ingredients", filter)}
-            />
-          ))}
-        {selectedFilters.instructions !== null && (
-          <Chip
-            label={selectedFilters.instructions}
-            onDelete={() =>
-              handleDelete("instructions", selectedFilters.instructions)
-            }
-          />
-        )}
-      </div>
-      {noFiltersApplied && (
-        <p className="font-light text-blue-950">
-          No filters have been applied.
-        </p>
-      )}
+<div>
+				<h2>Applied Filters:</h2>
+				{Array.isArray(selectedFilters.category) &&
+					selectedFilters.category.map((filter, index) => (
+						<Chip
+							key={index}
+							label={filter}
+							onDelete={() => handleDelete("category", filter)}
+						/>
+					))}
+				{Array.isArray(selectedFilters.tags) &&
+					selectedFilters.tags.map((filter, index) => (
+						<Chip
+							key={index}
+							label={filter}
+							onDelete={() => handleDelete("tags", filter)}
+						/>
+					))}
+				{Array.isArray(selectedFilters.ingredients) &&
+					selectedFilters.ingredients.map((filter, index) => (
+						<Chip
+							key={index}
+							label={filter}
+							onDelete={() => handleDelete("ingredients", filter)}
+						/>
+					))}
+				{selectedFilters.instructions !== null && (
+					<Chip
+						label={selectedFilters.instructions}
+						onDelete={() =>
+							handleDelete("instructions", selectedFilters.instructions)
+						}
+					/>
+				)}
+			</div>
+			{noFiltersApplied && <p>No filters have been applied.</p>}
       <Chip
         color="secondary"
         label="Clear All Filters"

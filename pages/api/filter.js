@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.instructions) {
-				queryFilter[`instructions.${filter.instructions}`] = { $exists: true };
+				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
 			}
 
 			const documents = await collection

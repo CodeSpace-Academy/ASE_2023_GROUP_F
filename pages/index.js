@@ -1,41 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
+import { filterContext } from "@/components/search-functionality/filterContext";
 
 const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
-  const [filteredRecipes, setFilteredRecipes] = useState(visibleRecipes);
-  const [filteredRecipesCount, setFilteredRecipesCount] = useState(count);
-  const [appliedFilters, setAppliedFilters] = useState({});
+	const { filters, setFilters, filteredRecipes, setFilteredRecipes } = useContext(filterContext);
 
-  const handleApplyFilters = async (filters) => {
-    const filtering = await getViewRecipes(0, PAGE_SIZE, filters);
-    setFilteredRecipes(filtering.recipes);
-    setFilteredRecipesCount(filtering.totalRecipes);
-  };
+	useEffect(() => {
+		setFilteredRecipes(visibleRecipes);
+	}, []);
 
-  return (
-    <div>
-      <SearchBar
-        applyFilters={handleApplyFilters}
-        appliedFilters={appliedFilters}
-        setAppliedFilters={setAppliedFilters}
-      />
-      <RecipeList
-        visibleRecipes={filteredRecipes}
-        count={filteredRecipesCount}
-        appliedFilters={appliedFilters}
-        setRecipes={setFilteredRecipes}
-      />
-    </div>
-  );
+	const handleApplyFilters = async (filters, sort) => {
+		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
+		setFilteredRecipes(filtering.recipes);
+	};
+
+	return (
+		<div>
+			<SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} />
+			<RecipeList
+				visibleRecipes={filteredRecipes}
+				count={count}
+				appliedFilters={filters}
+				setRecipes={setFilteredRecipes}
+			/>
+		</div>
+	);
 }
 
 export async function getStaticProps() {
+
   try {
     const { recipes, count } = await getRecipes(48);
     return {
