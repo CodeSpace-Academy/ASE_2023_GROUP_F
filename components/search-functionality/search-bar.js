@@ -1,61 +1,61 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import { Chip, Button, InputLabel, FormControl, Select } from '@mui/material'
-import { debounce } from 'lodash'
-import Modal from './Modal'
+import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
+import { debounce } from "lodash";
+import Modal from "./Modal";
 
 const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
-  const [open, setOpen] = useState(false)
-  const [noFiltersApplied, setNoFiltersApplied] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [open, setOpen] = useState(false);
+  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
     category: [],
     tags: [],
     ingredients: [],
     instructions: null,
-  })
+  });
   // const [sortBy, setSortBy] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
     tags: [],
     ingredients: [],
     instructions: null,
-  })
+  });
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleApplyFilters = async (filters) => {
-    const nonEmptyFilters = {}
+    const nonEmptyFilters = {};
     for (const key in filters) {
       if (
         filters[key] !== null &&
-        filters[key] !== '' &&
+        filters[key] !== "" &&
         filters[key].length > 0
       ) {
-        nonEmptyFilters[key] = filters[key]
+        nonEmptyFilters[key] = filters[key];
       }
     }
 
     if (Object.keys(nonEmptyFilters).length > 0) {
-      await applyFilters(nonEmptyFilters)
-      setNoFiltersApplied(false) // Filters are applied
+      await applyFilters(nonEmptyFilters);
+      setNoFiltersApplied(false); // Filters are applied
     }
-    setAppliedFilters(filters)
-    setSelectedFilters(filters)
-  }
+    setAppliedFilters(filters);
+    setSelectedFilters(filters);
+  };
 
   const handleDelete = (filterType, filterValue) => {
-    const updatedFilters = { ...selectedFilters }
+    const updatedFilters = { ...selectedFilters };
     updatedFilters[filterType] = updatedFilters[filterType].filter(
       (item) => item !== filterValue
-    )
-    setSelectedFilters(updatedFilters)
-    setUpdateAppliedfilter(updatedFilters) // Update the state
+    );
+    setSelectedFilters(updatedFilters);
+    setUpdateAppliedfilter(updatedFilters); // Update the state
 
     // Call applyFilters with the updated filters
-    handleApplyFilters(updatedFilters)
-  }
+    handleApplyFilters(updatedFilters);
+  };
 
   const handleResetFilters = () => {
     setSelectedFilters({
@@ -63,64 +63,76 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
       tags: [],
       ingredients: [],
       instructions: null,
-    })
-    applyFilters({})
-    setNoFiltersApplied(true) // Filters are cleared
-  }
+    });
+    applyFilters({});
+    setNoFiltersApplied(true); // Filters are cleared
+  };
 
-  const handleSortChange = (event) => {}
+  const handleSortChange = (event) => {};
 
   useEffect(() => {
     const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ title })
-    }, 500)
+      applyFilters({ title });
+    }, 500);
 
-    debouncedApplyFilters(searchTerm)
+    debouncedApplyFilters(searchTerm);
 
     return () => {
-      debouncedApplyFilters.cancel()
-    }
-  }, [searchTerm])
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm]);
 
   return (
     <div>
-      <label htmlFor="search" />
-      <input
-        type="text"
-        id="search"
-        placeholder="Search...."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-
-      <Button variant="outlined" size="large" onClick={handleOpen}>
-        Filters
-      </Button>
-
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-        <Select
-          native
-          defaultValue=""
-          id="grouped-native-select"
-          label="Grouping"
-          onChange={handleSortChange}
+      <div className="flex container items-center justify-between">
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={handleOpen}
+          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
         >
-          <option aria-label="None" value="" />
-          <optgroup label="Prep Time">
-            <option value={1}>Prep ASC</option>
-            <option value={-1}>Prep DESC</option>
-          </optgroup>
-          <optgroup label="Cook Time">
-            <option value={1}>Cook ASC</option>
-            <option value={-1}>Cook DESC</option>
-          </optgroup>
-          <optgroup label="Date Created">
-            <option value={1}>Date ASC</option>
-            <option value={-1}>Date DESC</option>
-          </optgroup>
-        </Select>
-      </FormControl>
+          Filters
+        </Button>
+        <div className="flex mx-auto gap-80 items-center space-x-5">
+          <label htmlFor="search" />
+          <input
+            className="rounded text-2xl p-2"
+            type="text"
+            id="search"
+            placeholder="Search...."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <FormControl
+            className="border-gray-800 hover:bg-slate-200"
+            sx={{ m: 1, minWidth: 120 }}
+          >
+            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+            <Select
+              native
+              defaultValue=""
+              id="grouped-native-select"
+              label="Grouping"
+              onChange={handleSortChange}
+            >
+              <option aria-label="None" value="" />
+              <optgroup label="Prep Time">
+                <option value={1}>Prep ASC</option>
+                <option value={-1}>Prep DESC</option>
+              </optgroup>
+              <optgroup label="Cook Time">
+                <option value={1}>Cook ASC</option>
+                <option value={-1}>Cook DESC</option>
+              </optgroup>
+              <optgroup label="Date Created">
+                <option value={1}>Date ASC</option>
+                <option value={-1}>Date DESC</option>
+              </optgroup>
+            </Select>
+          </FormControl>
+        </div>
+      </div>
 
       {open && (
         <Modal
@@ -133,13 +145,13 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
       )}
 
       <div>
-        <h2>Applied Filters:</h2>
+        <h2 className="font-bold">Applied Filters:</h2>
         {Array.isArray(selectedFilters.category) &&
           selectedFilters.category.map((filter, index) => (
             <Chip
               key={index}
               label={filter}
-              onDelete={() => handleDelete('category', filter)}
+              onDelete={() => handleDelete("category", filter)}
             />
           ))}
 
@@ -147,7 +159,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
           <Chip
             key={index}
             label={filter}
-            onDelete={() => handleDelete('tags', filter)}
+            onDelete={() => handleDelete("tags", filter)}
           />
         ))}
         {Array.isArray(selectedFilters.ingredients) &&
@@ -155,19 +167,23 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
             <Chip
               key={index}
               label={filter}
-              onDelete={() => handleDelete('ingredients', filter)}
+              onDelete={() => handleDelete("ingredients", filter)}
             />
           ))}
         {selectedFilters.instructions !== null && (
           <Chip
             label={selectedFilters.instructions}
             onDelete={() =>
-              handleDelete('instructions', selectedFilters.instructions)
+              handleDelete("instructions", selectedFilters.instructions)
             }
           />
         )}
       </div>
-      {noFiltersApplied && <p>No filters have been applied.</p>}
+      {noFiltersApplied && (
+        <p className="font-light text-blue-950">
+          No filters have been applied.
+        </p>
+      )}
       <Chip
         color="secondary"
         label="Clear All Filters"
@@ -176,7 +192,7 @@ const SearchBar = ({ applyFilters, setAppliedFilters, appliedFilters }) => {
         onClick={handleResetFilters}
       />
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;
