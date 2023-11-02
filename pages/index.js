@@ -4,7 +4,6 @@ import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
-import SearchInput from "../components/keaSearchInput/SearchInput";
 import { filterContext } from "../components/search-functionality/filterContext";
 
 const PAGE_SIZE = 48;
@@ -24,7 +23,6 @@ function Home({ visibleRecipes, count }) {
 	return (
 		<div>
 			<SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} />
-			<SearchInput />
 			<RecipeList
 				visibleRecipes={filteredRecipes}
 				count={count}
