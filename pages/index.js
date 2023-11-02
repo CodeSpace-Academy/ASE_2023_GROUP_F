@@ -35,11 +35,10 @@ function Home({ visibleRecipes, count }) {
 	);
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
-  console.log('getServerSideProps is running');
   try {
-    const { recipes, count } = await getRecipes(filters);
+    const { recipes, count } = await getRecipes(48);
     return {
       props: {
         visibleRecipes: recipes,
