@@ -4,10 +4,9 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, appliedFilters }) => {
+const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm }) => {
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [searchTerm, setSearchTerm] = useState("");
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
 		category: [],
 		tags: [],

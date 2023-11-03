@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext , useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
@@ -10,6 +10,7 @@ const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
 	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
 		setFilteredRecipes(visibleRecipes);
@@ -27,12 +28,16 @@ function Home({ visibleRecipes, count }) {
 				appliedFilters={filters}
 				sortOption={sortOption}
 				setSortOption={setSortOption}
+				searchTerm={searchTerm}
+				setSearchTerm={setSearchTerm}
 			/>
 			<RecipeList
 				visibleRecipes={filteredRecipes}
 				count={count}
 				appliedFilters={filters}
 				setRecipes={setFilteredRecipes}
+				searchTerm={searchTerm}
+				setSearchTerm={setSearchTerm}
 			/>
 		</div>
 	);
