@@ -2,7 +2,8 @@ import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
-	const sort = JSON.parse(req.query.sort);
+	const data = JSON.parse(req.query.sort);
+	const sort = data.sortOption
 	const limit = parseInt(req.query.limit) || 200;
 	console.log('handle sort',sort)
 

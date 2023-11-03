@@ -20,7 +20,6 @@ function Home({ visibleRecipes, count }) {
 		console.log("sortOption", sortOption)
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
-		setSortOption(sort)
 	};
 
 	return (

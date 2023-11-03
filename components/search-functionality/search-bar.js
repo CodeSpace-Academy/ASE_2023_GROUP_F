@@ -59,13 +59,6 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		handleApplyFilters(updatedFilters);
 	};
 
-	// const handleSort = async (e) => {
-	// 	console.log('label',e.target.name)
-	// 	console.log('value', e.target.value)
-	// 	setSortOption({[e.target.name]: e.target.value})
-	// 	await applyFilters(filters, sortOption)
-	// }
-
 	const handleSort = async (event) => {
 		console.log('label',event.target.name)
 	    console.log('value', event.target.value)
@@ -74,6 +67,7 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		  [event.target.name]: event.target.value,
 		}));
 		await applyFilters(filters, sortOption)
+		console.log(sortOption.sortOption,"dhgdgh")
 	}
 
 	const handleResetFilters = () => {

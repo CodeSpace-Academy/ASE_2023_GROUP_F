@@ -5,7 +5,7 @@ export const filterContext = createContext();
 export const FilterProvider = ({ children }) => {
   const [filters, setFilters] = useState({});
   const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const [sortOption, setSortOption] = useState({})
+  const [sortOption, setSortOption] = useState('')
 
   const contextValue = {
     filters,
