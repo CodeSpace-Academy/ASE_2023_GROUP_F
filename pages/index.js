@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
@@ -9,9 +9,15 @@ import { filterContext } from "@/components/search-functionality/filterContext";
 const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
-	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
-
-  useEffect(() => {
+	const {
+		filters,
+		filteredRecipes,
+		setFilteredRecipes,
+		sortOption,
+		setSortOption,
+	} = useContext(filterContext);
+	const [remainingRecipes, setRemainingRecipes] = useState(count);
+	useEffect(() => {
 		if (Object.keys(filters).length === 0) {
 			setFilteredRecipes(visibleRecipes);
 		} else {
@@ -22,6 +28,7 @@ function Home({ visibleRecipes, count }) {
 	const handleApplyFilters = async (filters, sort) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
+		setRemainingRecipes(filtering.totalRecipes);
 	};
 
 	return (
@@ -34,7 +41,7 @@ function Home({ visibleRecipes, count }) {
 			/>
 			<RecipeList
 				visibleRecipes={filteredRecipes}
-				count={count}
+				count={remainingRecipes}
 				appliedFilters={filters}
 				setRecipes={setFilteredRecipes}
 			/>
@@ -43,7 +50,6 @@ function Home({ visibleRecipes, count }) {
 }
 
 export async function getStaticProps() {
-
 	try {
 		const { recipes, count } = await getRecipes(48);
 		return {
