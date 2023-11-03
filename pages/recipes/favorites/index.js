@@ -29,7 +29,7 @@ const FavoriteRecipesPage = () => {
     }
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-0">
             <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipes?.length})</h1>
             {isLoading ? (
                 <CardSkeleton />

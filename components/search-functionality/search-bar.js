@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
@@ -35,9 +35,16 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		const nonEmptyFilters = {};
 		for (const key in filters) {
 			if (
+				key === "tags" &&
 				filters[key] !== null &&
 				filters[key] !== "" &&
 				filters[key].length > 0
+			) {
+				nonEmptyFilters[key] = filters[key];
+			} else if (
+				key !== "tags" &&
+				filters[key] !== null &&
+				filters[key] !== ""
 			) {
 				nonEmptyFilters[key] = filters[key];
 			}
@@ -49,6 +56,8 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		}
 		setSelectedFilters(filters);
 	};
+
+	console.log("Selected filters", selectedFilters);
 
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
@@ -83,8 +92,6 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 			debouncedApplyFilters.cancel();
 		};
 	}, [searchTerm]);
-
-	
 
 	return (
 		<div>
@@ -146,16 +153,14 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 					instructions={appliedFilters.instructions}
 				/>
 			)}
-			<div>
-				<h2>Applied Filters:</h2>
-				{Array.isArray(selectedFilters.category) &&
-					selectedFilters.category.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("category", filter)}
-						/>
-					))}
+			<div className="mt-4 flex flex-wrap gap-2">
+				{selectedFilters.category && (
+					<Chip
+						key={selectedFilters.category}
+						label={selectedFilters.category}
+						onDelete={() => handleDelete("category", selectedFilters.category)}
+					/>
+				)}
 				{Array.isArray(selectedFilters.tags) &&
 					selectedFilters.tags.map((filter, index) => (
 						<Chip
@@ -164,14 +169,15 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 							onDelete={() => handleDelete("tags", filter)}
 						/>
 					))}
-				{Array.isArray(selectedFilters.ingredients) &&
-					selectedFilters.ingredients.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("ingredients", filter)}
-						/>
-					))}
+				{selectedFilters.ingredients && (
+					<Chip
+						key={selectedFilters.ingredients}
+						label={selectedFilters.ingredients}
+						onDelete={() =>
+							handleDelete("ingredients", selectedFilters.ingredients)
+						}
+					/>
+				)}
 				{selectedFilters.instructions !== null && (
 					<Chip
 						label={selectedFilters.instructions}
@@ -181,7 +187,12 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 					/>
 				)}
 			</div>
-			{noFiltersApplied && <p>No filters have been applied.</p>}
+
+			{noFiltersApplied && (
+				<p className="text-center text-gray-500 text-lg mt-4">
+					No filters have been applied.
+				</p>
+			)}
 			<Chip
 				color="secondary"
 				label="Clear All Filters"
@@ -193,4 +204,4 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 	);
 };
 
-export default SearchBar
+export default SearchBar;

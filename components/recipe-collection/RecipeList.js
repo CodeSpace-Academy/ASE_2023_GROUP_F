@@ -23,7 +23,7 @@ const RecipeList = (props) => {
 				PAGE_SIZE,
 				appliedFilters,
 			);
-			setRecipes([...visibleRecipes, ...result.recipes]);
+			setRecipes([...result.recipes]);
 			setCurrentPage(currentPage + 1);
 		} catch (error) {
 			console.error("Error fetching more recipes:", error);
