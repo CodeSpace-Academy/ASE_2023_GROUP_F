@@ -7,13 +7,7 @@ import { filterContext } from "./filterContext";
 function Modal(props) {
   const { handleClose, applyFilters } = props;
 
-  const { filters, setFilters, sortOption } = useContext(filterContext);
-  
-  const applyFiltersAndCloseModal = async () => {
-    await applyFilters(filters, sortOption);
-    handleClose();
-  }
-
+  const { filters, setFilters } = useContext(filterContext);
 
   const handleChange = (event) => {
     setFilters((prevState) => ({
@@ -22,7 +16,6 @@ function Modal(props) {
     }));
 
   };
-
 
   const clearAllFilters = () => {
     setFilters({
@@ -100,7 +93,6 @@ function Modal(props) {
             color="secondary"
             size="small"
             variant="outlined"
-            onClick={applyFiltersAndCloseModal}
           >
             Apply
           </Button>
