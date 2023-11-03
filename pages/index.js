@@ -11,6 +11,7 @@ const PAGE_SIZE = 48;
 function Home({ visibleRecipes, count }) {
 	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [remainingRecipes, setRemainingRecipes] = useState(count);
 
 	useEffect(() => {
 		setFilteredRecipes(visibleRecipes);
@@ -19,6 +20,8 @@ function Home({ visibleRecipes, count }) {
 	const handleApplyFilters = async (filters, sort) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
+		setRemainingRecipes(filtering.totalRecipes);
+
 	};
 
 	return (
@@ -33,7 +36,7 @@ function Home({ visibleRecipes, count }) {
 			/>
 			<RecipeList
 				visibleRecipes={filteredRecipes}
-				count={count}
+				count={remainingRecipes}
 				appliedFilters={filters}
 				setRecipes={setFilteredRecipes}
 				searchTerm={searchTerm}
