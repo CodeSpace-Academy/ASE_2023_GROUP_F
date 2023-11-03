@@ -5,7 +5,6 @@ export default async function handler(req, res) {
 	const data = JSON.parse(req.query.sort);
 	const sort = data.sortOption
 	const limit = parseInt(req.query.limit) || 200;
-	console.log('handle sort',sort)
 
 	if (req.method === "GET") {
 		try {

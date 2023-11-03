@@ -16,8 +16,6 @@ function Home({ visibleRecipes, count }) {
 	}, []);
 
 	const handleApplyFilters = async (filters, sort) => {
-		console.log("sort", sort)
-		console.log("sortOption", sortOption)
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
 	};

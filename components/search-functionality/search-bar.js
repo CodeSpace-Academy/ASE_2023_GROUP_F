@@ -60,14 +60,11 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 	};
 
 	const handleSort = async (event) => {
-		console.log('label',event.target.name)
-	    console.log('value', event.target.value)
 		setSortOption((prevState) => ({
 		  ...prevState,
 		  [event.target.name]: event.target.value,
 		}));
 		await applyFilters(filters, sortOption)
-		console.log(sortOption.sortOption,"dhgdgh")
 	}
 
 	const handleResetFilters = () => {
