@@ -57,7 +57,7 @@ function Modal(props) {
     setCategories('')
     setTags('')
     setIngredients('')
-    setInstructionsFilter(null)
+    setInstructionsFilter('')
   }
 
   return (
@@ -68,9 +68,10 @@ function Modal(props) {
         </span>
 
         <div>
-          <h2>Filter</h2>
+          <h2 className="mb-2 mr-5 font-bold">Filter</h2>
           <div>
             <TextField
+              className="mb-2 "
               id="outlined-basic"
               label="Categories"
               variant="outlined"
@@ -79,6 +80,7 @@ function Modal(props) {
             />
             <br />
             <TextField
+              className="mb-2 "
               id="outlined-basic"
               label="Tags"
               variant="outlined"
@@ -87,6 +89,7 @@ function Modal(props) {
             />
             <br />
             <TextField
+              className="mb-2"
               id="outlined-basic"
               label="Ingredients"
               variant="outlined"
@@ -95,8 +98,9 @@ function Modal(props) {
             />
           </div>
 
-          <h4>Number of Instructions:</h4>
+          <h4 className="font-bold">Number of Instructions:</h4>
           <TextField
+            className="mb-2 mt-1"
             type="number"
             value={instructionsFilter}
             onChange={handleInstructionChange}
@@ -114,6 +118,7 @@ function Modal(props) {
           </Button>
           <br />
           <Button
+            className="mt-2"
             id="applyFilterSort"
             color="secondary"
             size="small"
