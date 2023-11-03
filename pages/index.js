@@ -11,8 +11,12 @@ const PAGE_SIZE = 48;
 function Home({ visibleRecipes, count }) {
 	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
 
-	useEffect(() => {
-		setFilteredRecipes(visibleRecipes);
+  useEffect(() => {
+		if (Object.keys(filters).length === 0) {
+			setFilteredRecipes(visibleRecipes);
+		} else {
+			handleApplyFilters(filters);
+		}
 	}, []);
 
 	const handleApplyFilters = async (filters, sort) => {
