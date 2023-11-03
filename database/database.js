@@ -12,6 +12,7 @@ if (!uri) {
 }
 
 const client = new MongoClient(uri, {
+  maxIdleTimeMS: 500,
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
