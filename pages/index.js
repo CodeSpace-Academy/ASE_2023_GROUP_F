@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import { useEffect, useContext , useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
@@ -9,26 +9,16 @@ import { filterContext } from "@/components/search-functionality/filterContext";
 const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
-	const {
-		filters,
-		filteredRecipes,
-		setFilteredRecipes,
-		sortOption,
-		setSortOption,
-	} = useContext(filterContext);
-	const [remainingRecipes, setRemainingRecipes] = useState(count);
+	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
+	const [searchTerm, setSearchTerm] = useState("");
+
 	useEffect(() => {
-		if (Object.keys(filters).length === 0) {
-			setFilteredRecipes(visibleRecipes);
-		} else {
-			handleApplyFilters(filters);
-		}
+		setFilteredRecipes(visibleRecipes);
 	}, []);
 
 	const handleApplyFilters = async (filters, sort) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
-		setRemainingRecipes(filtering.totalRecipes);
 	};
 
 	return (
@@ -38,18 +28,23 @@ function Home({ visibleRecipes, count }) {
 				appliedFilters={filters}
 				sortOption={sortOption}
 				setSortOption={setSortOption}
+				searchTerm={searchTerm}
+				setSearchTerm={setSearchTerm}
 			/>
 			<RecipeList
 				visibleRecipes={filteredRecipes}
-				count={remainingRecipes}
+				count={count}
 				appliedFilters={filters}
 				setRecipes={setFilteredRecipes}
+				searchTerm={searchTerm}
+				setSearchTerm={setSearchTerm}
 			/>
 		</div>
 	);
 }
 
 export async function getStaticProps() {
+
 	try {
 		const { recipes, count } = await getRecipes(48);
 		return {
