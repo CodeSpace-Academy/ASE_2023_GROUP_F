@@ -1,64 +1,30 @@
-import React, { useState } from 'react'
-import classes from './modal.module.css'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
+import React, { useState, useContext } from "react";
+import classes from "./modal.module.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { filterContext } from "./filterContext";
 
 function Modal(props) {
-  const { handleClose, applyFilters, searchTerm } = props
-  const [categories, setCategories] = useState('')
-  const [tags, setTags] = useState('')
-  const [instructionsFilter, setInstructionsFilter] = useState(null)
-  const [ingredients, setIngredients] = useState('')
+  const { handleClose, applyFilters } = props;
 
-  const applyFiltersAndCloseModal = async () => {
-    const appliedFilters = {
-      category: Array.isArray(categories)
-        ? categories
-        : categories
-        ? categories.split(',').map((categories) => categories.trim())
-        : [],
-      tags: Array.isArray(tags)
-        ? tags
-        : tags
-        ? tags.split(',').map((tag) => tag.trim())
-        : [],
-      ingredients: Array.isArray(ingredients)
-        ? ingredients
-        : ingredients
-        ? ingredients.split(',').map((ingredient) => ingredient.trim())
-        : [],
-      instructions:
-        instructionsFilter !== null ? instructionsFilter : instructionsFilter,
-      title: searchTerm,
-      isFavorite: true,
-    }
+  const { filters, setFilters } = useContext(filterContext);
 
-    await applyFilters(appliedFilters)
-    handleClose()
-  }
+  const handleChange = (event) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
 
-  const handleIngredientsChange = (event) => {
-    setIngredients(event.target.value)
-  }
-
-  const handleCategoriesChange = (event) => {
-    setCategories(event.target.value)
-  }
-
-  const handleTagsChange = (event) => {
-    setTags(event.target.value)
-  }
-
-  const handleInstructionChange = (event) => {
-    setInstructionsFilter(Math.max(1, parseInt(event.target.value)))
-  }
+  };
 
   const clearAllFilters = () => {
-    setCategories('')
-    setTags('')
-    setIngredients('')
-    setInstructionsFilter('')
-  }
+    setFilters({
+      categories:"",
+      tags:"",
+      instructions: null,
+      ingredients: "",
+    })
+  };
 
   return (
     <div className={classes.modalBackdrop}>
@@ -75,8 +41,9 @@ function Modal(props) {
               id="outlined-basic"
               label="Categories"
               variant="outlined"
-              value={categories}
-              onChange={handleCategoriesChange}
+              name="categories"
+              value={filters.categories}
+              onChange={handleChange}
             />
             <br />
             <TextField
@@ -84,8 +51,9 @@ function Modal(props) {
               id="outlined-basic"
               label="Tags"
               variant="outlined"
-              value={tags}
-              onChange={handleTagsChange}
+              name="tags"
+              value={filters.tags}
+              onChange={handleChange}
             />
             <br />
             <TextField
@@ -93,8 +61,9 @@ function Modal(props) {
               id="outlined-basic"
               label="Ingredients"
               variant="outlined"
-              value={ingredients}
-              onChange={handleIngredientsChange}
+              name="ingredients"
+              value={filters.ingredients}
+              onChange={handleChange}
             />
           </div>
 
@@ -102,8 +71,9 @@ function Modal(props) {
           <TextField
             className="mb-2 mt-1"
             type="number"
-            value={instructionsFilter}
-            onChange={handleInstructionChange}
+            name="instructions"
+            value={filters.instructions}
+            onChange={handleChange}
           />
 
           <br />
@@ -123,7 +93,6 @@ function Modal(props) {
             color="secondary"
             size="small"
             variant="outlined"
-            onClick={applyFiltersAndCloseModal}
           >
             Apply
           </Button>
@@ -133,4 +102,4 @@ function Modal(props) {
   )
 }
 
-export default Modal
+export default Modal;
