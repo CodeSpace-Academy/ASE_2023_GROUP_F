@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
@@ -9,20 +9,28 @@ import { filterContext } from "@/components/search-functionality/filterContext";
 const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
-	const { filters, setFilters, filteredRecipes, setFilteredRecipes } = useContext(filterContext);
+	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
 
 	useEffect(() => {
 		setFilteredRecipes(visibleRecipes);
 	}, []);
 
 	const handleApplyFilters = async (filters, sort) => {
+		console.log("sort", sort)
+		console.log("sortOption", sortOption)
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
+		setSortOption(sort)
 	};
 
 	return (
 		<div>
-			<SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} />
+			<SearchBar
+				applyFilters={handleApplyFilters}
+				appliedFilters={filters}
+				sortOption={sortOption}
+				setSortOption={setSortOption}
+			/>
 			<RecipeList
 				visibleRecipes={filteredRecipes}
 				count={count}
@@ -35,22 +43,22 @@ function Home({ visibleRecipes, count }) {
 
 export async function getStaticProps() {
 
-  try {
-    const { recipes, count } = await getRecipes(48);
-    return {
-      props: {
-        visibleRecipes: recipes,
-        count,
-      },
-      revalidate: 60,
-    };
-  } catch (error) {
-    return {
-      props: {
-        error: "Failed to fetch data",
-      },
-    };
-  }
+	try {
+		const { recipes, count } = await getRecipes(48);
+		return {
+			props: {
+				visibleRecipes: recipes,
+				count,
+			},
+			revalidate: 60,
+		};
+	} catch (error) {
+		return {
+			props: {
+				error: "Failed to fetch data",
+			},
+		};
+	}
 }
 
 export default Home;

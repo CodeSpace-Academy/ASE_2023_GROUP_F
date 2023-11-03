@@ -5,12 +5,12 @@ import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
 
 function Modal(props) {
-  const { handleClose, applyFilters, searchTerm } = props;
+  const { handleClose, applyFilters } = props;
 
-  const { filters, setFilters } = useContext(filterContext);
+  const { filters, setFilters, sortOption } = useContext(filterContext);
   
   const applyFiltersAndCloseModal = async () => {
-    await applyFilters(filters);
+    await applyFilters(filters, sortOption);
     handleClose();
   }
 
@@ -20,6 +20,7 @@ function Modal(props) {
       ...prevState,
       [event.target.name]: event.target.value,
     }));
+
   };
 
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
@@ -16,9 +15,7 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		instructions: null,
 	});
 
-	const { filters, setFilters } = useContext(filterContext);
-
-	console.log("filters from useContext", filters);
+	const { filters, sortOption, setSortOption } = useContext(filterContext);
 
 	const [selectedFilters, setSelectedFilters] = useState({
 		category: [],
@@ -31,7 +28,7 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 	const handleClose = () => setOpen(false);
 
 	const handleApplyFilters = async (filters) => {
-		console.log("Applied filters", filters);
+		
 		const nonEmptyFilters = {};
 		for (const key in filters) {
 			if (
@@ -44,11 +41,12 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		}
 
 		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters);
+			await applyFilters(nonEmptyFilters, sortOption);
 			setNoFiltersApplied(false);
 		}
 		setSelectedFilters(filters);
 	};
+
 
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
@@ -60,6 +58,23 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 
 		handleApplyFilters(updatedFilters);
 	};
+
+	// const handleSort = async (e) => {
+	// 	console.log('label',e.target.name)
+	// 	console.log('value', e.target.value)
+	// 	setSortOption({[e.target.name]: e.target.value})
+	// 	await applyFilters(filters, sortOption)
+	// }
+
+	const handleSort = async (event) => {
+		console.log('label',event.target.name)
+	    console.log('value', event.target.value)
+		setSortOption((prevState) => ({
+		  ...prevState,
+		  [event.target.name]: event.target.value,
+		}));
+		await applyFilters(filters, sortOption)
+	}
 
 	const handleResetFilters = () => {
 		setSelectedFilters({
@@ -84,68 +99,79 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		};
 	}, [searchTerm]);
 
-	  return (
-    <div>
-      <div className="flex container items-center justify-between">
-        <Button
-          variant="outlined"
-          size="large"
-          onClick={handleOpen}
-          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
-        >
-          Filters
-        </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
-          <label htmlFor="search" />
-          <input
-            className="rounded text-2xl p-2"
-            type="text"
-            id="search"
-            placeholder="Search...."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+	return (
+		<div>
+			<div className="flex container items-center justify-between">
+				<Button
+					variant="outlined"
+					size="large"
+					onClick={handleOpen}
+					className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+				>
+					Filters
+				</Button>
+				<div className="flex mx-auto gap-80 items-center space-x-5">
+					<label htmlFor="search" />
+					<input
+						className="rounded text-2xl p-2"
+						type="text"
+						id="search"
+						placeholder="Search...."
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
 
-          <FormControl
-            className="border-gray-800 hover:bg-slate-200"
-            sx={{ m: 1, minWidth: 120 }}
-          >
-            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-            <Select
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Grouping"
-             
-            >
-              <option aria-label="None" value="" />
-              <optgroup label="Prep Time">
-                <option value={1}>Prep ASC</option>
-                <option value={-1}>Prep DESC</option>
-              </optgroup>
-              <optgroup label="Cook Time">
-                <option value={1}>Cook ASC</option>
-                <option value={-1}>Cook DESC</option>
-              </optgroup>
-              <optgroup label="Date Created">
-                <option value={1}>Date ASC</option>
-                <option value={-1}>Date DESC</option>
-              </optgroup>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
+					<FormControl
+						className="border-gray-800 hover:bg-slate-200"
+						sx={{ m: 1, minWidth: 120 }}
+					>
+						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+						<Select
+							native
+							defaultValue=""
+							id="grouped-native-select"
+							label="Grouping"
+							name="sortOption"
+							value={sortOption}
+							onChange={handleSort}
 
-      {open && (
-        <Modal
-          handleClose={handleClose}
-          applyFilters={handleApplyFilters}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          instructions={appliedFilters.instructions}
-        />
-      )}
-<div>
+						>
+							<option aria-label="None" value="" />
+							<optgroup
+							name= 'prep' 
+							label="Prep Time">
+								<option value='prep ASC'>Prep ASC</option>
+								<option value='prep DESC'>Prep DESC</option>
+							</optgroup>
+							<optgroup
+							name= 'cook'
+							 label="Cook Time">
+								<option value='cook ASC'>Cook ASC</option>
+								<option value='cook DESC'>Cook DESC</option>
+							</optgroup>
+							<optgroup 
+							name= 'published'
+							label="Date Created">
+								<option value='date ASC'>Date ASC</option>
+								<option value='date DESC'>Date DESC</option>
+							</optgroup>
+						</Select>
+					</FormControl>
+				</div>
+			</div>
+
+			{open && (
+				<Modal
+					handleClose={handleClose}
+					applyFilters={handleApplyFilters}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					instructions={appliedFilters.instructions}
+					sortOption={sortOption}
+					setSortOption={setSortOption}
+				/>
+			)}
+			<div>
 				<h2>Applied Filters:</h2>
 				{Array.isArray(selectedFilters.category) &&
 					selectedFilters.category.map((filter, index) => (
@@ -181,15 +207,15 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 				)}
 			</div>
 			{noFiltersApplied && <p>No filters have been applied.</p>}
-      <Chip
-        color="secondary"
-        label="Clear All Filters"
-        size="small"
-        variant="outlined"
-        onClick={handleResetFilters}
-      />
-    </div>
-  );
+			<Chip
+				color="secondary"
+				label="Clear All Filters"
+				size="small"
+				variant="outlined"
+				onClick={handleResetFilters}
+			/>
+		</div>
+	);
 };
 
 export default SearchBar;
