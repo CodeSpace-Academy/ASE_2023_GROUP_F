@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm }) => {
+const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, sortOption, setSortOption }) => {
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
@@ -14,7 +14,7 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm }
 		instructions: null,
 	});
 
-	const { filters, sortOption, setSortOption } = useContext(filterContext);
+	const { filters } = useContext(filterContext);
 
 	const [selectedFilters, setSelectedFilters] = useState({
 		category: [],
@@ -59,10 +59,7 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm }
 	};
 
 	const handleSort = async (event) => {
-		setSortOption((prevState) => ({
-		  ...prevState,
-		  [event.target.name]: event.target.value,
-		}));
+		setSortOption (event.target.value)
 		await applyFilters(filters, sortOption)
 	}
 
@@ -126,7 +123,7 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm }
 							onChange={handleSort}
 
 						>
-							<option aria-label="None" value="" />
+							<option aria-label="None" value="default">Default</option>
 							<optgroup
 							name= 'prep' 
 							label="Prep Time">
