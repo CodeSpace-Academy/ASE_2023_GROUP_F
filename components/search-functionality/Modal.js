@@ -1,26 +1,35 @@
-import  { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./modal.module.css";
 import TextField from "@mui/material/TextField";
+import { Autocomplete } from "@mui/material";
 import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
+import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-
+	const [tags, setTags] = useState([]);
+	const [tagOptions, setTagOptions] = useState([]);
 	const { filters, setFilters } = useContext(filterContext);
 
+	useEffect(() => {
+		const fetchTags = async () => {
+
+			const result = await getCategories(); 
+			const tags = result.categories[0].categories;
+			setTags(tags);
+		};
+
+		fetchTags();
+	}, []);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const form = new FormData(event.target);
-		const data = Object.fromEntries(form);
-
-		if (data.tags) {
-			data.tags = data.tags.split(",").map((tag) => tag.trim());
-		} else {
-			data.tags = [];
-		}
-
+		const data = {
+			...filters,
+			tags: tagOptions, 
+		};
+        
 		await applyFilters(data);
 		handleClose();
 	};
@@ -32,6 +41,7 @@ function Modal(props) {
 			instructions: null,
 			ingredients: "",
 		});
+		setTagOptions([]); 
 	};
 
 	return (
@@ -45,7 +55,7 @@ function Modal(props) {
 					<h2 className="mb-2 mr-5 font-bold">Filter</h2>
 					<div>
 						<TextField
-							className="mb-2 "
+							className="mb-2"
 							id="outlined-basic"
 							label="Categories"
 							variant="outlined"
@@ -53,13 +63,18 @@ function Modal(props) {
 							value={filters.category}
 						/>
 						<br />
-						<TextField
-							className="mb-2 "
-							id="outlined-basic"
-							label="Tags"
-							variant="outlined"
-							name="tags"
-							value={filters.tags}
+						<Autocomplete
+							multiple
+							id="tags"
+							options={tags}
+							getOptionLabel={(option) => option}
+							value={tagOptions}
+							onChange={( newValue) => {
+								setTagOptions(newValue); 
+							}}
+							renderInput={(params) => (
+								<TextField {...params} label="Tags" variant="outlined" />
+							)}
 						/>
 						<br />
 						<TextField
@@ -85,7 +100,6 @@ function Modal(props) {
 						color="secondary"
 						size="small"
 						variant="outlined"
-						className={classes.clearButton}
 						onClick={clearAllFilters}
 					>
 						Clear All Filters
