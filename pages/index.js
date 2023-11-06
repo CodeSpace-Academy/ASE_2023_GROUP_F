@@ -38,15 +38,6 @@ function Home({ visibleRecipes, count }) {
 				appliedFilters={filters}
 				setRecipes={setFilteredRecipes}
 			/>
-			<HandleNetworkError errorType="description">
-				<Description/>
-			</HandleNetworkError>
-			<HandleNetworkError errorType="instructions">
-				<Instructions/>
-			</HandleNetworkError>
-			<HandleNetworkError errorType="tags">
-				<RecipeTags/>
-			</HandleNetworkError>
 		</div>
 	);
 }

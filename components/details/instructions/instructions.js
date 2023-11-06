@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, TextField } from "@mui/material";
+import HandleNetworkError from '../../network-error/NetworkError';
 
 function Instructions(props) {
   const { recipeId, instructions, userName } = props;
   const [editableIndex, setEditableIndex] = useState(-1);
   const [editedInstructions, setEditedInstructions] = useState([...instructions]);
   const [modifiedInstructions, setModifiedInstructions] = useState({});
+  const [networkError, setNetworkError] = useState(false); 
 
   const handleEdit = (index) => {
     setEditableIndex(index);
@@ -58,39 +60,53 @@ function Instructions(props) {
     setEditedInstructions(updatedInstructions);
   };
 
+  useEffect(() => {
+        const hasNetworkError = false;
+
+    if (hasNetworkError) {
+      setNetworkError(true);
+    }
+  }, []);
+
   return (
-    <div>
-      <div className="bg-green-500 h-96 overflow-y-auto">
-        {instructions.map((item, index) => (
-          <Card key={index} className="m-8 p-8">
-            {editableIndex === index ? (
-              <div>
-                <TextField
-                  multiline
-                  value={editedInstructions[index]}
-                  fullWidth
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                />
-                <div className="text-center m-5">
-                  <Button
-                    value="start_cooking"
-                    variant="outlined"
-                    onClick={handleSave}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div onClick={() => handleEdit(index)}>
-                {index + 1}: {editedInstructions[index]}
-              </div>
-            )}
-          </Card>
-        ))}
+      <div>
+        {networkError ? ( // Check for network error
+          <div>
+            <HandleNetworkError errorType="instructions" />
+          </div>
+        ) : (
+          <div className="bg-green-500 h-96 overflow-y-auto">
+            {instructions.map((item, index) => (
+              <Card key={index} className="m-8 p-8">
+                {editableIndex === index ? (
+                  <div>
+                    <TextField
+                      multiline
+                      value={editedInstructions[index]}
+                      fullWidth
+                      onChange={(e) => handleInputChange(index, e.target.value)}
+                    />
+                    <div className="text-center m-5">
+                      <Button
+                        value="start_cooking"
+                        variant="outlined"
+                        onClick={handleSave}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div onClick={() => handleEdit(index)}>
+                    {index + 1}: {editedInstructions[index]}
+                  </div>
+                )}
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
 }
 
 export default Instructions;
