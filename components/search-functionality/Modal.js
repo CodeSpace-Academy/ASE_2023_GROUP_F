@@ -1,136 +1,111 @@
-import React, { useState } from 'react'
-import classes from './modal.module.css'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
+import  { useContext } from "react";
+import classes from "./modal.module.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { filterContext } from "./filterContext";
 
 function Modal(props) {
-  const { handleClose, applyFilters, searchTerm } = props
-  const [categories, setCategories] = useState('')
-  const [tags, setTags] = useState('')
-  const [instructionsFilter, setInstructionsFilter] = useState(null)
-  const [ingredients, setIngredients] = useState('')
+	const { handleClose, applyFilters } = props;
 
-  const applyFiltersAndCloseModal = async () => {
-    const appliedFilters = {
-      category: Array.isArray(categories)
-        ? categories
-        : categories
-        ? categories.split(',').map((categories) => categories.trim())
-        : [],
-      tags: Array.isArray(tags)
-        ? tags
-        : tags
-        ? tags.split(',').map((tag) => tag.trim())
-        : [],
-      ingredients: Array.isArray(ingredients)
-        ? ingredients
-        : ingredients
-        ? ingredients.split(',').map((ingredient) => ingredient.trim())
-        : [],
-      instructions:
-        instructionsFilter !== null ? instructionsFilter : instructionsFilter,
-      title: searchTerm,
-      isFavorite: true,
-    }
+	const { filters, setFilters } = useContext(filterContext);
 
-    await applyFilters(appliedFilters)
-    handleClose()
-  }
 
-  const handleIngredientsChange = (event) => {
-    setIngredients(event.target.value)
-  }
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const form = new FormData(event.target);
+		const data = Object.fromEntries(form);
 
-  const handleCategoriesChange = (event) => {
-    setCategories(event.target.value)
-  }
+		if (data.tags) {
+			data.tags = data.tags.split(",").map((tag) => tag.trim());
+		} else {
+			data.tags = [];
+		}
 
-  const handleTagsChange = (event) => {
-    setTags(event.target.value)
-  }
+		await applyFilters(data);
+		handleClose();
+	};
 
-  const handleInstructionChange = (event) => {
-    setInstructionsFilter(Math.max(1, parseInt(event.target.value)))
-  }
+	const clearAllFilters = () => {
+		setFilters({
+			categories: "",
+			tags: "",
+			instructions: null,
+			ingredients: "",
+		});
+	};
 
-  const clearAllFilters = () => {
-    setCategories('')
-    setTags('')
-    setIngredients('')
-    setInstructionsFilter('')
-  }
+	return (
+		<div className={classes.modalBackdrop}>
+			<div className={classes.modalContent}>
+				<span className={classes.closeButton} onClick={handleClose}>
+					&times;
+				</span>
 
-  return (
-    <div className={classes.modalBackdrop}>
-      <div className={classes.modalContent}>
-        <span className={classes.closeButton} onClick={handleClose}>
-          &times;
-        </span>
+				<form onSubmit={handleSubmit} id="form">
+					<h2 className="mb-2 mr-5 font-bold">Filter</h2>
+					<div>
+						<TextField
+							className="mb-2 "
+							id="outlined-basic"
+							label="Categories"
+							variant="outlined"
+							name="category"
+							value={filters.category}
+						/>
+						<br />
+						<TextField
+							className="mb-2 "
+							id="outlined-basic"
+							label="Tags"
+							variant="outlined"
+							name="tags"
+							value={filters.tags}
+						/>
+						<br />
+						<TextField
+							className="mb-2"
+							id="outlined-basic"
+							label="Ingredients"
+							variant="outlined"
+							name="ingredients"
+							value={filters.ingredients}
+						/>
+					</div>
 
-        <div>
-          <h2 className="mb-2 mr-5 font-bold">Filter</h2>
-          <div>
-            <TextField
-              className="mb-2 "
-              id="outlined-basic"
-              label="Categories"
-              variant="outlined"
-              value={categories}
-              onChange={handleCategoriesChange}
-            />
-            <br />
-            <TextField
-              className="mb-2 "
-              id="outlined-basic"
-              label="Tags"
-              variant="outlined"
-              value={tags}
-              onChange={handleTagsChange}
-            />
-            <br />
-            <TextField
-              className="mb-2"
-              id="outlined-basic"
-              label="Ingredients"
-              variant="outlined"
-              value={ingredients}
-              onChange={handleIngredientsChange}
-            />
-          </div>
+					<h4 className="font-bold">Number of Instructions:</h4>
+					<TextField
+						className="mb-2 mt-1"
+						type="number"
+						name="instructions"
+						value={filters.instructions}
+					/>
 
-          <h4 className="font-bold">Number of Instructions:</h4>
-          <TextField
-            className="mb-2 mt-1"
-            type="number"
-            value={instructionsFilter}
-            onChange={handleInstructionChange}
-          />
-
-          <br />
-          <Button
-            color="secondary"
-            size="small"
-            variant="outlined"
-            className={classes.clearButton}
-            onClick={clearAllFilters}
-          >
-            Clear All Filters
-          </Button>
-          <br />
-          <Button
-            className="mt-2"
-            id="applyFilterSort"
-            color="secondary"
-            size="small"
-            variant="outlined"
-            onClick={applyFiltersAndCloseModal}
-          >
-            Apply
-          </Button>
-        </div>
-      </div>
-    </div>
-  )
+					<br />
+					<Button
+						color="secondary"
+						size="small"
+						variant="outlined"
+						className={classes.clearButton}
+						onClick={clearAllFilters}
+					>
+						Clear All Filters
+					</Button>
+					<br />
+					<Button
+						className="mt-2"
+						form="form"
+						id="applyFilterSort"
+						type="submit"
+						color="secondary"
+						size="small"
+						variant="outlined"
+					>
+						Apply
+					</Button>
+				</form>
+			</div>
+		</div>
+	);
 }
 
-export default Modal
+export default Modal;

@@ -2,6 +2,8 @@ import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
+	const data = JSON.parse(req.query.sort);
+	const sort = data.sortOption
 	const limit = parseInt(req.query.limit) || 200;
 
 	if (req.method === "GET") {
@@ -38,11 +40,32 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.instructions) {
-				queryFilter[`instructions.${filter.instructions}`] = { $exists: true };
+				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
+			}
+
+			const querySort = {};
+
+			if (sort === 'prep ASC') {
+				querySort.prep = 1;
+			} else if (sort === 'prep DESC') {
+				querySort.prep = -1;
+			}
+
+			if (sort === 'cook ASC') {
+				querySort.cook = 1;
+			} else if (sort === 'cook DESC') {
+				querySort.cook = -1;
+			}
+
+			if (sort === 'date ASC') {
+				querySort.published = 1;
+			} else if (sort === 'date DESC') {
+				querySort.published = -1;
 			}
 
 			const documents = await collection
 				.find(queryFilter)
+				.sort(querySort)
 				.limit(limit)
 				.toArray();
 
