@@ -14,8 +14,7 @@ function Modal(props) {
 
 	useEffect(() => {
 		const fetchTags = async () => {
-
-			const result = await getCategories(); 
+			const result = await getCategories();
 			const tags = result.categories[0].categories;
 			setTags(tags);
 		};
@@ -27,9 +26,9 @@ function Modal(props) {
 		event.preventDefault();
 		const data = {
 			...filters,
-			tags: tagOptions, 
+			tags: tagOptions,
 		};
-        
+
 		await applyFilters(data);
 		handleClose();
 	};
@@ -41,8 +40,10 @@ function Modal(props) {
 			instructions: null,
 			ingredients: "",
 		});
-		setTagOptions([]); 
+		setTagOptions([]);
 	};
+
+	console.log(tagOptions, "irygfyiewgfyi");
 
 	return (
 		<div className={classes.modalBackdrop}>
@@ -69,13 +70,14 @@ function Modal(props) {
 							options={tags}
 							getOptionLabel={(option) => option}
 							value={tagOptions}
-							onChange={( newValue) => {
+							onChange={(event, newValue) => {
 								setTagOptions(newValue); 
 							}}
 							renderInput={(params) => (
 								<TextField {...params} label="Tags" variant="outlined" />
 							)}
 						/>
+
 						<br />
 						<TextField
 							className="mb-2"
