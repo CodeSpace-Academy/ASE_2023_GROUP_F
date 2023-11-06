@@ -24,14 +24,19 @@ function Modal(props) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const data = {
-			...filters,
-			tags: tagOptions,
-		};
+		const form = new FormData(event.target);
+		const data = Object.fromEntries(form);
 
+		if (data.tags) {
+			data.tags = data.tags.split(",").map((tag) => tag.trim());
+		} else {
+			data.tags = [];
+		}
+	    data.tags = tagOptions
 		await applyFilters(data);
 		handleClose();
 	};
+	
 
 	const clearAllFilters = () => {
 		setFilters({
