@@ -19,9 +19,9 @@ function Description(props) {
       year: "numeric",
     };
     const formattedDate = currentDate.toLocaleDateString(undefined, options);
-  
+
     const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`;
-  
+
     try {
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: "PATCH",
@@ -30,8 +30,7 @@ function Description(props) {
         },
         body: JSON.stringify({ description: updatedDescription }),
       });
-      
-  
+
       if (response.ok) {
         console.log("Description updated successfully");
         setIsEditing(false);
@@ -42,12 +41,11 @@ function Description(props) {
       console.error("Error updating description:", error);
     }
   };
-  
 
   return (
     <div>
-      <div className="bg-green-500 h-96 overflow-y-auto">
-        <Card className="m-8 p-8">
+      <div className=" overflow-y-auto">
+        <Card>
           {isEditing ? (
             <div>
               <TextField
@@ -62,7 +60,7 @@ function Description(props) {
             </div>
           ) : (
             <div>
-              <p className="text-xl m-10">{editedDescription}</p>
+              <p className="text-xl m-5">{editedDescription}</p>
               <Button variant="outlined" onClick={handleEdit}>
                 Edit Description
               </Button>
