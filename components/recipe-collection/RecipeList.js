@@ -8,7 +8,13 @@ import Highlighter from "react-highlight-words";
 const PAGE_SIZE = 48;
 const INITIAL_LOAD_SIZE = 48;
 
-const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes , searchTerm }) => {
+const RecipeList = ({
+  visibleRecipes,
+  count,
+  appliedFilters,
+  setRecipes,
+  searchTerm,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(count / PAGE_SIZE);
@@ -35,27 +41,32 @@ const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes , search
   if (loading) {
     return <CardSkeleton />;
   }
-
   return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 mt-5">
-      {visibleRecipes.map((recipe) => (
-          <RecipeCard
-            key={recipe._id}
-            title={
-              <Highlighter
-                highlightClassName="YourHighlightClass"
-                searchWords={[searchTerm]}
-                autoEscape={true}
-                textToHighlight={recipe.title}
-              />
-            }
-            images={recipe.images}
-            published={recipe.published}
-            recipe={recipe}
-          />
-        ))}
-      </div>
+    <div>
+      {visibleRecipes.length === 0 ? (
+        <p className="text-xl text-red-500">
+          No recipes found for your search.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 mt-5">
+          {visibleRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe._id}
+              title={
+                <Highlighter
+                  highlightClassName="YourHighlightClass"
+                  searchWords={[searchTerm]}
+                  autoEscape={true}
+                  textToHighlight={recipe.title}
+                />
+              }
+              images={recipe.images}
+              published={recipe.published}
+              recipe={recipe}
+            />
+          ))}
+        </div>
+      )}
       <div>
         {count > INITIAL_LOAD_SIZE && (
           <div className="mt-4 text-center">
@@ -73,7 +84,7 @@ const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes , search
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

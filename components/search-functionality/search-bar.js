@@ -4,90 +4,97 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm }) => {
-	const [open, setOpen] = useState(false);
-	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+const SearchBar = ({
+  applyFilters,
+  appliedFilters,
+  searchTerm,
+  setSearchTerm,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
 
-	const { filters, sortOption, setSortOption } = useContext(filterContext);
+  const { filters, sortOption, setSortOption } = useContext(filterContext);
 
-	const [selectedFilters, setSelectedFilters] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+  const [selectedFilters, setSelectedFilters] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
 
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-	const handleApplyFilters = async (filters) => {
-		
-		const nonEmptyFilters = {};
-		for (const key in filters) {
-			if (
-				filters[key] !== null &&
-				filters[key] !== "" &&
-				filters[key].length > 0
-			) {
-				nonEmptyFilters[key] = filters[key];
-			}
-		}
+  const handleApplyFilters = async (filters) => {
+    const nonEmptyFilters = {};
+    for (const key in filters) {
+      if (
+        filters[key] !== null &&
+        filters[key] !== "" &&
+        filters[key].length > 0
+      ) {
+        nonEmptyFilters[key] = filters[key];
+      }
+    }
 
-		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters, sortOption);
-			setNoFiltersApplied(false);
-		}
-		setSelectedFilters(filters);
-	};
+    if (Object.keys(nonEmptyFilters).length > 0) {
+      await applyFilters(nonEmptyFilters, sortOption);
+      setNoFiltersApplied(false);
+    }
+    setSelectedFilters(filters);
+  };
 
+  const handleDelete = (filterType, filterValue) => {
+    const updatedFilters = { ...selectedFilters };
+    updatedFilters[filterType] = updatedFilters[filterType].filter(
+      (item) => item !== filterValue
+    );
+    setSelectedFilters(updatedFilters);
+    setUpdateAppliedfilter(updatedFilters);
 
-	const handleDelete = (filterType, filterValue) => {
-		const updatedFilters = { ...selectedFilters };
-		updatedFilters[filterType] = updatedFilters[filterType].filter(
-			(item) => item !== filterValue,
-		);
-		setSelectedFilters(updatedFilters);
-		setUpdateAppliedfilter(updatedFilters);
+    handleApplyFilters(updatedFilters);
+  };
 
-		handleApplyFilters(updatedFilters);
-	};
+  const handleSort = async (event) => {
+    setSortOption((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+    await applyFilters(filters, sortOption);
+  };
 
-	const handleSort = async (event) => {
-		setSortOption((prevState) => ({
-		  ...prevState,
-		  [event.target.name]: event.target.value,
-		}));
-		await applyFilters(filters, sortOption)
-	}
+  const handleResetFilters = () => {
+    setSelectedFilters({
+      category: [],
+      tags: [],
+      ingredients: [],
+      instructions: null,
+    });
+    applyFilters({});
+    setNoFiltersApplied(true);
+  };
 
-	const handleResetFilters = () => {
-		setSelectedFilters({
-			category: [],
-			tags: [],
-			ingredients: [],
-			instructions: null,
-		});
-		applyFilters({});
-		setNoFiltersApplied(true);
-	};
+  useEffect(() => {
+    if (searchTerm.length < 10) {
+      const debouncedApplyFilters = debounce((title) => {
+        applyFilters({ title });
+      }, 500);
+      debouncedApplyFilters(searchTerm);
 
-	useEffect(() => {
-		const debouncedApplyFilters = debounce((title) => {
-			applyFilters({ title });
-		}, 500);
-
-		debouncedApplyFilters(searchTerm);
-
-		return () => {
-			debouncedApplyFilters.cancel();
-		};
-	}, [searchTerm]);
+      return () => {
+        debouncedApplyFilters.cancel();
+      };
+    } else {
+      
+      applyFilters({ title: searchTerm });
+    }
+  }, [searchTerm]);
 
 	return (
 		<div>
