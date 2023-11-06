@@ -72,7 +72,6 @@ function Details(props) {
 							description={recipe.description}
 							// userName={username should be passed here}
 						/>
-						<a href="_blank">View More</a>
 					</p>
 				</div>
 
