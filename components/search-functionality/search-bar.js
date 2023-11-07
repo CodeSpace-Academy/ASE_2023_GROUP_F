@@ -21,6 +21,8 @@ const SearchBar = ({
     instructions: null,
   });
 
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+
   const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
@@ -79,17 +81,49 @@ const SearchBar = ({
     setNoFiltersApplied(true);
   };
 
+  const handleLongQuerySubmit = () => {
+    applyFilters({ title: searchTerm });
+  };
+
+
   useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ title }, sortOption);
+    let timeoutId;
+
+
+ 
+    const shortQueryDebounce = debounce((query) => {
+      applyFilters({ title: query });
+      setButtonEnabled(false);
     }, 500);
 
-    debouncedApplyFilters(searchTerm);
+
+   
+    const longQueryDebounce = debounce((query) => {
+      setButtonEnabled(true);
+    }, 1000);
+
+
+   
+    const applyDebounce = (query) => {
+      if (query.length < 10) {
+        shortQueryDebounce(query);
+      } else {
+        longQueryDebounce(query);
+      }
+    };
+
+
+    if (searchTerm.length > 0) {
+      applyDebounce(searchTerm);
+    }
+
 
     return () => {
-      debouncedApplyFilters.cancel();
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
-  }, [searchTerm, sortOption]);
+  }, [searchTerm]);
 
   return (
     <div>
@@ -102,7 +136,7 @@ const SearchBar = ({
         >
           Filters
         </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
+        <div className="flex mx-auto gap-10 items-center space-x-5">
           <label htmlFor="search" />
           <input
             className="rounded text-2xl p-2"
@@ -112,6 +146,15 @@ const SearchBar = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+            {buttonEnabled && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleLongQuerySubmit}
+        >
+          Submit
+        </Button>
+      )}
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
