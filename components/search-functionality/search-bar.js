@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, sortOption, setSortOption }) => {
+const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, sortOption, setSortOption }) => {
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
@@ -57,7 +57,7 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 	};
 
 	const handleSort = async (event) => {
-		setSortOption (event.target.value)
+		setSortOption(event.target.value)
 		await applyFilters(filters, sortOption)
 	}
 
@@ -112,6 +112,7 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 					>
 						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
 						<Select
+							native
 							defaultValue=""
 							id="grouped-native-select"
 							label="Grouping"
@@ -119,22 +120,27 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 							value={sortOption}
 							onChange={handleSort}
 						>
-							<option aria-label="None" value=""></option>
+							<option aria-label="None" value="" />
 							<optgroup
-							name= 'prep' 
-							label="Prep Time">
+								name='prep'
+								label="Prep Time">
 								<option value='prep ASC'>Prep ASC</option>
 								<option value='prep DESC'>Prep DESC</option>
 							</optgroup>
-							<optgroup name="cook" label="Cook Time">
-								<option value="cook ASC">Cook ASC</option>
-								<option value="cook DESC">Cook DESC</option>
+							<optgroup
+								name='cook'
+								label="Cook Time">
+								<option value='cook ASC'>Cook ASC</option>
+								<option value='cook DESC'>Cook DESC</option>
 							</optgroup>
-							<optgroup name="published" label="Date Created">
-								<option value="date ASC">Date ASC</option>
-								<option value="date DESC">Date DESC</option>
+							<optgroup
+								name='published'
+								label="Date Created">
+								<option value='date ASC'>Date ASC</option>
+								<option value='date DESC'>Date DESC</option>
 							</optgroup>
 						</Select>
+
 					</FormControl>
 				</div>
 			</div>
