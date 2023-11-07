@@ -4,10 +4,14 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, appliedFilters }) => {
+const SearchBar = ({
+	applyFilters,
+	appliedFilters,
+	searchTerm,
+	setSearchTerm,
+}) => {
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [searchTerm, setSearchTerm] = useState("");
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
 		category: [],
 		tags: [],
@@ -28,7 +32,6 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 	const handleClose = () => setOpen(false);
 
 	const handleApplyFilters = async (filters) => {
-		
 		const nonEmptyFilters = {};
 		for (const key in filters) {
 			if (
@@ -47,7 +50,6 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 		setSelectedFilters(filters);
 	};
 
-
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
 		updatedFilters[filterType] = updatedFilters[filterType].filter(
@@ -61,11 +63,11 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 
 	const handleSort = async (event) => {
 		setSortOption((prevState) => ({
-		  ...prevState,
-		  [event.target.name]: event.target.value,
+			...prevState,
+			[event.target.name]: event.target.value,
 		}));
-		await applyFilters(filters, sortOption)
-	}
+		await applyFilters(filters, sortOption);
+	};
 
 	const handleResetFilters = () => {
 		setSelectedFilters({
@@ -118,33 +120,25 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 					>
 						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
 						<Select
-							native
 							defaultValue=""
 							id="grouped-native-select"
 							label="Grouping"
 							name="sortOption"
 							value={sortOption}
 							onChange={handleSort}
-
 						>
 							<option aria-label="None" value="" />
-							<optgroup
-							name= 'prep' 
-							label="Prep Time">
-								<option value='prep ASC'>Prep ASC</option>
-								<option value='prep DESC'>Prep DESC</option>
+							<optgroup name="prep" label="Prep Time">
+								<option value="prep ASC">Prep ASC</option>
+								<option value="prep DESC">Prep DESC</option>
 							</optgroup>
-							<optgroup
-							name= 'cook'
-							 label="Cook Time">
-								<option value='cook ASC'>Cook ASC</option>
-								<option value='cook DESC'>Cook DESC</option>
+							<optgroup name="cook" label="Cook Time">
+								<option value="cook ASC">Cook ASC</option>
+								<option value="cook DESC">Cook DESC</option>
 							</optgroup>
-							<optgroup 
-							name= 'published'
-							label="Date Created">
-								<option value='date ASC'>Date ASC</option>
-								<option value='date DESC'>Date DESC</option>
+							<optgroup name="published" label="Date Created">
+								<option value="date ASC">Date ASC</option>
+								<option value="date DESC">Date DESC</option>
 							</optgroup>
 						</Select>
 					</FormControl>
@@ -164,14 +158,13 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 			)}
 			<div>
 				<h2>Applied Filters:</h2>
-				{Array.isArray(selectedFilters.category) &&
-					selectedFilters.category.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("category", filter)}
-						/>
-					))}
+				{selectedFilters.category && (
+					<Chip
+						key={selectedFilters.category}
+						label={selectedFilters.category}
+						onDelete={() => handleDelete("category", selectedFilters.category)}
+					/>
+				)}
 				{Array.isArray(selectedFilters.tags) &&
 					selectedFilters.tags.map((filter, index) => (
 						<Chip
@@ -180,14 +173,13 @@ const SearchBar = ({ applyFilters, appliedFilters }) => {
 							onDelete={() => handleDelete("tags", filter)}
 						/>
 					))}
-				{Array.isArray(selectedFilters.ingredients) &&
-					selectedFilters.ingredients.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("ingredients", filter)}
-						/>
-					))}
+				{selectedFilters.ingredients && (
+					<Chip
+						key={selectedFilters.ingredients}
+						label={selectedFilters.ingredients}
+						onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+					/>
+				)}
 				{selectedFilters.instructions !== null && (
 					<Chip
 						label={selectedFilters.instructions}
