@@ -1,4 +1,3 @@
-
 import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {

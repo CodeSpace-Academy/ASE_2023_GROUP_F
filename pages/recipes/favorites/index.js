@@ -6,6 +6,9 @@ import { getFavoriteRecipes } from '@/lib/view-recipes';
 const FavoriteRecipesPage = () => {
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [favoriteRecipesCount , setFavoriteRecipesCount] = useState(0)
+
+    
 
     useEffect(() => {
         const fetchFavoriteRecipes = async () => {
@@ -13,6 +16,7 @@ const FavoriteRecipesPage = () => {
                 const recipes = await getFavoriteRecipes();
               
                 setFavoriteRecipes(recipes);
+                setFavoriteRecipesCount(recipes.length);
             } catch (error) {
                 console.error('Error fetching favorite recipes:', error);
             } finally {
@@ -28,9 +32,10 @@ const FavoriteRecipesPage = () => {
         return <CardSkeleton/>;
     }
 
+
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipes?.length})</h1>
+            <h1 className="text-3xl font-bold mb-4">Favorite Recipes ({favoriteRecipesCount})</h1>
             {isLoading ? (
                 <CardSkeleton />
             ) : favoriteRecipes?.length > 0 ? (
