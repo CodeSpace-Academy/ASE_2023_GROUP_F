@@ -4,12 +4,23 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, sortOption, setSortOption }) => {
+const SearchBar = ({
+  applyFilters,
+  appliedFilters,
+  searchTerm,
+  setSearchTerm,
+}) => {
   const [open, setOpen] = useState(false);
   const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
+  const [buttonEnabled, setButtonEnabled] = useState(false); 
 
-  const { filters } = useContext(filterContext);
+  const { filters, sortOption, setSortOption } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
@@ -42,19 +53,20 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
 
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters };
-    if (Array.isArray(updatedFilters[filterType])) {
-      updatedFilters[filterType] = updatedFilters[filterType].filter(
-        (item) => item !== filterValue
-      );
-    } else {
-      updatedFilters[filterType] = null;
-    }
+    updatedFilters[filterType] = updatedFilters[filterType].filter(
+      (item) => item !== filterValue
+    );
     setSelectedFilters(updatedFilters);
+    setUpdateAppliedfilter(updatedFilters);
+
     handleApplyFilters(updatedFilters);
   };
 
   const handleSort = async (event) => {
-    setSortOption(event.target.value);
+    setSortOption((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
     await applyFilters(filters, sortOption);
   };
 
@@ -76,17 +88,35 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
   useEffect(() => {
     let timeoutId;
 
+  
+    const shortQueryDebounce = debounce((query) => {
+      applyFilters({ title: query });
+      setButtonEnabled(false); 
+    }, 500);
+
+    
+    const longQueryDebounce = debounce((query) => {
+      setButtonEnabled(true); 
+    }, 1000);
+
+   
     const applyDebounce = (query) => {
       if (query.length < 10) {
-        setButtonEnabled(false);
+        shortQueryDebounce(query);
       } else {
-        setButtonEnabled(true);
+        longQueryDebounce(query);
       }
     };
 
     if (searchTerm.length > 0) {
       applyDebounce(searchTerm);
     }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [searchTerm]);
 
   return (
@@ -110,15 +140,15 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {buttonEnabled && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleLongQuerySubmit}
-            >
-              Submit
-            </Button>
-          )}
+           {buttonEnabled && ( 
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleLongQuerySubmit}
+        >
+          Submit
+        </Button>
+      )}
 
           <FormControl
             className="border-gray-800 hover-bg-slate-200"
@@ -181,15 +211,32 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
               onDelete={() => handleDelete("tags", filter)}
             />
           ))}
-        <Chip
-          color="secondary"
-          label="Clear All Filters"
-          size="small"
-          variant="outlined"
-          onClick={handleResetFilters}
-        />
+        {Array.isArray(selectedFilters.ingredients) &&
+          selectedFilters.ingredients.map((filter, index) => (
+            <Chip
+              key={index}
+              label={filter}
+              onDelete={() => handleDelete("ingredients", filter)}
+            />
+          ))}
+        {selectedFilters.instructions !== null && (
+          <Chip
+            label={selectedFilters.instructions}
+            onDelete={() =>
+              handleDelete("instructions", selectedFilters.instructions)
+            }
+          />
+        )}
       </div>
       {noFiltersApplied && <p>No filters have been applied.</p>}
+     
+      <Chip
+        color="secondary"
+        label="Clear All Filters"
+        size="small"
+        variant="outlined"
+        onClick={handleResetFilters}
+      />
     </div>
   );
 };
