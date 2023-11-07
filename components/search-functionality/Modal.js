@@ -63,14 +63,14 @@ function Modal(props) {
 							value={filters.tags}
 						/>
 						<br />
-						<TextField
+						{/* <TextField
 							className="mb-2"
 							id="outlined-basic"
 							label="Ingredients"
 							variant="outlined"
 							name="ingredients"
 							value={filters.ingredients}
-						/>
+						/> */}
 						<MultiSelectList/>
 					</div>
 
