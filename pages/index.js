@@ -5,6 +5,7 @@ import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
+import MultiSelectList from "@/components/search-functionality/multi-select-component";
 
 const PAGE_SIZE = 48;
 

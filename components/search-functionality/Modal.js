@@ -3,6 +3,7 @@ import classes from "./modal.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
+import MultiSelectList from "./multi-select-component";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
@@ -70,6 +71,7 @@ function Modal(props) {
 							name="ingredients"
 							value={filters.ingredients}
 						/>
+						<MultiSelectList/>
 					</div>
 
 					<h4 className="font-bold">Number of Instructions:</h4>
