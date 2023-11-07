@@ -181,7 +181,6 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
               onDelete={() => handleDelete("tags", filter)}
             />
           ))}
-          // Include similar code for ingredients and instructions
         <Chip
           color="secondary"
           label="Clear All Filters"
