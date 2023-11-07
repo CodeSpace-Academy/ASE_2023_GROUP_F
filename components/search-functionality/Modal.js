@@ -15,8 +15,10 @@ function Modal(props) {
 	useEffect(() => {
 		const fetchTags = async () => {
 			const result = await getCategories();
-			const tags = result.categories[0].categories;
-			setTags(tags);
+			const fetchedTags = result.categories[0].categories;
+			if (Array.isArray(fetchedTags)) {
+				setTags(fetchedTags);
+			}
 		};
 
 		fetchTags();
@@ -32,11 +34,10 @@ function Modal(props) {
 		} else {
 			data.tags = [];
 		}
-	    data.tags = tagOptions
+		data.tags = tagOptions;
 		await applyFilters(data);
 		handleClose();
 	};
-	
 
 	const clearAllFilters = () => {
 		setFilters({
@@ -73,8 +74,12 @@ function Modal(props) {
 							options={tags}
 							getOptionLabel={(option) => option}
 							value={tagOptions}
-							onChange={( newValue) => {
-								setTagOptions(newValue); 
+							onChange={(event, newValue) => {
+								if (newValue !== undefined && Array.isArray(newValue)) {
+									setTagOptions(newValue);
+								} else {
+									setTagOptions([]); 
+								}
 							}}
 							renderInput={(params) => (
 								<TextField {...params} label="Tags" variant="outlined" />
