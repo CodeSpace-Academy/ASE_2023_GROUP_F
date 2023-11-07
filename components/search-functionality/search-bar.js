@@ -9,6 +9,8 @@ const SearchBar = ({
   appliedFilters,
   searchTerm,
   setSearchTerm,
+  sortOption,
+  setSortOption,
 }) => {
   const [open, setOpen] = useState(false);
   const [noFiltersApplied, setNoFiltersApplied] = useState(true);
@@ -18,9 +20,8 @@ const SearchBar = ({
     ingredients: [],
     instructions: null,
   });
-  const [buttonEnabled, setButtonEnabled] = useState(false); 
 
-  const { filters, sortOption, setSortOption } = useContext(filterContext);
+  const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
@@ -50,7 +51,6 @@ const SearchBar = ({
     }
     setSelectedFilters(filters);
   };
-
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters };
     updatedFilters[filterType] = updatedFilters[filterType].filter(
@@ -63,11 +63,9 @@ const SearchBar = ({
   };
 
   const handleSort = async (event) => {
-    setSortOption((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-    await applyFilters(filters, sortOption);
+    const newSortOption = event.target.value;
+    setSortOption(newSortOption);
+    await applyFilters(selectedFilters, newSortOption);
   };
 
   const handleResetFilters = () => {
@@ -77,47 +75,21 @@ const SearchBar = ({
       ingredients: [],
       instructions: null,
     });
-    applyFilters({});
+    applyFilters({}, sortOption);
     setNoFiltersApplied(true);
   };
 
-  const handleLongQuerySubmit = () => {
-    applyFilters({ title: searchTerm });
-  };
-
   useEffect(() => {
-    let timeoutId;
-
-  
-    const shortQueryDebounce = debounce((query) => {
-      applyFilters({ title: query });
-      setButtonEnabled(false); 
+    const debouncedApplyFilters = debounce((title) => {
+      applyFilters({ title }, sortOption);
     }, 500);
 
-    
-    const longQueryDebounce = debounce((query) => {
-      setButtonEnabled(true); 
-    }, 1000);
-
-   
-    const applyDebounce = (query) => {
-      if (query.length < 10) {
-        shortQueryDebounce(query);
-      } else {
-        longQueryDebounce(query);
-      }
-    };
-
-    if (searchTerm.length > 0) {
-      applyDebounce(searchTerm);
-    }
+    debouncedApplyFilters(searchTerm);
 
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+      debouncedApplyFilters.cancel();
     };
-  }, [searchTerm]);
+  }, [searchTerm, sortOption]);
 
   return (
     <div>
@@ -130,7 +102,7 @@ const SearchBar = ({
         >
           Filters
         </Button>
-        <div className="flex mx-auto gap-10 items-center space-x-5">
+        <div className="flex mx-auto gap-80 items-center space-x-5">
           <label htmlFor="search" />
           <input
             className="rounded text-2xl p-2"
@@ -140,18 +112,9 @@ const SearchBar = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-           {buttonEnabled && ( 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleLongQuerySubmit}
-        >
-          Submit
-        </Button>
-      )}
 
           <FormControl
-            className="border-gray-800 hover-bg-slate-200"
+            className="border-gray-800 hover:bg-slate-200"
             sx={{ m: 1, minWidth: 120 }}
           >
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
@@ -195,14 +158,13 @@ const SearchBar = ({
       )}
       <div>
         <h2>Applied Filters:</h2>
-        {Array.isArray(selectedFilters.category) &&
-          selectedFilters.category.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("category", filter)}
-            />
-          ))}
+        {selectedFilters.category && (
+          <Chip
+            key={selectedFilters.category}
+            label={selectedFilters.category}
+            onDelete={() => handleDelete("category", selectedFilters.category)}
+          />
+        )}
         {Array.isArray(selectedFilters.tags) &&
           selectedFilters.tags.map((filter, index) => (
             <Chip
@@ -211,14 +173,15 @@ const SearchBar = ({
               onDelete={() => handleDelete("tags", filter)}
             />
           ))}
-        {Array.isArray(selectedFilters.ingredients) &&
-          selectedFilters.ingredients.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("ingredients", filter)}
-            />
-          ))}
+        {selectedFilters.ingredients && (
+          <Chip
+            key={selectedFilters.ingredients}
+            label={selectedFilters.ingredients}
+            onDelete={() =>
+              handleDelete("ingredients", selectedFilters.ingredients)
+            }
+          />
+        )}
         {selectedFilters.instructions !== null && (
           <Chip
             label={selectedFilters.instructions}
@@ -229,7 +192,6 @@ const SearchBar = ({
         )}
       </div>
       {noFiltersApplied && <p>No filters have been applied.</p>}
-     
       <Chip
         color="secondary"
         label="Clear All Filters"
