@@ -16,7 +16,7 @@ function RecipeTags(props) {
   if (!tags) {
     return <div>
       <HandleError>
-        No errors found
+        No tags found
       </HandleError>
     </div>;
   }
