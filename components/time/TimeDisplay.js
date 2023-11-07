@@ -1,5 +1,6 @@
 import CookIcon from "../icons/CookIcon";
 import PrepIcon from "../icons/PrepIcon";
+import ServingIcon from "../icons/ServingIcon";
 import TimeIcon from "../icons/TimeIcon";
 const TimeDisplay = ({ recipe }) => {
   function formatTime(minutes) {
@@ -23,25 +24,44 @@ const TimeDisplay = ({ recipe }) => {
   const totalCookingTime = recipe.prep + recipe.cook;
 
   return (
-    <div className="time-information">
-      <span className="flex items-center">
-        <PrepIcon fill="#000000" width="40" height="50" />
-        <span className="ml-2"> <strong>Prep Time</strong> <br/>{formattedPrepTime}</span>
-      </span>
-      <span className="flex items-center">
-        <CookIcon fill="#000000" width="35" height="35" />
-        <span className="ml-2">
-          <p><strong>Cooking Time</strong> <br/> {formattedCookingTime}</p>
+    <div>
+      <div className="flex gap-7 mb-4">
+        <span className="flex">
+          <PrepIcon fill="#000000" width="35" height="35" />
+          <span className="ml-2 text-sm">
+            <strong>Prep Time</strong> <br />
+            {formattedPrepTime}
+          </span>
         </span>
-      </span>
-      <span className="flex items-center">
-        <TimeIcon  />
-        <span className="ml-2">
-          <p><strong>Time(Prep+cook)</strong> <br/>{formatTime(totalCookingTime)}</p>
+        <span className="flex items-center">
+          <CookIcon fill="#000000" width="35" height="35" />
+          <span className="ml-2 text-sm">
+            <p>
+              <strong>Cooking Time</strong> <br /> {formattedCookingTime}
+            </p>
+          </span>
         </span>
+      </div>
+      <span className="flex items-center">
+        <TimeIcon />
+        <span className="ml-2 mr-8 text-sm">
+          <p>
+            <strong>(Prep+cook)</strong> <br />
+            {formatTime(totalCookingTime)}
+          </p>
+        </span>
+        {recipe.servings && (
+          <>
+            <ServingIcon width="25" height="25" fill="#2B5B95" />
+            <p>
+              <strong>Serving:</strong> {recipe.servings}
+            </p>
+          </>
+        )}
       </span>
     </div>
   );
+  
 };
 
 export default TimeDisplay;
