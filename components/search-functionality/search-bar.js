@@ -4,23 +4,17 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({
-  applyFilters,
-  appliedFilters,
-  searchTerm,
-  setSearchTerm,
-}) => {
-  const [open, setOpen] = useState(false);
-  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
-  const [buttonEnabled, setButtonEnabled] = useState(false); 
+const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, sortOption, setSortOption }) => {
+	const [open, setOpen] = useState(false);
+	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+		category: [],
+		tags: [],
+		ingredients: [],
+		instructions: null,
+	});
 
-  const { filters, sortOption, setSortOption } = useContext(filterContext);
+	const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
@@ -32,24 +26,24 @@ const SearchBar = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleApplyFilters = async (filters) => {
-    const nonEmptyFilters = {};
-    for (const key in filters) {
-      if (
-        filters[key] !== null &&
-        filters[key] !== "" &&
-        filters[key].length > 0
-      ) {
-        nonEmptyFilters[key] = filters[key];
-      }
-    }
+	const handleApplyFilters = async (filters) => {
+		const nonEmptyFilters = {};
+		for (const key in filters) {
+			if (
+				filters[key] !== null &&
+				filters[key] !== "" &&
+				filters[key].length > 0
+			) {
+				nonEmptyFilters[key] = filters[key];
+			}
+		}
 
-    if (Object.keys(nonEmptyFilters).length > 0) {
-      await applyFilters(nonEmptyFilters, sortOption);
-      setNoFiltersApplied(false);
-    }
-    setSelectedFilters(filters);
-  };
+		if (Object.keys(nonEmptyFilters).length > 0) {
+			await applyFilters(nonEmptyFilters, sortOption);
+			setNoFiltersApplied(false);
+		}
+		setSelectedFilters(filters);
+	};
 
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters };
@@ -62,13 +56,10 @@ const SearchBar = ({
     handleApplyFilters(updatedFilters);
   };
 
-  const handleSort = async (event) => {
-    setSortOption((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-    await applyFilters(filters, sortOption);
-  };
+	const handleSort = async (event) => {
+		setSortOption(event.target.value)
+		await applyFilters(filters, sortOption)
+	}
 
   const handleResetFilters = () => {
     setSelectedFilters({
@@ -150,95 +141,99 @@ const SearchBar = ({
         </Button>
       )}
 
-          <FormControl
-            className="border-gray-800 hover-bg-slate-200"
-            sx={{ m: 1, minWidth: 120 }}
-          >
-            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-            <Select
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Grouping"
-              name="sortOption"
-              value={sortOption}
-              onChange={handleSort}
-            >
-              <option aria-label="None" value="" />
-              <optgroup name="prep" label="Prep Time">
-                <option value="prep ASC">Prep ASC</option>
-                <option value="prep DESC">Prep DESC</option>
-              </optgroup>
-              <optgroup name="cook" label="Cook Time">
-                <option value="cook ASC">Cook ASC</option>
-                <option value="cook DESC">Cook DESC</option>
-              </optgroup>
-              <optgroup name="published" label="Date Created">
-                <option value="date ASC">Date ASC</option>
-                <option value="date DESC">Date DESC</option>
-              </optgroup>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
+					<FormControl
+						className="border-gray-800 hover:bg-slate-200"
+						sx={{ m: 1, minWidth: 120 }}
+					>
+						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+						<Select
+							native
+							defaultValue=""
+							id="grouped-native-select"
+							label="Grouping"
+							name="sortOption"
+							value={sortOption}
+							onChange={handleSort}
+						>
+							<option aria-label="None" value="" />
+							<optgroup
+								name='prep'
+								label="Prep Time">
+								<option value='prep ASC'>Prep ASC</option>
+								<option value='prep DESC'>Prep DESC</option>
+							</optgroup>
+							<optgroup
+								name='cook'
+								label="Cook Time">
+								<option value='cook ASC'>Cook ASC</option>
+								<option value='cook DESC'>Cook DESC</option>
+							</optgroup>
+							<optgroup
+								name='published'
+								label="Date Created">
+								<option value='date ASC'>Date ASC</option>
+								<option value='date DESC'>Date DESC</option>
+							</optgroup>
+						</Select>
 
-      {open && (
-        <Modal
-          handleClose={handleClose}
-          applyFilters={handleApplyFilters}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          instructions={appliedFilters.instructions}
-          sortOption={sortOption}
-          setSortOption={setSortOption}
-        />
-      )}
-      <div>
-        <h2>Applied Filters:</h2>
-        {Array.isArray(selectedFilters.category) &&
-          selectedFilters.category.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("category", filter)}
-            />
-          ))}
-        {Array.isArray(selectedFilters.tags) &&
-          selectedFilters.tags.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("tags", filter)}
-            />
-          ))}
-        {Array.isArray(selectedFilters.ingredients) &&
-          selectedFilters.ingredients.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("ingredients", filter)}
-            />
-          ))}
-        {selectedFilters.instructions !== null && (
-          <Chip
-            label={selectedFilters.instructions}
-            onDelete={() =>
-              handleDelete("instructions", selectedFilters.instructions)
-            }
-          />
-        )}
-      </div>
-      {noFiltersApplied && <p>No filters have been applied.</p>}
-     
-      <Chip
-        color="secondary"
-        label="Clear All Filters"
-        size="small"
-        variant="outlined"
-        onClick={handleResetFilters}
-      />
-    </div>
-  );
+					</FormControl>
+				</div>
+			</div>
+
+			{open && (
+				<Modal
+					handleClose={handleClose}
+					applyFilters={handleApplyFilters}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					instructions={appliedFilters.instructions}
+					sortOption={sortOption}
+					setSortOption={setSortOption}
+				/>
+			)}
+			<div>
+				<h2>Applied Filters:</h2>
+				{selectedFilters.category && (
+					<Chip
+						key={selectedFilters.category}
+						label={selectedFilters.category}
+						onDelete={() => handleDelete("category", selectedFilters.category)}
+					/>
+				)}
+				{Array.isArray(selectedFilters.tags) &&
+					selectedFilters.tags.map((filter, index) => (
+						<Chip
+							key={index}
+							label={filter}
+							onDelete={() => handleDelete("tags", filter)}
+						/>
+					))}
+				{selectedFilters.ingredients && (
+					<Chip
+						key={selectedFilters.ingredients}
+						label={selectedFilters.ingredients}
+						onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+					/>
+				)}
+				{selectedFilters.instructions !== null && (
+					<Chip
+						label={selectedFilters.instructions}
+						onDelete={() =>
+							handleDelete("instructions", selectedFilters.instructions)
+						}
+					/>
+				)}
+			</div>
+			{noFiltersApplied && <p>No filters have been applied.</p>}
+			<Chip
+				color="secondary"
+				label="Clear All Filters"
+				size="small"
+				variant="outlined"
+				onClick={handleResetFilters}
+			/>
+		</div>
+	);
 };
 
 export default SearchBar;
