@@ -2,8 +2,7 @@ import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
-	const data = JSON.parse(req.query.sort);
-	const sort = data.sortOption
+	const sort = JSON.parse(req.query.sort);
 	const limit = parseInt(req.query.limit) || 200;
 
 	if (req.method === "GET") {
@@ -57,7 +56,7 @@ export default async function handler(req, res) {
 				querySort.cook = -1;
 			}
 
-			if (sort === 'date ASC') {
+			if (sort === 'date ASC' ) {
 				querySort.published = 1;
 			} else if (sort === 'date DESC') {
 				querySort.published = -1;
