@@ -12,6 +12,7 @@ const SearchBar = ({
   setSearchTerm,
   sortOption,
   setSortOption,
+  count,
 }) => {
   const [open, setOpen] = useState(false);
   const [noFiltersApplied, setNoFiltersApplied] = useState(true);
@@ -48,7 +49,9 @@ const SearchBar = ({
 
     if (Object.keys(nonEmptyFilters).length > 0) {
       await applyFilters(nonEmptyFilters, sortOption);
-      setNoFiltersApplied(false);
+      // if(count > 0){
+      //   setNoFiltersApplied(false);
+      // }
     }
     setSelectedFilters(filters);
   };
