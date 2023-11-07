@@ -48,8 +48,6 @@ function Modal(props) {
 		setTagOptions([]);
 	};
 
-	console.log(tagOptions, "irygfyiewgfyi");
-
 	return (
 		<div className={classes.modalBackdrop}>
 			<div className={classes.modalContent}>
@@ -75,7 +73,7 @@ function Modal(props) {
 							options={tags}
 							getOptionLabel={(option) => option}
 							value={tagOptions}
-							onChange={(event, newValue) => {
+							onChange={( newValue) => {
 								setTagOptions(newValue); 
 							}}
 							renderInput={(params) => (

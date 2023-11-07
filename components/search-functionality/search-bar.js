@@ -50,8 +50,6 @@ const SearchBar = ({
 		setSelectedFilters(filters);
 	};
 
-	console.log('selectedFilters' , selectedFilters)
-
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
 		updatedFilters[filterType] = updatedFilters[filterType].filter(
@@ -163,9 +161,9 @@ const SearchBar = ({
 				<h2>Applied Filters:</h2>
 				{selectedFilters.category && (
 					<Chip
-						key={filters.category}
-						label={filters.category}
-						onDelete={() => handleDelete("category", filters.category)}
+						key={selectedFilters.category}
+						label={selectedFilters.category}
+						onDelete={() => handleDelete("category", selectedFilters.category)}
 					/>
 				)}
 				{Array.isArray(selectedFilters.tags) &&
@@ -178,9 +176,9 @@ const SearchBar = ({
 					))}
 				{selectedFilters.ingredients && (
 					<Chip
-						key={filters.ingredients}
-						label={filters.ingredients}
-						onDelete={() => handleDelete("ingredients", filters.ingredients)}
+						key={selectedFilters.ingredients}
+						label={selectedFilters.ingredients}
+						onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
 					/>
 				)}
 				{selectedFilters.instructions !== null && (
