@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 				querySort.cook = -1;
 			}
 
-			if (sort === 'date ASC' || sort === 'default') {
+			if (sort === 'date ASC' ) {
 				querySort.published = 1;
 			} else if (sort === 'date DESC') {
 				querySort.published = -1;

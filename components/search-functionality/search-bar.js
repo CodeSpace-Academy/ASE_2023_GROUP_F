@@ -123,7 +123,7 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 							onChange={handleSort}
 
 						>
-							<option aria-label="None" value="default">Default</option>
+							<option aria-label="None" value=""></option>
 							<optgroup
 							name= 'prep' 
 							label="Prep Time">
