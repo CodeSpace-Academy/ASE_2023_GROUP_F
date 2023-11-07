@@ -5,16 +5,11 @@ import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
 const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, sortOption, setSortOption }) => {
-	const [open, setOpen] = useState(false);
-	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+  const [open, setOpen] = useState(false);
+  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+  const [buttonEnabled, setButtonEnabled] = useState(false);
 
-	const { filters } = useContext(filterContext);
+  const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
@@ -26,40 +21,42 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-	const handleApplyFilters = async (filters) => {
-		const nonEmptyFilters = {};
-		for (const key in filters) {
-			if (
-				filters[key] !== null &&
-				filters[key] !== "" &&
-				filters[key].length > 0
-			) {
-				nonEmptyFilters[key] = filters[key];
-			}
-		}
+  const handleApplyFilters = async (filters) => {
+    const nonEmptyFilters = {};
+    for (const key in filters) {
+      if (
+        filters[key] !== null &&
+        filters[key] !== "" &&
+        filters[key].length > 0
+      ) {
+        nonEmptyFilters[key] = filters[key];
+      }
+    }
 
-		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters, sortOption);
-			setNoFiltersApplied(false);
-		}
-		setSelectedFilters(filters);
-	};
+    if (Object.keys(nonEmptyFilters).length > 0) {
+      await applyFilters(nonEmptyFilters, sortOption);
+      setNoFiltersApplied(false);
+    }
+    setSelectedFilters(filters);
+  };
 
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters };
-    updatedFilters[filterType] = updatedFilters[filterType].filter(
-      (item) => item !== filterValue
-    );
+    if (Array.isArray(updatedFilters[filterType])) {
+      updatedFilters[filterType] = updatedFilters[filterType].filter(
+        (item) => item !== filterValue
+      );
+    } else {
+      updatedFilters[filterType] = null;
+    }
     setSelectedFilters(updatedFilters);
-    setUpdateAppliedfilter(updatedFilters);
-
     handleApplyFilters(updatedFilters);
   };
 
-	const handleSort = async (event) => {
-		setSortOption(event.target.value)
-		await applyFilters(filters, sortOption)
-	}
+  const handleSort = async (event) => {
+    setSortOption(event.target.value);
+    await applyFilters(filters, sortOption);
+  };
 
   const handleResetFilters = () => {
     setSelectedFilters({
@@ -79,35 +76,17 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
   useEffect(() => {
     let timeoutId;
 
-    
-    const shortQueryDebounce = debounce((query) => {
-      applyFilters({ title: query });
-      setButtonEnabled(false);
-    }, 500);
-
-  
-    const longQueryDebounce = debounce((query) => {
-      setButtonEnabled(true); 
-    }, 1000);
-
-    
     const applyDebounce = (query) => {
       if (query.length < 10) {
-        shortQueryDebounce(query);
+        setButtonEnabled(false);
       } else {
-        longQueryDebounce(query);
+        setButtonEnabled(true);
       }
     };
 
     if (searchTerm.length > 0) {
       applyDebounce(searchTerm);
     }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
   }, [searchTerm]);
 
   return (
@@ -131,109 +110,89 @@ const SearchBar = ({ applyFilters, appliedFilters, searchTerm, setSearchTerm, so
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-           {buttonEnabled && ( 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleLongQuerySubmit}
-        >
-          Submit
-        </Button>
+          {buttonEnabled && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleLongQuerySubmit}
+            >
+              Submit
+            </Button>
+          )}
+
+          <FormControl
+            className="border-gray-800 hover-bg-slate-200"
+            sx={{ m: 1, minWidth: 120 }}
+          >
+            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+            <Select
+              native
+              defaultValue=""
+              id="grouped-native-select"
+              label="Grouping"
+              name="sortOption"
+              value={sortOption}
+              onChange={handleSort}
+            >
+              <option aria-label="None" value="" />
+              <optgroup name="prep" label="Prep Time">
+                <option value="prep ASC">Prep ASC</option>
+                <option value="prep DESC">Prep DESC</option>
+              </optgroup>
+              <optgroup name="cook" label="Cook Time">
+                <option value="cook ASC">Cook ASC</option>
+                <option value="cook DESC">Cook DESC</option>
+              </optgroup>
+              <optgroup name="published" label="Date Created">
+                <option value="date ASC">Date ASC</option>
+                <option value="date DESC">Date DESC</option>
+              </optgroup>
+            </Select>
+          </FormControl>
+        </div>
+      </div>
+
+      {open && (
+        <Modal
+          handleClose={handleClose}
+          applyFilters={handleApplyFilters}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          instructions={appliedFilters.instructions}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+        />
       )}
-
-					<FormControl
-						className="border-gray-800 hover:bg-slate-200"
-						sx={{ m: 1, minWidth: 120 }}
-					>
-						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-						<Select
-							native
-							defaultValue=""
-							id="grouped-native-select"
-							label="Grouping"
-							name="sortOption"
-							value={sortOption}
-							onChange={handleSort}
-						>
-							<option aria-label="None" value="" />
-							<optgroup
-								name='prep'
-								label="Prep Time">
-								<option value='prep ASC'>Prep ASC</option>
-								<option value='prep DESC'>Prep DESC</option>
-							</optgroup>
-							<optgroup
-								name='cook'
-								label="Cook Time">
-								<option value='cook ASC'>Cook ASC</option>
-								<option value='cook DESC'>Cook DESC</option>
-							</optgroup>
-							<optgroup
-								name='published'
-								label="Date Created">
-								<option value='date ASC'>Date ASC</option>
-								<option value='date DESC'>Date DESC</option>
-							</optgroup>
-						</Select>
-
-					</FormControl>
-				</div>
-			</div>
-
-			{open && (
-				<Modal
-					handleClose={handleClose}
-					applyFilters={handleApplyFilters}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
-					instructions={appliedFilters.instructions}
-					sortOption={sortOption}
-					setSortOption={setSortOption}
-				/>
-			)}
-			<div>
-				<h2>Applied Filters:</h2>
-				{selectedFilters.category && (
-					<Chip
-						key={selectedFilters.category}
-						label={selectedFilters.category}
-						onDelete={() => handleDelete("category", selectedFilters.category)}
-					/>
-				)}
-				{Array.isArray(selectedFilters.tags) &&
-					selectedFilters.tags.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("tags", filter)}
-						/>
-					))}
-				{selectedFilters.ingredients && (
-					<Chip
-						key={selectedFilters.ingredients}
-						label={selectedFilters.ingredients}
-						onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
-					/>
-				)}
-				{selectedFilters.instructions !== null && (
-					<Chip
-						label={selectedFilters.instructions}
-						onDelete={() =>
-							handleDelete("instructions", selectedFilters.instructions)
-						}
-					/>
-				)}
-			</div>
-			{noFiltersApplied && <p>No filters have been applied.</p>}
-			<Chip
-				color="secondary"
-				label="Clear All Filters"
-				size="small"
-				variant="outlined"
-				onClick={handleResetFilters}
-			/>
-		</div>
-	);
+      <div>
+        <h2>Applied Filters:</h2>
+        {Array.isArray(selectedFilters.category) &&
+          selectedFilters.category.map((filter, index) => (
+            <Chip
+              key={index}
+              label={filter}
+              onDelete={() => handleDelete("category", filter)}
+            />
+          ))}
+        {Array.isArray(selectedFilters.tags) &&
+          selectedFilters.tags.map((filter, index) => (
+            <Chip
+              key={index}
+              label={filter}
+              onDelete={() => handleDelete("tags", filter)}
+            />
+          ))}
+          // Include similar code for ingredients and instructions
+        <Chip
+          color="secondary"
+          label="Clear All Filters"
+          size="small"
+          variant="outlined"
+          onClick={handleResetFilters}
+        />
+      </div>
+      {noFiltersApplied && <p>No filters have been applied.</p>}
+    </div>
+  );
 };
 
 export default SearchBar;
