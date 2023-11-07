@@ -61,7 +61,7 @@ function Instructions(props) {
   };
 
   useEffect(() => {
-        const hasNetworkError = false;
+        const hasNetworkError = true;
 
     if (hasNetworkError) {
       setNetworkError(true);
