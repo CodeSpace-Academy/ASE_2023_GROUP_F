@@ -27,7 +27,6 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 	const handleClose = () => setOpen(false);
 
 	const handleApplyFilters = async (filters) => {
-		
 		const nonEmptyFilters = {};
 		for (const key in filters) {
 			if (
@@ -45,7 +44,6 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 		}
 		setSelectedFilters(filters);
 	};
-
 
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
@@ -114,14 +112,12 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 					>
 						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
 						<Select
-							native
 							defaultValue=""
 							id="grouped-native-select"
 							label="Grouping"
 							name="sortOption"
 							value={sortOption}
 							onChange={handleSort}
-
 						>
 							<option aria-label="None" value=""></option>
 							<optgroup
@@ -130,17 +126,13 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 								<option value='prep ASC'>Prep ASC</option>
 								<option value='prep DESC'>Prep DESC</option>
 							</optgroup>
-							<optgroup
-							name= 'cook'
-							 label="Cook Time">
-								<option value='cook ASC'>Cook ASC</option>
-								<option value='cook DESC'>Cook DESC</option>
+							<optgroup name="cook" label="Cook Time">
+								<option value="cook ASC">Cook ASC</option>
+								<option value="cook DESC">Cook DESC</option>
 							</optgroup>
-							<optgroup 
-							name= 'published'
-							label="Date Created">
-								<option value='date ASC'>Date ASC</option>
-								<option value='date DESC'>Date DESC</option>
+							<optgroup name="published" label="Date Created">
+								<option value="date ASC">Date ASC</option>
+								<option value="date DESC">Date DESC</option>
 							</optgroup>
 						</Select>
 					</FormControl>
@@ -160,14 +152,13 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 			)}
 			<div>
 				<h2>Applied Filters:</h2>
-				{Array.isArray(selectedFilters.category) &&
-					selectedFilters.category.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("category", filter)}
-						/>
-					))}
+				{selectedFilters.category && (
+					<Chip
+						key={selectedFilters.category}
+						label={selectedFilters.category}
+						onDelete={() => handleDelete("category", selectedFilters.category)}
+					/>
+				)}
 				{Array.isArray(selectedFilters.tags) &&
 					selectedFilters.tags.map((filter, index) => (
 						<Chip
@@ -176,14 +167,13 @@ const SearchBar = ({ applyFilters, appliedFilters , searchTerm , setSearchTerm, 
 							onDelete={() => handleDelete("tags", filter)}
 						/>
 					))}
-				{Array.isArray(selectedFilters.ingredients) &&
-					selectedFilters.ingredients.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("ingredients", filter)}
-						/>
-					))}
+				{selectedFilters.ingredients && (
+					<Chip
+						key={selectedFilters.ingredients}
+						label={selectedFilters.ingredients}
+						onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+					/>
+				)}
 				{selectedFilters.instructions !== null && (
 					<Chip
 						label={selectedFilters.instructions}
