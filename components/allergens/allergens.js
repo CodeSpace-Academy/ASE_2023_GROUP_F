@@ -1,4 +1,5 @@
 import React from 'react';
+import HandleError from '../error/Error';
 
 function RecipeAllergens(props) {
   const { allergens, ingredients } = props;
@@ -27,10 +28,16 @@ function RecipeAllergens(props) {
     <p>
       {allergensFound.length > 0 ? (
         <span>
+          <HandleError>
           <strong>Notice:</strong> The following allergens are found in the recipe's ingredients: <strong>{allergensFound.join(', ')}</strong>.
+          </HandleError>
         </span>
       ) : (
-        <span>No allergens found in the ingredients.</span>
+        <span>
+            <HandleError>
+                No allergens found in the ingredients.
+            </HandleError>
+      </span>
       )}
     </p>
   </div>

@@ -8,7 +8,7 @@ import { filterContext } from "@/components/search-functionality/filterContext";
 import Description from '../components/description/description';
 import Instructions from '../components/details/instructions/instructions';
 import RecipeTags from '../components/tags/RecipeTags';
-import HandleNetworkError from '../components/network-error/NetworkError'
+
 
 const PAGE_SIZE = 48;
 

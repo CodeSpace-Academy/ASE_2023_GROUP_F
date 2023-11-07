@@ -1,6 +1,6 @@
 import React from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import HandleNetworkError from '../network-error/NetworkError';
+import HandleError from '../error/Error';
 
 function RecipeTags(props) {
   const { tags, networkError } = props;
@@ -8,13 +8,17 @@ function RecipeTags(props) {
   if (networkError) {
     return (
       <div>
-        <HandleNetworkError errorType="tags" />
+        <HandleError errorType="tags" />
       </div>
     );
   }
 
   if (!tags) {
-    return <div>No tags available</div>;
+    return <div>
+      <HandleError>
+        No errors found
+      </HandleError>
+    </div>;
   }
 
   return (

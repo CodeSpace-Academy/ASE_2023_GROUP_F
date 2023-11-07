@@ -189,7 +189,7 @@ const SearchBar = ({
 					/>
 				)}
 			</div>
-			{noFiltersApplied && <p>No filters have been applied.</p>}
+			{noFiltersApplied && <HandleError>No filters have been applied.</HandleError>}
 			<Chip
 				color="secondary"
 				label="Clear All Filters"

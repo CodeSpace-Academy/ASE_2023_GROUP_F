@@ -3,10 +3,7 @@ import Instructions from "./instructions/instructions";
 import Description from "../description/description";
 import { useState, useEffect } from "react";
 import { Button, ToggleButton } from "@mui/material";
-import {
-	KeyboardDoubleArrowLeft,
-	KeyboardDoubleArrowRight,
-} from "@mui/icons-material";
+import { KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from "@mui/icons-material";
 import classNames from "classnames";
 import RecipeTags from "../tags/RecipeTags";
 
@@ -70,7 +67,6 @@ function Details(props) {
 						<Description
 							recipeId={recipe._id}
 							description={recipe.description}
-							// userName={username should be passed here}
 						/>
 					</p>
 				</div>
