@@ -45,6 +45,8 @@ const SearchBar = ({
       ) {
         nonEmptyFilters[key] = filters[key];
       }
+
+	  setNoFiltersApplied(false)
     }
 
     if (Object.keys(nonEmptyFilters).length > 0) {
