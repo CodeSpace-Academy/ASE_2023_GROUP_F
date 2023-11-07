@@ -18,6 +18,7 @@ const SearchBar = ({
     ingredients: [],
     instructions: null,
   });
+  const [buttonEnabled, setButtonEnabled] = useState(false); 
 
   const { filters, sortOption, setSortOption } = useContext(filterContext);
 
@@ -80,17 +81,35 @@ const SearchBar = ({
     setNoFiltersApplied(true);
   };
 
+  const handleLongQuerySubmit = () => {
+    applyFilters({ title: searchTerm });
+  };
+
   useEffect(() => {
     let timeoutId;
 
-    if (searchTerm.length < 10) {
-      timeoutId = setTimeout(() => {
-        applyFilters({ title: searchTerm });
-      }, 500);
-    } else {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+    
+    const shortQueryDebounce = debounce((query) => {
+      applyFilters({ title: query });
+      setButtonEnabled(false);
+    }, 500);
+
+  
+    const longQueryDebounce = debounce((query) => {
+      setButtonEnabled(true); 
+    }, 1000);
+
+    
+    const applyDebounce = (query) => {
+      if (query.length < 10) {
+        shortQueryDebounce(query);
+      } else {
+        longQueryDebounce(query);
       }
+    };
+
+    if (searchTerm.length > 0) {
+      applyDebounce(searchTerm);
     }
 
     return () => {
@@ -111,7 +130,7 @@ const SearchBar = ({
         >
           Filters
         </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
+        <div className="flex mx-auto gap-10 items-center space-x-5">
           <label htmlFor="search" />
           <input
             className="rounded text-2xl p-2"
@@ -121,9 +140,18 @@ const SearchBar = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+           {buttonEnabled && ( 
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleLongQuerySubmit}
+        >
+          Submit
+        </Button>
+      )}
 
           <FormControl
-            className="border-gray-800 hover:bg-slate-200"
+            className="border-gray-800 hover-bg-slate-200"
             sx={{ m: 1, minWidth: 120 }}
           >
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
@@ -201,6 +229,7 @@ const SearchBar = ({
         )}
       </div>
       {noFiltersApplied && <p>No filters have been applied.</p>}
+     
       <Chip
         color="secondary"
         label="Clear All Filters"
