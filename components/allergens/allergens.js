@@ -27,10 +27,8 @@ function RecipeAllergens(props) {
     <div className="bg-yellow-100 border border-yellow-300 text-yellow-900 p-4 rounded-lg mb-4">
     <p>
       {allergensFound.length > 0 ? (
-        <span>
-          <HandleError>
+        <span className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">
           <strong>Notice:</strong> The following allergens are found in the recipe's ingredients: <strong>{allergensFound.join(', ')}</strong>.
-          </HandleError>
         </span>
       ) : (
         <span>

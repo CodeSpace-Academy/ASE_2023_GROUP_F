@@ -49,9 +49,6 @@ const SearchBar = ({
 
     if (Object.keys(nonEmptyFilters).length > 0) {
       await applyFilters(nonEmptyFilters, sortOption);
-      // if(count > 0){
-      //   setNoFiltersApplied(false);
-      // }
     }
     setSelectedFilters(filters);
   };
@@ -193,7 +190,7 @@ const SearchBar = ({
 					/>
 				)}
 			</div>
-			{noFiltersApplied && <HandleError>No filters have been applied.</HandleError>}
+			{noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
 			<Chip
 				color="secondary"
 				label="Clear All Filters"
