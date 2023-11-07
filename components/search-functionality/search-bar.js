@@ -3,6 +3,7 @@ import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
+import HandleError from '../error/Error'
 
 const SearchBar = ({
 	applyFilters,
