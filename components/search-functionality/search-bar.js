@@ -23,7 +23,7 @@ const SearchBar = ({
     instructions: null,
   });
 
-  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
 
   const { filters } = useContext(filterContext);
 
@@ -96,7 +96,7 @@ const SearchBar = ({
  
     const shortQueryDebounce = debounce((query) => {
       applyFilters({ title: query });
-      setButtonEnabled(false);
+      setButtonEnabled(true);
     }, 500);
 
 
