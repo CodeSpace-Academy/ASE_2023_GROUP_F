@@ -96,25 +96,28 @@ const SearchBar = ({
 
   return (
     <div>
-      <div className="flex container items-center justify-between">
+      <div className="container flex items-center justify-between">
         <Button
           variant="outlined"
           size="large"
           onClick={handleOpen}
-          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+          className="border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
         >
           Filters
         </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
+        <div className="flex items-center mx-auto space-x-5 gap-80">
           <label htmlFor="search" />
           <input
-            className="rounded text-2xl p-2"
+            className="relative z-10 w-12 h-12 p-2 pl-12 text-2xl bg-transparent border rounded-full outline-none cursor-pointer peer focus:w-full focus:cursor-text focus:border-black focus:pl-16 focus:pr-4"
             type="text"
             id="search"
             placeholder="Search...."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-y-0 my-auto h-8 w-12 border-r border-transparent stroke-black px-3.5 peer-focus:border-black peer-focus:stroke-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
@@ -196,7 +199,7 @@ const SearchBar = ({
           />
         )}
       </div>
-      {noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
+      {noFiltersApplied && <p className="px-4 py-2 my-4 text-yellow-700 bg-yellow-100 border border-yellow-400 rounded-md">No filters have been applied.</p>}
       <Chip
         color="secondary"
         label="Clear All Filters"
