@@ -48,7 +48,7 @@ const SearchBar = ({
         nonEmptyFilters[key] = filters[key];
       }
 
-	  setNoFiltersApplied(false)
+      setNoFiltersApplied(false)
     }
 
     if (Object.keys(nonEmptyFilters).length > 0) {
@@ -186,65 +186,69 @@ const SearchBar = ({
                 <option value="date ASC">Date ASC</option>
                 <option value="date DESC">Date DESC</option>
               </optgroup>
+              <optgroup name="instructions" label="Instructions">
+                <option value="instructions ASC">Instructions ASC</option>
+                <option value="instructions DESC">Instructions DESC</option>
+              </optgroup>
             </Select>
           </FormControl>
         </div>
       </div>
 
-			{open && (
-				<Modal
-					handleClose={handleClose}
-					applyFilters={handleApplyFilters}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
-					instructions={appliedFilters.instructions}
-					sortOption={sortOption}
-					setSortOption={setSortOption}
-				/>
-			)}
-			<div>
-				<h2>Applied Filters:</h2>
-				{selectedFilters.category && (
-					<Chip
-						key={selectedFilters.category}
-						label={selectedFilters.category}
-						onDelete={() => handleDelete("category", selectedFilters.category)}
-					/>
-				)}
-				{Array.isArray(selectedFilters.tags) &&
-					selectedFilters.tags.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("tags", filter)}
-						/>
-					))}
-				{selectedFilters.ingredients && (
-					<Chip
-						key={selectedFilters.ingredients}
-						label={selectedFilters.ingredients}
-						onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
-					/>
-				)}
-				{selectedFilters.instructions !== null && (
-					<Chip
-						label={selectedFilters.instructions}
-						onDelete={() =>
-							handleDelete("instructions", selectedFilters.instructions)
-						}
-					/>
-				)}
-			</div>
-			{noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
-			<Chip
-				color="secondary"
-				label="Clear All Filters"
-				size="small"
-				variant="outlined"
-				onClick={handleResetFilters}
-			/>
-		</div>
-	);
+      {open && (
+        <Modal
+          handleClose={handleClose}
+          applyFilters={handleApplyFilters}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          instructions={appliedFilters.instructions}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+        />
+      )}
+      <div>
+        <h2>Applied Filters:</h2>
+        {selectedFilters.category && (
+          <Chip
+            key={selectedFilters.category}
+            label={selectedFilters.category}
+            onDelete={() => handleDelete("category", selectedFilters.category)}
+          />
+        )}
+        {Array.isArray(selectedFilters.tags) &&
+          selectedFilters.tags.map((filter, index) => (
+            <Chip
+              key={index}
+              label={filter}
+              onDelete={() => handleDelete("tags", filter)}
+            />
+          ))}
+        {selectedFilters.ingredients && (
+          <Chip
+            key={selectedFilters.ingredients}
+            label={selectedFilters.ingredients}
+            onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+          />
+        )}
+        {selectedFilters.instructions !== null && (
+          <Chip
+            label={selectedFilters.instructions}
+            onDelete={() =>
+              handleDelete("instructions", selectedFilters.instructions)
+            }
+          />
+        )}
+      </div>
+      {noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
+      <Chip
+        color="secondary"
+        label="Clear All Filters"
+        size="small"
+        variant="outlined"
+        onClick={handleResetFilters}
+      />
+    </div>
+  );
 };
 
 export default SearchBar;
