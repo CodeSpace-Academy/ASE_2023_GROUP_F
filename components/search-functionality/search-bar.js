@@ -43,8 +43,8 @@ const SearchBar = (props) => {
 				nonEmptyFilters[key] = filters[key];
 			}
 
-			setNoFiltersApplied(false);
-		}
+      setNoFiltersApplied(false)
+    }
 
 		if (Object.keys(nonEmptyFilters).length > 0) {
 			await applyFilters(nonEmptyFilters, sortOption);
@@ -113,97 +113,96 @@ const SearchBar = (props) => {
 						onChange={(e) => setSearchTerm(e.target.value)}
 					/>
 
-					<FormControl
-						className="border-gray-800 hover:bg-slate-200"
-						sx={{ m: 1, minWidth: 120 }}
-					>
-						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-						<Select
-							defaultValue=""
-							id="grouped-native-select"
-							label="Grouping"
-							name="sortOption"
-							value={sortOption}
-							onChange={handleSort}
-						>
-							<option aria-label="None" value="" />
-							<optgroup name="prep" label="Prep Time">
-								<option value="prep ASC">Prep ASC</option>
-								<option value="prep DESC">Prep DESC</option>
-							</optgroup>
-							<optgroup name="cook" label="Cook Time">
-								<option value="cook ASC">Cook ASC</option>
-								<option value="cook DESC">Cook DESC</option>
-							</optgroup>
-							<optgroup name="published" label="Date Created">
-								<option value="date ASC">Date ASC</option>
-								<option value="date DESC">Date DESC</option>
-							</optgroup>
-						</Select>
-					</FormControl>
-				</div>
-			</div>
+          <FormControl
+            className="border-gray-800 hover:bg-slate-200"
+            sx={{ m: 1, minWidth: 120 }}
+          >
+            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+            <Select
+              native
+              defaultValue=""
+              id="grouped-native-select"
+              label="Grouping"
+              name="sortOption"
+              value={sortOption}
+              onChange={handleSort}
+            >
+              <option aria-label="None" value="" />
+              <optgroup name="prep" label="Prep Time">
+                <option value="prep ASC">Prep ASC</option>
+                <option value="prep DESC">Prep DESC</option>
+              </optgroup>
+              <optgroup name="cook" label="Cook Time">
+                <option value="cook ASC">Cook ASC</option>
+                <option value="cook DESC">Cook DESC</option>
+              </optgroup>
+              <optgroup name="published" label="Date Created">
+                <option value="date ASC">Date ASC</option>
+                <option value="date DESC">Date DESC</option>
+              </optgroup>
+              <optgroup name="instructions" label="Instructions">
+                <option value="instructions ASC">Instructions ASC</option>
+                <option value="instructions DESC">Instructions DESC</option>
+              </optgroup>
+            </Select>
+          </FormControl>
+        </div>
+      </div>
 
-			{open && (
-				<Modal
-					handleClose={handleClose}
-					applyFilters={handleApplyFilters}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
-					instructions={appliedFilters.instructions}
-					sortOption={sortOption}
-					setSortOption={setSortOption}
-				/>
-			)}
-			<div>
-				<h2>Applied Filters:</h2>
-				{selectedFilters.category && (
-					<Chip
-						key={selectedFilters.category}
-						label={selectedFilters.category}
-						onDelete={() => handleDelete("category", selectedFilters.category)}
-					/>
-				)}
-				{Array.isArray(selectedFilters.tags) &&
-					selectedFilters.tags.map((filter, index) => (
-						<Chip
-							key={index}
-							label={filter}
-							onDelete={() => handleDelete("tags", filter)}
-						/>
-					))}
-				{selectedFilters.ingredients && (
-					<Chip
-						key={selectedFilters.ingredients}
-						label={selectedFilters.ingredients}
-						onDelete={() =>
-							handleDelete("ingredients", selectedFilters.ingredients)
-						}
-					/>
-				)}
-				{selectedFilters.instructions !== null && (
-					<Chip
-						label={selectedFilters.instructions}
-						onDelete={() =>
-							handleDelete("instructions", selectedFilters.instructions)
-						}
-					/>
-				)}
-			</div>
-			{noFiltersApplied && (
-				<p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">
-					No filters have been applied.
-				</p>
-			)}
-			<Chip
-				color="secondary"
-				label="Clear All Filters"
-				size="small"
-				variant="outlined"
-				onClick={handleResetFilters}
-			/>
-		</div>
-	);
+      {open && (
+        <Modal
+          handleClose={handleClose}
+          applyFilters={handleApplyFilters}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          instructions={appliedFilters.instructions}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+        />
+      )}
+      <div>
+        <h2>Applied Filters:</h2>
+        {selectedFilters.category && (
+          <Chip
+            key={selectedFilters.category}
+            label={selectedFilters.category}
+            onDelete={() => handleDelete("category", selectedFilters.category)}
+          />
+        )}
+        {Array.isArray(selectedFilters.tags) &&
+          selectedFilters.tags.map((filter, index) => (
+            <Chip
+              key={index}
+              label={filter}
+              onDelete={() => handleDelete("tags", filter)}
+            />
+          ))}
+        {selectedFilters.ingredients && (
+          <Chip
+            key={selectedFilters.ingredients}
+            label={selectedFilters.ingredients}
+            onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+          />
+        )}
+        {selectedFilters.instructions !== null && (
+          <Chip
+            label={selectedFilters.instructions}
+            onDelete={() =>
+              handleDelete("instructions", selectedFilters.instructions)
+            }
+          />
+        )}
+      </div>
+      {noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
+      <Chip
+        color="secondary"
+        label="Clear All Filters"
+        size="small"
+        variant="outlined"
+        onClick={handleResetFilters}
+      />
+    </div>
+  );
 };
 
 export default SearchBar;
