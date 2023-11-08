@@ -8,8 +8,6 @@ export default async function handler(req, res) {
 			const documents = await collection.find({ isFavorite: true }).toArray();
 			const number = documents.length;
 
-			console.log(number , 'total records found')
-
 			res.status(200).json({ favoriteRecipes: documents , count: number });
 		} catch (error) {
 			console.error("Error fetching favorite recipes:", error);
