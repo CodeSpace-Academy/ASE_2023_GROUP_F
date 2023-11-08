@@ -7,7 +7,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Image from "next/image";
 
 const RecipeCard = (props) => {
-	const { title, images, recipe   } = props;
+	const { title, images, recipe } = props;
 	const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
 	const [isVisible, setIsVisible] = useState(true);
 
@@ -33,9 +33,13 @@ const RecipeCard = (props) => {
 				});
 
 				if (response.ok) {
-          prompt("Are you sure you want to remove this recipe from favorites?")
-					setIsFavorite(false);
-					setIsVisible(false);
+					const confirm = window.confirm(
+						"Are you sure you want to remove this recipe from favorites?",
+					);
+					if (confirm) {
+						setIsFavorite(false);
+						setIsVisible(false);
+					}
 				} else {
 					console.error("Failed to update favorite status");
 				}
@@ -61,7 +65,6 @@ const RecipeCard = (props) => {
 			console.error("Error updating favorite status:", error);
 		}
 	};
-
 
 	const isButtonVisible = images.length > 1;
 
