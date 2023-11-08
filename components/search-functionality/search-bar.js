@@ -119,7 +119,6 @@ const SearchBar = (props) => {
           >
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
-              native
               defaultValue=""
               id="grouped-native-select"
               label="Grouping"
