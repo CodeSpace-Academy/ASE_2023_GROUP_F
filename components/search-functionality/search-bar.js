@@ -3,7 +3,7 @@ import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
-import HandleError from '../error/Error'
+import HandleError from "../error/Error";
 
 const SearchBar = ({
   applyFilters,
@@ -16,13 +16,6 @@ const SearchBar = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
-
   const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
@@ -46,7 +39,7 @@ const SearchBar = ({
         nonEmptyFilters[key] = filters[key];
       }
 
-      setNoFiltersApplied(false)
+      setNoFiltersApplied(false);
     }
 
     if (Object.keys(nonEmptyFilters).length > 0) {
@@ -54,13 +47,19 @@ const SearchBar = ({
     }
     setSelectedFilters(filters);
   };
+
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters };
-    updatedFilters[filterType] = updatedFilters[filterType].filter(
-      (item) => item !== filterValue
-    );
+
+    if (Array.isArray(updatedFilters[filterType])) {
+      updatedFilters[filterType] = updatedFilters[filterType].filter(
+        (item) => item !== filterValue
+      );
+    } else {
+      updatedFilters[filterType] = [];
+    }
+
     setSelectedFilters(updatedFilters);
-    setUpdateAppliedfilter(updatedFilters);
 
     handleApplyFilters(updatedFilters);
   };
@@ -164,46 +163,73 @@ const SearchBar = ({
         />
       )}
       <div>
-        <h2>Applied Filters:</h2>
-        {selectedFilters.category && (
-          <Chip
-            key={selectedFilters.category}
-            label={selectedFilters.category}
-            onDelete={() => handleDelete("category", selectedFilters.category)}
-          />
+        <h2 className="font-bold">Applied Filters:</h2>
+        {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
+          filterName !== "instructions" &&
+          Array.isArray(filterValues) &&
+          filterValues.length > 0 ? (
+            <div
+              key={filterName}
+              style={{
+                display: "inline-block",
+                marginRight: "1rem",
+                maxWidth: 500,
+              }}
+            >
+              <strong>{filterName}:</strong>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {filterValues.map((value, index) => (
+                  <Chip
+                    key={index}
+                    label={value}
+                    onDelete={() => handleDelete(filterName, value)}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null
         )}
-        {Array.isArray(selectedFilters.tags) &&
-          selectedFilters.tags.map((filter, index) => (
-            <Chip
-              key={index}
-              label={filter}
-              onDelete={() => handleDelete("tags", filter)}
-            />
-          ))}
-        {selectedFilters.ingredients && (
-          <Chip
-            key={selectedFilters.ingredients}
-            label={selectedFilters.ingredients}
-            onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
-          />
-        )}
-        {selectedFilters.instructions !== null && (
-          <Chip
-            label={selectedFilters.instructions}
-            onDelete={() =>
-              handleDelete("instructions", selectedFilters.instructions)
-            }
-          />
-        )}
+
+        {selectedFilters.instructions !== null &&
+          selectedFilters.instructions !== "" && (
+            <div
+              style={{
+                display: "inline-block",
+                marginRight: "1rem",
+                maxWidth: 500,
+              }}
+            >
+              <strong>Instructions:</strong>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                <Chip
+                  label={selectedFilters.instructions}
+                  onDelete={() =>
+                    setSelectedFilters((prevFilters) => ({
+                      ...prevFilters,
+                      instructions: null,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          )}
       </div>
-      {noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
-      <Chip
-        color="secondary"
-        label="Clear All Filters"
-        size="small"
-        variant="outlined"
-        onClick={handleResetFilters}
-      />
+
+      {!noFiltersApplied && (
+        <Chip
+          color="secondary"
+          label="Clear All Filters"
+          size="small"
+          variant="outlined"
+          onClick={handleResetFilters}
+        />
+      )}
+
+      {noFiltersApplied && (
+        <p className="font-light text-blue-950">
+          No filters have been applied.
+        </p>
+      )}
     </div>
   );
 };
