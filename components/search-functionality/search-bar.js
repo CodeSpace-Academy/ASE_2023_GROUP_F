@@ -3,117 +3,115 @@ import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
-import HandleError from "../error/Error";
 
-const SearchBar = ({
-  applyFilters,
-  appliedFilters,
-  searchTerm,
-  setSearchTerm,
-  sortOption,
-  setSortOption,
-  count,
-}) => {
-  const [open, setOpen] = useState(false);
-  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-  const { filters } = useContext(filterContext);
+const SearchBar = (props) => {
+	const {
+		applyFilters,
+		appliedFilters,
+		searchTerm,
+		setSearchTerm,
+		sortOption,
+		setSortOption,
+	} = props;
+	const [open, setOpen] = useState(false);
+	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+		category: [],
+		tags: [],
+		ingredients: [],
+		instructions: null,
+	});
 
-  const [selectedFilters, setSelectedFilters] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
+	const [selectedFilters, setSelectedFilters] = useState({
+		category: [],
+		tags: [],
+		ingredients: [],
+		instructions: null,
+	});
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
-  const handleApplyFilters = async (filters) => {
-    const nonEmptyFilters = {};
-    for (const key in filters) {
-      if (
-        filters[key] !== null &&
-        filters[key] !== "" &&
-        filters[key].length > 0
-      ) {
-        nonEmptyFilters[key] = filters[key];
-      }
+	const handleApplyFilters = async (filters) => {
+		const nonEmptyFilters = {};
+		for (const key in filters) {
+			if (
+				filters[key] !== null &&
+				filters[key] !== "" &&
+				filters[key].length > 0
+			) {
+				nonEmptyFilters[key] = filters[key];
+			}
 
       setNoFiltersApplied(false);
     }
 
-    if (Object.keys(nonEmptyFilters).length > 0) {
-      await applyFilters(nonEmptyFilters, sortOption);
-    }
-    setSelectedFilters(filters);
-  };
+		if (Object.keys(nonEmptyFilters).length > 0) {
+			await applyFilters(nonEmptyFilters, sortOption);
+		}
+		setSelectedFilters(filters);
+	};
+	const handleDelete = (filterType, filterValue) => {
+		const updatedFilters = { ...selectedFilters };
+		updatedFilters[filterType] = updatedFilters[filterType].filter(
+			(item) => item !== filterValue,
+		);
+		setSelectedFilters(updatedFilters);
+		setUpdateAppliedfilter(updatedFilters);
 
-  const handleDelete = (filterType, filterValue) => {
-    const updatedFilters = { ...selectedFilters };
+		handleApplyFilters(updatedFilters);
+	};
 
-    if (Array.isArray(updatedFilters[filterType])) {
-      updatedFilters[filterType] = updatedFilters[filterType].filter(
-        (item) => item !== filterValue
-      );
-    } else {
-      updatedFilters[filterType] = [];
-    }
+	const handleSort = async (event) => {
+		const newSortOption = event.target.value;
+		setSortOption(newSortOption);
+		await applyFilters(selectedFilters, newSortOption);
+	};
 
-    setSelectedFilters(updatedFilters);
+	const handleResetFilters = () => {
+		setSelectedFilters({
+			category: [],
+			tags: [],
+			ingredients: [],
+			instructions: null,
+		});
+		applyFilters({}, sortOption);
+		setNoFiltersApplied(true);
+	};
 
-    handleApplyFilters(updatedFilters);
-  };
+	useEffect(() => {
+		const debouncedApplyFilters = debounce((title) => {
+			applyFilters({ title }, sortOption);
+		}, 500);
 
-  const handleSort = async (event) => {
-    const newSortOption = event.target.value;
-    setSortOption(newSortOption);
-    await applyFilters(selectedFilters, newSortOption);
-  };
+		debouncedApplyFilters(searchTerm);
 
-  const handleResetFilters = () => {
-    setSelectedFilters({
-      category: [],
-      tags: [],
-      ingredients: [],
-      instructions: null,
-    });
-    applyFilters({}, sortOption);
-    setNoFiltersApplied(true);
-  };
+		return () => {
+			debouncedApplyFilters.cancel();
+		};
+	}, [searchTerm, sortOption]);
 
-  useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ title }, sortOption);
-    }, 500);
-
-    debouncedApplyFilters(searchTerm);
-
-    return () => {
-      debouncedApplyFilters.cancel();
-    };
-  }, [searchTerm, sortOption]);
-
-  return (
-    <div>
-      <div className="flex container items-center justify-between">
-        <Button
-          variant="outlined"
-          size="large"
-          onClick={handleOpen}
-          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
-        >
-          Filters
-        </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
-          <label htmlFor="search" />
-          <input
-            className="rounded text-2xl p-2"
-            type="text"
-            id="search"
-            placeholder="Search...."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+	return (
+		<div>
+			<div className="flex container items-center justify-between">
+				<Button
+					variant="outlined"
+					size="large"
+					onClick={handleOpen}
+					className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+				>
+					Filters
+				</Button>
+				<div className="flex mx-auto gap-80 items-center space-x-5">
+					<label htmlFor="search" />
+					<input
+						className="rounded text-2xl p-2"
+						type="text"
+						id="search"
+						placeholder="Search...."
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
@@ -122,7 +120,7 @@ const SearchBar = ({
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
               native
-              defaultValue=""
+             
               id="grouped-native-select"
               label="Grouping"
               name="sortOption"
