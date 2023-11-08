@@ -1,12 +1,12 @@
-import { Card } from "@mui/material";
+import { Card } from '@mui/material'
 
-function Nutrition({nutritionList}){
+function Nutrition({ nutritionList }) {
   const nutrition = Object.entries(nutritionList)
 
-  return(
-    <div className="h-96 overflow-y-auto bg-cyan-500">
+  return (
+    <div className=" overflow-y-auto flex flex-row">
       {nutrition.map(([key, value]) => (
-        <Card sx={{margin: 3, padding: 3, width: 150}}>
+        <Card sx={{ margin: 0.5, padding: 1 }}>
           <div>
             {key}: {value}
           </div>
@@ -16,4 +16,4 @@ function Nutrition({nutritionList}){
   )
 }
 
-export default Nutrition;
+export default Nutrition
