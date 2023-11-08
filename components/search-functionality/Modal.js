@@ -59,14 +59,18 @@ function Modal(props) {
 				<form onSubmit={handleSubmit} id="form">
 					<h2 className="mb-2 mr-5 font-bold">Filter</h2>
 					<div>
-						<TextField
-							className="mb-2"
+					<Autocomplete
 							id="outlined-basic"
-							label="Categories"
-							variant="outlined"
-							name="category"
-							value={filters.category}
-						/>
+							options={tags}
+							getOptionLabel={(option) => option}
+							value={categoryOption}
+							onChange={(event, newValue) => {
+								setCategoryOption(newValue)
+							}}
+							renderInput={(params) => (
+								<TextField {...params} label="Categories" variant="outlined" />
+							)}
+					/>
 						<br />
 						<Autocomplete
 							multiple

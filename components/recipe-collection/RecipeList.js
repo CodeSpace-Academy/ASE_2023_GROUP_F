@@ -12,7 +12,7 @@ const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes , search
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(count / PAGE_SIZE);
-  const remainingRecipes = count - visibleRecipes.length;
+  const remainingRecipes = count - visibleRecipes?.length;
 
   const loadMoreRecipes = async () => {
     setLoading(true);
