@@ -33,6 +33,7 @@ const RecipeCard = (props) => {
 				});
 
 				if (response.ok) {
+          prompt("Are you sure you want to remove this recipe from favorites?")
 					setIsFavorite(false);
 					setIsVisible(false);
 				} else {
