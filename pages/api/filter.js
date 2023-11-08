@@ -61,6 +61,11 @@ export default async function handler(req, res) {
 			} else if (sort === 'date DESC') {
 				querySort.published = -1;
 			}
+			if (sort === 'instructions ASC') {
+				querySort.instructions = 1;
+			  } else if (sort === 'instructions DESC') {
+				querySort.instructions = -1;
+			}			  
 
 			const documents = await collection
 				.find(queryFilter)
