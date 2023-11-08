@@ -12,7 +12,7 @@ const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes , search
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(count / PAGE_SIZE);
-  const remainingRecipes = count - visibleRecipes.length;
+  const remainingRecipes = count - visibleRecipes?.length;
 
   const loadMoreRecipes = async () => {
     setLoading(true);
@@ -44,7 +44,6 @@ const RecipeList = ({ visibleRecipes, count, appliedFilters, setRecipes , search
             key={recipe._id}
             title={
               <Highlighter
-                highlightClassName="YourHighlightClass"
                 searchWords={[searchTerm]}
                 autoEscape={true}
                 textToHighlight={recipe.title}
