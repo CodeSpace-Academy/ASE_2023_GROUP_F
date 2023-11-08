@@ -1,53 +1,51 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { Card, Button, TextField } from "@mui/material";
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { Card, Button, TextField } from '@mui/material'
 
 function Description(props) {
-  const { recipeId, description, userName } = props;
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedDescription, setEditedDescription] = useState(description);
+  const { recipeId, description, userName } = props
+  const [isEditing, setIsEditing] = useState(false)
+  const [editedDescription, setEditedDescription] = useState(description)
 
   const handleEdit = () => {
-    setIsEditing(true);
-  };
+    setIsEditing(true)
+  }
 
   const handleSave = async () => {
-    const currentDate = new Date();
+    const currentDate = new Date()
     const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    const formattedDate = currentDate.toLocaleDateString(undefined, options);
-  
-    const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`;
-  
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }
+    const formattedDate = currentDate.toLocaleDateString(undefined, options)
+
+    const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`
+
     try {
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ description: updatedDescription }),
-      });
-      
-  
+      })
+
       if (response.ok) {
-        console.log("Description updated successfully");
-        setIsEditing(false);
+        console.log('Description updated successfully')
+        setIsEditing(false)
       } else {
-        console.error("Failed to update the description");
+        console.error('Failed to update the description')
       }
     } catch (error) {
-      console.error("Error updating description:", error);
+      console.error('Error updating description:', error)
     }
-  };
-  
+  }
 
   return (
     <div>
-      <div className="bg-green-500 h-96 overflow-y-auto">
-        <Card className="m-8 p-8">
+      <div className=" overflow-y-auto">
+        <Card style={{ background: 'rgba(0, 0, 0, 0)' }}>
           {isEditing ? (
             <div>
               <TextField
@@ -62,16 +60,18 @@ function Description(props) {
             </div>
           ) : (
             <div>
-              <p className="text-xl m-10">{editedDescription}</p>
-              <Button variant="outlined" onClick={handleEdit}>
-                Edit Description
-              </Button>
+              <p className="text-xl m-1">
+                {editedDescription}
+                <Button variant="outlined" onClick={handleEdit}>
+                  Edit
+                </Button>
+              </p>
             </div>
           )}
         </Card>
       </div>
     </div>
-  );
+  )
 }
 
-export default Description;
+export default Description
