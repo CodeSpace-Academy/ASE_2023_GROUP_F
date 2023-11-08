@@ -1,55 +1,56 @@
-import Ingredients from "./ingredients/ingredients";
-import Instructions from "./instructions/instructions";
-import Description from "../description/description";
-import { useState, useEffect } from "react";
-import { Button, ToggleButton } from "@mui/material";
+import Ingredients from './ingredients/ingredients'
+import Instructions from './instructions/instructions'
+import Description from '../description/description'
+import { useState, useEffect } from 'react'
+import { Button, ToggleButton } from '@mui/material'
 import {
   KeyboardDoubleArrowLeft,
   KeyboardDoubleArrowRight,
-} from "@mui/icons-material";
-import classNames from "classnames";
-import RecipeTags from "../tags/RecipeTags";
+} from '@mui/icons-material'
+import classNames from 'classnames'
+import RecipeTags from '../tags/RecipeTags'
 
-import RecipeBanner from "./recipeBanner/recipeBanner";
-import SideBar from "./sideBar/sideBar";
-import { getAllergens } from "@/lib/view-recipes";
-import RecipeAllergens from "../allergens/allergens";
+import RecipeBanner from './recipeBanner/recipeBanner'
+import SideBar from './sideBar/sideBar'
+import { getAllergens } from '@/lib/view-recipes'
+import RecipeAllergens from '../allergens/allergens'
+import Nutrition from './nutrition/nutrition'
 
 function Details(props) {
-  const { recipe } = props;
+  const { recipe } = props
 
-  const [toggleList, setToggleList] = useState(true);
-  const [toggleSideBar, setToggleSideBar] = useState(false);
-  const [allergens, setAllergens] = useState([]);
+  const [toggleList, setToggleList] = useState(true)
+  const [toggleSideBar, setToggleSideBar] = useState(false)
+  const [allergens, setAllergens] = useState([])
 
   useEffect(() => {
     const callAllergens = async () => {
       try {
-        const data = await getAllergens();
-        setAllergens(data.allergens[0].allergens);
-        return data.allergens[0].allergens;
+        const data = await getAllergens()
+        setAllergens(data.allergens[0].allergens)
+        return data.allergens[0].allergens
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    };
+    }
 
-    callAllergens();
-  }, []);
+    callAllergens()
+  }, [])
 
   function toggleIngredients() {
-    setToggleList(true);
+    setToggleList(true)
   }
 
   function toggleInstructions() {
-    setToggleList(false);
+    setToggleList(false)
   }
 
-  const wrapping = classNames("bg-gray-300 p-5 right-0 relative", {
-    ["w-10"]: !toggleSideBar,
-  });
+  const wrapping = classNames('bg-gray-300 p-5 right-0 relative', {
+    ['w-10']: !toggleSideBar,
+  })
 
   function toggleSideBarHandler() {
-    setToggleSideBar(!toggleSideBar);
+    setToggleSideBar(!toggleSideBar)
   }
 
   return (
@@ -63,17 +64,33 @@ function Details(props) {
             servingAmount={recipe.servings}
           />
         </div>
-        <div className="text-center text-4xl font-sans ">
-          {recipe.title}
-
-          <p className="text-xl m-10">
+        <div>
+          <div className="text-center text-4xl font-sans ">{recipe.title}</div>
+          <br />
+          <div>
+            <RecipeAllergens
+              allergens={allergens}
+              ingredients={recipe.ingredients}
+            />
+          </div>
+          <p className="text-l text-center mt-5">
             <Description
               recipeId={recipe._id}
               description={recipe.description}
               // userName={username should be passed here}
             />
-            <a href="_blank">View More</a>
           </p>
+          <div className="flex flex-row">
+            <div className=" p-5 ">Cook time {recipe.cook} mins</div>
+            <div className="  p-5 ">Preparation time {recipe.prep} mins</div>
+            <div className=" p-5 ">Serves {recipe.servings}</div>
+          </div>
+          <div>
+            <RecipeTags tags={recipe.tags} />
+          </div>{' '}
+          <div>
+            <Nutrition nutritionList={recipe.nutrition} />
+          </div>
         </div>
 
         <div className="flex flex-row">
@@ -84,43 +101,45 @@ function Details(props) {
               <KeyboardDoubleArrowLeft />
             )}
           </Button>
-          <div className={wrapping}>
-            <SideBar nutrition={recipe.nutrition} state={toggleSideBar} />
-          </div>
         </div>
-      </div>
-      <div>
-        <RecipeTags tags={recipe.tags} />
-      </div>
-      <div>
-        <RecipeAllergens
-          allergens={allergens}
-          ingredients={recipe.ingredients}
-        />
       </div>
 
       <div>
         <div class="block md:hidden ">
           <Button
             value="ingredients"
-            variant={toggleList ? "outlined" : "text"}
+            variant={toggleList ? 'outlined' : 'text'}
             onClick={toggleIngredients}
           >
             ingredients
           </Button>
           <Button
             value="ingredients"
-            variant={!toggleList ? "outlined" : "text"}
+            variant={!toggleList ? 'outlined' : 'text'}
             onClick={toggleInstructions}
           >
             instructions
           </Button>
         </div>
-        <div class="grid gap-2 md:grid-cols-2 ">
-          <div className={`md:block ${toggleList ? "xs:block" : "xs:hidden"}`}>
+        <div class="grid gap-2 md:grid-cols-3 ">
+          <div
+            className={`md:block col-span-1 ${
+              toggleList ? 'xs:block' : 'xs:hidden'
+            }`}
+          >
+            <p className={` text-center font-bold md:block  xs:hidden `}>
+              Ingredients
+            </p>
             <Ingredients ingredients={recipe.ingredients} />
           </div>
-          <div className={`md:block ${!toggleList ? "xs:block" : "xs:hidden"}`}>
+          <div
+            className={`md:block col-span-2 ${
+              !toggleList ? 'xs:block' : 'xs:hidden'
+            }`}
+          >
+            <p className={` text-center font-bold md:block xs:hidden`}>
+              Instructions
+            </p>
             <Instructions
               recipeId={recipe._id}
               instructions={recipe.instructions}
@@ -130,7 +149,7 @@ function Details(props) {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Details;
+export default Details
