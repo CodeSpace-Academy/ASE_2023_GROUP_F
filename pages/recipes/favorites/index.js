@@ -15,8 +15,8 @@ const FavoriteRecipesPage = () => {
             try {
                 const recipes = await getFavoriteRecipes();
               
-                setFavoriteRecipes(recipes);
-                setFavoriteRecipesCount(recipes.length);
+                setFavoriteRecipes(recipes.favoriteRecipes);
+                setFavoriteRecipesCount(recipes.count);
             } catch (error) {
                 console.error('Error fetching favorite recipes:', error);
             } finally {
