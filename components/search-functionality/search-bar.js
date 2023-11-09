@@ -23,9 +23,9 @@ const SearchBar = (props) => {
 	});
 
 	const [selectedFilters, setSelectedFilters] = useState({
-		category: [],
+		category: null,
 		tags: [],
-		ingredients: [],
+		ingredients: null,
 		instructions: null,
 	});
 
@@ -43,12 +43,13 @@ const SearchBar = (props) => {
 				nonEmptyFilters[key] = filters[key];
 			}
 
-      setNoFiltersApplied(false);
-    }
+			setNoFiltersApplied(false);
+		}
 
 		if (Object.keys(nonEmptyFilters).length > 0) {
 			await applyFilters(nonEmptyFilters, sortOption);
 		}
+		// filters.category = filters.category
 		setSelectedFilters(filters);
 	};
 	const handleDelete = (filterType, filterValue) => {
@@ -113,123 +114,170 @@ const SearchBar = (props) => {
 						onChange={(e) => setSearchTerm(e.target.value)}
 					/>
 
-          <FormControl
-            className="border-gray-800 hover:bg-slate-200"
-            sx={{ m: 1, minWidth: 120 }}
-          >
-            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-            <Select
-              native
-             
-              id="grouped-native-select"
-              label="Grouping"
-              name="sortOption"
-              value={sortOption}
-              onChange={handleSort}
-            >
-              <option aria-label="None" value="" />
-              <optgroup name="prep" label="Prep Time">
-                <option value="prep ASC">Prep ASC</option>
-                <option value="prep DESC">Prep DESC</option>
-              </optgroup>
-              <optgroup name="cook" label="Cook Time">
-                <option value="cook ASC">Cook ASC</option>
-                <option value="cook DESC">Cook DESC</option>
-              </optgroup>
-              <optgroup name="published" label="Date Created">
-                <option value="date ASC">Date ASC</option>
-                <option value="date DESC">Date DESC</option>
-              </optgroup>
-              <optgroup name="instructions" label="Instructions">
-                <option value="instructions ASC">Instructions ASC</option>
-                <option value="instructions DESC">Instructions DESC</option>
-              </optgroup>
-            </Select>
-          </FormControl>
-        </div>
-      </div>
+					<FormControl
+						className="border-gray-800 hover:bg-slate-200"
+						sx={{ m: 1, minWidth: 120 }}
+					>
+						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+						<Select
+							native
+							id="grouped-native-select"
+							label="Grouping"
+							name="sortOption"
+							value={sortOption}
+							onChange={handleSort}
+						>
+							<option aria-label="None" value="" />
+							<optgroup name="prep" label="Prep Time">
+								<option value="prep ASC">Prep ASC</option>
+								<option value="prep DESC">Prep DESC</option>
+							</optgroup>
+							<optgroup name="cook" label="Cook Time">
+								<option value="cook ASC">Cook ASC</option>
+								<option value="cook DESC">Cook DESC</option>
+							</optgroup>
+							<optgroup name="published" label="Date Created">
+								<option value="date ASC">Date ASC</option>
+								<option value="date DESC">Date DESC</option>
+							</optgroup>
+							<optgroup name="instructions" label="Instructions">
+								<option value="instructions ASC">Instructions ASC</option>
+								<option value="instructions DESC">Instructions DESC</option>
+							</optgroup>
+						</Select>
+					</FormControl>
+				</div>
+			</div>
 
-      {open && (
-        <Modal
-          handleClose={handleClose}
-          applyFilters={handleApplyFilters}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          instructions={appliedFilters.instructions}
-          sortOption={sortOption}
-          setSortOption={setSortOption}
-        />
-      )}
-      <div>
-        <h2 className="font-bold">Applied Filters:</h2>
-        {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
-          filterName !== "instructions" &&
-          Array.isArray(filterValues) &&
-          filterValues.length > 0 ? (
-            <div
-              key={filterName}
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>{filterName}:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {filterValues.map((value, index) => (
-                  <Chip
-                    key={index}
-                    label={value}
-                    onDelete={() => handleDelete(filterName, value)}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : null
-        )}
+			{open && (
+				<Modal
+					handleClose={handleClose}
+					applyFilters={handleApplyFilters}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					instructions={appliedFilters.instructions}
+					sortOption={sortOption}
+					setSortOption={setSortOption}
+				/>
+			)}
+			<div>
+				<h2 className="font-bold">Applied Filters:</h2>
+				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
+					filterName !== "instructions" &&
+					Array.isArray(filterValues) &&
+					filterValues.length > 0 ? (
+						<div
+							key={filterName}
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>{filterName}:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								{filterValues.map((value, index) => (
+									<Chip
+										key={index}
+										label={value}
+										onDelete={() => handleDelete(filterName, value)}
+									/>
+								))}
+							</div>
+						</div>
+					) : null,
+				)}
 
-        {selectedFilters.instructions !== null &&
-          selectedFilters.instructions !== "" && (
-            <div
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>Instructions:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <Chip
-                  label={selectedFilters.instructions}
-                  onDelete={() =>
-                    setSelectedFilters((prevFilters) => ({
-                      ...prevFilters,
-                      instructions: null,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          )}
-      </div>
+				{selectedFilters.instructions !== null &&
+					selectedFilters.instructions !== "" && (
+						<div
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>Instructions:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								<Chip
+									label={selectedFilters.instructions}
+									onDelete={() =>
+										setSelectedFilters((prevFilters) => ({
+											...prevFilters,
+											instructions: null,
+										}))
+									}
+								/>
+							</div>
+						</div>
+					)}
 
-      {!noFiltersApplied && (
-        <Chip
-          color="secondary"
-          label="Clear All Filters"
-          size="small"
-          variant="outlined"
-          onClick={handleResetFilters}
-        />
-      )}
+				{selectedFilters.category !== null &&
+					selectedFilters.category !== "" && (
+						<div
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>Category:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								<Chip
+									label={selectedFilters.category}
+									onDelete={() =>
+										setSelectedFilters((prevFilters) => ({
+											...prevFilters,
+											category: null,
+										}))
+									}
+								/>
+							</div>
+						</div>
+					)}
 
-      {noFiltersApplied && (
-        <p className="font-light text-blue-950">
-          No filters have been applied.
-        </p>
-      )}
-    </div>
-  );
+				{selectedFilters.ingredients !== null &&
+					selectedFilters.ingredients !== "" && (
+						<div
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>Ingredients:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								<Chip
+									label={selectedFilters.ingredients}
+									onDelete={() =>
+										setSelectedFilters((prevFilters) => ({
+											...prevFilters,
+											ingredients: null,
+										}))
+									}
+								/>
+							</div>
+						</div>
+					)}
+			</div>
+
+			{!noFiltersApplied && (
+				<Chip
+					color="secondary"
+					label="Clear All Filters"
+					size="small"
+					variant="outlined"
+					onClick={handleResetFilters}
+				/>
+			)}
+
+			{noFiltersApplied && (
+				<p className="font-light text-blue-950">
+					No filters have been applied.
+				</p>
+			)}
+		</div>
+	);
 };
 
 export default SearchBar;
