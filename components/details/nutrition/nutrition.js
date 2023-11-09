@@ -4,10 +4,10 @@ function Nutrition({ nutritionList }) {
   const nutrition = Object.entries(nutritionList)
 
   return (
-    <div className=" overflow-y-auto flex flex-row">
+    <div className=" overflow-y-auto flex flex-row rounded-xl">
       {nutrition.map(([key, value]) => (
-        <Card sx={{ margin: 0.5, padding: 1 }}>
-          <div>
+        <Card  sx={{ margin: 0.5, padding: 1  }}>
+          <div >
             {key}: {value}
           </div>
         </Card>

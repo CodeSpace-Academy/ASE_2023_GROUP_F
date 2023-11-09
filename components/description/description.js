@@ -6,9 +6,11 @@ function Description(props) {
   const { recipeId, description, userName } = props
   const [isEditing, setIsEditing] = useState(false)
   const [editedDescription, setEditedDescription] = useState(description)
+  const [originalDescription, setOriginalDescription] = useState(description)
 
   const handleEdit = () => {
-    setIsEditing(true)
+    setOriginalDescription(editedDescription);
+    setIsEditing(true);
   }
 
   const handleSave = async () => {
@@ -42,10 +44,15 @@ function Description(props) {
     }
   }
 
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedDescription(originalDescription); 
+  }
+
   return (
     <div>
-      <div className=" overflow-y-auto">
-        <Card style={{ background: 'rgba(0, 0, 0, 0)' }}>
+      <div>
+        <Card className="bg-gray-200">
           {isEditing ? (
             <div>
               <TextField
@@ -54,14 +61,20 @@ function Description(props) {
                 fullWidth
                 onChange={(e) => setEditedDescription(e.target.value)}
               />
+              <div className="flex-row space-x-4">
               <Button variant="outlined" onClick={handleSave}>
                 Save
               </Button>
+              <Button variant="outlined" onClick={handleCancel}>
+                Cancel
+              </Button>
+              </div>
             </div>
           ) : (
-            <div>
+            <div >
               <p className="text-xl m-1">
                 {editedDescription}
+                <br/>
                 <Button variant="outlined" onClick={handleEdit}>
                   Edit
                 </Button>

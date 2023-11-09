@@ -3,18 +3,16 @@ import Instructions from './instructions/instructions'
 import Description from '../description/description'
 import { useState, useEffect } from 'react'
 import { Button, ToggleButton } from '@mui/material'
-import {
-  KeyboardDoubleArrowLeft,
-  KeyboardDoubleArrowRight,
-} from '@mui/icons-material'
 import classNames from 'classnames'
 import RecipeTags from '../tags/RecipeTags'
-
 import RecipeBanner from './recipeBanner/recipeBanner'
-import SideBar from './sideBar/sideBar'
 import { getAllergens } from '@/lib/view-recipes'
 import RecipeAllergens from '../allergens/allergens'
 import Nutrition from './nutrition/nutrition'
+import StyleIcon from '@mui/icons-material/Style';
+import CookIcon from "../icons/CookIcon";
+import ServingIcon from "../icons/ServingIcon";
+import PrepIcon from "../icons/PrepIcon";
 
 function Details(props) {
   const { recipe } = props
@@ -49,18 +47,14 @@ function Details(props) {
     ['w-10']: !toggleSideBar,
   })
 
-  function toggleSideBarHandler() {
-    setToggleSideBar(!toggleSideBar)
-  }
-
   return (
     <>
-      <div className="flex flex-row  p-5 justify-between">
+      <div className="flex flex-row p-5 justify-between">
         <div className="mr-5">
           <RecipeBanner images={recipe.images} />
         </div>
         <div>
-          <div className="text-center text-4xl font-sans ">{recipe.title}</div>
+          <div className="text-center text-4xl font-serif">{recipe.title}</div>
           <br />
           <div>
             <RecipeAllergens
@@ -68,34 +62,46 @@ function Details(props) {
               ingredients={recipe.ingredients}
             />
           </div>
-          <p className="text-l text-center mt-5">
+          <p className="text-lg text-center mt-5">
             <Description
               recipeId={recipe._id}
               description={recipe.description}
               // userName={username should be passed here}
             />
           </p>
-          <div className="flex flex-row">
-            <div className=" p-5 ">Cook time {recipe.cook} mins</div>
-            <div className="  p-5 ">Preparation time {recipe.prep} mins</div>
-            <div className=" p-5 ">Serves {recipe.servings}</div>
+
+          <div className="flex space-x-4">
+            <div 
+            className=" flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl" >
+              <CookIcon fill="#000000" width="35" height="35" />
+              Cook time {recipe.cook} mins
+              </div>
+
+            <div 
+            className=" flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
+              <PrepIcon fill="#000000" width="35" height="35" />
+              Preparation time {recipe.prep} mins
+              </div>
+
+            <div 
+            className=" flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
+              <ServingIcon width="25" height="25" fill="#2B5B95" />
+              Serves {recipe.servings}
+              </div>
           </div>
-          <div>
+
+          <div >
+            <div className='flex justify-center'>
+            <StyleIcon className=''/>
+            <p className="font-sans font-bold ">Tags</p>
+            </div>
             <RecipeTags tags={recipe.tags} />
           </div>{' '}
-          <div>
+
+          <div >
+            <p className="text-center font-sans font-bold p-5">Nutrition</p>
             <Nutrition nutritionList={recipe.nutrition} />
           </div>
-        </div>
-
-        <div className="flex flex-row">
-          <Button onClick={toggleSideBarHandler}>
-            {toggleSideBar ? (
-              <KeyboardDoubleArrowRight />
-            ) : (
-              <KeyboardDoubleArrowLeft />
-            )}
-          </Button>
         </div>
       </div>
 
@@ -122,7 +128,7 @@ function Details(props) {
               toggleList ? 'xs:block' : 'xs:hidden'
             }`}
           >
-            <p className={` text-center font-bold md:block  xs:hidden `}>
+            <p className={` text-center text-lg font-bold md:block  xs:hidden `}>
               Ingredients
             </p>
             <Ingredients ingredients={recipe.ingredients} />
@@ -132,7 +138,7 @@ function Details(props) {
               !toggleList ? 'xs:block' : 'xs:hidden'
             }`}
           >
-            <p className={` text-center font-bold md:block xs:hidden`}>
+            <p className={` text-center text-lg font-bold md:block xs:hidden`}>
               Instructions
             </p>
             <Instructions
