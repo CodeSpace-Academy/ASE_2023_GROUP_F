@@ -29,8 +29,8 @@ const SearchBar = (props) => {
 		instructions: null,
 	});
 
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 	const handleApplyFilters = async (filters) => {
 		const nonEmptyFilters = {};
@@ -60,59 +60,59 @@ const SearchBar = (props) => {
 		setSelectedFilters(updatedFilters);
 		setUpdateAppliedfilter(updatedFilters);
 
-		handleApplyFilters(updatedFilters);
-	};
+    handleApplyFilters(updatedFilters);
+  };
 
-	const handleSort = async (event) => {
-		const newSortOption = event.target.value;
-		setSortOption(newSortOption);
-		await applyFilters(selectedFilters, newSortOption);
-	};
+  const handleSort = async (event) => {
+	const newSortOption = event.target.value
+    setSortOption(newSortOption);
+    await applyFilters(filters, newSortOption);
+  };
 
-	const handleResetFilters = () => {
-		setSelectedFilters({
-			category: [],
-			tags: [],
-			ingredients: [],
-			instructions: null,
-		});
-		applyFilters({}, sortOption);
-		setNoFiltersApplied(true);
-	};
+  const handleResetFilters = () => {
+    setSelectedFilters({
+      category: [],
+      tags: [],
+      ingredients: [],
+      instructions: null,
+    });
+    applyFilters({});
+    setNoFiltersApplied(true);
+  };
 
-	useEffect(() => {
-		const debouncedApplyFilters = debounce((title) => {
-			applyFilters({ title }, sortOption);
-		}, 500);
+  useEffect(() => {
+    const debouncedApplyFilters = debounce((title) => {
+      applyFilters({ title });
+    }, 500);
 
-		debouncedApplyFilters(searchTerm);
+    debouncedApplyFilters(searchTerm);
 
-		return () => {
-			debouncedApplyFilters.cancel();
-		};
-	}, [searchTerm, sortOption]);
+    return () => {
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm]);
 
-	return (
-		<div>
-			<div className="flex container items-center justify-between">
-				<Button
-					variant="outlined"
-					size="large"
-					onClick={handleOpen}
-					className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
-				>
-					Filters
-				</Button>
-				<div className="flex mx-auto gap-80 items-center space-x-5">
-					<label htmlFor="search" />
-					<input
-						className="rounded text-2xl p-2"
-						type="text"
-						id="search"
-						placeholder="Search...."
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-					/>
+  return (
+    <div>
+      <div className="flex container items-center justify-between">
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={handleOpen}
+          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+        >
+          Filters
+        </Button>
+        <div className="flex mx-auto gap-80 items-center space-x-5">
+          <label htmlFor="search" />
+          <input
+            className="rounded text-2xl p-2"
+            type="text"
+            id="search"
+            placeholder="Search...."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
 					<FormControl
 						className="border-gray-800 hover:bg-slate-200"
