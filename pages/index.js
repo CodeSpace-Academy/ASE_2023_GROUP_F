@@ -5,17 +5,17 @@ import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
-import Description from '../components/description/description';
-import Instructions from '../components/details/instructions/instructions';
-import RecipeTags from '../components/tags/RecipeTags';
 import HandleError from '../components/error/Error'
 
 const PAGE_SIZE = 48;
 
-function Home({ visibleRecipes, count }) {
-	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
+function Home(props) {
+
+	const { visibleRecipes, count } = props
+	const { filters , setFilters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
+	
 
 	useEffect(() => {
 		setFilteredRecipes(visibleRecipes);
@@ -23,8 +23,11 @@ function Home({ visibleRecipes, count }) {
 
 	const handleApplyFilters = async (filters, sort) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
-		setFilteredRecipes(filtering.recipes);
-		setRemainingRecipes(filtering.totalRecipes);
+		setFilteredRecipes(filtering?.recipes);
+		setRemainingRecipes(filtering?.totalRecipes);
+		setFilters(filters)
+		setSortOption(sort)
+
 	};
 
 	return (

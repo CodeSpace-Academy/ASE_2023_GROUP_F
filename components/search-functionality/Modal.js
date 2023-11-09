@@ -39,6 +39,7 @@ function Modal(props) {
 		}
 		data.tags = tagOptions;
 		data.category = categoryOption
+		setFilters(data)
 		await applyFilters(data);
 		handleClose();
 	};
@@ -55,7 +56,6 @@ function Modal(props) {
 	};
 
 	
-
 	return (
 		<div className={classes.modalBackdrop}>
 			<div className={classes.modalContent}>
@@ -68,12 +68,13 @@ function Modal(props) {
 					<div>
 						<Autocomplete
 							id="outlined-basic"
-							options={tags}
+							options={categories}
 							getOptionLabel={(option) => option}
-							value={categoryOption}
+							value={filters.category}
 							onChange={(event, newValue) => {
 								setCategoryOption(newValue)
 							}}
+							freeSolo
 							renderInput={(params) => (
 								<TextField {...params} label="Categories" variant="outlined" />
 							)}
@@ -84,7 +85,7 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={tagOptions}
+							value={filters.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
@@ -92,6 +93,7 @@ function Modal(props) {
 									setTagOptions([]); 
 								}
 							}}
+							freeSolo
 							renderInput={(params) => (
 								<TextField {...params} label="Tags" variant="outlined" />
 							)}
