@@ -96,64 +96,73 @@ const SearchBar = ({
 
   return (
     <div>
-      <div className="container flex items-center justify-between">
+      <div className="container flex items-center justify-between ">
         <Button
           variant="outlined"
           size="large"
           onClick={handleOpen}
           className="border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
         >
-          Filters
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+          </svg>
         </Button>
-        <div className="flex items-center mx-auto space-x-5 gap-80">
+
+
+
+        <form className="relative mx-auto w-max">
           <label htmlFor="search" />
           <input
-            className="relative z-10 w-12 h-12 p-2 pl-12 text-2xl bg-transparent border rounded-full outline-none cursor-pointer peer focus:w-full focus:cursor-text focus:border-black focus:pl-16 focus:pr-4"
+            className="relative z-10 w-12 h-12 p-2 pl-12 text-2xl bg-transparent border border-black rounded-full outline-none cursor-pointer peer focus:w-full focus:cursor-text focus:border-black focus:pl-16 focus:pr-4 lg:w-full"
             type="text"
             id="search"
             placeholder="Search...."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-y-0 my-auto h-8 w-12 border-r border-transparent stroke-black px-3.5 peer-focus:border-black peer-focus:stroke-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="absolute inset-y-0 my-auto h-8 w-12 border-r border-black stroke-black px-3.5 peer-focus:border-black peer-focus:stroke-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+        </form>
 
-          <FormControl
-            className="border-gray-800 hover:bg-slate-200"
-            sx={{ m: 1, minWidth: 120 }}
+        <FormControl
+          className="border-gray-800 hover:bg-slate-200"
+          sx={{ m: 1, minWidth: 120 }}
+        >
+          <InputLabel htmlFor="grouped-native-select"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+          </svg>
+          </InputLabel>
+          <Select
+            native
+            defaultValue=""
+            id="grouped-native-select"
+            label="Grouping"
+            name="sortOption"
+            value={sortOption}
+            onChange={handleSort}
           >
-            <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-            <Select
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Grouping"
-              name="sortOption"
-              value={sortOption}
-              onChange={handleSort}
-            >
-              <option aria-label="None" value="" />
-              <optgroup name="prep" label="Prep Time">
-                <option value="prep ASC">Prep ASC</option>
-                <option value="prep DESC">Prep DESC</option>
-              </optgroup>
-              <optgroup name="cook" label="Cook Time">
-                <option value="cook ASC">Cook ASC</option>
-                <option value="cook DESC">Cook DESC</option>
-              </optgroup>
-              <optgroup name="published" label="Date Created">
-                <option value="date ASC">Date ASC</option>
-                <option value="date DESC">Date DESC</option>
-              </optgroup>
-              <optgroup name="instructions" label="Instructions">
-                <option value="instructions ASC">Instructions ASC</option>
-                <option value="instructions DESC">Instructions DESC</option>
-              </optgroup>
-            </Select>
-          </FormControl>
-        </div>
+            <option aria-label="None" value="" />
+            <optgroup name="prep" label="Prep Time">
+              <option value="prep ASC">Prep ASC</option>
+              <option value="prep DESC">Prep DESC</option>
+            </optgroup>
+            <optgroup name="cook" label="Cook Time">
+              <option value="cook ASC">Cook ASC</option>
+              <option value="cook DESC">Cook DESC</option>
+            </optgroup>
+            <optgroup name="published" label="Date Created">
+              <option value="date ASC">Date ASC</option>
+              <option value="date DESC">Date DESC</option>
+            </optgroup>
+            <optgroup name="instructions" label="Instructions">
+              <option value="instructions ASC">Instructions ASC</option>
+              <option value="instructions DESC">Instructions DESC</option>
+            </optgroup>
+          </Select>
+        </FormControl>
       </div>
+
 
       {open && (
         <Modal

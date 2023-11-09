@@ -7,7 +7,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <script src = "index.js"></script>
+        <script src="index.js"></script>
       </body>
     </Html>
   )
