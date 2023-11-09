@@ -93,7 +93,7 @@ const SearchBar = (props) => {
 
   useEffect(() => {
     if (queryType === "short") {
-      const delay = 1000; 
+      const delay = 1000;
       const timer = setTimeout(() => {
         if (searchTerm.length < 10) {
           handleLongQuerySubmit();
@@ -137,6 +137,7 @@ const SearchBar = (props) => {
           >
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
+              native
               id="grouped-native-select"
               label="Grouping"
               name="sortOption"

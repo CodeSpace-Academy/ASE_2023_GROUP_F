@@ -21,7 +21,7 @@ const RecipeList = (props) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const totalPages = Math.ceil(count / PAGE_SIZE);
-	const remainingRecipes = count - (visibleRecipes ? visibleRecipes.length : 0);
+	const remainingRecipes = count - (visibleRecipes?.length);
 
 	const loadMoreRecipes = async () => {
 		setLoading(true);
@@ -48,7 +48,7 @@ const RecipeList = (props) => {
 	return (
 		<>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 mt-5">
-				{visibleRecipes.map((recipe) => (
+				{visibleRecipes?.map((recipe) => (
 					<RecipeCard
 						key={recipe._id}
 						title={
