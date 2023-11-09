@@ -4,114 +4,115 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = (props) => {
-	const {
-		applyFilters,
-		appliedFilters,
-		searchTerm,
-		setSearchTerm,
-		sortOption,
-		setSortOption,
-	} = props;
-	const [open, setOpen] = useState(false);
-	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+const SearchBar = ({
+  applyFilters,
+  appliedFilters,
+  searchTerm,
+  setSearchTerm,
+  sortOption,
+  setSortOption,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
 
-	const [selectedFilters, setSelectedFilters] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+  const { filters } = useContext(filterContext);
 
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+  const [selectedFilters, setSelectedFilters] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
 
-	const handleApplyFilters = async (filters) => {
-		const nonEmptyFilters = {};
-		for (const key in filters) {
-			if (
-				filters[key] !== null &&
-				filters[key] !== "" &&
-				filters[key].length > 0
-			) {
-				nonEmptyFilters[key] = filters[key];
-			}
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-      setNoFiltersApplied(false)
+  const handleApplyFilters = async (filters) => {
+    const nonEmptyFilters = {};
+    for (const key in filters) {
+      if (
+        filters[key] !== null &&
+        filters[key] !== "" &&
+        filters[key].length > 0
+      ) {
+        nonEmptyFilters[key] = filters[key];
+      }
     }
 
-		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters, sortOption);
-		}
-		setSelectedFilters(filters);
-	};
-	const handleDelete = (filterType, filterValue) => {
-		const updatedFilters = { ...selectedFilters };
-		updatedFilters[filterType] = updatedFilters[filterType].filter(
-			(item) => item !== filterValue,
-		);
-		setSelectedFilters(updatedFilters);
-		setUpdateAppliedfilter(updatedFilters);
+    if (Object.keys(nonEmptyFilters).length > 0) {
+      await applyFilters(nonEmptyFilters, sortOption);
+      setNoFiltersApplied(false);
+    }
+    setSelectedFilters(filters);
+  };
 
-		handleApplyFilters(updatedFilters);
-	};
+  const handleDelete = (filterType, filterValue) => {
+    const updatedFilters = { ...selectedFilters };
+    updatedFilters[filterType] = updatedFilters[filterType].filter(
+      (item) => item !== filterValue
+    );
+    setSelectedFilters(updatedFilters);
+    setUpdateAppliedfilter(updatedFilters);
 
-	const handleSort = async (event) => {
-		const newSortOption = event.target.value;
-		setSortOption(newSortOption);
-		await applyFilters(selectedFilters, newSortOption);
-	};
+    handleApplyFilters(updatedFilters);
+  };
 
-	const handleResetFilters = () => {
-		setSelectedFilters({
-			category: [],
-			tags: [],
-			ingredients: [],
-			instructions: null,
-		});
-		applyFilters({}, sortOption);
-		setNoFiltersApplied(true);
-	};
+  const handleSort = async (event) => {
+	const newSortOption = event.target.value
+    setSortOption(newSortOption);
+    await applyFilters(filters, newSortOption);
+  };
 
-	useEffect(() => {
-		const debouncedApplyFilters = debounce((title) => {
-			applyFilters({ title }, sortOption);
-		}, 500);
+  const handleResetFilters = () => {
+    setSelectedFilters({
+      category: [],
+      tags: [],
+      ingredients: [],
+      instructions: null,
+    });
+    applyFilters({});
+    setNoFiltersApplied(true);
+  };
 
-		debouncedApplyFilters(searchTerm);
+  useEffect(() => {
+    const debouncedApplyFilters = debounce((title) => {
+      applyFilters({ title });
+    }, 500);
 
-		return () => {
-			debouncedApplyFilters.cancel();
-		};
-	}, [searchTerm, sortOption]);
+    debouncedApplyFilters(searchTerm);
 
-	return (
-		<div>
-			<div className="flex container items-center justify-between">
-				<Button
-					variant="outlined"
-					size="large"
-					onClick={handleOpen}
-					className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
-				>
-					Filters
-				</Button>
-				<div className="flex mx-auto gap-80 items-center space-x-5">
-					<label htmlFor="search" />
-					<input
-						className="rounded text-2xl p-2"
-						type="text"
-						id="search"
-						placeholder="Search...."
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-					/>
+    return () => {
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm]);
+
+  return (
+    <div>
+      <div className="flex container items-center justify-between">
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={handleOpen}
+          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+        >
+          Filters
+        </Button>
+        <div className="flex mx-auto gap-80 items-center space-x-5">
+          <label htmlFor="search" />
+          <input
+            className="rounded text-2xl p-2"
+            type="text"
+            id="search"
+            placeholder="Search...."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
@@ -120,7 +121,7 @@ const SearchBar = (props) => {
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
               native
-             
+              defaultValue=""
               id="grouped-native-select"
               label="Grouping"
               name="sortOption"
@@ -181,7 +182,9 @@ const SearchBar = (props) => {
           <Chip
             key={selectedFilters.ingredients}
             label={selectedFilters.ingredients}
-            onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+            onDelete={() =>
+              handleDelete("ingredients", selectedFilters.ingredients)
+            }
           />
         )}
         {selectedFilters.instructions !== null && (
@@ -193,7 +196,7 @@ const SearchBar = (props) => {
           />
         )}
       </div>
-      {noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
+      {noFiltersApplied && <p>No filters have been applied.</p>}
       <Chip
         color="secondary"
         label="Clear All Filters"
