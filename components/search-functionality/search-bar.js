@@ -21,7 +21,7 @@ const SearchBar = ({
     instructions: null,
   });
 
-  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
 
   const { filters } = useContext(filterContext);
 
@@ -88,22 +88,16 @@ const SearchBar = ({
 
   useEffect(() => {
     let timeoutId;
-
-
- 
+  
     const shortQueryDebounce = debounce((query) => {
       applyFilters({ title: query });
-      setButtonEnabled(false);
+      setButtonEnabled(true);
     }, 500);
-
-
-   
+  
     const longQueryDebounce = debounce((query) => {
       setButtonEnabled(true);
     }, 1000);
-
-
-   
+  
     const applyDebounce = (query) => {
       if (query.length < 10) {
         shortQueryDebounce(query);
@@ -111,19 +105,26 @@ const SearchBar = ({
         longQueryDebounce(query);
       }
     };
-
-
-    if (searchTerm.length > 0) {
-      applyDebounce(searchTerm);
+  
+    // Clear the previous timeout if it exists
+    if (timeoutId) {
+      clearTimeout(timeoutId);
     }
-
-
+  
+    // Set a new timeout
+    timeoutId = setTimeout(() => {
+      if (searchTerm.length > 0) {
+        applyDebounce(searchTerm);
+      }
+    }, 500); // Adjust the delay as needed
+  
+    // Cleanup function
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
     };
-  }, [searchTerm]);
+  }, [searchTerm, applyFilters, setButtonEnabled]);
 
   return (
     <div>
@@ -163,7 +164,6 @@ const SearchBar = ({
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
               native
-              defaultValue=""
               id="grouped-native-select"
               label="Grouping"
               name="sortOption"
@@ -243,6 +243,7 @@ const SearchBar = ({
         onClick={handleResetFilters}
       />
     </div>
+  
   );
 };
 
