@@ -21,6 +21,8 @@ const SearchBar = ({
     instructions: null,
   });
 
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+
   const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
@@ -51,7 +53,6 @@ const SearchBar = ({
     }
     setSelectedFilters(filters);
   };
-
   const handleDelete = (filterType, filterValue) => {
     const updatedFilters = { ...selectedFilters };
     updatedFilters[filterType] = updatedFilters[filterType].filter(
@@ -64,9 +65,9 @@ const SearchBar = ({
   };
 
   const handleSort = async (event) => {
-	const newSortOption = event.target.value
+    const newSortOption = event.target.value;
     setSortOption(newSortOption);
-    await applyFilters(filters, newSortOption);
+    await applyFilters(selectedFilters, newSortOption);
   };
 
   const handleResetFilters = () => {
@@ -76,19 +77,51 @@ const SearchBar = ({
       ingredients: [],
       instructions: null,
     });
-    applyFilters({});
+    applyFilters({}, sortOption);
     setNoFiltersApplied(true);
   };
 
+  const handleLongQuerySubmit = () => {
+    applyFilters({ title: searchTerm });
+  };
+
+
   useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ title });
+    let timeoutId;
+
+
+ 
+    const shortQueryDebounce = debounce((query) => {
+      applyFilters({ title: query });
+      setButtonEnabled(false);
     }, 500);
 
-    debouncedApplyFilters(searchTerm);
+
+   
+    const longQueryDebounce = debounce((query) => {
+      setButtonEnabled(true);
+    }, 1000);
+
+
+   
+    const applyDebounce = (query) => {
+      if (query.length < 10) {
+        shortQueryDebounce(query);
+      } else {
+        longQueryDebounce(query);
+      }
+    };
+
+
+    if (searchTerm.length > 0) {
+      applyDebounce(searchTerm);
+    }
+
 
     return () => {
-      debouncedApplyFilters.cancel();
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, [searchTerm]);
 
@@ -103,7 +136,7 @@ const SearchBar = ({
         >
           Filters
         </Button>
-        <div className="flex mx-auto gap-80 items-center space-x-5">
+        <div className="flex mx-auto gap-10 items-center space-x-5">
           <label htmlFor="search" />
           <input
             className="rounded text-2xl p-2"
@@ -113,6 +146,15 @@ const SearchBar = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+            {buttonEnabled && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleLongQuerySubmit}
+        >
+          Submit
+        </Button>
+      )}
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
@@ -140,10 +182,6 @@ const SearchBar = ({
               <optgroup name="published" label="Date Created">
                 <option value="date ASC">Date ASC</option>
                 <option value="date DESC">Date DESC</option>
-              </optgroup>
-              <optgroup name="instructions" label="Instructions">
-                <option value="instructions ASC">Instructions ASC</option>
-                <option value="instructions DESC">Instructions DESC</option>
               </optgroup>
             </Select>
           </FormControl>
