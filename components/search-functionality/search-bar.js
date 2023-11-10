@@ -4,33 +4,34 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = (props) => {
-	const {
-		applyFilters,
-		appliedFilters,
-		searchTerm,
-		setSearchTerm,
-		sortOption,
-		setSortOption,
-	} = props;
-	const [open, setOpen] = useState(false);
-	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+const SearchBar = ({
+  applyFilters,
+  appliedFilters,
+  searchTerm,
+  setSearchTerm,
+  sortOption,
+  setSortOption,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
 
-	const [selectedFilters, setSelectedFilters] = useState({
-		category: [],
-		tags: [],
-		ingredients: [],
-		instructions: null,
-	});
+  const { filters } = useContext(filterContext);
 
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+  const [selectedFilters, setSelectedFilters] = useState({
+    category: [],
+    tags: [],
+    ingredients: [],
+    instructions: null,
+  });
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 	const handleApplyFilters = async (filters) => {
 		const nonEmptyFilters = {};
@@ -43,75 +44,77 @@ const SearchBar = (props) => {
 				nonEmptyFilters[key] = filters[key];
 			}
 
-      setNoFiltersApplied(false);
+      setNoFiltersApplied(false)
     }
 
-		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters, sortOption);
-		}
-		setSelectedFilters(filters);
-	};
-	const handleDelete = (filterType, filterValue) => {
-		const updatedFilters = { ...selectedFilters };
-		updatedFilters[filterType] = updatedFilters[filterType].filter(
-			(item) => item !== filterValue,
-		);
-		setSelectedFilters(updatedFilters);
-		setUpdateAppliedfilter(updatedFilters);
+    if (Object.keys(nonEmptyFilters).length > 0) {
+      await applyFilters(nonEmptyFilters, sortOption);
+      setNoFiltersApplied(false);
+    }
+    setSelectedFilters(filters);
+  };
 
-		handleApplyFilters(updatedFilters);
-	};
+  const handleDelete = (filterType, filterValue) => {
+    const updatedFilters = { ...selectedFilters };
+    updatedFilters[filterType] = updatedFilters[filterType].filter(
+      (item) => item !== filterValue
+    );
+    setSelectedFilters(updatedFilters);
+    setUpdateAppliedfilter(updatedFilters);
 
-	const handleSort = async (event) => {
-		const newSortOption = event.target.value;
-		setSortOption(newSortOption);
-		await applyFilters(selectedFilters, newSortOption);
-	};
+    handleApplyFilters(updatedFilters);
+  };
 
-	const handleResetFilters = () => {
-		setSelectedFilters({
-			category: [],
-			tags: [],
-			ingredients: [],
-			instructions: null,
-		});
-		applyFilters({}, sortOption);
-		setNoFiltersApplied(true);
-	};
+  const handleSort = async (event) => {
+	const newSortOption = event.target.value
+    setSortOption(newSortOption);
+    await applyFilters(filters, newSortOption);
+  };
 
-	useEffect(() => {
-		const debouncedApplyFilters = debounce((title) => {
-			applyFilters({ title }, sortOption);
-		}, 500);
+  const handleResetFilters = () => {
+    setSelectedFilters({
+      category: [],
+      tags: [],
+      ingredients: [],
+      instructions: null,
+    });
+    applyFilters({});
+    setNoFiltersApplied(true);
+  };
 
-		debouncedApplyFilters(searchTerm);
+  useEffect(() => {
+    const debouncedApplyFilters = debounce((title) => {
+      applyFilters({ title });
+    }, 500);
 
-		return () => {
-			debouncedApplyFilters.cancel();
-		};
-	}, [searchTerm, sortOption]);
+    debouncedApplyFilters(searchTerm);
 
-	return (
-		<div>
-			<div className="flex container items-center justify-between">
-				<Button
-					variant="outlined"
-					size="large"
-					onClick={handleOpen}
-					className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
-				>
-					Filters
-				</Button>
-				<div className="flex mx-auto gap-80 items-center space-x-5">
-					<label htmlFor="search" />
-					<input
-						className="rounded text-2xl p-2"
-						type="text"
-						id="search"
-						placeholder="Search...."
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-					/>
+    return () => {
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm]);
+
+  return (
+    <div>
+      <div className="flex container items-center justify-between">
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={handleOpen}
+          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
+        >
+          Filters
+        </Button>
+        <div className="flex mx-auto gap-80 items-center space-x-5">
+          <label htmlFor="search" />
+          <input
+            className="rounded text-2xl p-2"
+            type="text"
+            id="search"
+            placeholder="Search...."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
@@ -120,7 +123,7 @@ const SearchBar = (props) => {
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
               native
-             
+              defaultValue=""
               id="grouped-native-select"
               label="Grouping"
               name="sortOption"
@@ -161,73 +164,46 @@ const SearchBar = (props) => {
         />
       )}
       <div>
-        <h2 className="font-bold">Applied Filters:</h2>
-        {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
-          filterName !== "instructions" &&
-          Array.isArray(filterValues) &&
-          filterValues.length > 0 ? (
-            <div
-              key={filterName}
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>{filterName}:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {filterValues.map((value, index) => (
-                  <Chip
-                    key={index}
-                    label={value}
-                    onDelete={() => handleDelete(filterName, value)}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : null
+        <h2>Applied Filters:</h2>
+        {selectedFilters.category && (
+          <Chip
+            key={selectedFilters.category}
+            label={selectedFilters.category}
+            onDelete={() => handleDelete("category", selectedFilters.category)}
+          />
         )}
-
-        {selectedFilters.instructions !== null &&
-          selectedFilters.instructions !== "" && (
-            <div
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>Instructions:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <Chip
-                  label={selectedFilters.instructions}
-                  onDelete={() =>
-                    setSelectedFilters((prevFilters) => ({
-                      ...prevFilters,
-                      instructions: null,
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          )}
+        {Array.isArray(selectedFilters.tags) &&
+          selectedFilters.tags.map((filter, index) => (
+            <Chip
+              key={index}
+              label={filter}
+              onDelete={() => handleDelete("tags", filter)}
+            />
+          ))}
+        {selectedFilters.ingredients && (
+          <Chip
+            key={selectedFilters.ingredients}
+            label={selectedFilters.ingredients}
+            onDelete={() => handleDelete("ingredients", selectedFilters.ingredients)}
+          />
+        )}
+        {selectedFilters.instructions !== null && (
+          <Chip
+            label={selectedFilters.instructions}
+            onDelete={() =>
+              handleDelete("instructions", selectedFilters.instructions)
+            }
+          />
+        )}
       </div>
-
-      {!noFiltersApplied && (
-        <Chip
-          color="secondary"
-          label="Clear All Filters"
-          size="small"
-          variant="outlined"
-          onClick={handleResetFilters}
-        />
-      )}
-
-      {noFiltersApplied && (
-        <p className="font-light text-blue-950">
-          No filters have been applied.
-        </p>
-      )}
+      {noFiltersApplied && <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">No filters have been applied.</p>}
+      <Chip
+        color="secondary"
+        label="Clear All Filters"
+        size="small"
+        variant="outlined"
+        onClick={handleResetFilters}
+      />
     </div>
   );
 };
