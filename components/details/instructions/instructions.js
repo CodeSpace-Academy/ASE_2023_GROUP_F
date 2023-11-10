@@ -62,9 +62,9 @@ function Instructions(props) {
 
   return (
     <div>
-      <div className=" overflow-y-auto">
+      <div className=" overflow-y-auto mx-10 rounded-xl">
         {instructions.map((item, index) => (
-          <Card key={index} className="m-4 p-8">
+          <Card key={index} className="m-0 p-2 bg-gray-200 text-lg">
             {editableIndex === index ? (
               <div>
                 <TextField
