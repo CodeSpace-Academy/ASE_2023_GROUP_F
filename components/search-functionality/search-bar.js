@@ -4,15 +4,14 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = (props) => {
-  const {
-    applyFilters,
-    appliedFilters,
-    searchTerm,
-    setSearchTerm,
-    sortOption,
-    setSortOption,
-  } = props;
+const SearchBar = ({
+  applyFilters,
+  appliedFilters,
+  searchTerm,
+  setSearchTerm,
+  sortOption,
+  setSortOption,
+}) => {
   const [open, setOpen] = useState(false);
   const [noFiltersApplied, setNoFiltersApplied] = useState(true);
   const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
@@ -22,6 +21,8 @@ const SearchBar = (props) => {
     instructions: null,
   });
 
+  const { filters } = useContext(filterContext);
+
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
     tags: [],
@@ -29,34 +30,26 @@ const SearchBar = (props) => {
     instructions: null,
   });
 
-  const [queryType, setQueryType] = useState("short");
-  const [isLoading, setIsLoading] = useState(false);
-  const [buttonEnabled, setButtonEnabled] = useState(true);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const shortQueryDebounce = debounce((query) => {
-    applyFilters({ title: query }, sortOption);
-    setButtonEnabled(true);
-  }, 500);
-
-  const longQueryDebounce = debounce((query) => {
-    setButtonEnabled(true);
-  }, 1000);
-
-  const handleQueryChange = (query) => {
-    setSearchTerm(query);
-    setIsLoading(true);
-
-    if (query.length < 10) {
-      setQueryType("short");
-      shortQueryDebounce(query);
-    } else {
-      setQueryType("long");
-      longQueryDebounce(query);
+  const handleApplyFilters = async (filters) => {
+    const nonEmptyFilters = {};
+    for (const key in filters) {
+      if (
+        filters[key] !== null &&
+        filters[key] !== "" &&
+        filters[key].length > 0
+      ) {
+        nonEmptyFilters[key] = filters[key];
+      }
     }
+
+    if (Object.keys(nonEmptyFilters).length > 0) {
+      await applyFilters(nonEmptyFilters, sortOption);
+      setNoFiltersApplied(false);
+    }
+    setSelectedFilters(filters);
   };
 
   const handleDelete = (filterType, filterValue) => {
@@ -67,13 +60,13 @@ const SearchBar = (props) => {
     setSelectedFilters(updatedFilters);
     setUpdateAppliedfilter(updatedFilters);
 
-    applyFilters(updatedFilters);
+    handleApplyFilters(updatedFilters);
   };
 
   const handleSort = async (event) => {
-    const newSortOption = event.target.value;
+	const newSortOption = event.target.value
     setSortOption(newSortOption);
-    await applyFilters(selectedFilters, newSortOption);
+    await applyFilters(filters, newSortOption);
   };
 
   const handleResetFilters = () => {
@@ -83,25 +76,21 @@ const SearchBar = (props) => {
       ingredients: [],
       instructions: null,
     });
-    applyFilters({}, sortOption);
+    applyFilters({});
     setNoFiltersApplied(true);
   };
 
-  const handleLongQuerySubmit = () => {
-    applyFilters({ title: searchTerm });
-  };
-
   useEffect(() => {
-    if (queryType === "short") {
-      const delay = 1000;
-      const timer = setTimeout(() => {
-        if (searchTerm.length < 10) {
-          handleLongQuerySubmit();
-        }
-      }, delay);
-      return () => clearTimeout(timer);
-    }
-  }, [searchTerm, queryType, handleLongQuerySubmit]);
+    const debouncedApplyFilters = debounce((title) => {
+      applyFilters({ title });
+    }, 500);
+
+    debouncedApplyFilters(searchTerm);
+
+    return () => {
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm]);
 
   return (
     <div>
@@ -110,11 +99,11 @@ const SearchBar = (props) => {
           variant="outlined"
           size="large"
           onClick={handleOpen}
-          className="border-gray-800 dark:text-blue-950 hover:text-white border hover-bg-gray-900 rounded-full"
+          className="border-gray-800 dark:text-blue-950 hover:text-white border hover:bg-gray-900 rounded-full"
         >
           Filters
         </Button>
-        <div className="flex mx-auto gap-10 items-center space-x-5">
+        <div className="flex mx-auto gap-80 items-center space-x-5">
           <label htmlFor="search" />
           <input
             className="rounded text-2xl p-2"
@@ -122,22 +111,17 @@ const SearchBar = (props) => {
             id="search"
             placeholder="Search...."
             value={searchTerm}
-            onChange={(e) => handleQueryChange(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleLongQuerySubmit}
-          >
-            Submit
-          </Button>
+
           <FormControl
-            className="border-gray-800 hover-bg-slate-200"
+            className="border-gray-800 hover:bg-slate-200"
             sx={{ m: 1, minWidth: 120 }}
           >
             <InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
             <Select
               native
+              defaultValue=""
               id="grouped-native-select"
               label="Grouping"
               name="sortOption"
@@ -168,8 +152,8 @@ const SearchBar = (props) => {
 
       {open && (
         <Modal
-          handleClose={() => setOpen(false)}
-          applyFilters={applyFilters}
+          handleClose={handleClose}
+          applyFilters={handleApplyFilters}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           instructions={appliedFilters.instructions}
@@ -212,11 +196,7 @@ const SearchBar = (props) => {
           />
         )}
       </div>
-      {noFiltersApplied && (
-        <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 my-4 rounded-md">
-          No filters have been applied.
-        </p>
-      )}
+      {noFiltersApplied && <p>No filters have been applied.</p>}
       <Chip
         color="secondary"
         label="Clear All Filters"
