@@ -85,19 +85,18 @@ const SearchBar = ({
     applyFilters({ title: searchTerm });
   };
 
-
   useEffect(() => {
     let timeoutId;
-  
+
     const shortQueryDebounce = debounce((query) => {
       applyFilters({ title: query });
       setButtonEnabled(true);
     }, 500);
-  
+
     const longQueryDebounce = debounce((query) => {
       setButtonEnabled(true);
     }, 1000);
-  
+
     const applyDebounce = (query) => {
       if (query.length < 10) {
         shortQueryDebounce(query);
@@ -105,20 +104,17 @@ const SearchBar = ({
         longQueryDebounce(query);
       }
     };
-  
-    // Clear the previous timeout if it exists
+
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
-  
-    // Set a new timeout
+
     timeoutId = setTimeout(() => {
       if (searchTerm.length > 0) {
         applyDebounce(searchTerm);
       }
-    }, 500); // Adjust the delay as needed
-  
-    // Cleanup function
+    }, 500);
+
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
@@ -147,15 +143,15 @@ const SearchBar = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-            {buttonEnabled && (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleLongQuerySubmit}
-        >
-          Submit
-        </Button>
-      )}
+          {buttonEnabled && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleLongQuerySubmit}
+            >
+              Submit
+            </Button>
+          )}
 
           <FormControl
             className="border-gray-800 hover:bg-slate-200"
@@ -243,7 +239,6 @@ const SearchBar = ({
         onClick={handleResetFilters}
       />
     </div>
-  
   );
 };
 
