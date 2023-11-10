@@ -11,7 +11,7 @@ function Modal(props) {
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
-	const [categories , setCategories] = useState([])
+	const [categories , setCategories] = useState([]);
 	const { filters, setFilters } = useContext(filterContext);
 
 	useEffect(() => {
