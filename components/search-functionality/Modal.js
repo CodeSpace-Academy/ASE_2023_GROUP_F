@@ -5,6 +5,7 @@ import { Autocomplete } from "@mui/material";
 import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
+import MultiSelect from "./ingredients-selection/multi-select-ingredients";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
@@ -98,14 +99,15 @@ function Modal(props) {
 						/>
 
 						<br />
-						<TextField
+						{/* <TextField
 							className="mb-2"
 							id="outlined-basic"
 							label="Ingredients"
 							variant="outlined"
 							name="ingredients"
 							value={filters.ingredients}
-						/>
+						/> */}
+						<MultiSelect/>
 					</div>
 
 					<h4 className="font-bold">Number of Instructions:</h4>
