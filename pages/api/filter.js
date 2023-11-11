@@ -10,6 +10,7 @@ export default async function handler(req, res) {
 			const database = await connectToDatabase();
 			const collection = database.collection("recipes");
 
+			const agg = []
 			const queryFilter = {};
 
 			if (filter.category) {
@@ -42,7 +43,7 @@ export default async function handler(req, res) {
 				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
 			}
 
-			const querySort = {};
+			let querySort = {};
 
 			if (sort === 'prep ASC') {
 				querySort.prep = 1;
@@ -60,17 +61,118 @@ export default async function handler(req, res) {
 				querySort.published = 1;
 			} else if (sort === 'date DESC') {
 				querySort.published = -1;
-			}
+			}		  
+
 			if (sort === 'instructions ASC') {
 				querySort.instructions = 1;
 			  } else if (sort === 'instructions DESC') {
 				querySort.instructions = -1;
-			}			  
+			}
+
+			if (JSON.stringify(querySort !== "{}")) {
+				if (querySort.instructions) {
+					agg.push(
+						{
+							'$unwind': {
+							  'path': '$instructions',
+							},
+						  },
+						  {
+							'$group': {
+							  '_id': '$_id',
+							  'length': {
+								'$sum': 1,
+							  },
+							},
+						  },
+						  {
+							'$sort': {
+							  'length': 1,
+							},
+						  },
+						  {
+							'$lookup': {
+							  'from': 'recipes',
+							  'localField': '_id',
+							  'foreignField': '_id',
+							  'as': 'recipe',
+							},
+						  },
+
+					
+
+			if (sort === 'instructions ASC') {
+				querySort = [
+				  {
+					'$unwind': {
+					  'path': '$instructions',
+					},
+				  },
+				  {
+					'$group': {
+					  '_id': '$_id',
+					  'length': {
+						'$sum': 1,
+					  },
+					},
+				  },
+				  {
+					'$sort': {
+					  'length': 1,
+					},
+				  },
+				  {
+					'$lookup': {
+					  'from': 'recipes',
+					  'localField': '_id',
+					  'foreignField': '_id',
+					  'as': 'recipe',
+					},
+				  },
+				];
+			  } else if (sort === 'instructions DESC') {
+				querySort = [
+				  {
+					'$unwind': {
+					  'path': '$instructions',
+					},
+				  },
+				  {
+					'$group': {
+					  '_id': '$_id',
+					  'length': {
+						'$sum': 1,
+					  },
+					},
+				  },
+				  {
+					'$sort': {
+					  'length': -1,
+					},
+				  },
+				  {
+					'$lookup': {
+					  'from': 'recipes',
+					  'localField': '_id',
+					  'foreignField': '_id',
+					  'as': 'recipe',
+					},
+				  },
+				];
+				console.log('fetching', querySort);
+			  }
+			  
+			  if (JSON.stringify(queryFilter) !== '{}') {
+				agg.push({'$match': {...queryFilter}})
+			  }
+
+			  agg.push({'$limit':limit})
 
 			const documents = await collection
-				.find(queryFilter)
-				.sort(querySort)
-				.limit(limit)
+			.aggregate(agg)
+				// .find(queryFilter)
+				// .sort(querySort)
+				// .limit(limit)
 				.toArray();
 
 			const number = await collection.countDocuments(queryFilter);
