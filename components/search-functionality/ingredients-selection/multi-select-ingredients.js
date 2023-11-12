@@ -29,7 +29,11 @@ function MultiSelect({ingredients, setIngredients, ingredientsOptions, setIngred
       getOptionLabel={(option) => option}
       value={ingredientsOptions}
       onChange={(event, newValue) => {
-        setIngredientsOptions(newValue);
+        if (newValue !== undefined && Array.isArray(newValue)) {
+          setIngredientsOptions(newValue);
+        } else {
+          setIngredientsOptions([]);
+        }
       }}
       renderInput={(params) => (
         <TextField {...params} label="Ingredients" />

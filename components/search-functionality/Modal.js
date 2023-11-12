@@ -40,6 +40,12 @@ function Modal(props) {
     } else {
       data.tags = [];
     }
+
+    if (data.ingredients) {
+      data.ingredients = data.ingredients.split(",").map((ingredient) => ingredient.trim());
+    } else {
+      data.ingredient = [];
+    }
     data.tags = tagOptions;
     data.category = categoryOption;
 		data.ingredients = ingredientsOptions;
