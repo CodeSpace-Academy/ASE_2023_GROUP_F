@@ -1,15 +1,13 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { getIngredients } from "@/lib/view-recipes";
 import { useEffect, useState } from "react";
-import { set } from "lodash";
 
-function MultiSelect() {
-  const [uniqueIngredients, setUniqueIngredients] = useState([]);
+function MultiSelect({ingredients, setIngredients, ingredientsOptions, setIngredientsOptions}) {
 
   async function gettingIngredients() {
     try {
       const result = await getIngredients();
-      setUniqueIngredients(result.uniqueIngredients[0].ingredientsArray);
+      setIngredients(result.uniqueIngredients[0].ingredientsArray);
     } catch (error) {
       console.log("Error fetching more recipes: ", error);
     }
@@ -27,8 +25,12 @@ function MultiSelect() {
     <Autocomplete
       multiple
       id="ingredients"
-      options={uniqueIngredients}
+      options={ingredients}
       getOptionLabel={(option) => option}
+      value={ingredientsOptions}
+      onChange={(event, newValue) => {
+        setIngredientsOptions(newValue);
+      }}
       renderInput={(params) => (
         <TextField {...params} label="Ingredients" />
       )}
