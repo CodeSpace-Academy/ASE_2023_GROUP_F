@@ -10,6 +10,7 @@ export default async function handler(req, res) {
 			const database = await connectToDatabase();
 			const collection = database.collection("recipes");
 
+			const agg = [];
 			const queryFilter = {};
 
 			if (filter.category) {
@@ -42,36 +43,65 @@ export default async function handler(req, res) {
 				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
 			}
 
-			const querySort = {};
+			let querySort = {};
 
-			if (sort === 'prep ASC') {
+			if (sort === "prep ASC") {
 				querySort.prep = 1;
-			} else if (sort === 'prep DESC') {
+			} else if (sort === "prep DESC") {
 				querySort.prep = -1;
 			}
 
-			if (sort === 'cook ASC') {
+			if (sort === "cook ASC") {
 				querySort.cook = 1;
-			} else if (sort === 'cook DESC') {
+			} else if (sort === "cook DESC") {
 				querySort.cook = -1;
 			}
 
-			if (sort === 'date ASC' ) {
+			if (sort === "date ASC") {
 				querySort.published = 1;
-			} else if (sort === 'date DESC') {
+			} else if (sort === "date DESC") {
 				querySort.published = -1;
 			}
-			if (sort === 'instructions ASC') {
-				querySort.instructions = 1;
-			  } else if (sort === 'instructions DESC') {
-				querySort.instructions = -1;
-			}			  
 
-			const documents = await collection
-				.find(queryFilter)
-				.sort(querySort)
-				.limit(limit)
-				.toArray();
+			if (sort === "instructions ASC") {
+				querySort.instructions = 1;
+			} else if (sort === "instructions DESC") {
+				querySort.instructions = -1;
+			}
+
+			if (sort === "instructions ASC" || sort === "instructions DESC") {
+				const sortOrder = sort === "instructions ASC" ? 1 : -1;
+
+				agg.push(
+					{
+						$addFields: {
+							instructionsLength: { $size: "$instructions" },
+						},
+					},
+					{
+						$sort: {
+							instructionsLength: sortOrder,
+						},
+					},
+					{
+						$project: {
+							instructionsLength: 0,
+						},
+					},
+				);
+			} else {
+				if (JSON.stringify(querySort) !== "{}") {
+					agg.push({ $sort: querySort });
+				}
+			}
+
+			if (JSON.stringify(queryFilter) !== "{}") {
+				agg.push({ $match: { ...queryFilter } });
+			}
+
+			agg.push({ $limit: limit });
+
+			const documents = await collection.aggregate(agg).toArray();
 
 			const number = await collection.countDocuments(queryFilter);
 

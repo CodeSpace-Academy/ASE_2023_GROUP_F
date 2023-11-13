@@ -36,6 +36,7 @@ function Modal(props) {
 		}
 		data.tags = tagOptions;
 		await applyFilters(data);
+		setFilters(data)
 		handleClose();
 	};
 
@@ -73,7 +74,7 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={tagOptions}
+							value={filters.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
