@@ -1,30 +1,32 @@
-import { useEffect, useContext , useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
-import Description from '../components/description/description';
-import Instructions from '../components/details/instructions/instructions';
-import RecipeTags from '../components/tags/RecipeTags';
-import HandleError from '../components/error/Error'
+import HandleError from '../components/error/Error';
+import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
 
 const PAGE_SIZE = 48;
 
 function Home({ visibleRecipes, count }) {
-	const { filters , filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		setLoading(false);
 		setFilteredRecipes(visibleRecipes);
 	}, []);
 
 	const handleApplyFilters = async (filters, sort) => {
+		setLoading(true);
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering.recipes);
 		setRemainingRecipes(filtering.totalRecipes);
+		setLoading(false);
 	};
 
 	return (
@@ -36,17 +38,21 @@ function Home({ visibleRecipes, count }) {
 				setSortOption={setSortOption}
 				searchTerm={searchTerm}
 				setSearchTerm={setSearchTerm}
-				count = {setFilteredRecipes}
+				count={setFilteredRecipes}
 			/>
-			{remainingRecipes === 0 ? <HandleError>No recipes found!!</HandleError> : (
+			{loading ? (
+				<Animation />
+			) : remainingRecipes === 0 ? (
+				<HandleError>No recipes found!!</HandleError>
+			) : (
 				<RecipeList
-				visibleRecipes={filteredRecipes}
-				count={remainingRecipes}
-				appliedFilters={filters}
-				setRecipes={setFilteredRecipes}
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
-			/>
+					visibleRecipes={filteredRecipes}
+					count={remainingRecipes}
+					appliedFilters={filters}
+					setRecipes={setFilteredRecipes}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+				/>
 			)}
 		</div>
 	);
