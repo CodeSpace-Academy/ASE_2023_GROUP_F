@@ -54,7 +54,9 @@ function Modal(props) {
     <div className={classes.modalBackdrop}>
       <div className={classes.modalContent}>
         <div>
-          <p style={{ margin: '0', fontWeight: '500' }}>Filters</p>
+          <p style={{ margin: '0', fontWeight: '500', fontSize: '22px' }}>
+            Filters
+          </p>
           <span className={classes.closeButton} onClick={handleClose}>
             &times;
           </span>
@@ -130,8 +132,8 @@ function Modal(props) {
           <Button
             style={{
               position: 'absolute',
-              top: '400px',
-              left: '25px',
+              top: '385px',
+              left: '20px',
               fontSize: '15px',
               cursor: 'pointer',
             }}
@@ -150,8 +152,8 @@ function Modal(props) {
             variant="outlined"
             style={{
               position: 'absolute',
-              top: '400px',
-              right: '25px',
+              top: '385px',
+              right: '20px',
               fontSize: '15px',
               cursor: 'pointer',
             }}
