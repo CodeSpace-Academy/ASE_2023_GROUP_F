@@ -16,9 +16,9 @@ const SearchBar = (props) => {
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: [],
+		category: null,
 		tags: [],
-		ingredients: [],
+		ingredients: null,
 		instructions: null,
 	});
 
