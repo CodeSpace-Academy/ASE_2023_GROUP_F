@@ -72,7 +72,7 @@ const RecipeCard = (props) => {
     }
   };
 
-  const isButtonVisible = images.length > 1;
+  const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
     <div className="bg-slate-200 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105">
@@ -82,7 +82,7 @@ const RecipeCard = (props) => {
             className="rounded-lg"
             width={400}
             height={224}
-            src={images[currentImage]}
+            src={images?.[currentImage]}
             alt={`Recipe image ${currentImage + 1}`}
           />
         </div>
@@ -128,7 +128,7 @@ const RecipeCard = (props) => {
           </div>
         </div>
       </div>
-
+        <div>Instructions length :{recipe.instructions?.length}</div>
       <div className="flex justify-center items-center py-3">
         <button className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
           <Link href={`/recipes/${recipe._id}`}>View Recipe</Link>
