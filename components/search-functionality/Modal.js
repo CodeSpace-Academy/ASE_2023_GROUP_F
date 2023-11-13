@@ -21,11 +21,13 @@ function Modal(props) {
 			if (Array.isArray(fetchedTags)) {
 				setTags(fetchedTags);
 				setCategories(fetchedTags)
+
 			}
 		};
 
 		fetchTags();
 	}, []);
+	
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();

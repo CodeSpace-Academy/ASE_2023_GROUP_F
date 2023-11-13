@@ -17,9 +17,21 @@ function Home(props) {
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	
 
+	// useEffect(() => {
+	// 	setFilteredRecipes(visibleRecipes);
+	// }, []);
+
 	useEffect(() => {
-		setFilteredRecipes(visibleRecipes);
-	}, []);
+        const runLoad = async () => {
+            if(JSON.stringify(filters) === '{}') {
+                setFilteredRecipes(visibleRecipes);
+            }
+            else {
+                await handleApplyFilters(filters, sortOption)
+            }
+        }
+        runLoad()
+}, []);
 
 	const handleApplyFilters = async (filters, sort) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
