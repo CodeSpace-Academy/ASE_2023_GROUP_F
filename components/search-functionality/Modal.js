@@ -44,7 +44,7 @@ function Modal(props) {
     if (data.ingredients) {
       data.ingredients = data.ingredients.split(",").map((ingredient) => ingredient.trim());
     } else {
-      data.ingredient = [];
+      data.ingredients = [];
     }
     data.tags = tagOptions;
     data.category = categoryOption;
