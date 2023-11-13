@@ -39,7 +39,7 @@ function Modal(props) {
 		}
 		data.tags = tagOptions;
 		data.category = categoryOption
-		setFilters(data)
+		// setFilters(data)
 		await applyFilters(data);
 		handleClose();
 	};

@@ -13,12 +13,14 @@ const SearchBar = (props) => {
 		sortOption,
 		setSortOption,
 	} = props;
+
+	const {filters , setFilters} = useContext(filterContext)
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: [],
+		category: null,
 		tags: [],
-		ingredients: [],
+		ingredients: null,
 		instructions: null,
 	});
 
@@ -49,7 +51,7 @@ const SearchBar = (props) => {
 		if (Object.keys(nonEmptyFilters).length > 0) {
 			await applyFilters(nonEmptyFilters, sortOption);
 		}
-		// filters.category = filters.category
+		setFilters(filters)
 		setSelectedFilters(filters);
 	};
 	const handleDelete = (filterType, filterValue) => {
