@@ -5,67 +5,57 @@ import { Autocomplete } from "@mui/material";
 import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
-import MultiSelect from "./ingredients-selection/multi-select-ingredients";
 
 function Modal(props) {
-  const { handleClose, applyFilters } = props;
-  const [tags, setTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState([]);
-  const [categoryOption, setCategoryOption] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [ingredientsOptions, setIngredientsOptions] = useState([]);
-  const { filters, setFilters } = useContext(filterContext);
+	const { handleClose, applyFilters } = props;
+	const [tags, setTags] = useState([]);
+	const [tagOptions, setTagOptions] = useState([]);
+	const [categoryOption, setCategoryOption] = useState([]);
+	const [categories , setCategories] = useState([])
+	const { filters, setFilters } = useContext(filterContext);
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      const result = await getCategories();
-      const fetchedTags = result.categories[0].categories;
-      if (Array.isArray(fetchedTags)) {
-        setTags(fetchedTags);
-        setCategories(fetchedTags);
-      }
-    };
+	useEffect(() => {
+		const fetchTags = async () => {
+			const result = await getCategories();
+			const fetchedTags = result.categories[0].categories;
+			if (Array.isArray(fetchedTags)) {
+				setTags(fetchedTags);
+				setCategories(fetchedTags)
+			}
+		};
 
-    fetchTags();
-  }, []);
+		fetchTags();
+	}, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const data = Object.fromEntries(form);
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const form = new FormData(event.target);
+		const data = Object.fromEntries(form);
 
 		if (data.tags) {
 			data.tags = data.tags.split(",").map((tag) => tag.trim());
 		} else {
 			data.tags = [];
 		}
-		if (data.ingredients) {
-			data.ingredients = data.ingredients.split(",").map((ingredient) => ingredient.trim());
-		} else {
-			data.ingredients = [];
-		}
 		data.tags = tagOptions;
 		data.category = categoryOption
-    data.ingredients = ingredientsOptions
+		setFilters(data)
 		await applyFilters(data);
 		handleClose();
 	};
 
 	const clearAllFilters = () => {
 		setFilters({
-			categories: [],
+			categories: null,
 			tags: [],
 			instructions: null,
 			ingredients: "",
 		});
 		setTagOptions([]);
 		setCategoryOption([])
-    setIngredientsOptions([]);
 	};
 
 	
-
 	return (
 		<div className={classes.modalBackdrop}>
 			<div className={classes.modalContent}>
@@ -78,12 +68,13 @@ function Modal(props) {
 					<div>
 						<Autocomplete
 							id="outlined-basic"
-							options={tags}
+							options={categories}
 							getOptionLabel={(option) => option}
-							value={categoryOption}
+							value={filters.category}
 							onChange={(event, newValue) => {
 								setCategoryOption(newValue)
 							}}
+							freeSolo
 							renderInput={(params) => (
 								<TextField {...params} label="Categories" variant="outlined" />
 							)}
@@ -94,7 +85,7 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={tagOptions}
+							value={filters.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
@@ -102,53 +93,56 @@ function Modal(props) {
 									setTagOptions([]); 
 								}
 							}}
+							freeSolo
 							renderInput={(params) => (
 								<TextField {...params} label="Tags" variant="outlined" />
 							)}
 						/>
 
-            <br />
-            <MultiSelect
-              ingredients={ingredients}
-              setIngredients={setIngredients}
-              ingredientsOptions={ingredientsOptions}
-              setIngredientsOptions={setIngredientsOptions}
-            />
-          </div>
+						<br />
+						<TextField
+							className="mb-2"
+							id="outlined-basic"
+							label="Ingredients"
+							variant="outlined"
+							name="ingredients"
+							value={filters.ingredients}
+						/>
+					</div>
 
-          <h4 className="font-bold">Number of Instructions:</h4>
-          <TextField
-            className="mb-2 mt-1"
-            type="number"
-            name="instructions"
-            value={filters.instructions}
-          />
+					<h4 className="font-bold">Number of Instructions:</h4>
+					<TextField
+						className="mb-2 mt-1"
+						type="number"
+						name="instructions"
+						value={filters.instructions}
+					/>
 
-          <br />
-          <Button
-            color="secondary"
-            size="small"
-            variant="outlined"
-            onClick={clearAllFilters}
-          >
-            Clear All Filters
-          </Button>
-          <br />
-          <Button
-            className="mt-2"
-            form="form"
-            id="applyFilterSort"
-            type="submit"
-            color="secondary"
-            size="small"
-            variant="outlined"
-          >
-            Apply
-          </Button>
-        </form>
-      </div>
-    </div>
-  );
+					<br />
+					<Button
+						color="secondary"
+						size="small"
+						variant="outlined"
+						onClick={clearAllFilters}
+					>
+						Clear All Filters
+					</Button>
+					<br />
+					<Button
+						className="mt-2"
+						form="form"
+						id="applyFilterSort"
+						type="submit"
+						color="secondary"
+						size="small"
+						variant="outlined"
+					>
+						Apply
+					</Button>
+				</form>
+			</div>
+		</div>
+	);
 }
 
 export default Modal;
