@@ -118,7 +118,7 @@ const SearchBar = (props) => {
 						/>
 					</svg>
 
-					<span class="hidden md:inline-block ml-2">Filters</span>
+					<span className="hidden md:inline-block ml-2">Filters</span>
 				</Button>
 
 				<div className="relative flex items-center">
