@@ -127,6 +127,7 @@ const SearchBar = (props) => {
           />
         </div>
 
+		<div>
 					<FormControl
 						className="border-gray-800 hover:bg-slate-200"
 						sx={{ m: 1, minWidth: 120 }}
