@@ -4,31 +4,30 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
-const SearchBar = ({
-  applyFilters,
-  appliedFilters,
-  searchTerm,
-  setSearchTerm,
-  sortOption,
-  setSortOption,
-}) => {
-  const [open, setOpen] = useState(false);
-  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
+const SearchBar = (props) => {
+	const {
+		applyFilters,
+		appliedFilters,
+		searchTerm,
+		setSearchTerm,
+		sortOption,
+		setSortOption,
+	} = props;
+	const [open, setOpen] = useState(false);
+	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+		category: [],
+		tags: [],
+		ingredients: [],
+		instructions: null,
+	});
 
-  const { filters } = useContext(filterContext);
-
-  const [selectedFilters, setSelectedFilters] = useState({
-    category: [],
-    tags: [],
-    ingredients: [],
-    instructions: null,
-  });
+	const [selectedFilters, setSelectedFilters] = useState({
+		category: null,
+		tags: [],
+		ingredients: null,
+		instructions: null,
+	});
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -54,13 +53,19 @@ const SearchBar = ({
     setSelectedFilters(filters);
   };
 
-  const handleDelete = (filterType, filterValue) => {
-    const updatedFilters = { ...selectedFilters };
-    updatedFilters[filterType] = updatedFilters[filterType].filter(
-      (item) => item !== filterValue
-    );
-    setSelectedFilters(updatedFilters);
-    setUpdateAppliedfilter(updatedFilters);
+		if (Object.keys(nonEmptyFilters).length > 0) {
+			await applyFilters(nonEmptyFilters, sortOption);
+		}
+		// filters.category = filters.category
+		setSelectedFilters(filters);
+	};
+	const handleDelete = (filterType, filterValue) => {
+		const updatedFilters = { ...selectedFilters };
+		updatedFilters[filterType] = updatedFilters[filterType].filter(
+			(item) => item !== filterValue,
+		);
+		setSelectedFilters(updatedFilters);
+		setUpdateAppliedfilter(updatedFilters);
 
     handleApplyFilters(updatedFilters);
   };
