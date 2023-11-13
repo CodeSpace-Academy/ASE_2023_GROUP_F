@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import classes from "./modal.module.css";
-import TextField from "@mui/material/TextField";
-import { Autocomplete } from "@mui/material";
-import Button from "@mui/material/Button";
-import { filterContext } from "./filterContext";
-import { getCategories } from "@/lib/view-recipes";
+import React, { useContext, useEffect, useState } from 'react'
+import classes from './modal.module.css'
+import TextField from '@mui/material/TextField'
+import { Autocomplete } from '@mui/material'
+import Button from '@mui/material/Button'
+import { filterContext } from './filterContext'
+import { getCategories } from '@/lib/view-recipes'
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
@@ -24,13 +24,13 @@ function Modal(props) {
 			}
 		};
 
-		fetchTags();
-	}, []);
+    fetchTags()
+  }, [])
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		const form = new FormData(event.target);
-		const data = Object.fromEntries(form);
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const form = new FormData(event.target)
+    const data = Object.fromEntries(form)
 
 		if (data.tags) {
 			data.tags = data.tags.split(",").map((tag) => tag.trim());
@@ -99,50 +99,66 @@ function Modal(props) {
 							)}
 						/>
 
-						<br />
-						<TextField
-							className="mb-2"
-							id="outlined-basic"
-							label="Ingredients"
-							variant="outlined"
-							name="ingredients"
-							value={filters.ingredients}
-						/>
-					</div>
+            <TextField
+              className={classes.form}
+              id="outlined-basic"
+              label="Ingredients"
+              variant="outlined"
+              name="ingredients"
+              value={filters.ingredients}
+            />
+          </div>
 
-					<h4 className="font-bold">Number of Instructions:</h4>
-					<TextField
-						className="mb-2 mt-1"
-						type="number"
-						name="instructions"
-						value={filters.instructions}
-					/>
+          <p
+            style={{
+              fontSize: '14px,',
+            }}
+          >
+            Number of Instrutions
+          </p>
+          <TextField
+            className={classes.form}
+            type="number"
+            name="instructions"
+            value={filters.instructions}
+          />
 
-					<br />
-					<Button
-						color="secondary"
-						size="small"
-						variant="outlined"
-						onClick={clearAllFilters}
-					>
-						Clear All Filters
-					</Button>
-					<br />
-					<Button
-						className="mt-2"
-						form="form"
-						id="applyFilterSort"
-						type="submit"
-						color="secondary"
-						size="small"
-						variant="outlined"
-					>
-						Apply
-					</Button>
-				</form>
-			</div>
-		</div>
-	);
+          <br />
+          <Button
+            style={{
+              position: 'absolute',
+              top: '400px',
+              left: '25px',
+              fontSize: '15px',
+              cursor: 'pointer',
+            }}
+            size="small"
+            variant="outlined"
+            onClick={clearAllFilters}
+          >
+            Clear All Filters
+          </Button>
+          <br />
+          <Button
+            form="form"
+            id="applyFilterSort"
+            type="submit"
+            size="small"
+            variant="outlined"
+            style={{
+              position: 'absolute',
+              top: '400px',
+              right: '25px',
+              fontSize: '15px',
+              cursor: 'pointer',
+            }}
+          >
+            Apply
+          </Button>
+        </form>
+      </div>
+    </div>
+  )
 }
 
-export default Modal;
+export default Modal
