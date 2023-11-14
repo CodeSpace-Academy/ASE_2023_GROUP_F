@@ -57,7 +57,7 @@ function Modal(props) {
     data.tags = tagOptions;
     data.category = categoryOption;
     data.ingredients = ingredientsOption;
-    setFilters(data);
+    // setFilters(data);
     await applyFilters(data);
     handleClose();
   };
