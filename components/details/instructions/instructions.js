@@ -33,6 +33,11 @@ function Instructions(props) {
         }
       )
 
+      // Update the instruction locally before making the API call
+      setEditedInstructions(updatedInstructions)
+      setEditableIndex(-1) // Reset editable index after saving
+
+      // Make the API call to update the instruction in the database
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: 'PATCH',
         headers: {
@@ -43,7 +48,6 @@ function Instructions(props) {
 
       if (response.ok) {
         console.log('Recipe updated successfully')
-        setEditableIndex(-1) // Reset editable index after saving
       } else {
         console.error('Failed to update the recipe')
       }
@@ -60,6 +64,11 @@ function Instructions(props) {
     const updatedInstructions = [...editedInstructions]
     updatedInstructions[index] = value
     setEditedInstructions(updatedInstructions)
+  }
+  const handleCancel = () => {
+    setEditedInstructions([...instructions])
+    setModifiedInstructions({})
+    setEditableIndex(-1)
   }
 
   return (
@@ -82,6 +91,13 @@ function Instructions(props) {
                     onClick={handleSave}
                   >
                     Save
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleCancel}
+                  >
+                    Cancel
                   </Button>
                 </div>
               </div>
