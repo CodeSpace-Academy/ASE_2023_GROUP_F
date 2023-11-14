@@ -129,22 +129,25 @@ function Modal(props) {
           />
 
           <br />
-          <Button
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
             style={{
               position: 'absolute',
               top: '385px',
               left: '20px',
               fontSize: '15px',
               cursor: 'pointer',
+              fontWeight: '600',
             }}
             size="small"
             variant="outlined"
             onClick={clearAllFilters}
           >
             Clear All Filters
-          </Button>
-          <br />
-          <Button
+          </button>
+
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
             form="form"
             id="applyFilterSort"
             type="submit"
@@ -156,10 +159,11 @@ function Modal(props) {
               right: '20px',
               fontSize: '15px',
               cursor: 'pointer',
+              fontWeight: '600',
             }}
           >
             Apply
-          </Button>
+          </button>
         </form>
       </div>
     </div>
