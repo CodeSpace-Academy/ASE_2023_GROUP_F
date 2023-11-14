@@ -31,6 +31,7 @@ function Home({ visibleRecipes, count }) {
 
 	return (
 		<div>
+			{loading && <Animation />}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
@@ -40,9 +41,8 @@ function Home({ visibleRecipes, count }) {
 				setSearchTerm={setSearchTerm}
 				count={setFilteredRecipes}
 			/>
-			{loading ? (
-				<Animation />
-			) : remainingRecipes === 0 ? (
+			{
+			remainingRecipes === 0 ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
