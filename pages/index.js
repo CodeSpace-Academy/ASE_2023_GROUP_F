@@ -17,13 +17,9 @@ function Home(props) {
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	
 
-	// useEffect(() => {
-	// 	setFilteredRecipes(visibleRecipes);
-	// }, []);
-
 	useEffect(() => {
         const runLoad = async () => {
-            if(JSON.stringify(filters) === '{}' && sortOption.length === 0) {
+            if(JSON.stringify(filters) === '{}' && sortOption ==='') {
 			
                 setFilteredRecipes(visibleRecipes);
             }
@@ -38,19 +34,16 @@ function Home(props) {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
-		// setFilters(filters)
-		//setSortOption(sort)
+		setSortOption(sort)
 
 	};
 
 	return (
 		<div>
-			<div>{JSON.stringify(sortOption)}</div>
+			
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
-				// sortOption={sortOption}
-				// setSortOption={setSortOption}
 				searchTerm={searchTerm}
 				setSearchTerm={setSearchTerm}
 				count = {setFilteredRecipes}

@@ -99,6 +99,9 @@ export default async function handler(req, res) {
 				agg.push({ $match: { ...queryFilter } });
 			}
 
+			console.log('filter query' , queryFilter)
+			console.log('sort query' , querySort)
+
 			agg.push({ $limit: limit });
 
 			const documents = await collection.aggregate(agg).toArray();
