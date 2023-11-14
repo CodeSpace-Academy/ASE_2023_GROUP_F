@@ -28,10 +28,10 @@ function Home(props) {
             }
         }
         runLoad()
-}, []);
+}, [filters]);
 
-	const handleApplyFilters = async (filters, sort) => {
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
+	const handleApplyFilters = async () => {
+		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
 		setSortOption(sort)
