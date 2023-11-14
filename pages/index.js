@@ -23,7 +23,8 @@ function Home(props) {
 
 	useEffect(() => {
         const runLoad = async () => {
-            if(JSON.stringify(filters) === '{}') {
+            if(JSON.stringify(filters) === '{}' && sortOption.length === 0) {
+			
                 setFilteredRecipes(visibleRecipes);
             }
             else {
@@ -38,17 +39,18 @@ function Home(props) {
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
 		// setFilters(filters)
-		setSortOption(sort)
+		//setSortOption(sort)
 
 	};
 
 	return (
 		<div>
+			<div>{JSON.stringify(sortOption)}</div>
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
-				sortOption={sortOption}
-				setSortOption={setSortOption}
+				// sortOption={sortOption}
+				// setSortOption={setSortOption}
 				searchTerm={searchTerm}
 				setSearchTerm={setSearchTerm}
 				count = {setFilteredRecipes}
