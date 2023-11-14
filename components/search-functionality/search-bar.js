@@ -10,11 +10,11 @@ const SearchBar = (props) => {
 		appliedFilters,
 		searchTerm,
 		setSearchTerm,
-		sortOption,
-		setSortOption,
+		// sortOption,
+		// setSortOption,
 	} = props;
 
-	const { filters, setFilters } = useContext(filterContext);
+	const { filters, setFilters , sortOption , setSortOption } = useContext(filterContext);
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
@@ -194,8 +194,8 @@ const SearchBar = (props) => {
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
 					instructions={appliedFilters.instructions}
-					sortOption={sortOption}
-					setSortOption={setSortOption}
+					// sortOption={sortOption}
+					// setSortOption={setSortOption}
 				/>
 			)}
 			<div>
