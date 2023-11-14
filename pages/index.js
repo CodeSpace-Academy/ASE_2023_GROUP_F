@@ -34,7 +34,6 @@ function Home(props) {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
-		// setSortOption(sort)
 
 	};
 

@@ -99,12 +99,9 @@ export default async function handler(req, res) {
 				agg.push({ $match: { ...queryFilter } });
 			}
 
-			console.log('filter query' , queryFilter)
-			console.log('sort query' , querySort)
 
 			agg.push({ $limit: limit });
 
-			console.log("filtering category",queryFilter)
 			const documents = await collection.aggregate(agg).toArray();
 
 			const number = await collection.countDocuments(queryFilter);

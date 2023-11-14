@@ -5,16 +5,9 @@ import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
 const SearchBar = (props) => {
-	const {
-		applyFilters,
-		appliedFilters,
-		searchTerm,
-		setSearchTerm,
-		// sortOption,
-		// setSortOption,
-	} = props;
+	const { applyFilters, appliedFilters, searchTerm, setSearchTerm } = props;
 
-	const { filters, setFilters, sortOption, setSortOption } = useContext(filterContext);
+	const { filters, setFilters, sortOption, setSortOption , selectedFilters, setSelectedFilters } = useContext(filterContext);
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
@@ -24,12 +17,6 @@ const SearchBar = (props) => {
 		instructions: null,
 	});
 
-	const [selectedFilters, setSelectedFilters] = useState({
-		category: null,
-		tags: [],
-		ingredients: null,
-		instructions: null,
-	});
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -48,18 +35,15 @@ const SearchBar = (props) => {
 			setNoFiltersApplied(false);
 		}
 
-		// if (Object.keys(nonEmptyFilters).length > 0) {
-		// 	await applyFilters(nonEmptyFilters, sortOption);
-		// }
-		setFilters(prevFilters => ({
+		setFilters((prevFilters) => ({
 			...prevFilters,
 			...nonEmptyFilters,
 		}));
-		setSelectedFilters(prevFilters => ({
+		setSelectedFilters((prevFilters) => ({
 			...prevFilters,
 			...nonEmptyFilters,
 		}));
-		applyFilters()
+		applyFilters();
 	};
 
 	const handleDelete = (filterType, filterValue) => {
@@ -71,11 +55,13 @@ const SearchBar = (props) => {
 		setUpdateAppliedfilter(updatedFilters);
 
 		handleApplyFilters(updatedFilters);
+		console.log('delete selected filters' , updatedFilters)
 	};
 
+	
 	const handleSort = async (event) => {
 		const newSortOption = event.target.value;
-		// setSortOption(newSortOption);
+		setSortOption(newSortOption);
 		await applyFilters(filters, newSortOption);
 	};
 
@@ -100,13 +86,10 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm, filters , sortOption]);
+	}, [searchTerm, filters, sortOption]);
 
 	return (
 		<div>
-
-			<div>useContext filters{JSON.stringify(filters)}</div>
-			<div>selected Filters {JSON.stringify(selectedFilters)}</div>
 
 			<div className="container flex items-center justify-between">
 				<Button
@@ -206,8 +189,6 @@ const SearchBar = (props) => {
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
 					instructions={appliedFilters.instructions}
-					// sortOption={sortOption}
-					// setSortOption={setSortOption}
 				/>
 			)}
 			<div>
