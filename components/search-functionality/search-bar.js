@@ -55,8 +55,6 @@ const SearchBar = (props) => {
 		setSelectedFilters(filters);
 	};
 
-	console.log("Set Filters", filters)
-
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
 		updatedFilters[filterType] = updatedFilters[filterType].filter(

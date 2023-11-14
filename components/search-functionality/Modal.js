@@ -4,7 +4,8 @@ import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
 import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
-import { getCategories } from "@/lib/view-recipes";
+import { getCategories, getIngredients } from "@/lib/view-recipes";
+import { result } from "lodash";
 
 function Modal(props) {
   const { handleClose, applyFilters } = props;
@@ -13,57 +14,72 @@ function Modal(props) {
   const [categoryOption, setCategoryOption] = useState([]);
   const [categories, setCategories] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-  const [ingredientsOptions, setIngredientsOptions] = useState([]);
+  const [ingredientsOption, setIngredientsOption] = useState([]);
   const { filters, setFilters } = useContext(filterContext);
 
-	useEffect(() => {
-		const fetchTags = async () => {
-			const result = await getCategories();
-			const fetchedTags = result.categories[0].categories;
-			if (Array.isArray(fetchedTags)) {
-				setTags(fetchedTags);
-				setCategories(fetchedTags)
-			}
-		};
+  useEffect(() => {
+    const fetchTags = async () => {
+      const result = await getCategories();
+      const fetchedTags = result.categories[0].categories;
+      if (Array.isArray(fetchedTags)) {
+        setTags(fetchedTags);
+        setCategories(fetchedTags);
+      }
+    };
 
-    fetchTags()
-  }, [])
+    fetchTags();
+  }, []);
+
+  useEffect(() => {
+    try {
+      async function getIngredients() {
+        const result = await fetch("/api/ingredient");
+        const ingredientsArray = await result.json();
+        setIngredients(ingredientsArray?.ingredients[0].ingredientsArray);
+      }
+
+      getIngredients();
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  });
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = new FormData(event.target)
-    const data = Object.fromEntries(form)
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const data = Object.fromEntries(form);
 
-		if (data.tags) {
-			data.tags = data.tags.split(",").map((tag) => tag.trim());
+    if (data.tags) {
+      data.tags = data.tags.split(",").map((tag) => tag.trim());
     } else {
-			data.tags = [];
-		}
-		data.tags = tagOptions;
-		data.category = categoryOption
-		// setFilters(data)
-		await applyFilters(data);
-		handleClose();
-	};
+      data.tags = [];
+    }
+    data.tags = tagOptions;
+    data.category = categoryOption;
+    data.ingredients = ingredientsOption;
+    setFilters(data);
+    await applyFilters(data);
+    handleClose();
+  };
 
-	const clearAllFilters = () => {
-		setFilters({
-			categories: [],
-			tags: [],
-			instructions: null,
-			ingredients: "",
-		});
-		setTagOptions([]);
-		setCategoryOption([])
-	};
+  const clearAllFilters = () => {
+    setFilters({
+      categories: [],
+      tags: [],
+      instructions: null,
+      ingredients: "",
+    });
+    setTagOptions([]);
+    setCategoryOption([]);
+    setIngredientsOption([]);
+  };
 
-	
-	return (
-		<div className={classes.modalBackdrop}>
-			<div className={classes.modalContent}>
-				<span className={classes.closeButton} onClick={handleClose}>
-					&times;
-				</span>
+  return (
+    <div className={classes.modalBackdrop}>
+      <div className={classes.modalContent}>
+        <span className={classes.closeButton} onClick={handleClose}>
+          &times;
+        </span>
 
         <form onSubmit={handleSubmit} id="form">
           <h2 className="mb-2 mr-5 font-bold">Filter</h2>
@@ -100,20 +116,24 @@ function Modal(props) {
                 <TextField {...params} label="Tags" variant="outlined" />
               )}
             />
-
-            <TextField
-              className={classes.form}
+            <Autocomplete
               id="outlined-basic"
-              label="Ingredients"
-              variant="outlined"
-              name="ingredients"
+              options={ingredients}
+              getOptionLabel={(option) => option}
               value={filters.ingredients}
+              onChange={(event, newValue) => {
+                setIngredientsOption(newValue);
+              }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField {...params} label="Ingredients" />
+              )}
             />
           </div>
 
           <p
             style={{
-              fontSize: '14px,',
+              fontSize: "14px,",
             }}
           >
             Number of Instrutions
@@ -128,11 +148,11 @@ function Modal(props) {
           <br />
           <Button
             style={{
-              position: 'absolute',
-              top: '400px',
-              left: '25px',
-              fontSize: '15px',
-              cursor: 'pointer',
+              position: "absolute",
+              top: "400px",
+              left: "25px",
+              fontSize: "15px",
+              cursor: "pointer",
             }}
             size="small"
             variant="outlined"
@@ -148,11 +168,11 @@ function Modal(props) {
             size="small"
             variant="outlined"
             style={{
-              position: 'absolute',
-              top: '400px',
-              right: '25px',
-              fontSize: '15px',
-              cursor: 'pointer',
+              position: "absolute",
+              top: "400px",
+              right: "25px",
+              fontSize: "15px",
+              cursor: "pointer",
             }}
           >
             Apply
@@ -160,7 +180,7 @@ function Modal(props) {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default Modal
+export default Modal;
