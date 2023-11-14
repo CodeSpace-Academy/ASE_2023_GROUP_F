@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classes from "./modal.module.css";
 import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
@@ -67,7 +67,7 @@ function Modal(props) {
 					<h2 className="mb-2 mr-5 font-bold">Filter</h2>
 					<div>
 						<Autocomplete
-							id="outlined-basic"
+							id="categories"
 							options={categories}
 							getOptionLabel={(option) => option}
 							value={filters.category}
