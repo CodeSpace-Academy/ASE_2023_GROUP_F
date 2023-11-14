@@ -48,11 +48,18 @@ const SearchBar = (props) => {
 			setNoFiltersApplied(false);
 		}
 
-		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters, sortOption);
-		}
-		setFilters(filters);
-		setSelectedFilters(filters);
+		// if (Object.keys(nonEmptyFilters).length > 0) {
+		// 	await applyFilters(nonEmptyFilters, sortOption);
+		// }
+		setFilters(prevFilters => ({
+			...prevFilters,
+			...nonEmptyFilters,
+		}));
+		setSelectedFilters(prevFilters => ({
+			...prevFilters,
+			...nonEmptyFilters,
+		}));
+		applyFilters()
 	};
 
 	const handleDelete = (filterType, filterValue) => {
@@ -93,10 +100,14 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm]);
+	}, [searchTerm, filters , sortOption]);
 
 	return (
 		<div>
+
+			<div>useContext filters{JSON.stringify(filters)}</div>
+			<div>selected Filters {JSON.stringify(selectedFilters)}</div>
+
 			<div className="container flex items-center justify-between">
 				<Button
 					variant="outlined"

@@ -101,6 +101,7 @@ export default async function handler(req, res) {
 
 			agg.push({ $limit: limit });
 
+			console.log("filtering category",queryFilter)
 			const documents = await collection.aggregate(agg).toArray();
 
 			const number = await collection.countDocuments(queryFilter);
