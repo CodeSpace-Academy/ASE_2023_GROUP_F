@@ -66,7 +66,7 @@ const SearchBar = ({
   };
 
   const handleSort = async (event) => {
-    const newSortOption = event.target.value
+    const newSortOption = event.target.value;
     setSortOption(newSortOption);
     await applyFilters(selectedFilters, newSortOption);
   };
@@ -84,31 +84,29 @@ const SearchBar = ({
 
   const handleQuerySubmit = () => {
     if (searchTerm.length < 10) {
-      applyFilters({ title: searchTerm });
+      applyFilters({searchTerm });
     } else {
-      // handle long query
-      setButtonEnabled(true); // You might want to do something here for long queries
+      setButtonEnabled(true);
     }
   };
 
   useEffect(() => {
     let timeoutId;
 
-    const shortQueryDebounce = debounce((query) => {
-      applyFilters({ title: query });
+    const shortQueryDebounce = debounce(() => {
+      applyFilters({ title: searchTerm });
       setButtonEnabled(true);
     }, 500);
 
-    const longQueryDebounce = debounce((query) => {
-      // handle long query
+    const longQueryDebounce = debounce(() => {
       setButtonEnabled(true);
     }, 1000);
 
-    const applyDebounce = (query) => {
-      if (query.length < 10) {
-        shortQueryDebounce(query);
+    const applyDebounce = () => {
+      if (searchTerm.length < 10) {
+        shortQueryDebounce({searchTerm});
       } else {
-        longQueryDebounce(query);
+        longQueryDebounce({searchTerm});
       }
     };
 
@@ -118,7 +116,7 @@ const SearchBar = ({
 
     timeoutId = setTimeout(() => {
       if (searchTerm.length > 0) {
-        applyDebounce(searchTerm);
+        applyDebounce({searchTerm});
       }
     }, 500);
 
@@ -127,7 +125,7 @@ const SearchBar = ({
         clearTimeout(timeoutId);
       }
     };
-  }, [searchTerm, applyFilters, setButtonEnabled]);
+  }, [searchTerm]);
 
   return (
     <div>
@@ -138,18 +136,42 @@ const SearchBar = ({
           onClick={handleOpen}
           className="flex items-center border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5"
+            />
           </svg>
           <span class="hidden md:inline-block ml-2">Filters</span>
         </Button>
         <div className="flex mx-auto gap-10 items-center space-x-5">
           <label htmlFor="search" />
           <div className="relative flex items-center">
-            <label htmlFor="search" className="sr-only">Search</label>
+            <label htmlFor="search" className="sr-only">
+              Search
+            </label>
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-gray-400">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 text-gray-400"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                />
               </svg>
             </div>
             <input
@@ -160,24 +182,38 @@ const SearchBar = ({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-              <Button
-            variant="outlined"
-            size="large"
-            onClick={handleQuerySubmit}
-            className="flex items-center border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
-            disabled={!buttonEnabled}
-          >
-            Submit
-          </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={handleQuerySubmit}
+              className="flex items-center border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+              disabled={!buttonEnabled}
+            >
+              Submit
+            </Button>
           </div>
 
           <FormControl
             className="flex items-center border-gray-800 rounded-full hover:bg-slate-200"
             sx={{ m: 1, minWidth: 50 }}
           >
-            <InputLabel htmlFor="grouped-native-select" className="items-center rounded-full md:flex">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:mr-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+            <InputLabel
+              htmlFor="grouped-native-select"
+              className="items-center rounded-full md:flex"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 md:mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+                />
               </svg>
               <span class="hidden md:inline-block">Sort By</span>
             </InputLabel>
@@ -209,7 +245,6 @@ const SearchBar = ({
               </optgroup>
             </Select>
           </FormControl>
-        
         </div>
       </div>
 
