@@ -1,30 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
 const SearchBar = (props) => {
-	const {
-		applyFilters,
-		appliedFilters,
-		searchTerm,
-		setSearchTerm,
-		// sortOption,
-		// setSortOption,
-	} = props;
+	const { applyFilters, appliedFilters, searchTerm, setSearchTerm } = props;
 
-	const { filters, setFilters , sortOption , setSortOption } = useContext(filterContext);
+	const {
+		filters,
+		setFilters,
+		sortOption,
+		setSortOption,
+		selectedFilters,
+		setSelectedFilters,
+	} = useContext(filterContext);
 	const [open, setOpen] = useState(false);
 	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
-		category: null,
-		tags: [],
-		ingredients: null,
-		instructions: null,
-	});
-
-	const [selectedFilters, setSelectedFilters] = useState({
 		category: null,
 		tags: [],
 		ingredients: null,
@@ -48,12 +41,18 @@ const SearchBar = (props) => {
 			setNoFiltersApplied(false);
 		}
 
-		if (Object.keys(nonEmptyFilters).length > 0) {
-			await applyFilters(nonEmptyFilters, sortOption);
-		}
-		setFilters(filters);
-		setSelectedFilters(filters);
+		setFilters((prevFilters) => ({
+			...prevFilters,
+			...nonEmptyFilters,
+		}));
+		setSelectedFilters((prevFilters) => ({
+			...prevFilters,
+			...nonEmptyFilters,
+		}));
+
+		applyFilters();
 	};
+
 	const handleDelete = (filterType, filterValue) => {
 		const updatedFilters = { ...selectedFilters };
 		updatedFilters[filterType] = updatedFilters[filterType].filter(
@@ -92,7 +91,7 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm]);
+	}, [searchTerm, filters, sortOption]);
 
 	return (
 		<div>
@@ -194,8 +193,7 @@ const SearchBar = (props) => {
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
 					instructions={appliedFilters.instructions}
-					// sortOption={sortOption}
-					// setSortOption={setSortOption}
+					
 				/>
 			)}
 			<div>

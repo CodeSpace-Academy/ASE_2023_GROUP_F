@@ -34,12 +34,10 @@ function Modal(props) {
 
 		if (data.tags) {
 			data.tags = data.tags.split(",").map((tag) => tag.trim());
-		} else {
-			data.tags = [];
 		}
+		
 		data.tags = tagOptions;
 		data.category = categoryOption
-		setFilters(data)
 		await applyFilters(data);
 		handleClose();
 	};
