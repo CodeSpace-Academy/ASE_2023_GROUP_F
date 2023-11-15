@@ -9,8 +9,8 @@ function Description(props) {
   const [originalDescription, setOriginalDescription] = useState(description)
 
   const handleEdit = () => {
-    setOriginalDescription(editedDescription);
-    setIsEditing(true);
+    setOriginalDescription(editedDescription)
+    setIsEditing(true)
   }
 
   const handleSave = async () => {
@@ -23,7 +23,8 @@ function Description(props) {
     const formattedDate = currentDate.toLocaleDateString(undefined, options)
 
     const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`
-
+    setEditedDescription(updatedDescription)
+    setIsEditing(false)
     try {
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: 'PATCH',
@@ -45,8 +46,8 @@ function Description(props) {
   }
 
   const handleCancel = () => {
-    setIsEditing(false);
-    setEditedDescription(originalDescription); 
+    setIsEditing(false)
+    setEditedDescription(originalDescription)
   }
 
   return (
@@ -62,19 +63,19 @@ function Description(props) {
                 onChange={(e) => setEditedDescription(e.target.value)}
               />
               <div className="flex-row space-x-4">
-              <Button variant="outlined" onClick={handleSave}>
-                Save
-              </Button>
-              <Button variant="outlined" onClick={handleCancel}>
-                Cancel
-              </Button>
+                <Button variant="outlined" onClick={handleSave}>
+                  Save
+                </Button>
+                <Button variant="outlined" onClick={handleCancel}>
+                  Cancel
+                </Button>
               </div>
             </div>
           ) : (
-            <div >
+            <div>
               <p className="text-xl m-1">
                 {editedDescription}
-                <br/>
+                <br />
                 <Button variant="outlined" onClick={handleEdit}>
                   Edit
                 </Button>

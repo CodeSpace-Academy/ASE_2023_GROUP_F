@@ -1,4 +1,4 @@
-import { useEffect, useContext , useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
@@ -38,22 +38,26 @@ function Home(props) {
 
 	return (
 		<div>
+			{loading && <Animation />}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
 				searchTerm={searchTerm}
 				setSearchTerm={setSearchTerm}
-				count = {setFilteredRecipes}
+				count={setFilteredRecipes}
 			/>
-			{remainingRecipes === 0 ? <HandleError>No recipes found!!</HandleError> : (
+			{
+			remainingRecipes === 0 ? (
+				<HandleError>No recipes found!!</HandleError>
+			) : (
 				<RecipeList
-				visibleRecipes={filteredRecipes}
-				count={remainingRecipes}
-				appliedFilters={filters}
-				setRecipes={setFilteredRecipes}
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
-			/>
+					visibleRecipes={filteredRecipes}
+					count={remainingRecipes}
+					appliedFilters={filters}
+					setRecipes={setFilteredRecipes}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+				/>
 			)}
 		</div>
 	);

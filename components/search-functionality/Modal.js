@@ -42,24 +42,39 @@ function Modal(props) {
 		handleClose();
 	};
 
-	const clearAllFilters = () => {
-		setFilters({
-			categories: null,
-			tags: [],
-			instructions: null,
-			ingredients: "",
-		});
-		setTagOptions([]);
-		setCategoryOption([])
-	};
+  const clearAllFilters = () => {
+    setFilters({
+      categories: '',
+      tags: '',
+      instructions: null,
+      ingredients: '',
+    })
+    setTagOptions([])
+  }
 
-	
-	return (
-		<div className={classes.modalBackdrop}>
-			<div className={classes.modalContent}>
-				<span className={classes.closeButton} onClick={handleClose}>
-					&times;
-				</span>
+  return (
+    <div className={classes.modalBackdrop}>
+      <div className={classes.modalContent}>
+        <div>
+          <p style={{ margin: '0', fontWeight: '500', fontSize: '22px' }}>
+            Filters
+          </p>
+          <span className={classes.closeButton} onClick={handleClose}>
+            &times;
+          </span>
+          <hr
+            style={{
+              margin: '0 auto',
+              marginTop: '10px',
+              marginBottom: '15px',
+              width: '100%',
+              border: '0',
+              height: '1px',
+              background:
+                'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
+            }}
+          />
+        </div>
 
 				<form onSubmit={handleSubmit} id="form">
 					<h2 className="mb-2 mr-5 font-bold">Filter</h2>
@@ -116,31 +131,46 @@ function Modal(props) {
 						value={filters.instructions}
 					/>
 
-					<br />
-					<Button
-						color="secondary"
-						size="small"
-						variant="outlined"
-						onClick={clearAllFilters}
-					>
-						Clear All Filters
-					</Button>
-					<br />
-					<Button
-						className="mt-2"
-						form="form"
-						id="applyFilterSort"
-						type="submit"
-						color="secondary"
-						size="small"
-						variant="outlined"
-					>
-						Apply
-					</Button>
-				</form>
-			</div>
-		</div>
-	);
+          <br />
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
+            style={{
+              position: 'absolute',
+              top: '385px',
+              left: '20px',
+              fontSize: '15px',
+              cursor: 'pointer',
+              fontWeight: '600',
+            }}
+            size="small"
+            variant="outlined"
+            onClick={clearAllFilters}
+          >
+            Clear All Filters
+          </button>
+
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+            form="form"
+            id="applyFilterSort"
+            type="submit"
+            size="small"
+            variant="outlined"
+            style={{
+              position: 'absolute',
+              top: '385px',
+              right: '20px',
+              fontSize: '15px',
+              cursor: 'pointer',
+              fontWeight: '600',
+            }}
+          >
+            Apply
+          </button>
+        </form>
+      </div>
+    </div>
+  )
 }
 
 export default Modal;
