@@ -38,7 +38,6 @@ function Home(props) {
 
 	return (
 		<div>
-			{loading && <Animation />}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
