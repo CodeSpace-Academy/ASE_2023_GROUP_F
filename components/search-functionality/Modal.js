@@ -122,7 +122,7 @@ function Modal(props) {
             Number of Instrutions
           </p>
           <TextField
-            className={classes.form}
+            className={classes.formInput}
             type="number"
             name="instructions"
             value={filters.instructions}
