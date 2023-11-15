@@ -26,9 +26,9 @@ const SearchBar = ({
   const { filters } = useContext(filterContext);
 
   const [selectedFilters, setSelectedFilters] = useState({
-    category: [],
+    category: null,
     tags: [],
-    ingredients: [],
+    ingredients: null,
     instructions: null,
   });
 
@@ -49,6 +49,8 @@ const SearchBar = ({
 
     if (Object.keys(nonEmptyFilters).length > 0) {
       await applyFilters(nonEmptyFilters, sortOption);
+      setNoFiltersApplied(true);
+    } else {
       setNoFiltersApplied(false);
     }
     setSelectedFilters(filters);
@@ -82,9 +84,14 @@ const SearchBar = ({
     setNoFiltersApplied(true);
   };
 
+  const handleQueryChange = (value) => {
+    setSearchTerm(value);
+    setButtonEnabled(value.trim() !== ""); 
+  };
+
   const handleQuerySubmit = () => {
     if (searchTerm.length < 10) {
-      applyFilters({searchTerm });
+      applyFilters({ title: searchTerm });
     } else {
       setButtonEnabled(true);
     }
@@ -93,22 +100,13 @@ const SearchBar = ({
   useEffect(() => {
     let timeoutId;
 
-    const shortQueryDebounce = debounce(() => {
-      applyFilters({ title: searchTerm });
-      setButtonEnabled(true);
-    }, 500);
-
-    const longQueryDebounce = debounce(() => {
-      setButtonEnabled(true);
-    }, 1000);
-
-    const applyDebounce = () => {
+    const applyDebounce = debounce(() => {
       if (searchTerm.length < 10) {
-        shortQueryDebounce({searchTerm});
+        applyFilters({ title: searchTerm });
       } else {
-        longQueryDebounce({searchTerm});
+        setButtonEnabled(true);
       }
-    };
+    }, 500);
 
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -116,7 +114,10 @@ const SearchBar = ({
 
     timeoutId = setTimeout(() => {
       if (searchTerm.length > 0) {
-        applyDebounce({searchTerm});
+        applyDebounce();
+      } else {
+        setButtonEnabled(false)
+        applyFilters({ title: "" })
       }
     }, 500);
 
@@ -125,7 +126,8 @@ const SearchBar = ({
         clearTimeout(timeoutId);
       }
     };
-  }, [searchTerm]);
+  }, [searchTerm, applyFilters]);
+
 
   return (
     <div>
@@ -180,7 +182,9 @@ const SearchBar = ({
               id="search"
               placeholder="Search...."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleQueryChange(e.target.value)}
+
+
             />
             <Button
               variant="outlined"
