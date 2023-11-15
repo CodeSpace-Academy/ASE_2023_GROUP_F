@@ -42,9 +42,9 @@
   font-weight: 500;
   font-size: 29px;
 }
-.form {
+.formInput {
   width: 500px;
-  margin-bottom: 5px;
+  margin-bottom: 10px !important;
 }
 
 @media screen and (max-width: 430px) {

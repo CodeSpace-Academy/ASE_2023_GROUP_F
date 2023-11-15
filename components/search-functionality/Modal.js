@@ -77,7 +77,7 @@ function Modal(props) {
         <form onSubmit={handleSubmit} id="form">
           <div>
             <TextField
-              className={classes.form}
+              className={classes.formInput}
               id="outlined-basic"
               label="Categories"
               variant="outlined"
@@ -86,7 +86,7 @@ function Modal(props) {
             />
             <br />
             <Autocomplete
-              className={classes.form}
+              className={classes.formInput}
               multiple
               id="tags"
               options={tags}
@@ -105,7 +105,7 @@ function Modal(props) {
             />
 
             <TextField
-              className={classes.form}
+              className={classes.formInput}
               id="outlined-basic"
               label="Ingredients"
               variant="outlined"
