@@ -92,6 +92,15 @@ const SearchBar = ({
     };
   }, [searchTerm]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <div className="container flex items-center justify-between">
@@ -107,6 +116,8 @@ const SearchBar = ({
 
           <span class="hidden md:inline-block ml-2">Filters</span>
         </Button>
+
+        
 
         <div className="relative flex items-center">
           <label htmlFor="search" className="sr-only">Search</label>
@@ -125,49 +136,44 @@ const SearchBar = ({
           />
         </div>
 
-        <FormControl
-          className="flex items-center border-gray-800 rounded-full hover:bg-slate-200"
-          sx={{ m: 1, minWidth: 50 }}
-        >
-          <InputLabel htmlFor="grouped-native-select" className="items-center rounded-full md:flex">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:mr-2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+        <div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
+          <label htmlFor="grouped-native-select" className="flex items-center rounded-full md:flex">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 md:mr-2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
             </svg>
-            <span class="hidden md:inline-block">Sort By</span>
-          </InputLabel>
+            <span className="hidden md:inline-block">Sort By</span>
+          </label>
 
-          <Select
-            native
+          <select
             defaultValue=""
             id="grouped-native-select"
-            label="Grouping"
             name="sortOption"
             value={sortOption}
             onChange={handleSort}
+            className="text-gray-800 outline-none border-none min-w-[50px] md:flex-grow"
+
           >
-            <option aria-label="None" value="" />
-            <optgroup name="prep" label="Prep Time">
+            <option aria-label="None" value="" className="text-sm">
+              <span className="hidden md:block">Default Sorting</span>
+            </option>
+            <optgroup label="Prep Time">
               <option value="prep ASC">Prep ASC</option>
               <option value="prep DESC">Prep DESC</option>
             </optgroup>
-            <optgroup name="cook" label="Cook Time">
+            <optgroup label="Cook Time">
               <option value="cook ASC">Cook ASC</option>
               <option value="cook DESC">Cook DESC</option>
             </optgroup>
-            <optgroup name="published" label="Date Created">
+            <optgroup label="Date Created">
               <option value="date ASC">Date ASC</option>
               <option value="date DESC">Date DESC</option>
             </optgroup>
-            <optgroup name="instructions" label="Instructions">
+            <optgroup label="Instructions">
               <option value="instructions ASC">Instructions ASC</option>
               <option value="instructions DESC">Instructions DESC</option>
             </optgroup>
-          </Select>
-        </FormControl>
-
-       
-
-
+          </select>
+        </div>
 
       </div>
 

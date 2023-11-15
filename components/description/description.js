@@ -51,7 +51,7 @@ function Description(props) {
   }
 
   return (
-    <div>
+    <div className='container max-w-3xl'>
       <div>
         <Card className="bg-gray-200">
           {isEditing ? (
@@ -73,7 +73,7 @@ function Description(props) {
             </div>
           ) : (
             <div>
-              <p className="text-xl m-1">
+              <p className="m-1 text-xl">
                 {editedDescription}
                 <br />
                 <Button variant="outlined" onClick={handleEdit}>
