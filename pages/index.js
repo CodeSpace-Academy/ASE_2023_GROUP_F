@@ -41,7 +41,7 @@ function Home(props) {
 			}
 		};
 		runLoad();
-	}, [filters]);
+	}, [filters, sortOption]);
 
 	const handleApplyFilters = async (filters) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
@@ -51,6 +51,7 @@ function Home(props) {
 
 	return (
 		<div>
+			{loading && <Animation/>}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
@@ -58,12 +59,8 @@ function Home(props) {
 				setSearchTerm={setSearchTerm}
 				count={remainingRecipes}
 			/>
-			{loading ? (
-				<>
-					<CardSkeleton />
-					<Animation />
-				</>
-			) : !filteredRecipes ? (
+
+			{  remainingRecipes === 0 ?(
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
