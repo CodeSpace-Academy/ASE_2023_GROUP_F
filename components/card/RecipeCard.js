@@ -128,7 +128,6 @@ const RecipeCard = (props) => {
           </div>
         </div>
       </div>
-        <div>Instructions length :{recipe.instructions?.length}</div>
       <div className="flex justify-center items-center py-3">
         <button className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
           <Link href={`/recipes/${recipe._id}`}>View Recipe</Link>
