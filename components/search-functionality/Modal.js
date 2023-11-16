@@ -1,53 +1,63 @@
-import React, { useContext, useEffect, useState } from 'react'
-import classes from './modal.module.css'
-import TextField from '@mui/material/TextField'
-import { Autocomplete } from '@mui/material'
-import Button from '@mui/material/Button'
-import { filterContext } from './filterContext'
-import { getCategories } from '@/lib/view-recipes'
+import { useContext, useEffect, useState } from "react";
+import classes from "./modal.module.css";
+import TextField from "@mui/material/TextField";
+import { Autocomplete } from "@mui/material";
+import { filterContext } from "./filterContext";
+import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
-  const { handleClose, applyFilters } = props
-  const [tags, setTags] = useState([])
-  const [tagOptions, setTagOptions] = useState([])
-  const { filters, setFilters } = useContext(filterContext)
+	const { handleClose, applyFilters } = props;
+	const [tags, setTags] = useState([]);
+	const [tagOptions, setTagOptions] = useState([]);
+	const [categoryOption, setCategoryOption] = useState([]);
+	const [categories , setCategories] = useState([])
+	const { filters, setFilters , selectedFilters , setSelectedFilters } = useContext(filterContext);
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      const result = await getCategories()
-      const fetchedTags = result.categories[0].categories
-      if (Array.isArray(fetchedTags)) {
-        setTags(fetchedTags)
-      }
-    }
+	useEffect(() => {
+		const fetchTags = async () => {
+			const result = await getCategories();
+			const fetchedTags = result.categories[0].categories;
+			if (Array.isArray(fetchedTags)) {
+				setTags(fetchedTags);
+				setCategories(fetchedTags)
+			}
+		};
 
-    fetchTags()
-  }, [])
+		fetchTags();
+	}, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const form = new FormData(event.target)
-    const data = Object.fromEntries(form)
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const form = new FormData(event.target);
+		const data = Object.fromEntries(form);
 
-    if (data.tags) {
-      data.tags = data.tags.split(',').map((tag) => tag.trim())
-    } else {
-      data.tags = []
-    }
-    data.tags = tagOptions
-    await applyFilters(data)
-    setFilters(data)
-    handleClose()
-  }
+		if (data.tags) {
+			data.tags = data.tags.split(",").map((tag) => tag.trim());
+		}
+
+
+		
+		data.tags = tagOptions;
+		data.category = categoryOption
+		await applyFilters(data);
+		handleClose();
+	};
 
   const clearAllFilters = () => {
     setFilters({
       categories: '',
       tags: '',
-      instructions: null,
+      instructions: '',
       ingredients: '',
     })
-    setTagOptions([])
+
+	setSelectedFilters({
+		categories: null,
+		tags: '',
+		instructions: '',
+		ingredients: '',
+	  })
+    
   }
 
   return (
@@ -74,59 +84,61 @@ function Modal(props) {
           />
         </div>
 
-        <form onSubmit={handleSubmit} id="form">
-          <div>
-            <TextField
-              className={classes.form}
-              id="outlined-basic"
-              label="Categories"
-              variant="outlined"
-              name="category"
-              value={filters.category}
-            />
-            <br />
-            <Autocomplete
-              className={classes.form}
-              multiple
-              id="tags"
-              options={tags}
-              getOptionLabel={(option) => option}
-              value={filters.tags}
-              onChange={(event, newValue) => {
-                if (newValue !== undefined && Array.isArray(newValue)) {
-                  setTagOptions(newValue)
-                } else {
-                  setTagOptions([])
-                }
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Tags" variant="outlined" />
-              )}
-            />
+				<form onSubmit={handleSubmit} id="form">
+					<div>
+						<Autocomplete
+							className={classes.form}
+							id="categories"
+							options={categories}
+							getOptionLabel={(option) => option}
+							value={filters.category}
+							onChange={(event, newValue) => {
+								setCategoryOption(newValue)
+							}}
+							freeSolo
+							renderInput={(params) => (
+								<TextField {...params} label="Categories" variant="outlined" />
+							)}
+						/>
+						<br />
+						<Autocomplete
+							className={classes.form}
+							multiple
+							id="tags"
+							options={tags}
+							getOptionLabel={(option) => option}
+							value={filters.tags}
+							onChange={(event, newValue) => {
+								if (newValue !== undefined && Array.isArray(newValue)) {
+									setTagOptions(newValue);
+								} else {
+									setTagOptions([]); 
+								}
+							}}
+							freeSolo
+							renderInput={(params) => (
+								<TextField {...params} label="Tags" variant="outlined" />
+							)}
+						/>
 
-            <TextField
-              className={classes.form}
-              id="outlined-basic"
-              label="Ingredients"
-              variant="outlined"
-              name="ingredients"
-              value={filters.ingredients}
-            />
-          </div>
+						<br />
+						<TextField
+							className={classes.form}
+							id="outlined-basic"
+							label="Ingredients"
+							variant="outlined"
+							name="ingredients"
+							value={filters.ingredients}
+						/>
+					</div>
 
-          <p
-            style={{
-              fontSize: '14px,',
-            }}
-          >
-            Number of Instrutions
-          </p>
-          <TextField
-            className={classes.form}
-            type="number"
-            name="instructions"
-            value={filters.instructions}
-          />
+					<h4 className="font-bold">Number of Instructions:</h4>
+					<TextField
+						className={classes.form}
+						type="number"
+						name="instructions"
+						value={filters.instructions}
+					/>
 
           <br />
           <button
@@ -170,4 +182,4 @@ function Modal(props) {
   )
 }
 
-export default Modal
+export default Modal;

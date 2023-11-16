@@ -5,44 +5,65 @@ import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
-import HandleError from '../components/error/Error';
+import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
+import CardSkeleton from "@/components/skeletonCard/skeleton";
 
 const PAGE_SIZE = 48;
 
-function Home({ visibleRecipes, count }) {
-	const { filters, filteredRecipes, setFilteredRecipes, sortOption, setSortOption } = useContext(filterContext);
-	const [searchTerm, setSearchTerm] = useState("");
+function Home(props) {
+	const { visibleRecipes, count } = props;
+	const {
+		filters,
+		setFilters,
+		filteredRecipes,
+		setFilteredRecipes,
+		sortOption,
+		setSortOption,
+		searchTerm,
+		setSearchTerm
+	} = useContext(filterContext);
+	
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		setLoading(false);
-		setFilteredRecipes(visibleRecipes);
-	}, []);
+		const runLoad = async () => {
+			try {
+				setLoading(true);
+				if (JSON.stringify(filters) === "{}" && sortOption === "") {
+					setFilteredRecipes(visibleRecipes);
+				} else {
+					await handleApplyFilters(filters, sortOption);
+				}
+			} finally {
+				setLoading(false);
+			}
+		};
+		runLoad();
+	}, [filters]);
 
-	const handleApplyFilters = async (filters, sort) => {
-		setLoading(true);
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sort);
-		setFilteredRecipes(filtering.recipes);
-		setRemainingRecipes(filtering.totalRecipes);
-		setLoading(false);
+	const handleApplyFilters = async (filters) => {
+		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
+		setFilteredRecipes(filtering?.recipes);
+		setRemainingRecipes(filtering?.totalRecipes);
 	};
 
 	return (
 		<div>
-			{loading && <Animation />}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
-				sortOption={sortOption}
-				setSortOption={setSortOption}
 				searchTerm={searchTerm}
 				setSearchTerm={setSearchTerm}
-				count={setFilteredRecipes}
+				count={remainingRecipes}
 			/>
-			{
-			remainingRecipes === 0 ? (
+			{loading ? (
+				<>
+					<CardSkeleton />
+					<Animation />
+				</>
+			) : !filteredRecipes ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
@@ -59,7 +80,6 @@ function Home({ visibleRecipes, count }) {
 }
 
 export async function getStaticProps() {
-
 	try {
 		const { recipes, count } = await getRecipes(48);
 		return {
