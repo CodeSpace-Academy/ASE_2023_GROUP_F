@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import classes from "./modal.module.css";
 import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
-import Button from "@mui/material/Button";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
 
@@ -12,7 +11,7 @@ function Modal(props) {
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
 	const [categories , setCategories] = useState([])
-	const { filters, setFilters } = useContext(filterContext);
+	const { filters, setFilters , selectedFilters , setSelectedFilters } = useContext(filterContext);
 
 	useEffect(() => {
 		const fetchTags = async () => {
@@ -35,10 +34,15 @@ function Modal(props) {
 		if (data.tags) {
 			data.tags = data.tags.split(",").map((tag) => tag.trim());
 		}
+
+		const mergedFilters ={
+			...filters,
+			...data,
+		}
 		
 		data.tags = tagOptions;
 		data.category = categoryOption
-		await applyFilters(data);
+		await applyFilters(mergedFilters);
 		handleClose();
 	};
 
@@ -46,10 +50,17 @@ function Modal(props) {
     setFilters({
       categories: '',
       tags: '',
-      instructions: null,
+      instructions: '',
       ingredients: '',
     })
-    setTagOptions([])
+
+	setSelectedFilters({
+		categories: null,
+		tags: '',
+		instructions: '',
+		ingredients: '',
+	  })
+    
   }
 
   return (
@@ -106,6 +117,7 @@ function Modal(props) {
 								} else {
 									setTagOptions([]); 
 								}
+								setFilters({...filters , tags : newValue || []});
 							}}
 							freeSolo
 							renderInput={(params) => (

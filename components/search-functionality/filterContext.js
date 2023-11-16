@@ -6,6 +6,7 @@ export const FilterProvider = ({ children }) => {
 	const [filters, setFilters] = useState({});
 	const [filteredRecipes, setFilteredRecipes] = useState([]);
 	const [sortOption, setSortOption] = useState("");
+	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [selectedFilters, setSelectedFilters] = useState({
 		category: null,
 		tags: [],
@@ -22,6 +23,8 @@ export const FilterProvider = ({ children }) => {
 		setSortOption,
 		selectedFilters,
 		setSelectedFilters,
+		noFiltersApplied,
+		 setNoFiltersApplied
 	};
 
 	return (

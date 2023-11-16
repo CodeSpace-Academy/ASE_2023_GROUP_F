@@ -14,9 +14,10 @@ const SearchBar = (props) => {
 		setSortOption,
 		selectedFilters,
 		setSelectedFilters,
+		noFiltersApplied,
+		setNoFiltersApplied,
 	} = useContext(filterContext);
 	const [open, setOpen] = useState(false);
-	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
 		category: null,
 		tags: [],
@@ -50,18 +51,56 @@ const SearchBar = (props) => {
 			...nonEmptyFilters,
 		}));
 
-		applyFilters();
+		await applyFilters(filters);
 	};
 
-	const handleDelete = (filterType, filterValue) => {
-		const updatedFilters = { ...selectedFilters };
-		updatedFilters[filterType] = updatedFilters[filterType].filter(
-			(item) => item !== filterValue,
-		);
-		setSelectedFilters(updatedFilters);
-		setUpdateAppliedfilter(updatedFilters);
+	const handleDelete = async (filterType, filterValue) => {
+		setFilters((prevFilters) => {
+			const updatedFilters = { ...prevFilters };
 
-		handleApplyFilters(updatedFilters);
+			if (Array.isArray(updatedFilters[filterType])) {
+				updatedFilters[filterType] = updatedFilters[filterType].filter(
+					(item) => item !== filterValue,
+				);
+
+				if (updatedFilters[filterType].length === 0) {
+					updatedFilters[filterType] = {};
+				}
+			} else {
+				if (filterType === "category" || filterType === "ingredients") {
+					updatedFilters[filterType] = null;
+				} else if (filterType === "instructions") {
+					updatedFilters[filterType] = null;
+				}
+			}
+
+			setUpdateAppliedfilter(updatedFilters);
+			applyFilters(updatedFilters);
+
+			setSelectedFilters((prevFilters) => {
+				const updatedSelectedFilters = { ...prevFilters };
+
+				if (Array.isArray(updatedSelectedFilters[filterType])) {
+					updatedSelectedFilters[filterType] = updatedSelectedFilters[
+						filterType
+					].filter((item) => item !== filterValue);
+
+					if (updatedSelectedFilters[filterType].length === 0) {
+						updatedSelectedFilters[filterType] = {};
+					}
+				} else {
+					if (filterType === "category" || filterType === "ingredients") {
+						updatedSelectedFilters[filterType] = null;
+					} else if (filterType === "instructions") {
+						updatedSelectedFilters[filterType] = null;
+					}
+				}
+
+				return updatedSelectedFilters;
+			});
+
+			return updatedFilters;
+		});
 	};
 
 	const handleSort = async (event) => {
@@ -70,14 +109,15 @@ const SearchBar = (props) => {
 		await applyFilters(filters, newSortOption);
 	};
 
-	const handleResetFilters = () => {
+	const handleResetFilters = async () => {
 		setSelectedFilters({
 			category: null,
 			tags: [],
 			ingredients: null,
 			instructions: null,
 		});
-		applyFilters({});
+		await applyFilters({});
+		setFilters({});
 		setNoFiltersApplied(true);
 	};
 
@@ -193,7 +233,6 @@ const SearchBar = (props) => {
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
 					instructions={appliedFilters.instructions}
-					
 				/>
 			)}
 			<div>
@@ -237,12 +276,9 @@ const SearchBar = (props) => {
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
 								<Chip
 									label={selectedFilters.instructions}
-									onDelete={() =>
-										setSelectedFilters((prevFilters) => ({
-											...prevFilters,
-											instructions: null,
-										}))
-									}
+									onDelete={() => {
+										handleDelete("instructions", selectedFilters.instructions);
+									}}
 								/>
 							</div>
 						</div>
@@ -261,12 +297,9 @@ const SearchBar = (props) => {
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
 								<Chip
 									label={selectedFilters.category}
-									onDelete={() =>
-										setSelectedFilters((prevFilters) => ({
-											...prevFilters,
-											category: null,
-										}))
-									}
+									onDelete={() => {
+										handleDelete("category", selectedFilters.category);
+									}}
 								/>
 							</div>
 						</div>
@@ -285,12 +318,9 @@ const SearchBar = (props) => {
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
 								<Chip
 									label={selectedFilters.ingredients}
-									onDelete={() =>
-										setSelectedFilters((prevFilters) => ({
-											...prevFilters,
-											ingredients: null,
-										}))
-									}
+									onDelete={() => {
+										handleDelete("ingredients", selectedFilters.ingredients);
+									}}
 								/>
 							</div>
 						</div>
