@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
 const SearchBar = (props) => {
-	const { applyFilters, appliedFilters, searchTerm, setSearchTerm } = props;
+	const { applyFilters, appliedFilters} = props;
 
 	const {
 		filters,
@@ -16,6 +16,8 @@ const SearchBar = (props) => {
 		setSelectedFilters,
 		noFiltersApplied,
 		setNoFiltersApplied,
+		searchTerm, 
+		setSearchTerm 
 	} = useContext(filterContext);
 	const [open, setOpen] = useState(false);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({

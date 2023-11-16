@@ -35,10 +35,7 @@ function Modal(props) {
 			data.tags = data.tags.split(",").map((tag) => tag.trim());
 		}
 
-		// const mergedFilters ={
-		// 	...filters,
-		// 	...data,
-		// }
+
 		
 		data.tags = tagOptions;
 		data.category = categoryOption
@@ -117,7 +114,6 @@ function Modal(props) {
 								} else {
 									setTagOptions([]); 
 								}
-								// setFilters({...filters , tags : newValue || []});
 							}}
 							freeSolo
 							renderInput={(params) => (
