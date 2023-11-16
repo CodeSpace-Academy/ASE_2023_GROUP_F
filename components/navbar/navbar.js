@@ -1,5 +1,6 @@
 import Link from "next/link";
 import LogoIcon from "../icons/LogoIcon";
+import { useState } from "react";
 
 
 function NavBar() {
