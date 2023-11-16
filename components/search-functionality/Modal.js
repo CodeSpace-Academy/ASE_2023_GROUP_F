@@ -54,7 +54,9 @@ function Modal(props) {
     <div className={classes.modalBackdrop}>
       <div className={classes.modalContent}>
         <div>
-          <p style={{ margin: '0', fontWeight: '500' }}>Filters</p>
+          <p style={{ margin: '0', fontWeight: '500', fontSize: '22px' }}>
+            Filters
+          </p>
           <span className={classes.closeButton} onClick={handleClose}>
             &times;
           </span>
@@ -127,22 +129,25 @@ function Modal(props) {
           />
 
           <br />
-          <Button
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
             style={{
               position: 'absolute',
-              top: '400px',
-              left: '25px',
+              top: '385px',
+              left: '20px',
               fontSize: '15px',
               cursor: 'pointer',
+              fontWeight: '600',
             }}
             size="small"
             variant="outlined"
             onClick={clearAllFilters}
           >
             Clear All Filters
-          </Button>
-          <br />
-          <Button
+          </button>
+
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
             form="form"
             id="applyFilterSort"
             type="submit"
@@ -150,14 +155,15 @@ function Modal(props) {
             variant="outlined"
             style={{
               position: 'absolute',
-              top: '400px',
-              right: '25px',
+              top: '385px',
+              right: '20px',
               fontSize: '15px',
               cursor: 'pointer',
+              fontWeight: '600',
             }}
           >
             Apply
-          </Button>
+          </button>
         </form>
       </div>
     </div>
