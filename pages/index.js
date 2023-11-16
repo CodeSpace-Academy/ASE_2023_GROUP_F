@@ -21,7 +21,7 @@ function Home(props) {
 		sortOption,
 		setSortOption,
 	} = useContext(filterContext);
-	const [searchTerm, setSearchTerm] = useState("");
+	
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
 
