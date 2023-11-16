@@ -55,12 +55,10 @@ function Home(props) {
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
 				count={remainingRecipes}
 			/>
 
-			{  remainingRecipes === 0 ?(
+			{remainingRecipes === 0 && !loading ?(
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
@@ -68,8 +66,6 @@ function Home(props) {
 					count={remainingRecipes}
 					appliedFilters={filters}
 					setRecipes={setFilteredRecipes}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
 				/>
 			)}
 		</div>
