@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, TextField } from '@mui/material'
+import { Card, Button, TextField, IconButton } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 
 function Instructions(props) {
   const { recipeId, instructions, userName } = props
@@ -32,6 +33,11 @@ function Instructions(props) {
         }
       )
 
+      // Update the instruction locally before making the API call
+      setEditedInstructions(updatedInstructions)
+      setEditableIndex(-1) // Reset editable index after saving
+
+      // Make the API call to update the instruction in the database
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: 'PATCH',
         headers: {
@@ -59,10 +65,15 @@ function Instructions(props) {
     updatedInstructions[index] = value
     setEditedInstructions(updatedInstructions)
   }
+  const handleCancel = () => {
+    setEditedInstructions([...instructions])
+    setModifiedInstructions({})
+    setEditableIndex(-1)
+  }
 
   return (
     <div>
-      <div className=" overflow-y-auto mx-10 rounded-xl">
+      <div className="overflow-y-auto mx-10 rounded-xl">
         {instructions.map((item, index) => (
           <Card key={index} className="m-0 p-2 bg-gray-200 text-lg">
             {editableIndex === index ? (
@@ -81,12 +92,22 @@ function Instructions(props) {
                   >
                     Save
                   </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-row" onClick={() => handleEdit(index)}>
-                <div className=" mr-2">{index + 1}</div>
+              <div className="flex flex-row items-center">
+                <div className="mr-2">{index + 1}</div>
                 <div>{editedInstructions[index]}</div>
+                <IconButton size="small" onClick={() => handleEdit(index)}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
               </div>
             )}
           </Card>

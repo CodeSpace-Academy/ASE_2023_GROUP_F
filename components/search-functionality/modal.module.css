@@ -33,8 +33,14 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 20px;
+  font-size: 28px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.closeButton:hover {
+  font-weight: 500;
+  font-size: 29px;
 }
 .form {
   width: 500px;
@@ -54,7 +60,7 @@
   .modalContent {
     position: fixed;
     bottom: 0;
-    width: 93%;
+    width: 100%;
     height: 89%;
     border-radius: 5px;
     -webkit-animation-name: slideIn;

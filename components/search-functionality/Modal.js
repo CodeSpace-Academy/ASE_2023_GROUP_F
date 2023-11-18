@@ -44,17 +44,26 @@ function Modal(props) {
     setFilters({
       categories: '',
       tags: '',
-      instructions: null,
+      instructions: '',
       ingredients: '',
     })
-    setTagOptions([])
+
+	setSelectedFilters({
+		categories: null,
+		tags: '',
+		instructions: '',
+		ingredients: '',
+	  })
+    
   }
 
   return (
     <div className={classes.modalBackdrop}>
       <div className={classes.modalContent}>
         <div>
-          <p style={{ margin: '0', fontWeight: '500' }}>Filters</p>
+          <p style={{ margin: '0', fontWeight: '500', fontSize: '22px' }}>
+            Filters
+          </p>
           <span className={classes.closeButton} onClick={handleClose}>
             &times;
           </span>
@@ -72,77 +81,82 @@ function Modal(props) {
           />
         </div>
 
-        <form onSubmit={handleSubmit} id="form">
-          <div>
-            <TextField
-              className={classes.form}
-              id="outlined-basic"
-              label="Categories"
-              variant="outlined"
-              name="category"
-              value={filters.category}
-            />
-            <br />
-            <Autocomplete
-              className={classes.form}
-              multiple
-              id="tags"
-              options={tags}
-              getOptionLabel={(option) => option}
-              value={filters.tags}
-              onChange={(event, newValue) => {
-                if (newValue !== undefined && Array.isArray(newValue)) {
-                  setTagOptions(newValue)
-                } else {
-                  setTagOptions([])
-                }
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Tags" variant="outlined" />
-              )}
-            />
+				<form onSubmit={handleSubmit} id="form">
+					<div>
+						<Autocomplete
+							className={classes.form}
+							id="categories"
+							options={categories}
+							getOptionLabel={(option) => option}
+							value={filters.category}
+							onChange={(event, newValue) => {
+								setCategoryOption(newValue)
+							}}
+							freeSolo
+							renderInput={(params) => (
+								<TextField {...params} label="Categories" variant="outlined" />
+							)}
+						/>
+						<br />
+						<Autocomplete
+							className={classes.form}
+							multiple
+							id="tags"
+							options={tags}
+							getOptionLabel={(option) => option}
+							value={filters.tags}
+							onChange={(event, newValue) => {
+								if (newValue !== undefined && Array.isArray(newValue)) {
+									setTagOptions(newValue);
+								} else {
+									setTagOptions([]); 
+								}
+							}}
+							freeSolo
+							renderInput={(params) => (
+								<TextField {...params} label="Tags" variant="outlined" />
+							)}
+						/>
 
-            <TextField
-              className={classes.form}
-              id="outlined-basic"
-              label="Ingredients"
-              variant="outlined"
-              name="ingredients"
-              value={filters.ingredients}
-            />
-          </div>
+						<br />
+						<TextField
+							className={classes.form}
+							id="outlined-basic"
+							label="Ingredients"
+							variant="outlined"
+							name="ingredients"
+							value={filters.ingredients}
+						/>
+					</div>
 
-          <p
-            style={{
-              fontSize: '14px,',
-            }}
-          >
-            Number of Instrutions
-          </p>
-          <TextField
-            className={classes.form}
-            type="number"
-            name="instructions"
-            value={filters.instructions}
-          />
+					<h4 className="font-bold">Number of Instructions:</h4>
+					<TextField
+						className={classes.form}
+						type="number"
+						name="instructions"
+						value={filters.instructions}
+					/>
 
           <br />
-          <Button
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
             style={{
               position: 'absolute',
-              top: '400px',
-              left: '25px',
+              top: '385px',
+              left: '20px',
               fontSize: '15px',
               cursor: 'pointer',
+              fontWeight: '600',
             }}
             size="small"
             variant="outlined"
             onClick={clearAllFilters}
           >
             Clear All Filters
-          </Button>
-          <br />
-          <Button
+          </button>
+
+          <button
+            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
             form="form"
             id="applyFilterSort"
             type="submit"
@@ -150,18 +164,19 @@ function Modal(props) {
             variant="outlined"
             style={{
               position: 'absolute',
-              top: '400px',
-              right: '25px',
+              top: '385px',
+              right: '20px',
               fontSize: '15px',
               cursor: 'pointer',
+              fontWeight: '600',
             }}
           >
             Apply
-          </Button>
+          </button>
         </form>
       </div>
     </div>
   )
 }
 
-export default Modal
+export default Modal;
