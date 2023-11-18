@@ -1,4 +1,4 @@
-import connectToDatabase from "../../../database/database";
+import {getSingleRecipe} from "../../../database/database";
 
 export default async function handler(req, res) {
   console.log("update recipe api");
@@ -8,14 +8,9 @@ export default async function handler(req, res) {
    
     try {
       
-      const database = await connectToDatabase()
-      const collection = database.collection("recipes");
-      const result = await collection.updateOne(
-        { _id: recipeId },
-        { $set: updatedData }
-      );
+      const documents = await getSingleRecipe(recipeId, updatedData)
 
-      if (result.ok === 1) {
+      if (documents.ok === 1) {
         res.status(200).json({ message: "Recipe updated successfully" });
       } else {
         res.status(400).json({ message: "Recipe not found or not updated" });

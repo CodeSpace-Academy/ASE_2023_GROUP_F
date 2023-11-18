@@ -1,12 +1,11 @@
-import connectToDatabase from "../../database/database";
+import {getFavoriteRecipes} from "../../database/database";
 
 export default async function handler(req, res) {
 	if (req.method === "GET") {
 		try {
-			const database = await connectToDatabase();
-			const collection = database.collection("recipes");
-			const documents = await collection.find({ isFavorite: true }).toArray();
-			const number = documents.length;
+			const documents = await getFavoriteRecipes()
+			const result = await documents.json()
+			const number = result.length;
 
 			res.status(200).json({ favoriteRecipes: documents , count: number });
 		} catch (error) {

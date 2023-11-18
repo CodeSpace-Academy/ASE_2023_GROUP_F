@@ -1,5 +1,4 @@
 import Details from "@/components/details/details";
-import { getSingleRecipe } from "@/lib/view-recipes";
 import { useState, useEffect, useContext } from "react";
 import RecipeSkeleton from "@/components/skeletonCard/detailPageSkeleton";
 import { filterContext } from '../../components/search-functionality/filterContext';
@@ -11,10 +10,10 @@ function SingleRecipe({ recipeId }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('filters in recipeId', filters)
     async function getRecipeById() {
       try {
-        const result = await getSingleRecipe(recipeId);
+        const documents = await fetch(`/api/${recipeId}`);
+        const result = await documents.json();
         setRecipe(result.recipe);
         setLoading(false);
       } catch (error) {

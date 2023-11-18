@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react'
 import { Button } from '@mui/material'
 import RecipeTags from '../tags/RecipeTags'
 import RecipeBanner from './recipeBanner/recipeBanner'
-import { getAllergens } from '@/lib/view-recipes'
 import RecipeAllergens from '../allergens/allergens'
 import Nutrition from './nutrition/nutrition'
 import StyleIcon from '@mui/icons-material/Style';
@@ -22,7 +21,8 @@ function Details(props) {
   useEffect(() => {
     const callAllergens = async () => {
       try {
-        const data = await getAllergens()
+        const result = await fetch("/api/allergens")
+        const data = await result.json();
         setAllergens(data.allergens[0].allergens)
         return data.allergens[0].allergens
       } catch (error) {

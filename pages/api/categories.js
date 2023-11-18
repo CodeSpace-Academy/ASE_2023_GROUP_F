@@ -1,11 +1,9 @@
-import connectToDatabase from "../../database/database";
+import {getCategories} from "../../database/database";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      const database = await connectToDatabase();
-      const collection = database.collection("categories");
-      const documents = await collection.find({}).toArray();
+      const documents = await getCategories();
 
       res.status(200).json({ categories: documents });
     } catch (error) {

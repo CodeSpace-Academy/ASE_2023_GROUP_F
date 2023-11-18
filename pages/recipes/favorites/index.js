@@ -13,7 +13,8 @@ const FavoriteRecipesPage = () => {
     useEffect(() => {
         const fetchFavoriteRecipes = async () => {
             try {
-                const recipes = await getFavoriteRecipes();
+                const documents = await fetch("/api/favorites");
+                const recipes = await documents.json()
               
                 setFavoriteRecipes(recipes.favoriteRecipes);
                 setFavoriteRecipesCount(recipes.count);

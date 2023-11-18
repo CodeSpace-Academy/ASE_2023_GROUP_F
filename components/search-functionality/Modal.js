@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField'
 import { Autocomplete } from '@mui/material'
 import Button from '@mui/material/Button'
 import { filterContext } from './filterContext'
-import { getCategories } from '@/lib/view-recipes'
 
 function Modal(props) {
   const { handleClose, applyFilters } = props
@@ -14,7 +13,8 @@ function Modal(props) {
 
   useEffect(() => {
     const fetchTags = async () => {
-      const result = await getCategories()
+      const documents = await fetch("/api/categories");
+      const result = await documents.json();
       const fetchedTags = result.categories[0].categories
       if (Array.isArray(fetchedTags)) {
         setTags(fetchedTags)
