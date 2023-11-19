@@ -6,6 +6,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     screens: {
       xs: '320px',
@@ -18,6 +19,8 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
+        "dark": '#232A3C',
+        "medium": '#293245',
         primary: '#FF6363',
         secondary: {
           100: '#E2E2D5',

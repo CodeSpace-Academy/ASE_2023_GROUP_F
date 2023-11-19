@@ -62,7 +62,7 @@ function Modal(props) {
 
   return (
     <div className={classes.modalBackdrop}>
-      <div className={classes.modalContent}>
+      <div className={`${classes.modalContent} dark:bg-dark dark:text-white`}>
         <div>
           <p style={{ margin: '0', fontWeight: '500', fontSize: '22px' }}>
             Filters
@@ -159,7 +159,7 @@ function Modal(props) {
           </button>
 
           <button
-            className="flex items-center p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+            className="flex items-center p-2 border border-gray-800 rounded-full hover:text-white hover:bg-gray-900"
             form="form"
             id="applyFilterSort"
             type="submit"

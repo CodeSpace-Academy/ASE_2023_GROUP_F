@@ -23,7 +23,7 @@ function RecipeTags(props) {
 
   return (
     <div>
-      <ul className="list-none p-0 animate-slideRight">
+      <ul className="list-none p-0 animate-slideRight dark:text-black">
         {tags.map((tag) => (
           <li key={tag} className="inline-block p-2 m-2 text-black-500  bg-gray-200 rounded-xl">
             {tag}

@@ -75,7 +75,7 @@ const RecipeCard = (props) => {
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
-    <div className="bg-slate-200 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105">
+    <div className="bg-slate-200 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105 dark:bg-dark">
       <div className="relative rounded-lg">
         <div className=" h-56 overflow-hidden">
           <Image
@@ -129,7 +129,7 @@ const RecipeCard = (props) => {
         </div>
       </div>
       <div className="flex justify-center items-center py-3">
-        <button className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+        <button className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800 dark:text-white">
           <Link href={`/recipes/${recipe._id}`}>View Recipe</Link>
         </button>
       </div>

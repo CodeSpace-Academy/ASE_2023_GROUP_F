@@ -1,16 +1,16 @@
 import Link from "next/link";
 import LogoIcon from "../icons/LogoIcon";
-
+import ThemeToggle from "../themeToggle/ThemeToggle";
 
 function NavBar() {
  
 
   return (
-    <div className="sticky top-0 z-20 mx-0 my-6 text-black bg-gray-200 rounded-md shadow-xl">
-      <div className="container flex items-center justify-between p-4 mx-auto md:col-span-1">
+    <div className="sticky top-0 z-20 mx-0 my-6 text-black bg-gray-200 rounded-md shadow-xl dark:bg-dark">
+      <div className="container flex items-center justify-between p-4 mx-auto md:col-span-1 dark:text-white">
         <Link href="/" className="flex items-center justify-between text-4xl font-bold hover:text-blue-950">
           <LogoIcon fill="#000000" width="70" height="70" />
-          <span className="hidden md:inline-block">Foodie's Delight</span>
+          <span className="hidden md:inline-block dark:text-white">Foodie's Delight</span>
         </Link>
         <div className="px-4 cursor-pointer md:hidden" id="burger">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -19,7 +19,7 @@ function NavBar() {
         </div>
         <ul className="hidden space-x-6 md:flex" id="menu">
           <li className="flex items-center">
-            <Link href="/" className="hover:text-red-700">
+            <Link href="/" className="hover:text-red-700 dark:text-white">
               <svg
                 className="w-5 ml-2"
                 xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@ function NavBar() {
             </Link>
           </li>
           <li className="flex items-center">
-            <Link href="/contact" className="hover:text-red-700">
+            <Link href="/contact" className="hover:text-red-700 dark:text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -49,7 +49,7 @@ function NavBar() {
             </Link>
           </li>
           <li className="flex items-center">
-            <Link href="/recipes/favorites" className="hover:text-red-700">
+            <Link href="/recipes/favorites" className="hover:text-red-700 dark:text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -66,6 +66,9 @@ function NavBar() {
               </svg>
               <span>Favorites</span>
             </Link>
+          </li>
+          <li>
+            <ThemeToggle/>
           </li>
         </ul>
       </div>

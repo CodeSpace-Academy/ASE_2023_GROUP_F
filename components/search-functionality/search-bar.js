@@ -150,7 +150,7 @@ const SearchBar = (props) => {
 						viewBox="0 0 24 24"
 						strokeWidth="1.5"
 						stroke="currentColor"
-						className="w-6 h-6"
+						className="w-6 h-6 dark:text-white"
 					>
 						<path
 							strokeLinecap="round"
@@ -159,7 +159,7 @@ const SearchBar = (props) => {
 						/>
 					</svg>
 
-					<span className="hidden md:inline-block ml-2">Filters</span>
+					<span className="hidden md:inline-block ml-2 dark:text-white">Filters</span>
 				</Button>
 
 				<div className="relative flex items-center">
@@ -197,7 +197,7 @@ const SearchBar = (props) => {
 						className="border-gray-800 hover:bg-slate-200"
 						sx={{ m: 1, minWidth: 120 }}
 					>
-						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
+						<InputLabel htmlFor="grouped-native-select" className="dark:text-white">Sort By</InputLabel>
 						<Select
 							native
 							id="grouped-native-select"
@@ -340,7 +340,7 @@ const SearchBar = (props) => {
 			)}
 
 			{noFiltersApplied && (
-				<p className="font-light text-blue-950">
+				<p className="font-light text-blue-950 dark:text-white">
 					No filters have been applied.
 				</p>
 			)}
