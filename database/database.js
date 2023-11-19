@@ -51,7 +51,7 @@ export async function getViewRecipes(
   filter = {},
   sort = {},
   id = {},
-  $set = {},
+  $set = {}
 ) {
   try {
     const database = await connectToDatabase();
@@ -61,109 +61,104 @@ export async function getViewRecipes(
     const queryFilter = {};
 
     if(id && $set){
-      const documents = await collection.updateOne(
-				{ _id: id },
-				{ $set: { isFavorite: $set } },
+      await collection.updateOne(
+				{ _id: recipeId },
+				{ $set: { isFavorite: isFavorite } },
 			);
-
-      return documents
     }
 
-    else{
-      if (filter.category) {
-        queryFilter.category = {
-          $regex: new RegExp(filter.category, "i"),
-        };
-      }
-  
-      if (filter.tags && Array.isArray(filter.tags)) {
-        queryFilter.tags = {
-          $in: filter.tags.map((tag) => new RegExp(tag, "i")),
-        };
-      } else if (filter.tags) {
-        queryFilter.tags = {
-          $regex: new RegExp(filter.tags, "i"),
-        };
-      }
-  
-      if (filter.title) {
-        queryFilter.title = {
-          $regex: new RegExp(filter.title, "i"),
-        };
-      }
-  
-      if (filter.ingredients) {
-        queryFilter[`ingredients.${filter.ingredients}`] = { $exists: true };
-      }
-  
-      if (filter.instructions) {
-        queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
-      }
-  
-      let querySort = {};
-  
-      if (sort === "prep ASC") {
-        querySort.prep = 1;
-      } else if (sort === "prep DESC") {
-        querySort.prep = -1;
-      }
-  
-      if (sort === "cook ASC") {
-        querySort.cook = 1;
-      } else if (sort === "cook DESC") {
-        querySort.cook = -1;
-      }
-  
-      if (sort === "date ASC") {
-        querySort.published = 1;
-      } else if (sort === "date DESC") {
-        querySort.published = -1;
-      }
-  
-      if (sort === "instructions ASC") {
-        querySort.instructions = 1;
-      } else if (sort === "instructions DESC") {
-        querySort.instructions = -1;
-      }
-  
-      if (sort === "instructions ASC" || sort === "instructions DESC") {
-        const sortOrder = sort === "instructions ASC" ? 1 : -1;
-  
-        agg.push(
-          {
-            $addFields: {
-              instructionsLength: { $size: "$instructions" },
-            },
+    if (filter.category) {
+      queryFilter.category = {
+        $regex: new RegExp(filter.category, "i"),
+      };
+    }
+
+    if (filter.tags && Array.isArray(filter.tags)) {
+      queryFilter.tags = {
+        $in: filter.tags.map((tag) => new RegExp(tag, "i")),
+      };
+    } else if (filter.tags) {
+      queryFilter.tags = {
+        $regex: new RegExp(filter.tags, "i"),
+      };
+    }
+
+    if (filter.title) {
+      queryFilter.title = {
+        $regex: new RegExp(filter.title, "i"),
+      };
+    }
+
+    if (filter.ingredients) {
+      queryFilter[`ingredients.${filter.ingredients}`] = { $exists: true };
+    }
+
+    if (filter.instructions) {
+      queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
+    }
+
+    let querySort = {};
+
+    if (sort === "prep ASC") {
+      querySort.prep = 1;
+    } else if (sort === "prep DESC") {
+      querySort.prep = -1;
+    }
+
+    if (sort === "cook ASC") {
+      querySort.cook = 1;
+    } else if (sort === "cook DESC") {
+      querySort.cook = -1;
+    }
+
+    if (sort === "date ASC") {
+      querySort.published = 1;
+    } else if (sort === "date DESC") {
+      querySort.published = -1;
+    }
+
+    if (sort === "instructions ASC") {
+      querySort.instructions = 1;
+    } else if (sort === "instructions DESC") {
+      querySort.instructions = -1;
+    }
+
+    if (sort === "instructions ASC" || sort === "instructions DESC") {
+      const sortOrder = sort === "instructions ASC" ? 1 : -1;
+
+      agg.push(
+        {
+          $addFields: {
+            instructionsLength: { $size: "$instructions" },
           },
-          {
-            $sort: {
-              instructionsLength: sortOrder,
-            },
+        },
+        {
+          $sort: {
+            instructionsLength: sortOrder,
           },
-          {
-            $project: {
-              instructionsLength: 0,
-            },
-          }
-        );
-      } else {
-        if (JSON.stringify(querySort) !== "{}") {
-          agg.push({ $sort: querySort });
+        },
+        {
+          $project: {
+            instructionsLength: 0,
+          },
         }
+      );
+    } else {
+      if (JSON.stringify(querySort) !== "{}") {
+        agg.push({ $sort: querySort });
       }
-  
-      if (JSON.stringify(queryFilter) !== "{}") {
-        agg.push({ $match: { ...queryFilter } });
-      }
-  
-      agg.push({ $limit: pageSize });
-  
-      const documents = await collection.aggregate(agg).toArray();
-      const number = await collection.countDocuments(queryFilter);
-  
-      return {documents, number}
     }
 
+    if (JSON.stringify(queryFilter) !== "{}") {
+      agg.push({ $match: { ...queryFilter } });
+    }
+
+    agg.push({ $limit: pageSize });
+
+    const documents = await collection.aggregate(agg).toArray();
+    const number = await collection.countDocuments(queryFilter);
+
+    return { documents, number };
   } catch (error) {
     throw new Error("Error fetching recipes: " + error.message);
   }
@@ -266,7 +261,7 @@ export async function getSingleRecipe(id = {}, $set = {}) {
       const documents = await collection.updateOne({ _id: id }, { $set: $set });
       return documents;
     }
-    
+
     if (id) {
       const documents = await collection.findOne({ _id: id });
       return documents;

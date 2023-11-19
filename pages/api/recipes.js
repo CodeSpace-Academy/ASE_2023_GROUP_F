@@ -1,16 +1,13 @@
-import connectToDatabase from "../../database/database";
+import connectToDatabase, { getViewRecipes } from "../../database/database";
 
 export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const database = await connectToDatabase();
-      const collection = database.collection("recipes");
-
       const limit = parseInt(req.query.limit) || 200;
 
-      const documents = await collection.find({}).limit(limit).toArray();
-      const number = await collection.countDocuments();
+      const documents = await getViewRecipes(0, limit, {}, {})
+      const number = documents.number
 
       res.status(200).json({ recipes: documents, count: number });
     } catch (error) {
@@ -23,10 +20,7 @@ export default async function handler(req, res) {
       const collection = database.collection("recipes");
 
       const { recipeId, isFavorite } = req.body;
-      await collection.updateOne(
-        { _id: recipeId },
-        { $set: { isFavorite: isFavorite } }
-      );
+			await getViewRecipes(0, {}, {}, {}, recipeId, isFavorite);
 
       res.status(200).json({
         message: `Recipe ${

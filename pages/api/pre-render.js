@@ -1,13 +1,11 @@
+import { getViewRecipes } from "@/lib/view-recipes";
 import connectToDatabase from "../../database/database";
 
 
 export async function getRecipes(limit = 48) {
   try {
-    const database = await connectToDatabase();
-    const collection = database.collection("recipes");
-
-    const documents = await collection.find({}).limit(limit).toArray();
-    const number = await collection.countDocuments();
+    const documents = await getViewRecipes(0, limit, {}, {});
+    const number = documents.number;
 
     return { recipes: documents, count: number };
   } catch (error) {

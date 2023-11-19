@@ -44,7 +44,8 @@ function Home(props) {
 	}, [filters]);
 
 	const handleApplyFilters = async (filters) => {
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
+		const documents = await fetch(`/api/filter?filter=${JSON.stringify(filters)}&sort=${JSON.stringify(sortOption)}`)
+		const filtering = await documents.json();
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
 	};
@@ -73,6 +74,7 @@ function Home(props) {
 					setRecipes={setFilteredRecipes}
 					searchTerm={searchTerm}
 					setSearchTerm={setSearchTerm}
+					sortOption={sortOption}
 				/>
 			)}
 		</div>

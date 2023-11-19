@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import RecipeCard from "../card/RecipeCard";
 import CardSkeleton from "../skeletonCard/skeleton";
 import Button from "../UI/Button";
-import { getViewRecipes } from "@/lib/view-recipes";
 import Highlighter from "react-highlight-words";
 
 const PAGE_SIZE = 48;
@@ -16,6 +15,7 @@ const RecipeList = (props) => {
 		appliedFilters,
 		setRecipes,
 		searchTerm,
+		sortOption,
 	} = props;
 
 	const [currentPage, setCurrentPage] = useState(1);
@@ -25,13 +25,12 @@ const RecipeList = (props) => {
 
 	const loadMoreRecipes = async () => {
 		setLoading(true);
+		const startIndex = currentPage * PAGE_SIZE;
+		const skipCount = Math.floor(startIndex / PAGE_SIZE);
+		const newLimit = PAGE_SIZE + skipCount * PAGE_SIZE;
 		try {
-			const startIndex = currentPage * PAGE_SIZE;
-			const result = await getViewRecipes(
-				startIndex,
-				PAGE_SIZE,
-				appliedFilters,
-			);
+			const documents = await fetch(`/api/filter?limit=${newLimit}&filter=${JSON.stringify(appliedFilters)}&sort=${JSON.stringify(sortOption)}`)
+			const result = await documents.json();
 			setRecipes([...visibleRecipes, ...result.recipes]);
 			setCurrentPage(currentPage + 1);
 		} catch (error) {
