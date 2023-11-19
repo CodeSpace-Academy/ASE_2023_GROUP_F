@@ -89,13 +89,13 @@ const RecipeCard = (props) => {
         {isButtonVisible && (
           <div className="absolute inset-0 flex items-center justify-between p-4">
             <button
-              className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white"
+              className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white dark:bg-dark dark:text-white"
               onClick={() => changeImage(-1)}
             >
               <ChevronLeft size={20} />
             </button>
             <button
-              className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white"
+              className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white dark:bg-dark dark:text-white"
               onClickCapture={() => changeImage(1)}
             >
               <ChevronRight size={20} />
@@ -103,7 +103,7 @@ const RecipeCard = (props) => {
           </div>
         )}
 
-        <div className="bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0  mr-2 mt-2">
+        <div className="bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0  mr-2 mt-2 dark:bg-dark dark:text-white">
           <div className="flex items-center justify-center gap-2">
             <div style={{ cursor: "pointer" }} onClick={toggleFavorite}>
               {isFavorite ? (
@@ -117,7 +117,7 @@ const RecipeCard = (props) => {
       </div>
 
       <div className="inset-0 transform">
-        <div className="px-6 hover:text-black hover:bg-slate-300">
+        <div className="px-6 hover:text-black hover:bg-slate-300 dark:hover:bg-gray-600">
           <div className="flex flex-col justify-between">
             <div className="font-bold font-serif text-lg pt-2 mb-4 ">
               <strong>{title}</strong>
