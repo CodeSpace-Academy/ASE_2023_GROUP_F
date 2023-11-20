@@ -19,6 +19,7 @@ const SearchBar = (props) => {
 		searchTerm, 
 		setSearchTerm 
 	} = useContext(filterContext);
+	
 	const [open, setOpen] = useState(false);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
 		category: null,

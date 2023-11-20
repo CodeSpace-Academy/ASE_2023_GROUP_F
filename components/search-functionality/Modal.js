@@ -11,8 +11,7 @@ function Modal(props) {
   const [tagOptions, setTagOptions] = useState([]);
   const [categoryOption, setCategoryOption] = useState([]);
   const [categories, setCategories] = useState([]);
-  const { filters, setFilters, selectedFilters, setSelectedFilters } =
-    useContext(filterContext);
+  const { filters, setFilters, selectedFilters, setSelectedFilters } = useContext(filterContext);
 
   useEffect(() => {
     const fetchTags = async () => {
