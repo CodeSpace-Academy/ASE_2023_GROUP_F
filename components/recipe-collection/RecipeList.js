@@ -16,6 +16,7 @@ const RecipeList = (props) => {
 		count,
 		appliedFilters,
 		setRecipes,
+		updateFavoriteRecipesCount
 	} = props;
 
 	const {searchTerm} = useContext(filterContext)
@@ -64,6 +65,7 @@ const RecipeList = (props) => {
 						images={recipe.images}
 						published={recipe.published}
 						recipe={recipe}
+						updateFavoriteRecipesCount={updateFavoriteRecipesCount}
 					/>
 				))}
 			</div>
