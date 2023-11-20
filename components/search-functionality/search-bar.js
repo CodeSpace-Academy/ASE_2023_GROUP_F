@@ -67,7 +67,7 @@ const SearchBar = (props) => {
 				);
 
 				if (updatedFilters[filterType].length === 0) {
-					updatedFilters[filterType] = {};
+					updatedFilters[filterType] = null;
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
@@ -101,6 +101,15 @@ const SearchBar = (props) => {
 
 				return updatedSelectedFilters;
 			});
+
+			const hasNoFiltersLeft = Object.values(updatedFilters).every(
+				(value) =>
+					value === null || (Array.isArray(value) && value.length === 0),
+			);
+
+			if (hasNoFiltersLeft) {
+				setNoFiltersApplied(true);
+			}
 
 			return updatedFilters;
 		});
@@ -260,6 +269,26 @@ const SearchBar = (props) => {
 			)}
 			<div>
 				<h2 className="font-bold">Applied Filters:</h2>
+				{selectedFilters.category !== null &&
+					selectedFilters.category !== "" && (
+						<div
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>Category:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								<Chip
+									label={selectedFilters.category}
+									onDelete={() => {
+										handleDelete("category", selectedFilters.category);
+									}}
+								/>
+							</div>
+						</div>
+					)}
 				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
 					filterName !== "instructions" &&
 					Array.isArray(filterValues) &&
@@ -286,48 +315,6 @@ const SearchBar = (props) => {
 					) : null,
 				)}
 
-				{selectedFilters.instructions !== null &&
-					selectedFilters.instructions !== "" && (
-						<div
-							style={{
-								display: "inline-block",
-								marginRight: "1rem",
-								maxWidth: 500,
-							}}
-						>
-							<strong>Instructions:</strong>
-							<div style={{ display: "flex", flexWrap: "wrap" }}>
-								<Chip
-									label={selectedFilters.instructions}
-									onDelete={() => {
-										handleDelete("instructions", selectedFilters.instructions);
-									}}
-								/>
-							</div>
-						</div>
-					)}
-
-				{selectedFilters.category !== null &&
-					selectedFilters.category !== "" && (
-						<div
-							style={{
-								display: "inline-block",
-								marginRight: "1rem",
-								maxWidth: 500,
-							}}
-						>
-							<strong>Category:</strong>
-							<div style={{ display: "flex", flexWrap: "wrap" }}>
-								<Chip
-									label={selectedFilters.category}
-									onDelete={() => {
-										handleDelete("category", selectedFilters.category);
-									}}
-								/>
-							</div>
-						</div>
-					)}
-
 				{selectedFilters.ingredients !== null &&
 					selectedFilters.ingredients !== "" && (
 						<div
@@ -343,6 +330,27 @@ const SearchBar = (props) => {
 									label={selectedFilters.ingredients}
 									onDelete={() => {
 										handleDelete("ingredients", selectedFilters.ingredients);
+									}}
+								/>
+							</div>
+						</div>
+					)}
+
+				{selectedFilters.instructions !== null &&
+					selectedFilters.instructions !== "" && (
+						<div
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>Instructions:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								<Chip
+									label={selectedFilters.instructions}
+									onDelete={() => {
+										handleDelete("instructions", selectedFilters.instructions);
 									}}
 								/>
 							</div>
