@@ -209,7 +209,7 @@ const SearchBar = (props) => {
 						onChange={handleSort}
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
 					>
-						<option aria-label="None" value="" className="text-sm hidden md:block">
+						<option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8">
 							<span className="hidden md:block">Default</span>
 						</option>
 						<optgroup label="Prep Time">
@@ -226,7 +226,7 @@ const SearchBar = (props) => {
 						</optgroup>
 						<optgroup label="Instructions">
 							<option value="instructions ASC">Instructions ASC</option>
-							<option value="instructions DESC">Instructions DESC</option>
+							<option value="instructions DESC" className="m-8">Instructions DESC</option>
 						</optgroup>
 					</select>
 				</div>
