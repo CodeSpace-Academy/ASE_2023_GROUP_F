@@ -202,7 +202,6 @@ const SearchBar = (props) => {
 					</label>
 
 					<select
-						defaultValue=""
 						id="grouped-native-select"
 						name="sortOption"
 						value={sortOption}
@@ -210,7 +209,7 @@ const SearchBar = (props) => {
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
 					>
 						<option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8">
-							<span className="hidden md:block">Default</span>
+							Default
 						</option>
 						<optgroup label="Prep Time">
 							<option value="prep ASC">Prep ASC</option>
