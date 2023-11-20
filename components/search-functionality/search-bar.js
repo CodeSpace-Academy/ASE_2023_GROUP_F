@@ -126,41 +126,31 @@ const SearchBar = (props) => {
   };
 
   useEffect(() => {
-    const debouncedApplyFilters = debounce(async () => {
-      await applyFilters({ ...filters, title: searchTerm });
-      setButtonEnabled(true);
-    }, 500);
-
-    const shortQueryDebounce = debounce(async () => {
-      await applyFilters({ ...filters, title: searchTerm });
-      setButtonEnabled(true);
-    }, 500);
-
-    const longQueryDebounce = debounce(async () => {
-      if (searchTerm.length > 10) {
-        await applyFilters({ ...filters, title: searchTerm });
-        setButtonEnabled(true);
-      }
-    }, 1000);
-
-    const applyDebounce = () => {
-      if (searchTerm.length < 10) {
-        shortQueryDebounce();
-      } else {
-        longQueryDebounce();
-      }
-    };
-
-    const timeoutId = setTimeout(() => {
-      if (searchTerm.length > 0) {
-        applyDebounce();
-      }
-    }, 500);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [searchTerm]);
+	const applyDebounce = (delay) =>
+	  debounce(async () => {
+		if (searchTerm.length > 10 || buttonEnabled) {
+		  await applyFilters({ ...filters, title: searchTerm });
+		  setButtonEnabled(true);
+		}
+	  }, delay);
+  
+	const shortQueryDebounce = applyDebounce(500);
+	const longQueryDebounce = applyDebounce(1000);
+  
+  
+	const timeoutId = setTimeout(() => {
+	  if (searchTerm.length > 10) {
+		longQueryDebounce();
+	  } else {
+		shortQueryDebounce();
+	  }
+	}, 500);
+  
+	return () => {
+	  clearTimeout(timeoutId);
+	};
+  }, [searchTerm, filters, buttonEnabled]);
+  
 
   return (
     <div>
