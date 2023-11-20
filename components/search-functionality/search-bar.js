@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
 const SearchBar = (props) => {
-	const { applyFilters, appliedFilters} = props;
+	const { applyFilters, appliedFilters } = props;
 
 	const {
 		filters,
@@ -16,8 +16,8 @@ const SearchBar = (props) => {
 		setSelectedFilters,
 		noFiltersApplied,
 		setNoFiltersApplied,
-		searchTerm, 
-		setSearchTerm 
+		searchTerm,
+		setSearchTerm
 	} = useContext(filterContext);
 	const [open, setOpen] = useState(false);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
@@ -183,7 +183,7 @@ const SearchBar = (props) => {
 						</svg>
 					</div>
 					<input
-						className="w-full md:min-w-[400px] p-2 pl-10 text-2xl rounded-full"
+						className="w-full md:min-w-[500px] p-2 pl-10 text-2xl rounded-full"
 						type="text"
 						id="search"
 						placeholder="Search...."
@@ -192,41 +192,47 @@ const SearchBar = (props) => {
 					/>
 				</div>
 
-				<div>
-					<FormControl
-						className="border-gray-800 hover:bg-slate-200"
-						sx={{ m: 1, minWidth: 120 }}
+
+				<div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
+					<label htmlFor="grouped-native-select" className="flex items-center rounded-full md:flex">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 md:mr-2">
+							<path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+						</svg>
+						<span className="hidden md:inline-block">Sort By</span>
+					</label>
+
+					<select
+						defaultValue=""
+						id="grouped-native-select"
+						name="sortOption"
+						value={sortOption}
+						onChange={handleSort}
+						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
 					>
-						<InputLabel htmlFor="grouped-native-select">Sort By</InputLabel>
-						<Select
-							native
-							id="grouped-native-select"
-							label="Grouping"
-							name="sortOption"
-							value={sortOption}
-							onChange={handleSort}
-						>
-							<option aria-label="None" value="" />
-							<optgroup name="prep" label="Prep Time">
-								<option value="prep ASC">Prep ASC</option>
-								<option value="prep DESC">Prep DESC</option>
-							</optgroup>
-							<optgroup name="cook" label="Cook Time">
-								<option value="cook ASC">Cook ASC</option>
-								<option value="cook DESC">Cook DESC</option>
-							</optgroup>
-							<optgroup name="published" label="Date Created">
-								<option value="date ASC">Date ASC</option>
-								<option value="date DESC">Date DESC</option>
-							</optgroup>
-							<optgroup name="instructions" label="Instructions">
-								<option value="instructions ASC">Instructions ASC</option>
-								<option value="instructions DESC">Instructions DESC</option>
-							</optgroup>
-						</Select>
-					</FormControl>
+						<option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8">
+							<span className="hidden md:block">Default</span>
+						</option>
+						<optgroup label="Prep Time">
+							<option value="prep ASC">Prep ASC</option>
+							<option value="prep DESC">Prep DESC</option>
+						</optgroup>
+						<optgroup label="Cook Time">
+							<option value="cook ASC">Cook ASC</option>
+							<option value="cook DESC">Cook DESC</option>
+						</optgroup>
+						<optgroup label="Date Created">
+							<option value="date ASC">Date ASC</option>
+							<option value="date DESC">Date DESC</option>
+						</optgroup>
+						<optgroup label="Instructions">
+							<option value="instructions ASC">Instructions ASC</option>
+							<option value="instructions DESC" className="m-8">Instructions DESC</option>
+						</optgroup>
+					</select>
 				</div>
 			</div>
+
+
 
 			{open && (
 				<Modal
@@ -241,8 +247,8 @@ const SearchBar = (props) => {
 				<h2 className="font-bold">Applied Filters:</h2>
 				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
 					filterName !== "instructions" &&
-					Array.isArray(filterValues) &&
-					filterValues.length > 0 ? (
+						Array.isArray(filterValues) &&
+						filterValues.length > 0 ? (
 						<div
 							key={filterName}
 							style={{
