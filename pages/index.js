@@ -13,7 +13,7 @@ const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const { filters, filteredRecipes, setFilteredRecipes, sortOption , searchTerm } = useContext(filterContext);
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption  } = useContext(filterContext);
 
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ function Home(props) {
 					<CardSkeleton />
 					<Animation />
 				</>
-			) : !filteredRecipes ? (
+			) : (filteredRecipes.length === 0 )? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
