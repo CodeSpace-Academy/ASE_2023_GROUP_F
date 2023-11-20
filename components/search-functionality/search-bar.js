@@ -233,8 +233,6 @@ const SearchBar = (props) => {
 				<Modal
 					handleClose={handleClose}
 					applyFilters={handleApplyFilters}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
 					instructions={appliedFilters.instructions}
 				/>
 			)}

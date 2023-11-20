@@ -42,12 +42,14 @@ function Modal(props) {
   };
 
   const clearAllFilters = () => {
-    setFilters({
-      categories: "",
-      tags: "",
-      instructions: "",
-      ingredients: "",
-    });
+    // setFilters({
+    //   categories: "",
+    //   tags: "",
+    //   instructions: "",
+    //   ingredients: "",
+    // });
+
+    setFilters({})
 
     setSelectedFilters({
       categories: null,
