@@ -67,7 +67,7 @@ const SearchBar = (props) => {
 				);
 
 				if (updatedFilters[filterType].length === 0) {
-					updatedFilters[filterType] = null;
+					updatedFilters[filterType] = "";
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
@@ -88,7 +88,7 @@ const SearchBar = (props) => {
 						filterType
 					].filter((item) => item !== filterValue);
 
-					if (updatedSelectedFilters[filterType].length === 0) {
+					if (updatedSelectedFilters[filterType]?.length === 0) {
 						updatedSelectedFilters[filterType] = {};
 					}
 				} else {
@@ -104,7 +104,7 @@ const SearchBar = (props) => {
 
 			const hasNoFiltersLeft = Object.values(updatedFilters).every(
 				(value) =>
-					value === null || (Array.isArray(value) && value.length === 0),
+					value === null || (Array.isArray(value) && value?.length === 0) || value === "",
 			);
 
 			if (hasNoFiltersLeft) {
@@ -292,7 +292,7 @@ const SearchBar = (props) => {
 				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
 					filterName !== "instructions" &&
 					Array.isArray(filterValues) &&
-					filterValues.length > 0 ? (
+					filterValues?.length > 0 ? (
 						<div
 							key={filterName}
 							style={{
@@ -303,7 +303,7 @@ const SearchBar = (props) => {
 						>
 							<strong>{filterName}:</strong>
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
-								{filterValues.map((value, index) => (
+								{filterValues?.map((value, index) => (
 									<Chip
 										key={index}
 										label={value}
@@ -315,8 +315,8 @@ const SearchBar = (props) => {
 					) : null,
 				)}
 
-				{selectedFilters.ingredients !== null &&
-					selectedFilters.ingredients !== "" && (
+				{selectedFilters?.ingredients !== null &&
+					selectedFilters?.ingredients !== "" && (
 						<div
 							style={{
 								display: "inline-block",
@@ -327,9 +327,9 @@ const SearchBar = (props) => {
 							<strong>Ingredients:</strong>
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
 								<Chip
-									label={selectedFilters.ingredients}
+									label={selectedFilters?.ingredients}
 									onDelete={() => {
-										handleDelete("ingredients", selectedFilters.ingredients);
+										handleDelete("ingredients", selectedFilters?.ingredients);
 									}}
 								/>
 							</div>

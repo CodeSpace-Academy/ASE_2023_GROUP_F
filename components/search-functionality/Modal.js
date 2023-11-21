@@ -19,7 +19,7 @@ function Modal(props) {
 	useEffect(() => {
 		const fetchTags = async () => {
 			const result = await getCategories();
-			const fetchedTags = result.categories[0].categories;
+			const fetchedTags = result?.categories[0].categories;
 			if (Array.isArray(fetchedTags)) {
 				setTags(fetchedTags);
 				setCategories(fetchedTags);
@@ -94,7 +94,7 @@ function Modal(props) {
 							id="categories"
 							options={categories}
 							getOptionLabel={(option) => option}
-							value={filters.category}
+							value={filters?.category || ""}
 							onChange={(event, newValue) => {
 								setCategoryOption(newValue);
 							}}
@@ -110,7 +110,7 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={filters.tags}
+							value={filters?.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
@@ -141,7 +141,10 @@ function Modal(props) {
 						type="number"
 						name="instructions"
 						value={instructions}
-						onChange={(e) => setInstructions(e.target.value)}
+						onChange={(e) => {
+							const newValue = Math.max(1, parseInt(e.target.value, 10) || 1);
+							setInstructions(newValue);
+						}}
 					/>
 
 					<br />
