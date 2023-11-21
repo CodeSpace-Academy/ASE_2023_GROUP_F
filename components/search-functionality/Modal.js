@@ -7,7 +7,7 @@ import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setFilters, selectedFilters, setSelectedFilters } =
+	const { filters, setFilters, setSelectedFilters } =
 		useContext(filterContext);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
