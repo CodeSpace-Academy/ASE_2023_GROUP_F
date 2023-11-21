@@ -37,7 +37,7 @@ const SearchBar = (props) => {
 			if (
 				filters[key] !== null &&
 				filters[key] !== "" &&
-				filters[key].length > 0
+				filters[key]?.length > 0
 			) {
 				nonEmptyFilters[key] = filters[key];
 			}
@@ -66,14 +66,14 @@ const SearchBar = (props) => {
 					(item) => item !== filterValue,
 				);
 
-				if (updatedFilters[filterType].length === 0) {
+				if (updatedFilters[filterType]?.length === 0) {
 					updatedFilters[filterType] = "";
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
-					updatedFilters[filterType] = null;
+					updatedFilters[filterType] = "";
 				} else if (filterType === "instructions") {
-					updatedFilters[filterType] = null;
+					updatedFilters[filterType] = "";
 				}
 			}
 
@@ -93,9 +93,9 @@ const SearchBar = (props) => {
 					}
 				} else {
 					if (filterType === "category" || filterType === "ingredients") {
-						updatedSelectedFilters[filterType] = null;
+						updatedSelectedFilters[filterType] = "";
 					} else if (filterType === "instructions") {
-						updatedSelectedFilters[filterType] = null;
+						updatedSelectedFilters[filterType] = "";
 					}
 				}
 
@@ -265,6 +265,7 @@ const SearchBar = (props) => {
 					handleClose={handleClose}
 					applyFilters={handleApplyFilters}
 					instructions={appliedFilters.instructions}
+					
 				/>
 			)}
 			<div>

@@ -7,7 +7,7 @@ import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setFilters, setSelectedFilters } = useContext(filterContext);
+	const { filters, setFilters, setSelectedFilters , setNoFiltersApplied } = useContext(filterContext);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
@@ -43,23 +43,16 @@ function Modal(props) {
 		handleClose();
 	};
 
-	const clearAllFilters = () => {
-		setFilters({
-			category: "",
-			tags: "",
-			instructions: "",
-			ingredients: "",
-		});
-
-		setIngredients("");
-		setInstructions("");
-
+	const clearAllFilters = async () => {
 		setSelectedFilters({
-			category: "",
-			tags: "",
-			instructions: "",
-			ingredients: "",
+			category: null,
+			tags: [],
+			ingredients: null,
+			instructions: null,
 		});
+		await applyFilters({});
+		setFilters({});
+		setNoFiltersApplied(true);
 	};
 
 	return (
@@ -114,7 +107,7 @@ function Modal(props) {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
 								} else {
-									setTagOptions([]);
+									setTagOptions("");
 								}
 							}}
 							freeSolo
@@ -139,9 +132,12 @@ function Modal(props) {
 						className={classes.formInput}
 						type="number"
 						name="instructions"
-						value={instructions}
+						value={instructions === null ? "" : instructions}
 						onChange={(e) => {
-							const newValue = Math.max(1, parseInt(e.target.value, 10) || 1);
+							const newValue =
+								e.target.value === ""
+									? ""
+									: Math.max(1, parseInt(e.target.value, 10) || 1);
 							setInstructions(newValue);
 						}}
 					/>
