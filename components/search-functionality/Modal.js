@@ -7,7 +7,7 @@ import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setFilters, selectedFilters, setSelectedFilters } =
+	const { filters, setFilters, setSelectedFilters } =
 		useContext(filterContext);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
@@ -142,7 +142,7 @@ function Modal(props) {
 						name="instructions"
 						value={instructions}
 						onChange={(e) => {
-							const newValue = Math.max(1, parseInt(e.target.value, 10) || 1);
+							const newValue = Math.max("", parseInt(e.target.value, 10) || "");
 							setInstructions(newValue);
 						}}
 					/>
