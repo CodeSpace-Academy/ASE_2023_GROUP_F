@@ -45,15 +45,17 @@ function Modal(props) {
 
 	const clearAllFilters = async () => {
 		setSelectedFilters({
-			category: null,
-			tags: [],
-			ingredients: null,
-			instructions: null,
+		  category: null,
+		  tags: [], 
+		  ingredients: null,
+		  instructions: null,
 		});
+	  
 		await applyFilters({});
 		setFilters({});
 		setNoFiltersApplied(true);
-	};
+	  };
+	  
 
 	return (
 		<div className={classes.modalBackdrop}>

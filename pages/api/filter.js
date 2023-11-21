@@ -40,8 +40,19 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.instructions) {
-				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
-			}
+				const instructionsCount = parseInt(filter.instructions);
+			  
+				if (!isNaN(instructionsCount)) {
+				 agg.push({
+					$match: {
+					  $expr: {
+						$eq: [{ $size: "$instructions" }, instructionsCount]
+					  }
+					}
+				  });
+				}
+			  }
+			  
 
 			let querySort = {};
 
