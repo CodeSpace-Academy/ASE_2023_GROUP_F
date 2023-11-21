@@ -1,14 +1,15 @@
+import React, { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import StyleIcon from "@mui/icons-material/Style";
 import Ingredients from "./ingredients/ingredients";
 import Instructions from "./instructions/instructions";
 import Description from "../description/description";
-import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
 import RecipeTags from "../tags/RecipeTags";
 import RecipeBanner from "./recipeBanner/recipeBanner";
-import { getAllergens } from "@/lib/view-recipes";
+import { getAllergens } from "../../lib/view-recipes";
 import RecipeAllergens from "../allergens/allergens";
 import Nutrition from "./nutrition/nutrition";
-import StyleIcon from "@mui/icons-material/Style";
+
 import CookIcon from "../icons/CookIcon";
 import ServingIcon from "../icons/ServingIcon";
 import PrepIcon from "../icons/PrepIcon";
@@ -66,17 +67,22 @@ function Details(props) {
           <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0">
             <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
               <CookIcon fill="#000000" width="35" height="35" />
-              Cook time {recipe.cook} mins
+              Cook time
+              {recipe.cook}
+              mins
             </div>
 
             <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
               <PrepIcon fill="#000000" width="35" height="35" />
-              Preparation time {recipe.prep} mins
+              Preparation time
+              {recipe.prep}
+              mins
             </div>
 
             <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
               <ServingIcon width="25" height="25" fill="#2B5B95" />
-              Serves {recipe.servings}
+              Serves
+              {recipe.servings}
             </div>
           </div>
           <div className="mt-5">
@@ -85,7 +91,7 @@ function Details(props) {
               <p className="font-sans font-bold">Tags</p>
             </div>
             <RecipeTags tags={recipe.tags} />
-          </div>{" "}
+          </div>
           <div className="mt-5">
             <p className="font-sans font-bold text-center">Nutrition</p>
             <Nutrition nutritionList={recipe.nutrition} />
@@ -116,7 +122,7 @@ function Details(props) {
               toggleList ? "xs:block" : "xs:hidden"
             }`}
           >
-            <p className={`text-center text-lg font-bold md:block xs:hidden`}>
+            <p className="text-center text-lg font-bold md:block xs:hidden">
               Ingredients
             </p>
             <Ingredients ingredients={recipe.ingredients} />
@@ -126,7 +132,7 @@ function Details(props) {
               !toggleList ? "xs:block" : "xs:hidden"
             }`}
           >
-            <p className={`text-center text-lg font-bold md:block xs:hidden`}>
+            <p className="text-center text-lg font-bold md:block xs:hidden">
               Instructions
             </p>
             <Instructions
