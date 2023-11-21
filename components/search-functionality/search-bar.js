@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Chip, Button, /**InputLabel, FormControl, Select**/ } from "@mui/material";
+import { Chip, Button } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
@@ -17,8 +17,9 @@ const SearchBar = (props) => {
 		noFiltersApplied,
 		setNoFiltersApplied,
 		searchTerm,
-		setSearchTerm
+		setSearchTerm,
 	} = useContext(filterContext);
+
 	const [open, setOpen] = useState(false);
 	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
 		category: null,
@@ -66,7 +67,7 @@ const SearchBar = (props) => {
 				);
 
 				if (updatedFilters[filterType].length === 0) {
-					updatedFilters[filterType] = {};
+					updatedFilters[filterType] = "";
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
@@ -87,7 +88,7 @@ const SearchBar = (props) => {
 						filterType
 					].filter((item) => item !== filterValue);
 
-					if (updatedSelectedFilters[filterType].length === 0) {
+					if (updatedSelectedFilters[filterType]?.length === 0) {
 						updatedSelectedFilters[filterType] = {};
 					}
 				} else {
@@ -100,6 +101,15 @@ const SearchBar = (props) => {
 
 				return updatedSelectedFilters;
 			});
+
+			const hasNoFiltersLeft = Object.values(updatedFilters).every(
+				(value) =>
+					value === null || (Array.isArray(value) && value?.length === 0) || value === "",
+			);
+
+			if (hasNoFiltersLeft) {
+				setNoFiltersApplied(true);
+			}
 
 			return updatedFilters;
 		});
@@ -192,11 +202,24 @@ const SearchBar = (props) => {
 					/>
 				</div>
 
-
 				<div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
-					<label htmlFor="grouped-native-select" className="flex items-center rounded-full md:flex">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 md:mr-2">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+					<label
+						htmlFor="grouped-native-select"
+						className="flex items-center rounded-full md:flex"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth="1.5"
+							stroke="currentColor"
+							className="w-6 h-6 md:mr-2"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+							/>
 						</svg>
 					</label>
 
@@ -207,7 +230,11 @@ const SearchBar = (props) => {
 						onChange={handleSort}
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
 					>
-						<option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8 hidden md:inline-block">
+						<option
+							aria-label="None"
+							value=""
+							className="text-sm hidden md:block p-4 m-8"
+						>
 							Default
 						</option>
 						<optgroup label="Prep Time">
@@ -224,72 +251,23 @@ const SearchBar = (props) => {
 						</optgroup>
 						<optgroup label="Instructions">
 							<option value="instructions ASC">Instructions ASC</option>
-							<option value="instructions DESC" className="m-8">Instructions DESC</option>
+							<option value="instructions DESC" className="m-8">
+								Instructions DESC
+							</option>
 						</optgroup>
 					</select>
 				</div>
 			</div>
 
-
-
 			{open && (
 				<Modal
 					handleClose={handleClose}
 					applyFilters={handleApplyFilters}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
 					instructions={appliedFilters.instructions}
 				/>
 			)}
 			<div>
 				<h2 className="font-bold">Applied Filters:</h2>
-				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
-					filterName !== "instructions" &&
-						Array.isArray(filterValues) &&
-						filterValues.length > 0 ? (
-						<div
-							key={filterName}
-							style={{
-								display: "inline-block",
-								marginRight: "1rem",
-								maxWidth: 500,
-							}}
-						>
-							<strong>{filterName}:</strong>
-							<div style={{ display: "flex", flexWrap: "wrap" }}>
-								{filterValues.map((value, index) => (
-									<Chip
-										key={index}
-										label={value}
-										onDelete={() => handleDelete(filterName, value)}
-									/>
-								))}
-							</div>
-						</div>
-					) : null,
-				)}
-
-				{selectedFilters.instructions !== null &&
-					selectedFilters.instructions !== "" && (
-						<div
-							style={{
-								display: "inline-block",
-								marginRight: "1rem",
-								maxWidth: 500,
-							}}
-						>
-							<strong>Instructions:</strong>
-							<div style={{ display: "flex", flexWrap: "wrap" }}>
-								<Chip
-									label={selectedFilters.instructions}
-									onDelete={() => {
-										handleDelete("instructions", selectedFilters.instructions);
-									}}
-								/>
-							</div>
-						</div>
-					)}
-
 				{selectedFilters.category !== null &&
 					selectedFilters.category !== "" && (
 						<div
@@ -310,9 +288,34 @@ const SearchBar = (props) => {
 							</div>
 						</div>
 					)}
+				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
+					filterName !== "instructions" &&
+					Array.isArray(filterValues) &&
+					filterValues?.length > 0 ? (
+						<div
+							key={filterName}
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>{filterName}:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								{filterValues?.map((value, index) => (
+									<Chip
+										key={index}
+										label={value}
+										onDelete={() => handleDelete(filterName, value)}
+									/>
+								))}
+							</div>
+						</div>
+					) : null,
+				)}
 
-				{selectedFilters.ingredients !== null &&
-					selectedFilters.ingredients !== "" && (
+				{selectedFilters?.ingredients !== null &&
+					selectedFilters?.ingredients !== "" && (
 						<div
 							style={{
 								display: "inline-block",
@@ -323,9 +326,30 @@ const SearchBar = (props) => {
 							<strong>Ingredients:</strong>
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
 								<Chip
-									label={selectedFilters.ingredients}
+									label={selectedFilters?.ingredients}
 									onDelete={() => {
-										handleDelete("ingredients", selectedFilters.ingredients);
+										handleDelete("ingredients", selectedFilters?.ingredients);
+									}}
+								/>
+							</div>
+						</div>
+					)}
+
+				{selectedFilters.instructions !== null &&
+					selectedFilters.instructions !== "" && (
+						<div
+							style={{
+								display: "inline-block",
+								marginRight: "1rem",
+								maxWidth: 500,
+							}}
+						>
+							<strong>Instructions:</strong>
+							<div style={{ display: "flex", flexWrap: "wrap" }}>
+								<Chip
+									label={selectedFilters.instructions}
+									onDelete={() => {
+										handleDelete("instructions", selectedFilters.instructions);
 									}}
 								/>
 							</div>
