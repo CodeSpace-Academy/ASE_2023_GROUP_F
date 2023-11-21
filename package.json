@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "14.0.3",
     "postcss": "^8",
     "tailwindcss": "^3"
   }
