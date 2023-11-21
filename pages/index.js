@@ -50,7 +50,7 @@ function Home(props) {
 	};
 
 	return (
-		<div>
+		<div className="min-h-screen">
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}

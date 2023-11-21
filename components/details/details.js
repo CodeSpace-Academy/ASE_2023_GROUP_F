@@ -43,7 +43,7 @@ function Details(props) {
 
   return (
     <>
-      <div className="flex flex-col justify-between p-5 md:flex-row">
+      <div className="flex flex-col justify-between p-5 md:flex-row dark:text-black">
         <div className="md:mr-5">
           <RecipeBanner images={recipe.images} />
         </div>
