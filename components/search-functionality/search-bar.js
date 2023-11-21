@@ -1,3 +1,12 @@
+/**
+ * SearchBar Component
+ * @param {Object} props - Component properties
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * @param {Object} props.appliedFilters - Applied filters.
+ * 
+ * @returns {JSX.Element} SearchBar component
+ */
+
 import { useState, useEffect, useContext } from "react";
 import { Chip, Button, InputLabel, FormControl, Select } from "@mui/material";
 import { debounce } from "lodash";
@@ -7,6 +16,7 @@ import { filterContext } from "./filterContext";
 const SearchBar = (props) => {
 	const { applyFilters, appliedFilters } = props;
 
+	  // Context variables
 	const {
 		filters,
 		setFilters,

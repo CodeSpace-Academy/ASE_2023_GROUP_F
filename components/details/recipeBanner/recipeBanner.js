@@ -1,3 +1,10 @@
+/**
+ * RecipeBanner Component
+ * @param {Object} props - Component properties
+ * @param {string[]} props.images - An array of image URLs for the recipe.
+ * @returns {JSX.Element} RecipeBanner component
+ */
+
 import Image from 'next/image'
 import { Button } from '@mui/material'
 import { ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material'
@@ -6,6 +13,8 @@ import { useState } from 'react'
 import Carousel from '../carousel/carousel'
 
 function RecipeBanner({ images }) {
+
+  // State variable to track the index of the currently displayed image
   const [currentImage, setCurrentImage] = useState(0)
 
   function next() {
@@ -20,6 +29,10 @@ function RecipeBanner({ images }) {
     setCurrentImage(newImage)
   }
 
+  /**
+   * Sets the currently displayed image based on the provided parameter.
+   * @param {number} param - The index of the image to be displayed.
+   */
   function imageHandler(param) {
     setCurrentImage(param)
   }

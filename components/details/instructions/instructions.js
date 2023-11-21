@@ -1,15 +1,31 @@
+/**
+ * Instructions Component
+ * @param {Object} props - Component properties
+ * @param {string} props.recipeId - The unique identifier for the recipe.
+ * @param {Array} props.instructions - An array of strings representing the recipe instructions.
+ * @param {string} props.userName - The name of the user interacting with the component.
+ * 
+ * @returns {JSX.Element} Instructions component
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Card, Button, TextField, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 
 function Instructions(props) {
   const { recipeId, instructions, userName } = props
+
+  // State variables to manage editing functionality
   const [editableIndex, setEditableIndex] = useState(-1)
   const [editedInstructions, setEditedInstructions] = useState([
     ...instructions,
   ])
   const [modifiedInstructions, setModifiedInstructions] = useState({})
 
+  /**
+   * Handles the edit button click by setting the editable index.
+   * @param {number} index - The index of the instruction being edited.
+   */
   const handleEdit = (index) => {
     setEditableIndex(index)
   }
@@ -24,6 +40,7 @@ function Instructions(props) {
       }
       const formattedDate = currentDate.toLocaleDateString(undefined, options)
 
+      // Create updated instructions with edit history
       const updatedInstructions = editedInstructions.map(
         (instruction, index) => {
           if (modifiedInstructions[index]) {
@@ -56,6 +73,10 @@ function Instructions(props) {
     }
   }
 
+  /**
+   * Handles input change for the edited instructions.
+   * @param {string} value - The new value of the instruction.
+   */
   const handleInputChange = (index, value) => {
     const modifiedInstructionsCopy = { ...modifiedInstructions }
     modifiedInstructionsCopy[index] = true

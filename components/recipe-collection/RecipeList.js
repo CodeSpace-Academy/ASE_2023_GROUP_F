@@ -1,3 +1,15 @@
+/**
+ * RecipeList Component
+ * @param {Object} props - Component properties
+ * @param {Array} props.visibleRecipes - List of visible recipes to display.
+ * @param {number} props.count - Total count of recipes (including not visible).
+ * @param {Array} props.appliedFilters - Filters applied to the recipes.
+ * @param {Function} props.setRecipes - Function to set the list of recipes.
+ * @param {string} props.searchTerm - Search term used for highlighting.
+ * 
+ * @returns {JSX.Element} RecipeList component
+ */
+
 import React, { useState } from "react";
 import RecipeCard from "../card/RecipeCard";
 import CardSkeleton from "../skeletonCard/skeleton";

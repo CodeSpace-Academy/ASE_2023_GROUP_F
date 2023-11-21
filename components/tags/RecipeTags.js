@@ -1,3 +1,16 @@
+/**
+ * RecipeTags Component
+ * 
+ * A React component for displaying a list of recipe tags.
+ * 
+ * @component
+ * @param {Object} props - The component's properties.
+ * @param {string[]} props.tags - An array of tags to be displayed.
+ * @param {boolean} props.networkError - Indicates whether a network error has occurred.
+ * 
+ * @returns {JSX.Element} The rendered RecipeTags component.
+ **/
+
 import React from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import HandleError from '../error/Error'
@@ -5,6 +18,7 @@ import HandleError from '../error/Error'
 function RecipeTags(props) {
   const { tags, networkError } = props
 
+    // Render error message if a network error occurs
   if (networkError) {
     return (
       <div>

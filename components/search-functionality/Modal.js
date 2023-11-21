@@ -1,3 +1,12 @@
+/**
+ * Modal Component
+ * @param {Object} props - Component properties
+ * @param {Function} props.handleClose - Function to close the modal.
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * 
+ * @returns {JSX.Element} Modal component
+ */
+
 import { useContext, useEffect, useState } from "react";
 import classes from "./modal.module.css";
 import TextField from "@mui/material/TextField";

@@ -1,4 +1,18 @@
-import React from 'react'
+/**
+ * Ingredients Component
+ *
+ * This component displays a list of ingredients in a card format. Each ingredient
+ * is represented as a key-value pair from the provided ingredients object.
+ * Additionally, it includes a button to add the ingredients to the cart.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.ingredients - An object representing the ingredients, where keys are ingredient names and values are quantities.
+ * @returns {JSX.Element} - The rendered Ingredients component.
+ *
+ **/
+
+import React from 'react';
 import { ToggleButton, Card, Button } from '@mui/material'
 
 function Ingredients(props) {

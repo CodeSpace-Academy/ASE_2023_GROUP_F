@@ -1,3 +1,12 @@
+/**
+ * SideBar Component
+ * @param {Object} props - Component properties
+ * @param {Object} props.nutrition - Nutrition information to be displayed in the sidebar.
+ * @param {boolean} props.state - A boolean value indicating whether the sidebar is in an active state.
+ * 
+ * @returns {JSX.Element} SideBar component
+ */
+
 import Nutrition from "../nutrition/nutrition";
 
 function SideBar({nutrition, state}){

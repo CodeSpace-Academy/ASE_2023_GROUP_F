@@ -39,6 +39,7 @@ function CookingMode(props) {
     }));
   };
 
+  // Function to handle "Select All" button
   const handleSelectAll = () => {
     if (selectAll) {
       setCheckedIngredients({});
@@ -52,10 +53,11 @@ function CookingMode(props) {
     setSelectAll(!selectAll);
   };
 
+  // Effect to update selectedInstruction when currentStep changes
   const showInstructionsComponent = () => {
     setShowInstructions(true);
   };
-
+  // Function to close the instructions modal
   const closeInstructions = () => {
     setShowInstructions(false);
     setShowIngredients(false); // Hide ingredients after closing the modal
@@ -76,6 +78,7 @@ function CookingMode(props) {
     }
   };
 
+  // Effect to update selectedInstruction when currentStep changes
   useEffect(() => {
     setSelectedInstruction(currentStep);
   }, [currentStep]);
