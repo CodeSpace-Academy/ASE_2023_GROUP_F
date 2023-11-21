@@ -137,15 +137,18 @@ function Modal(props) {
 
 					<h4 className="font-bold">Number of Instructions:</h4>
 					<TextField
-						className={classes.formInput}
-						type="number"
-						name="instructions"
-						value={instructions}
-						onChange={(e) => {
-							const newValue = Math.max(1, parseInt(e.target.value, 10) || 1);
-							setInstructions(newValue);
-						}}
-					/>
+                        className={classes.formInput}
+                        type="number"
+                        name="instructions"
+                        value={instructions === null ? "" : instructions}
+                        onChange={(e) => {
+                            const newValue =
+                                e.target.value === ""
+                                    ? ""
+                                    : Math.max(1, parseInt(e.target.value, 10) || 1);
+                            setInstructions(newValue);
+                        }}
+                    />
 
 					<br />
 					<button
