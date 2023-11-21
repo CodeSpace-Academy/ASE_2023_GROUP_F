@@ -17,18 +17,17 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }});
+  },
+});
 
-  async function connectToDatabase() {
-    try {
-      await client.connect();
-  
-      return client.db(dbName);
-    } catch (error) {
-      console.error("Failed To Connect to database", error);
-    }
-  
+async function connectToDatabase() {
+  try {
+    await client.connect();
+
+    return client.db(dbName);
+  } catch (error) {
+    console.error("Failed To Connect to database", error);
   }
-  
-  export default connectToDatabase;
+}
 
+export default connectToDatabase;

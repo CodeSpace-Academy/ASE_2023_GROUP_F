@@ -1,30 +1,30 @@
-import Image from 'next/image'
-import { Button } from '@mui/material'
-import { ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material'
-import Link from 'next/link'
-import { useState } from 'react'
-import Carousel from '../carousel/carousel'
+import Image from "next/image";
+import { Button } from "@mui/material";
+import { ArrowCircleLeft, ArrowCircleRight } from "@mui/icons-material";
+import Link from "next/link";
+import { useState } from "react";
+import Carousel from "../carousel/carousel";
 
 function RecipeBanner({ images }) {
-  const [currentImage, setCurrentImage] = useState(0)
+  const [currentImage, setCurrentImage] = useState(0);
 
   function next() {
-    const isFirstImage = currentImage === images.length - 1
-    const newImage = isFirstImage ? 0 : currentImage + 1
-    setCurrentImage(newImage)
+    const isFirstImage = currentImage === images.length - 1;
+    const newImage = isFirstImage ? 0 : currentImage + 1;
+    setCurrentImage(newImage);
   }
 
   function prev() {
-    const isFirstImage = currentImage === 0
-    const newImage = isFirstImage ? images.length - 1 : currentImage - 1
-    setCurrentImage(newImage)
+    const isFirstImage = currentImage === 0;
+    const newImage = isFirstImage ? images.length - 1 : currentImage - 1;
+    setCurrentImage(newImage);
   }
 
   function imageHandler(param) {
-    setCurrentImage(param)
+    setCurrentImage(param);
   }
 
-  const areButtonsVisible = images.length > 1
+  const areButtonsVisible = images.length > 1;
 
   return (
     <div className="relative flex flex-row">
@@ -55,7 +55,7 @@ function RecipeBanner({ images }) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default RecipeBanner
+export default RecipeBanner;

@@ -6,7 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Image from "next/image";
 
-const RecipeCard = (props) => {
+function RecipeCard(props) {
   const { title, images, recipe , updateFavoriteRecipesCount } = props;
   const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
   const [isVisible, setIsVisible] = useState(true);
@@ -23,7 +23,7 @@ const RecipeCard = (props) => {
 
     if (isFavorite) {
       confirm = window.confirm(
-        "Are you sure you want to remove this recipe from favorites?"
+        "Are you sure you want to remove this recipe from favorites?",
       );
     }
     try {
@@ -136,6 +136,6 @@ const RecipeCard = (props) => {
       </div>
     </div>
   ) : null;
-};
+}
 
 export default RecipeCard;

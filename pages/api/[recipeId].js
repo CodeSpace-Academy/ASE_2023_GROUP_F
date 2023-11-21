@@ -2,7 +2,7 @@ import connectToDatabase from "../../database/database"
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const recipeId = req.query.recipeId;
+    const {recipeId} = req.query;
     try {
       const database = await connectToDatabase();
       const collection = database.collection("recipes");

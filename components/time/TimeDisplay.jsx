@@ -2,7 +2,7 @@ import CookIcon from "../icons/CookIcon";
 import PrepIcon from "../icons/PrepIcon";
 import ServingIcon from "../icons/ServingIcon";
 import TimeIcon from "../icons/TimeIcon";
-const TimeDisplay = ({ recipe }) => {
+function TimeDisplay({ recipe }) {
   function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -62,6 +62,6 @@ const TimeDisplay = ({ recipe }) => {
     </div>
   );
   
-};
+}
 
 export default TimeDisplay;

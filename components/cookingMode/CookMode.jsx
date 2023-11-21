@@ -8,12 +8,12 @@ function CookingMode(props) {
 
   const [checkedIngredients, setCheckedIngredients] = useState({});
   const [selectAll, setSelectAll] = useState(false);
-  const [showIngredients, setShowIngredients] = useState(true); // New state for controlling ingredient visibility
+  const [showIngredients, setShowIngredients] = useState(true); 
 
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedInstruction, setSelectedInstruction] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(false); // State to track completion
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const handleCheckboxChange = (ingredientName) => {
     setCheckedIngredients((prevState) => ({
@@ -41,19 +41,19 @@ function CookingMode(props) {
 
   const closeInstructions = () => {
     setShowInstructions(false);
-    setShowIngredients(false); // Hide ingredients after closing the modal
+    setShowIngredients(false); 
   };
 
   const selectInstruction = (index) => {
     setSelectedInstruction(index);
-    setCurrentStep(index); // Update currentStep with the selected instruction index
+    setCurrentStep(index); 
   };
 
   const goToNextStep = () => {
     const nextStep = currentStep + 1;
     if (nextStep < instructions.length) {
       setCurrentStep(nextStep);
-      setSelectedInstruction(nextStep); // Update selectedInstruction with the new currentStep
+      setSelectedInstruction(nextStep);
     } else {
       setIsCompleted(true);
     }

@@ -44,7 +44,7 @@ function Home(props) {
 		<div>
 			<Head>
 				<title>Foodie's Delight</title>
-				<meta
+  <meta
 					name="description"
 					content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
 				/>
