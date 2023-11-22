@@ -10,19 +10,19 @@ function SingleRecipe({ recipeId }) {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		async function getRecipeById() {
-			try {
-				const documents = await fetch(`/api/${recipeId}`);
-        const result = await documents.json();
-				setRecipe(result.recipe);
-				setLoading(false);
-			} catch (error) {
-				console.error(`something went wrong: ${error}`);
-				setError("Error fetching recipe data.");
-				setLoading(false);
-			}
-		}
+  useEffect(() => {
+    console.log('filters in recipeId', filters)
+    async function getRecipeById() {
+      try {
+        const result = await getSingleRecipe(recipeId);
+        setRecipe(result.recipe);
+        setLoading(false);
+      } catch (error) {
+        console.error(`something went wrong: ${error}`);
+        setError('Error fetching recipe data.');
+        setLoading(false); 
+      }
+    }
 
 		getRecipeById();
 	}, [recipeId]);
