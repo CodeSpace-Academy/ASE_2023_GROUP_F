@@ -14,7 +14,7 @@ function SingleRecipe({ recipeId }) {
     console.log('filters in recipeId', filters)
     async function getRecipeById() {
       try {
-        const result = await getSingleRecipe(recipeId);
+        const result = await fetch(`/api/${recipeId}`);
         setRecipe(result.recipe);
         setLoading(false);
       } catch (error) {

@@ -17,7 +17,7 @@ function Modal(props) {
 
 	useEffect(() => {
 		const fetchTags = async () => {
-			const result = await getCategories();
+			const result = await fetch('/api/categories');
 			const fetchedTags = result.categories[0].categories;
 			if (Array.isArray(fetchedTags)) {
 				setTags(fetchedTags);
