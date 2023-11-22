@@ -1,6 +1,5 @@
 import connectToDatabase from "../../database/database";
 
-
 export async function getRecipes(limit = 48) {
   try {
     const database = await connectToDatabase();

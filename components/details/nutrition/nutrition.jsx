@@ -8,7 +8,7 @@ function Nutrition({ nutritionList }) {
       {nutrition.map(([key, value]) => (
         <Card sx={{ margin: 0.5, padding: 1 }}>
           <div>
-            {key}: {value}
+            {key}:{value}
           </div>
         </Card>
       ))}

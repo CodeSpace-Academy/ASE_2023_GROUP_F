@@ -7,7 +7,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Image from "next/image";
 
 function RecipeCard(props) {
-  const { title, images, recipe , updateFavoriteRecipesCount } = props;
+  const { title, images, recipe, updateFavoriteRecipesCount } = props;
   const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
   const [isVisible, setIsVisible] = useState(true);
 

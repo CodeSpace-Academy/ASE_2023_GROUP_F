@@ -3,13 +3,13 @@ import "../styles/globals.css";
 import { FilterProvider } from "@/components/search-functionality/filterContext";
 
 export default function App({ Component, pageProps }) {
-	return (
-		<>
-			<FilterProvider>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
-			</FilterProvider>
-		</>
-	);
+  return (
+    <>
+      <FilterProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </FilterProvider>
+    </>
+  );
 }

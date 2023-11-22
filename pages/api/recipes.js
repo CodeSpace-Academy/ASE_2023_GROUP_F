@@ -1,7 +1,6 @@
 import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
-
   if (req.method === "GET") {
     try {
       const database = await connectToDatabase();
@@ -25,7 +24,7 @@ export default async function handler(req, res) {
       const { recipeId, isFavorite } = req.body;
       await collection.updateOne(
         { _id: recipeId },
-        { $set: { isFavorite: isFavorite } }
+        { $set: { isFavorite: isFavorite } },
       );
 
       res.status(200).json({

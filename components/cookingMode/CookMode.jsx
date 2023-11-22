@@ -8,7 +8,7 @@ function CookingMode(props) {
 
   const [checkedIngredients, setCheckedIngredients] = useState({});
   const [selectAll, setSelectAll] = useState(false);
-  const [showIngredients, setShowIngredients] = useState(true); 
+  const [showIngredients, setShowIngredients] = useState(true);
 
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedInstruction, setSelectedInstruction] = useState(null);
@@ -41,12 +41,12 @@ function CookingMode(props) {
 
   const closeInstructions = () => {
     setShowInstructions(false);
-    setShowIngredients(false); 
+    setShowIngredients(false);
   };
 
   const selectInstruction = (index) => {
     setSelectedInstruction(index);
-    setCurrentStep(index); 
+    setCurrentStep(index);
   };
 
   const goToNextStep = () => {

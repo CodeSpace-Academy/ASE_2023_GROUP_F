@@ -26,7 +26,6 @@ const FavoriteRecipesPage = () => {
     fetchFavoriteRecipes();
   }, []);
 
-
   const updateFavoriteRecipesCount = (newState) => {
     setFavoriteRecipesCount((prevCount) => {
       if (newState.isVisible === false) {

@@ -61,7 +61,6 @@ function TimeDisplay({ recipe }) {
       </span>
     </div>
   );
-  
 }
 
 export default TimeDisplay;

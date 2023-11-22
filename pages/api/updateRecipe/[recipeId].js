@@ -5,14 +5,13 @@ export default async function handler(req, res) {
   if (req.method === "PATCH") {
     const recipeId = req.query.recipeId;
     const updatedData = req.body;
-   
+
     try {
-      
-      const database = await connectToDatabase()
+      const database = await connectToDatabase();
       const collection = database.collection("recipes");
       const result = await collection.updateOne(
         { _id: recipeId },
-        { $set: updatedData }
+        { $set: updatedData },
       );
 
       if (result.ok === 1) {

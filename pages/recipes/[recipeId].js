@@ -6,47 +6,47 @@ import { filterContext } from "../../components/search-functionality/filterConte
 import Head from "next/head";
 
 function SingleRecipe({ recipeId }) {
-	const { filters, setFiltes } = useContext(filterContext);
-	const [recipe, setRecipe] = useState(null);
-	const [error, setError] = useState("");
-	const [loading, setLoading] = useState(true);
+  const { filters, setFiltes } = useContext(filterContext);
+  const [recipe, setRecipe] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		console.log("filters in recipeId", filters);
-		async function getRecipeById() {
-			try {
-				const result = await getSingleRecipe(recipeId);
-				setRecipe(result.recipe);
-				setLoading(false);
-			} catch (error) {
-				console.error(`something went wrong: ${error}`);
-				setError("Error fetching recipe data.");
-				setLoading(false);
-			}
-		}
+  useEffect(() => {
+    console.log("filters in recipeId", filters);
+    async function getRecipeById() {
+      try {
+        const result = await getSingleRecipe(recipeId);
+        setRecipe(result.recipe);
+        setLoading(false);
+      } catch (error) {
+        console.error(`something went wrong: ${error}`);
+        setError("Error fetching recipe data.");
+        setLoading(false);
+      }
+    }
 
-		getRecipeById();
-	}, [recipeId]);
+    getRecipeById();
+  }, [recipeId]);
 
-	return (
-		<>
-			<Head>
-				<title>{recipe?.title}</title>
-				<meta name="description" content={recipe?.description} />
-			</Head>
-			{loading ? <RecipeSkeleton /> : <Details recipe={recipe} error={error} />}
-		</>
-	);
+  return (
+    <>
+      <Head>
+        <title>{recipe?.title}</title>
+        <meta name="description" content={recipe?.description} />
+      </Head>
+      {loading ? <RecipeSkeleton /> : <Details recipe={recipe} error={error} />}
+    </>
+  );
 }
 
 export default SingleRecipe;
 
 export async function getServerSideProps({ params }) {
-	const { recipeId } = params;
+  const { recipeId } = params;
 
-	return {
-		props: {
-			recipeId,
-		},
-	};
+  return {
+    props: {
+      recipeId,
+    },
+  };
 }

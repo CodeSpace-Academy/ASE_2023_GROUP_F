@@ -32,7 +32,7 @@ function RecipeList(props) {
       const result = await getViewRecipes(
         startIndex,
         PAGE_SIZE,
-        appliedFilters
+        appliedFilters,
       );
       setRecipes([...visibleRecipes, ...result.recipes]);
       setCurrentPage(currentPage + 1);
@@ -53,14 +53,14 @@ function RecipeList(props) {
         {visibleRecipes.map((recipe) => (
           <RecipeCard
             key={recipe._id}
-            title={(
+            title={
               <Highlighter
                 highlightClassName="YourHighlightClass"
                 searchWords={[searchTerm]}
                 autoEscape={true}
                 textToHighlight={recipe.title}
               />
-            )}
+            }
             images={recipe.images}
             published={recipe.published}
             recipe={recipe}

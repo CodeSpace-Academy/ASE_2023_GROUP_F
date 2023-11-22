@@ -63,7 +63,7 @@ function SearchBar(props) {
 
       if (Array.isArray(updatedFilters[filterType])) {
         updatedFilters[filterType] = updatedFilters[filterType].filter(
-          (item) => item !== filterValue
+          (item) => item !== filterValue,
         );
 
         if (updatedFilters[filterType].length === 0) {
@@ -102,7 +102,7 @@ function SearchBar(props) {
         (value) =>
           value === null ||
           (Array.isArray(value) && value?.length === 0) ||
-          value === ""
+          value === "",
       );
 
       if (hasNoFiltersLeft) {
@@ -310,7 +310,7 @@ function SearchBar(props) {
                 ))}
               </div>
             </div>
-          ) : null
+          ) : null,
         )}
 
         {selectedFilters?.ingredients !== null &&

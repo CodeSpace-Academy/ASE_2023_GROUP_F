@@ -10,7 +10,7 @@ function Ingredients(props) {
       <div className="mx-10 rounded-xl">
         {ingredient.map((item, index) => (
           <Card key={index} className="p-2 bg-gray-200 text-lg">
-            {item[0]}: {item[1]}
+            {item[0]}:{item[1]}
           </Card>
         ))}
         <div className="text-center">
