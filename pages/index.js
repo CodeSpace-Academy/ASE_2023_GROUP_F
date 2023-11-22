@@ -1,9 +1,7 @@
 import { useEffect, useContext, useState } from "react";
-import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
-import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
 import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
@@ -43,8 +41,14 @@ function Home(props) {
 		runLoad();
 	}, [filters]);
 
-	const handleApplyFilters = async (filters) => {
-		const documents = await fetch(`/api/filter?filter=${JSON.stringify(filters)}&sort=${JSON.stringify(sortOption)}`)
+	const handleApplyFilters = async (_filters) => {
+		let sort;
+		if(sortOption === ""){
+			sort = {}
+		}else{
+			sort = sortOption;
+		}
+		const documents = await fetch(`/api/filter?limit=${PAGE_SIZE}&filter=${JSON.stringify(filters)}&sort=${JSON.stringify(sort)}`)
 		const filtering = await documents.json();
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);

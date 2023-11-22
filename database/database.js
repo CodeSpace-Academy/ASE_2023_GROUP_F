@@ -50,8 +50,8 @@ export async function getViewRecipes(
   pageSize = 48,
   filter = {},
   sort = {},
-  id = {},
-  $set = {}
+  id = '',
+  $set = ""
 ) {
   try {
     const database = await connectToDatabase();
@@ -155,10 +155,17 @@ export async function getViewRecipes(
 
     agg.push({ $limit: pageSize });
 
-    const documents = await collection.aggregate(agg).toArray();
-    const number = await collection.countDocuments(queryFilter);
+    if(agg != [] || queryFilter != {}){
+      const documents = (await collection.aggregate(agg).toArray()).slice(startIndex);
+      const number = await collection.countDocuments(queryFilter);
 
-    return { documents, number };
+      return { documents, number };
+    }else{
+      const documents = (await collection.find({}).limit(pageSize).toArray()).slice(startIndex);
+      const number = await collection.countDocuments();
+
+      return { documents, number };
+    };
   } catch (error) {
     throw new Error("Error fetching recipes: " + error.message);
   }
@@ -239,8 +246,9 @@ export async function getFavoriteRecipes() {
     const database = await connectToDatabase();
     const collection = database.collection("recipes");
     const documents = await collection.find({ isFavorite: true }).toArray();
+    const number = documents.length
 
-    return documents;
+    return {documents, number};
   } catch (error) {
     throw new Error("Error fetching favorite recipes: " + error.message);
   }
@@ -253,12 +261,12 @@ export async function getFavoriteRecipes() {
  * @returns {Promise<Array>} A promise that resolves to an array of recipeId items.
  * @async
  */
-export async function getSingleRecipe(id = {}, $set = {}) {
+export async function getSingleRecipe(id = "", $set = "") {
   try {
     const database = await connectToDatabase();
     const collection = database.collection("recipes");
-    if (id && $set) {
-      const documents = await collection.updateOne({ _id: id }, { $set: $set });
+    if (id && $set != "") {
+      const documents = await collection.updateOne({ _id: id }, { _set: $set });
       return documents;
     }
 
@@ -266,6 +274,7 @@ export async function getSingleRecipe(id = {}, $set = {}) {
       const documents = await collection.findOne({ _id: id });
       return documents;
     }
+
   } catch (error) {
     throw new Error("Could fetch recipe", error.message);
   }

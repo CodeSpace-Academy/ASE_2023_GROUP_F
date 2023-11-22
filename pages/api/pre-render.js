@@ -1,5 +1,4 @@
 import { getViewRecipes } from "@/lib/view-recipes";
-import connectToDatabase from "../../database/database";
 
 
 export async function getRecipes(limit = 48) {

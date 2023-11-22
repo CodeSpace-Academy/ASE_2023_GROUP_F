@@ -4,8 +4,7 @@ export default async function handler(req, res) {
 	if (req.method === "GET") {
 		try {
 			const documents = await getFavoriteRecipes()
-			const result = await documents.json()
-			const number = result.length;
+			const number = documents.number;
 
 			res.status(200).json({ favoriteRecipes: documents , count: number });
 		} catch (error) {

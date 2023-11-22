@@ -1,8 +1,10 @@
 import {getSingleRecipe} from "../../database/database"
 
 export default async function handler(req, res) {
+  console.log("API reached++++++++++")
   if (req.method === "GET") {
     const recipeId = req.query.recipeId;
+    console.log("Recipe ID++++++++",recipeId);
     try {
       const documents = await getSingleRecipe(recipeId)
 

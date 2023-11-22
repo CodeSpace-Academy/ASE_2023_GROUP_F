@@ -1,4 +1,4 @@
-import connectToDatabase, { getViewRecipes } from "../../database/database";
+import { getViewRecipes } from "../../database/database";
 
 export default async function handler(req, res) {
 
@@ -16,8 +16,6 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "POST") {
     try {
-      const database = await connectToDatabase();
-      const collection = database.collection("recipes");
 
       const { recipeId, isFavorite } = req.body;
 			await getViewRecipes(0, {}, {}, {}, recipeId, isFavorite);

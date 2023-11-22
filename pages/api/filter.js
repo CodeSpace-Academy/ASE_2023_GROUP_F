@@ -4,13 +4,12 @@ export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
 	const sort = JSON.parse(req.query.sort);
 	const limit = parseInt(req.query.limit) || 200;
-
 	if (req.method === "GET") {
 		try {
-			const documents = await getViewRecipes(0, limit, filter, sort);
-			const number = documents.number
+			const recipes = await getViewRecipes(0, limit, filter, sort);
+			const number = recipes.number
 
-			res.status(200).json({ recipes: documents, count: number });
+			res.status(200).json({ recipes: recipes.documents, count: number });
 		} catch (error) {
 			console.error("Error fetching data:", error);
 			res.status(500).json({ message: "Data fetching failed" });
