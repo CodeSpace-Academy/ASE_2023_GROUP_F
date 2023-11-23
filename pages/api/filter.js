@@ -20,9 +20,11 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.tags && Array.isArray(filter.tags)) {
-				queryFilter.tags = {
-					$in: filter.tags.map((tag) => new RegExp(tag, "i")),
-				};
+				if(filter.tags.length > 0) {
+					queryFilter.tags = {
+						$in: filter.tags.map((tag) => new RegExp(tag, "i")),
+					};
+				}
 			} else if (filter.tags) {
 				queryFilter.tags = {
 					$regex: new RegExp(filter.tags, "i"),

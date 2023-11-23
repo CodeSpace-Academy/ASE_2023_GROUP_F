@@ -32,7 +32,7 @@ function Home(props) {
 			}
 		};
 		runLoad();
-	}, [filters]);
+	}, []);
 
 	const handleApplyFilters = async (filters) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);

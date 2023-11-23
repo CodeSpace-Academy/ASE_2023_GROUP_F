@@ -46,7 +46,7 @@ function Modal(props) {
 	const clearAllFilters = async () => {
 		setSelectedFilters({
 			category: null,
-			tags: "",
+			tags: [],
 			ingredients: "",
 			instructions: "",
 		});
@@ -56,7 +56,7 @@ function Modal(props) {
 
 		setFilters({
 			category: null,
-			tags: "",
+			tags: [],
 			ingredients: "",
 			instructions: "",
 		});
@@ -114,13 +114,17 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={filters.tags?.length === 0 ? {} : filters.tags}
+							value={filters.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
 								} else {
 									setTagOptions("");
 								}
+								setFilters((prevFilters) =>({
+									...prevFilters,
+									tags: newValue
+								}))
 							}}
 							freeSolo
 							renderInput={(params) => (
