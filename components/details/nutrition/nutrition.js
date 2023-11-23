@@ -1,5 +1,6 @@
 /**
  * Nutrition Component
+ * 
  * @param {Object} props - Component properties
  * @param {Object} props.nutritionList - An object representing the nutrition information.
  * 
