@@ -152,7 +152,6 @@ export default async function handler(req, res) {
 			// Extract recipeId and isFavorite from the request body
 			const { recipeId, isFavorite } = req.body;
 
-
 			// Update the isFavorite status in the database
 			await collection.updateOne(
 				{ _id: recipeId },
