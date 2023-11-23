@@ -1,29 +1,36 @@
-import { useEffect, useContext, useState } from "react";
-import Head from "next/head";
-import RecipeList from "../components/recipe-collection/RecipeList";
-import { getRecipes } from "./api/pre-render";
-import SearchBar from "@/components/search-functionality/search-bar";
-import { getViewRecipes } from "@/lib/view-recipes";
-import { filterContext } from "@/components/search-functionality/filterContext";
-import HandleError from "../components/error/Error";
-import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
-import CardSkeleton from "@/components/skeletonCard/skeleton";
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import React, { useEffect, useContext, useState } from 'react';
+import Head from 'next/head';
+import RecipeList from '../components/recipe-collection/RecipeList';
+import { getRecipes } from './api/pre-render';
+import SearchBar from '../components/search-functionality/search-bar';
+import { getViewRecipes } from '../lib/view-recipes';
+import { filterContext } from '../components/search-functionality/filterContext';
+import HandleError from '../components/error/Error';
+import Animation from '../components/skeletonCard/loadingAnimation/LoadingAnimation';
+import CardSkeleton from '../components/skeletonCard/skeleton';
 
 const PAGE_SIZE = 48;
 
 function Home(props) {
   const { visibleRecipes, count } = props;
-  const { filters, filteredRecipes, setFilteredRecipes, sortOption } =
-    useContext(filterContext);
+  const { filters, filteredRecipes, setFilteredRecipes, sortOption } = useContext(filterContext);
 
   const [remainingRecipes, setRemainingRecipes] = useState(count);
   const [loading, setLoading] = useState(false);
+
+  const handleApplyFilters = async (filter) => {
+    const filtering = await getViewRecipes(0, PAGE_SIZE, filter, sortOption);
+    setFilteredRecipes(filtering?.recipes);
+    setRemainingRecipes(filtering?.totalRecipes);
+  };
 
   useEffect(() => {
     const runLoad = async () => {
       try {
         setLoading(true);
-        if (JSON.stringify(filters) === "{}" && sortOption === "") {
+        if (JSON.stringify(filters) === '{}' && sortOption === '') {
           setFilteredRecipes(visibleRecipes);
         } else {
           await handleApplyFilters(filters, sortOption);
@@ -35,11 +42,7 @@ function Home(props) {
     runLoad();
   }, [filters]);
 
-  const handleApplyFilters = async (filters) => {
-    const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
-    setFilteredRecipes(filtering?.recipes);
-    setRemainingRecipes(filtering?.totalRecipes);
-  };
+ 
 
   return (
     <div>
@@ -50,11 +53,7 @@ function Home(props) {
           content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
         />
       </Head>
-      <SearchBar
-        applyFilters={handleApplyFilters}
-        appliedFilters={filters}
-        count={remainingRecipes}
-      />
+      <SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} count={remainingRecipes} />
       {loading ? (
         <>
           <CardSkeleton />
@@ -87,7 +86,7 @@ export async function getStaticProps() {
   } catch (error) {
     return {
       props: {
-        error: "Failed to fetch data",
+        error: 'Failed to fetch data',
       },
     };
   }

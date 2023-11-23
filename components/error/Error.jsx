@@ -1,3 +1,5 @@
+import React from "react";
+
 const HandleError = (props) => {
   const { children } = props;
 

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Card, Button, TextField } from "@mui/material";
+import { Card, Button, TextField } from '@mui/material';
 
 function Description(props) {
   const { recipeId, description, userName } = props;
@@ -16,9 +16,9 @@ function Description(props) {
   const handleSave = async () => {
     const currentDate = new Date();
     const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
     };
     const formattedDate = currentDate.toLocaleDateString(undefined, options);
 
@@ -27,21 +27,21 @@ function Description(props) {
     setIsEditing(false);
     try {
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ description: updatedDescription }),
       });
 
       if (response.ok) {
-        console.log("Description updated successfully");
+        console.log('Description updated successfully');
         setIsEditing(false);
       } else {
-        console.error("Failed to update the description");
+        console.error('Failed to update the description');
       }
     } catch (error) {
-      console.error("Error updating description:", error);
+      console.error('Error updating description:', error);
     }
   };
 

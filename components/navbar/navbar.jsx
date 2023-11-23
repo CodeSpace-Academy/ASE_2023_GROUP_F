@@ -1,6 +1,7 @@
+import React, { useState } from "react";
 import Link from "next/link";
 import LogoIcon from "../icons/LogoIcon";
-import { useState } from "react";
+
 
 function NavBar() {
   const [isClick, setIsClick] = useState(false);
@@ -10,8 +11,7 @@ function NavBar() {
   };
 
   return (
-    <>
-      <nav className="sticky p-4 top-0 z-20 mx-0 my-6 bg-gray-200 rounded-md shadow-xl ">
+    <nav className="sticky p-4 top-0 z-20 mx-0 my-6 bg-gray-200 rounded-md shadow-xl ">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo on the left */}
@@ -28,6 +28,7 @@ function NavBar() {
             {/* Mobile menu button */}
             <div className="flex items-center md:hidden">
               <button
+              type="button"
                 className="inline-flex items-center justify-center p-2 text-black rounded-md hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 onClick={toggleNavbar}
               >
@@ -201,7 +202,6 @@ function NavBar() {
           )}
         </div>
       </nav>
-    </>
   );
 }
 

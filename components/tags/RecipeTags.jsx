@@ -1,5 +1,4 @@
 import React from "react";
-
 import HandleError from "../error/Error";
 
 function RecipeTags(props) {

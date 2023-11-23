@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Chip, Button } from "@mui/material";
 import { debounce } from "lodash";
 import Modal from "./Modal";
@@ -21,7 +21,7 @@ function SearchBar(props) {
   } = useContext(filterContext);
 
   const [open, setOpen] = useState(false);
-  const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+  const [, setUpdateAppliedfilter] = useState({
     category: null,
     tags: [],
     ingredients: null,
@@ -31,15 +31,15 @@ function SearchBar(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleApplyFilters = async (filters) => {
+  const handleApplyFilters = async (filter) => {
     const nonEmptyFilters = {};
-    for (const key in filters) {
+    for (const key in filter) {
       if (
-        filters[key] !== null &&
-        filters[key] !== "" &&
-        filters[key].length > 0
+        filter[key] !== null &&
+        filter[key] !== "" &&
+        filter[key].length > 0
       ) {
-        nonEmptyFilters[key] = filters[key];
+        nonEmptyFilters[key] = filter[key];
       }
 
       setNoFiltersApplied(false);
@@ -301,9 +301,9 @@ function SearchBar(props) {
             >
               <strong>{filterName}:</strong>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {filterValues?.map((value, index) => (
+                {filterValues?.map((value) => (
                   <Chip
-                    key={index}
+                    key={value}
                     label={value}
                     onDelete={() => handleDelete(filterName, value)}
                   />

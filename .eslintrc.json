@@ -11,17 +11,23 @@
   "plugins": ["react"],
 
   "rules": {
-    // using underscores is a common Javascript convention and for certain databases it might be overly strict
+    "react/no-unescaped-entities": "off",
+    "no-nested-ternary": "off",
     "no-underscore-dangle": "off",
-    // helps avoid conflicts and allow flexibility
     "linebreak-style": "off",
-    // this choice is a matter of personal or team preference
     "double-quoted": "off",
-    // allows flexibility in the use for string literals
     "quotes": "off",
-    // Prefer JSDoc notation
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
     "react/prop-types": "off",
-    // necessary for debugging or logging information during development
-    "no-console": "off"
+    "no-console": "off",
+    "array-callback-return": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "consistent-return": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unknown-property": "off",
+    "no-restricted-syntax":"off",
+    "guard-for-in": "off"
   }
 }

@@ -1,18 +1,20 @@
+import React from "react";
 import CookIcon from "../icons/CookIcon";
 import PrepIcon from "../icons/PrepIcon";
 import ServingIcon from "../icons/ServingIcon";
 import TimeIcon from "../icons/TimeIcon";
+
 function TimeDisplay({ recipe }) {
   function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
     if (hours > 0 && remainingMinutes > 0) {
       return `${hours} hrs ${remainingMinutes} mins`;
-    } else if (hours > 0) {
+    } if (hours > 0) {
       return `${hours} hrs`;
-    } else {
+    } 
       return `${remainingMinutes} mins`;
-    }
+    
   }
 
   if (!recipe) {

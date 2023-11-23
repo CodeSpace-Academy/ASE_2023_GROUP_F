@@ -1,13 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+
+import React,  { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
 import classes from "./modal.module.css";
 import { filterContext } from "./filterContext";
-import { getCategories } from "@/lib/view-recipes";
+import { getCategories } from "../../lib/view-recipes";
 
 function Modal(props) {
   const { handleClose, applyFilters } = props;
-  const { filters, setFilters, selectedFilters, setSelectedFilters } =
+  const { filters, setFilters, setSelectedFilters } =
     useContext(filterContext);
   const [tags, setTags] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
@@ -149,6 +150,7 @@ function Modal(props) {
 
           <br />
           <button
+          type="button"
             className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
             style={{
               position: "absolute",

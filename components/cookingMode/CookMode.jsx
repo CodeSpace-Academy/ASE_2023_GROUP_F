@@ -71,7 +71,7 @@ function CookingMode(props) {
           <div>
             {instructions.map((item, index) => (
               <div
-                key={index}
+                key={item}
                 className={classes.instructionCard}
                 onClick={() => selectInstruction(index)}
               >
@@ -80,7 +80,7 @@ function CookingMode(props) {
               </div>
             ))}
           </div>
-          <button className={classes.button} onClick={closeInstructions}>
+          <button className={classes.button} onClick={closeInstructions} type="button">
             Retrun to current step
           </button>
         </Modal>
@@ -98,7 +98,7 @@ function CookingMode(props) {
           </div>
 
           <div>
-            {Object.entries(ingredients).map((item, index) => (
+            {Object.entries(ingredients).map((item) => (
               <div className={classes.ingredient}>
                 <input
                   type="checkbox"
@@ -106,13 +106,14 @@ function CookingMode(props) {
                   checked={checkedIngredients[item[0]] || false}
                   onChange={() => handleCheckboxChange(item[0])}
                 />
-                <div key={index} className={classes.ingredientCard}>
+                <div key={item} className={classes.ingredientCard}>
                   <div>{item[0]}</div>
                 </div>
               </div>
             ))}
           </div>
           <button
+          type="button"
             onClick={showInstructionsComponent}
             className={classes.button}
           >
@@ -169,7 +170,8 @@ function CookingMode(props) {
               />
             </div>
             {currentStep < instructions.length ? (
-              <button onClick={goToNextStep} className={classes.button}>
+              <button onClick={goToNextStep} className={classes.button}
+              type="button">
                 {isCompleted ? "Completed" : "Next Step"}
               </button>
             ) : null}

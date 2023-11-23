@@ -3,7 +3,7 @@ import Highlighter from "react-highlight-words";
 import RecipeCard from "../card/RecipeCard";
 import CardSkeleton from "../skeletonCard/skeleton";
 import Button from "../UI/Button";
-import { getViewRecipes } from "@/lib/view-recipes";
+import { getViewRecipes } from "../../lib/view-recipes";
 import { filterContext } from "../search-functionality/filterContext";
 
 const PAGE_SIZE = 48;
@@ -23,7 +23,8 @@ function RecipeList(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const totalPages = Math.ceil(count / PAGE_SIZE);
-  const remainingRecipes = count - visibleRecipes?.length;
+  const num = visibleRecipes?.length
+  const remainingRecipes = count - num ;
 
   const loadMoreRecipes = async () => {
     setLoading(true);
@@ -55,9 +56,8 @@ function RecipeList(props) {
             key={recipe._id}
             title={
               <Highlighter
-                highlightClassName="YourHighlightClass"
                 searchWords={[searchTerm]}
-                autoEscape={true}
+                autoEscape
                 textToHighlight={recipe.title}
               />
             }
