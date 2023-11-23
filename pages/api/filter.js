@@ -104,7 +104,7 @@ export default async function handler(req, res) {
 				if (JSON.stringify(querySort) !== "{}") {
 					agg.push({ $sort: querySort });
 				}
-			}
+			} 
 
 			if (JSON.stringify(queryFilter) !== "{}") {
 				agg.push({ $match: { ...queryFilter } });

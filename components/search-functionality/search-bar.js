@@ -67,13 +67,13 @@ const SearchBar = (props) => {
 				);
 
 				if (updatedFilters[filterType]?.length === 0) {
-					updatedFilters[filterType] = "";
+					updatedFilters[filterType] = {};
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
-					updatedFilters[filterType] = "";
+					updatedFilters[filterType] = null;
 				} else if (filterType === "instructions") {
-					updatedFilters[filterType] = "";
+					updatedFilters[filterType] = null;
 				}
 			}
 
@@ -93,9 +93,9 @@ const SearchBar = (props) => {
 					}
 				} else {
 					if (filterType === "category" || filterType === "ingredients") {
-						updatedSelectedFilters[filterType] = "";
+						updatedSelectedFilters[filterType] = null;
 					} else if (filterType === "instructions") {
-						updatedSelectedFilters[filterType] = "";
+						updatedSelectedFilters[filterType] = null;
 					}
 				}
 
@@ -229,7 +229,7 @@ const SearchBar = (props) => {
 						name="sortOption"
 						value={sortOption}
 						onChange={handleSort}
-						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
+						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
 					>
 						<option
 							aria-label="None"
@@ -265,6 +265,7 @@ const SearchBar = (props) => {
 					handleClose={handleClose}
 					applyFilters={handleApplyFilters}
 					instructions={appliedFilters.instructions}
+					clearAllFilters={handleResetFilters}
 					
 				/>
 			)}

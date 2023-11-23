@@ -7,7 +7,7 @@ import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setFilters, setSelectedFilters , setNoFiltersApplied } = useContext(filterContext);
+	const { filters, setFilters, setSelectedFilters, setNoFiltersApplied } = useContext(filterContext);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
@@ -45,17 +45,27 @@ function Modal(props) {
 
 	const clearAllFilters = async () => {
 		setSelectedFilters({
-		  category: null,
-		  tags: [], 
-		  ingredients: null,
-		  instructions: null,
+			category: null,
+			tags: "",
+			ingredients: "",
+			instructions: "",
 		});
-	  
+
+		setIngredients("");
+		setInstructions("");
+
+		setFilters({
+			category: null,
+			tags: "",
+			ingredients: "",
+			instructions: "",
+		});
+
 		await applyFilters({});
-		setFilters({});
 		setNoFiltersApplied(true);
-	  };
-	  
+	};
+
+	console.log(filters, "filters %%%");
 
 	return (
 		<div className={classes.modalBackdrop}>
@@ -104,7 +114,7 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={filters?.tags}
+							value={filters.tags?.length === 0 ? {} : filters.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
