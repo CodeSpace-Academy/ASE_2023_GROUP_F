@@ -26,16 +26,7 @@ const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const {
-		filters,
-		setFilters,
-		filteredRecipes,
-		setFilteredRecipes,
-		sortOption,
-		setSortOption,
-		searchTerm,
-		setSearchTerm
-	} = useContext(filterContext);
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption  } = useContext(filterContext);
 
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
@@ -65,11 +56,16 @@ function Home(props) {
 
 	return (
 		<div>
+			<Head>
+				<title>Foodie's Delight</title>
+				<meta
+					name="description"
+					content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
+				/>
+			</Head>
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
 				count={remainingRecipes}
 			/>
 			{loading ? (
@@ -77,8 +73,7 @@ function Home(props) {
 					<CardSkeleton />
 					<Animation />
 				</>
-			) : !filteredRecipes ? (
-				 // Error component for no recipes found
+			) : (!filteredRecipes )? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
@@ -86,8 +81,6 @@ function Home(props) {
 					count={remainingRecipes}
 					appliedFilters={filters}
 					setRecipes={setFilteredRecipes}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
 				/>
 			)}
 		</div>
@@ -110,7 +103,7 @@ export async function getStaticProps() {
 				visibleRecipes: recipes,
 				count,
 			},
-			revalidate: 60,
+			revalidate: 600,
 		};
 	} catch (error) {
 		return {

@@ -24,9 +24,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Image from "next/image";
 
 const RecipeCard = (props) => {
-  const { title, images, recipe } = props;
-
-  // State for favorite and visibility status
+  const { title, images, recipe , updateFavoriteRecipesCount } = props;
   const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -64,6 +62,7 @@ const RecipeCard = (props) => {
           if (confirm) {
             setIsFavorite(false);
             setIsVisible(false);
+            updateFavoriteRecipesCount({ isVisible: false });
           }
         } else {
           console.error("Failed to update favorite status");
