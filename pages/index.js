@@ -1,4 +1,5 @@
 import { useEffect, useContext, useState } from "react";
+import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
 import { getRecipes } from "./api/pre-render";
 import SearchBar from "@/components/search-functionality/search-bar";
@@ -32,7 +33,7 @@ function Home(props) {
 		runLoad();
 	}, [filters]);
 
-	const handleApplyFilters = async (_filters) => {
+	const handleApplyFilters = async (filters) => {
 		let sort;
 		if(sortOption === ""){
 			sort = {}
@@ -72,9 +73,6 @@ function Home(props) {
 					count={remainingRecipes}
 					appliedFilters={filters}
 					setRecipes={setFilteredRecipes}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
-					sortOption={sortOption}
 				/>
 			)}
 		</div>
