@@ -47,7 +47,7 @@ function Modal(props) {
 	const clearAllFilters = () => {
 		setFilters({
 			category: "",
-			tags: "",
+			tags: [],
 			instructions: "",
 			ingredients: "",
 		});
@@ -57,7 +57,7 @@ function Modal(props) {
 
 		setSelectedFilters({
 			category: "",
-			tags: "",
+			tags: [],
 			instructions: "",
 			ingredients: "",
 		});
