@@ -221,7 +221,7 @@ const SearchBar = (props) => {
 								d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
 							/>
 						</svg>
-						<span className="hidden md:inline-block">Sort By</span>
+						<span className="hidden md:inline-block font-bold">Sort By :</span>
 					</label>
 
 					<select
@@ -231,10 +231,12 @@ const SearchBar = (props) => {
 						onChange={handleSort}
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
 					>
+						<optgroup label=''>
+						</optgroup>
 						<option
 							aria-label="None"
 							value=""
-							className="text-sm hidden md:block p-4 m-8"
+							className="text-sm hidden md:block p-4 m-8 font-bold"
 						>
 							Default
 						</option>
@@ -255,6 +257,8 @@ const SearchBar = (props) => {
 							<option value="instructions DESC" className="m-8">
 								Instructions DESC
 							</option>
+						</optgroup>
+						<optgroup label=''>
 						</optgroup>
 					</select>
 				</div>
@@ -291,8 +295,8 @@ const SearchBar = (props) => {
 					)}
 				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
 					filterName !== "instructions" &&
-					Array.isArray(filterValues) &&
-					filterValues?.length > 0 ? (
+						Array.isArray(filterValues) &&
+						filterValues?.length > 0 ? (
 						<div
 							key={filterName}
 							style={{
