@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const CookIcon = ({ fill, width, height }) => {
+function CookIcon({ fill, width, height }) {
   return (
     <svg
       className="mr-2"
@@ -17,6 +17,6 @@ const CookIcon = ({ fill, width, height }) => {
       />
     </svg>
   );
-};
+}
 
 export default CookIcon;

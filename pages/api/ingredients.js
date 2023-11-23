@@ -1,28 +1,28 @@
-import connectToDatabase from "@/database/database";
+import connectToDatabase from '../../database/database';
 
 export default async function getIngredients(req, res) {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     try {
       const database = await connectToDatabase();
-      const collection = database.collection("recipes");
+      const collection = database.collection('recipes');
 
       const pipeline = [
         {
           $project: {
-            newIngredients: "$ingredients",
+            newIngredients: '$ingredients',
           },
         },
         {
           $group: {
             _id: null,
             ingredientsArray: {
-              $push: "$newIngredients",
+              $push: '$newIngredients',
             },
           },
         },
         {
           $unwind: {
-            path: "$ingredientsArray",
+            path: '$ingredientsArray',
             preserveNullAndEmptyArrays: false,
           },
         },
@@ -30,20 +30,20 @@ export default async function getIngredients(req, res) {
           $project: {
             _id: null,
             ingredientsData: {
-              $objectToArray: "$ingredientsArray",
+              $objectToArray: '$ingredientsArray',
             },
           },
         },
         {
           $unwind: {
-            path: "$ingredientsData",
+            path: '$ingredientsData',
           },
         },
         {
           $group: {
             _id: null,
             ingredientsArray: {
-              $addToSet: "$ingredientsData.k",
+              $addToSet: '$ingredientsData.k',
             },
           },
         },
@@ -53,10 +53,10 @@ export default async function getIngredients(req, res) {
 
       res.status(200).json({ uniqueIngredients: documents });
     } catch (error) {
-      console.log("Error fetching data: ", error);
-      res.status(500).json({ message: "Data fetching failed " });
+      console.log('Error fetching data: ', error);
+      res.status(500).json({ message: 'Data fetching failed ' });
     }
   } else {
-    res.status(405).json({ message: "Method not allowed" });
+    res.status(405).json({ message: 'Method not allowed' });
   }
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+
 function DateIcon() {
   return (
     <svg
@@ -5,7 +7,7 @@ function DateIcon() {
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      style={{ width: "24px", height: "24px" }}
+      style={{ width: '24px', height: '24px' }}
     >
       <path
         strokeLinecap="round"

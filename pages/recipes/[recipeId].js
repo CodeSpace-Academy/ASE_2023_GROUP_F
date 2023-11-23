@@ -1,18 +1,18 @@
-import Details from "@/components/details/details";
-import { getSingleRecipe } from "@/lib/view-recipes";
-import { useState, useEffect, useContext } from "react";
-import RecipeSkeleton from "@/components/skeletonCard/detailPageSkeleton";
-import { filterContext } from "../../components/search-functionality/filterContext";
-import Head from "next/head";
+import React, { useState, useEffect, useContext } from 'react';
+import Head from 'next/head';
+import Details from '../../components/details/details';
+import { getSingleRecipe } from '../../lib/view-recipes';
+import RecipeSkeleton from '../../components/skeletonCard/detailPageSkeleton';
+import { filterContext } from '../../components/search-functionality/filterContext';
 
 function SingleRecipe({ recipeId }) {
   const { filters, setFiltes } = useContext(filterContext);
   const [recipe, setRecipe] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("filters in recipeId", filters);
+    console.log('filters in recipeId', filters);
     async function getRecipeById() {
       try {
         const result = await getSingleRecipe(recipeId);
@@ -20,7 +20,7 @@ function SingleRecipe({ recipeId }) {
         setLoading(false);
       } catch (error) {
         console.error(`something went wrong: ${error}`);
-        setError("Error fetching recipe data.");
+        setError('Error fetching recipe data.');
         setLoading(false);
       }
     }

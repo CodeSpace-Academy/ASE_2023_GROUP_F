@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import StyleIcon from "@mui/icons-material/Style";
-import Ingredients from "./ingredients/ingredients";
-import Instructions from "./instructions/instructions";
-import Description from "../description/description";
-import RecipeTags from "../tags/RecipeTags";
-import RecipeBanner from "./recipeBanner/recipeBanner";
-import { getAllergens } from "../../lib/view-recipes";
-import RecipeAllergens from "../allergens/allergens";
-import Nutrition from "./nutrition/nutrition";
+import React, { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
+import StyleIcon from '@mui/icons-material/Style';
+import Ingredients from './ingredients/ingredients';
+import Instructions from './instructions/instructions';
+import Description from '../description/description';
+import RecipeTags from '../tags/RecipeTags';
+import RecipeBanner from './recipeBanner/recipeBanner';
+import { getAllergens } from '../../lib/view-recipes';
+import RecipeAllergens from '../allergens/allergens';
+import Nutrition from './nutrition/nutrition';
 
-import CookIcon from "../icons/CookIcon";
-import ServingIcon from "../icons/ServingIcon";
-import PrepIcon from "../icons/PrepIcon";
+import CookIcon from '../icons/CookIcon';
+import ServingIcon from '../icons/ServingIcon';
+import PrepIcon from '../icons/PrepIcon';
 
 function Details(props) {
   const { recipe } = props;
@@ -52,10 +52,7 @@ function Details(props) {
           <div className="font-serif text-4xl text-center">{recipe.title}</div>
           <br />
           <div>
-            <RecipeAllergens
-              allergens={allergens}
-              ingredients={recipe.ingredients}
-            />
+            <RecipeAllergens allergens={allergens} ingredients={recipe.ingredients} />
           </div>
           <p className="mt-5 text-lg text-center">
             <Description
@@ -101,45 +98,21 @@ function Details(props) {
 
       <div>
         <div className="block space-x-2 md:hidden">
-          <Button
-            value="ingredients"
-            variant={toggleList ? "outlined" : "text"}
-            onClick={toggleIngredients}
-          >
+          <Button value="ingredients" variant={toggleList ? 'outlined' : 'text'} onClick={toggleIngredients}>
             Ingredients
           </Button>
-          <Button
-            value="instructions"
-            variant={!toggleList ? "outlined" : "text"}
-            onClick={toggleInstructions}
-          >
+          <Button value="instructions" variant={!toggleList ? 'outlined' : 'text'} onClick={toggleInstructions}>
             Instructions
           </Button>
         </div>
         <div className="grid gap-2 md:grid-cols-3">
-          <div
-            className={`md:block col-span-1 ${
-              toggleList ? "xs:block" : "xs:hidden"
-            }`}
-          >
-            <p className="text-center text-lg font-bold md:block xs:hidden">
-              Ingredients
-            </p>
+          <div className={`md:block col-span-1 ${toggleList ? 'xs:block' : 'xs:hidden'}`}>
+            <p className="text-center text-lg font-bold md:block xs:hidden">Ingredients</p>
             <Ingredients ingredients={recipe.ingredients} />
           </div>
-          <div
-            className={`md:block col-span-2 ${
-              !toggleList ? "xs:block" : "xs:hidden"
-            }`}
-          >
-            <p className="text-center text-lg font-bold md:block xs:hidden">
-              Instructions
-            </p>
-            <Instructions
-              recipeId={recipe._id}
-              instructions={recipe.instructions}
-              description={recipe.description}
-            />
+          <div className={`md:block col-span-2 ${!toggleList ? 'xs:block' : 'xs:hidden'}`}>
+            <p className="text-center text-lg font-bold md:block xs:hidden">Instructions</p>
+            <Instructions recipeId={recipe._id} instructions={recipe.instructions} description={recipe.description} />
           </div>
         </div>
       </div>

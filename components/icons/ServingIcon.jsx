@@ -1,14 +1,8 @@
-import React from "react";
+import React from 'react';
 
-const ServingIcon = ({ width, height, fill }) => {
+function ServingIcon({ width, height, fill }) {
   return (
-    <svg
-      className="mr-2"
-      width={width}
-      height={height}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 800 800"
-    >
+    <svg className="mr-2" width={width} height={height} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
       <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml">
           <svg
@@ -58,6 +52,6 @@ const ServingIcon = ({ width, height, fill }) => {
       </foreignObject>
     </svg>
   );
-};
+}
 
 export default ServingIcon;

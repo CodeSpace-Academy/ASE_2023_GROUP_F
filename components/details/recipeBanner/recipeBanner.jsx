@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { Button } from "@mui/material";
-import { ArrowCircleLeft, ArrowCircleRight } from "@mui/icons-material";
-import Link from "next/link";
-import { useState } from "react";
-import Carousel from "../carousel/carousel";
+import Image from 'next/image';
+import { Button } from '@mui/material';
+import { ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import Carousel from '../carousel/carousel';
 
 function RecipeBanner({ images }) {
   const [currentImage, setCurrentImage] = useState(0);
@@ -30,12 +30,7 @@ function RecipeBanner({ images }) {
     <div className="relative flex flex-row">
       <Carousel imageList={images} setFunc={imageHandler} />
       <div>
-        <Image
-          src={images[currentImage]}
-          alt="recipe image"
-          width={650}
-          height={650}
-        />
+        <Image src={images[currentImage]} alt="recipe image" width={650} height={650} />
         <div className="absolute top-0 right-0">
           <Link href="/recipes/instructions">
             <Button variant="contained" color="secondary" size="small">
@@ -46,10 +41,10 @@ function RecipeBanner({ images }) {
         {areButtonsVisible && (
           <>
             <div className="absolute top-32">
-              <Button startIcon={<ArrowCircleLeft />} onClick={prev}></Button>
+              <Button startIcon={<ArrowCircleLeft />} onClick={prev} />
             </div>
             <div className="absolute top-32 right-0">
-              <Button endIcon={<ArrowCircleRight />} onClick={next}></Button>
+              <Button endIcon={<ArrowCircleRight />} onClick={next} />
             </div>
           </>
         )}

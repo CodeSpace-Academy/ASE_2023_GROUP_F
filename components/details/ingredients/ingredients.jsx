@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Button } from "@mui/material";
+import React from 'react';
+import { Card, Button } from '@mui/material';
 
 function Ingredients(props) {
   const { ingredients } = props;
@@ -8,8 +8,8 @@ function Ingredients(props) {
   return (
     <div>
       <div className="mx-10 rounded-xl">
-        {ingredient.map((item, index) => (
-          <Card key={index} className="p-2 bg-gray-200 text-lg">
+        {ingredient.map((item) => (
+          <Card key={item[0]} className="p-2 bg-gray-200 text-lg">
             {item[0]}:{item[1]}
           </Card>
         ))}

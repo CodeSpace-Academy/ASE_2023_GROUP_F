@@ -1,4 +1,5 @@
-import { Card } from "@mui/material";
+import React from 'react';
+import { Card } from '@mui/material';
 
 function Nutrition({ nutritionList }) {
   const nutrition = Object.entries(nutritionList);

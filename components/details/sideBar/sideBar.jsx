@@ -1,4 +1,5 @@
-import Nutrition from "../nutrition/nutrition";
+import React from 'react';
+import Nutrition from '../nutrition/nutrition';
 
 function SideBar({ nutrition, state }) {
   return (

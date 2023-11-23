@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const PrepIcon = ({ fill, width, height }) => {
+function PrepIcon({ fill, width, height }) {
   return (
     <svg
       className="mr-2"
@@ -17,6 +17,6 @@ const PrepIcon = ({ fill, width, height }) => {
       />
     </svg>
   );
-};
+}
 
 export default PrepIcon;

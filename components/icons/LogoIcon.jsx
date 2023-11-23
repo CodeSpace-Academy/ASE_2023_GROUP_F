@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const LogoIcon = ({ fill, width, height }) => {
+function LogoIcon({ fill, width, height }) {
   return (
     <svg
       fill={fill}
@@ -44,6 +44,6 @@ const LogoIcon = ({ fill, width, height }) => {
       />
     </svg>
   );
-};
+}
 
 export default LogoIcon;

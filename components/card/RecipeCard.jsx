@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight } from "react-feather";
-import TimeDisplay from "../time/TimeDisplay";
-import Link from "next/link";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import Image from "next/image";
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'react-feather';
+import Link from 'next/link';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import Image from 'next/image';
+import TimeDisplay from '../time/TimeDisplay';
 
 function RecipeCard(props) {
   const { title, images, recipe, updateFavoriteRecipesCount } = props;
@@ -22,16 +22,14 @@ function RecipeCard(props) {
     let confirm;
 
     if (isFavorite) {
-      confirm = window.confirm(
-        "Are you sure you want to remove this recipe from favorites?",
-      );
+      confirm = window.confirm('Are you sure you want to remove this recipe from favorites?');
     }
     try {
       if (isFavorite && confirm) {
-        const response = await fetch("/api/recipes", {
-          method: "POST",
+        const response = await fetch('/api/recipes', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             recipeId: recipe._id,
@@ -46,15 +44,15 @@ function RecipeCard(props) {
             updateFavoriteRecipesCount({ isVisible: false });
           }
         } else {
-          console.error("Failed to update favorite status");
+          console.error('Failed to update favorite status');
           setIsVisible(true);
           confirm = null;
         }
       } else {
-        const response = await fetch("/api/recipes", {
-          method: "POST",
+        const response = await fetch('/api/recipes', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             recipeId: recipe._id,
@@ -65,11 +63,11 @@ function RecipeCard(props) {
         if (response.ok) {
           setIsFavorite(true);
         } else {
-          console.error("Failed to update favorite status");
+          console.error('Failed to update favorite status');
         }
       }
     } catch (error) {
-      console.error("Error updating favorite status:", error);
+      console.error('Error updating favorite status:', error);
     }
   };
 
@@ -90,14 +88,19 @@ function RecipeCard(props) {
         {isButtonVisible && (
           <div className="absolute inset-0 flex items-center justify-between p-4">
             <button
+              type="button"
               className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white"
               onClick={() => changeImage(-1)}
+              aria-label="Previous Image"
             >
               <ChevronLeft size={20} />
             </button>
+
             <button
+              type="button"
               className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white"
               onClickCapture={() => changeImage(1)}
+              aria-label="Next Image"
             >
               <ChevronRight size={20} />
             </button>
@@ -106,12 +109,8 @@ function RecipeCard(props) {
 
         <div className="bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0  mr-2 mt-2">
           <div className="flex items-center justify-center gap-2">
-            <div style={{ cursor: "pointer" }} onClick={toggleFavorite}>
-              {isFavorite ? (
-                <FavoriteIcon color="error" />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
+            <div style={{ cursor: 'pointer' }} onClick={toggleFavorite}>
+              {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
             </div>
           </div>
         </div>
@@ -130,7 +129,10 @@ function RecipeCard(props) {
         </div>
       </div>
       <div className="flex justify-center items-center py-3">
-        <button className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+        <button
+          type="button"
+          className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+        >
           <Link href={`/recipes/${recipe._id}`}>View Recipe</Link>
         </button>
       </div>
