@@ -104,7 +104,9 @@ const SearchBar = (props) => {
 
 			const hasNoFiltersLeft = Object.values(updatedFilters).every(
 				(value) =>
-					value === null || (Array.isArray(value) && value?.length === 0) || value === "",
+					value === null ||
+					(Array.isArray(value) && value?.length === 0) ||
+					value === "",
 			);
 
 			if (hasNoFiltersLeft) {
@@ -118,7 +120,12 @@ const SearchBar = (props) => {
 	const handleSort = async (event) => {
 		const newSortOption = event.target.value;
 		setSortOption(newSortOption);
-		await applyFilters(filters, newSortOption);
+
+		if (Object.keys(filters).length === 0 && searchTerm === "") {
+			await applyFilters({}, newSortOption);
+		} else {
+			await applyFilters(filters, newSortOption);
+		}
 	};
 
 	const handleResetFilters = async () => {
@@ -266,7 +273,6 @@ const SearchBar = (props) => {
 					applyFilters={handleApplyFilters}
 					instructions={appliedFilters.instructions}
 					clearAllFilters={handleResetFilters}
-					
 				/>
 			)}
 			<div>

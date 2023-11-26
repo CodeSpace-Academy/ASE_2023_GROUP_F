@@ -7,7 +7,13 @@ import { getCategories } from "@/lib/view-recipes";
 
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setFilters, setSelectedFilters, setNoFiltersApplied } = useContext(filterContext);
+	const {
+		filters,
+		setFilters,
+		setSelectedFilters,
+		setNoFiltersApplied,
+		noFiltersApplied,
+	} = useContext(filterContext);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
@@ -121,10 +127,10 @@ function Modal(props) {
 								} else {
 									setTagOptions("");
 								}
-								setFilters((prevFilters) =>({
+								setFilters((prevFilters) => ({
 									...prevFilters,
-									tags: newValue
-								}))
+									tags: newValue,
+								}));
 							}}
 							freeSolo
 							renderInput={(params) => (
@@ -159,14 +165,16 @@ function Modal(props) {
 					/>
 
 					<br />
+
 					<button
-						className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
+						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${
+							noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
+						}`}
 						style={{
 							position: "absolute",
 							top: "385px",
 							left: "20px",
 							fontSize: "15px",
-							cursor: "pointer",
 							fontWeight: "600",
 						}}
 						size="small"
