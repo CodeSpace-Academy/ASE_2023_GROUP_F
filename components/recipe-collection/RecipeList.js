@@ -56,7 +56,6 @@ const RecipeList = (props) => {
 						key={recipe._id}
 						title={
 							<Highlighter
-								highlightClassName="YourHighlightClass"
 								searchWords={[searchTerm]}
 								autoEscape={true}
 								textToHighlight={recipe.title}
