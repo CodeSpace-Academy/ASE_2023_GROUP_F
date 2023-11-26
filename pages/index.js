@@ -59,7 +59,7 @@ function Home(props) {
 					<CardSkeleton />
 					<Animation />
 				</>
-			) : (!filteredRecipes )? (
+			) : (filteredRecipes.length === 0 )? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
