@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
 const SearchBar = (props) => {
-	const { applyFilters, appliedFilters } = props;
+	const { applyFilters } = props;
 
 	const {
 		filters,
@@ -136,8 +136,8 @@ const SearchBar = (props) => {
 	};
 
 	useEffect(() => {
-		const debouncedApplyFilters = debounce((title) => {
-			applyFilters({ ...filters, title });
+		const debouncedApplyFilters = debounce(async (title) => {
+			await applyFilters({ ...filters, title });
 		}, 500);
 
 		debouncedApplyFilters(searchTerm);
@@ -145,7 +145,7 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm,filters, sortOption]);
+	}, [searchTerm, filters, sortOption]);
 
 	return (
 		<div>
@@ -266,7 +266,6 @@ const SearchBar = (props) => {
 				<Modal
 					handleClose={handleClose}
 					applyFilters={handleApplyFilters}
-					instructions={appliedFilters.instructions}
 					clearAllFilters={handleResetFilters}
 				/>
 			)}

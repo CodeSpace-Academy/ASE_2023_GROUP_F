@@ -46,6 +46,7 @@ function Modal(props) {
 		data.tags = tagOptions;
 		data.category = categoryOption;
 		await applyFilters(data);
+		// setFilters(data);
 		handleClose();
 	};
 
