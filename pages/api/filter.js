@@ -8,6 +8,7 @@ export default async function handler(req, res) {
 		try {
 			const recipes = await getViewRecipes(0, limit, filter, sort);
 			const number = recipes.number
+			console.log("Other recipes++++++", recipes.documents.length)
 
 			res.status(200).json({ recipes: recipes.documents, count: number });
 		} catch (error) {

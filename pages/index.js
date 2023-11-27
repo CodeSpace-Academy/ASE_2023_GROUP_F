@@ -43,7 +43,7 @@ function Home(props) {
 		const documents = await fetch(`/api/filter?limit=${PAGE_SIZE}&filter=${JSON.stringify(filters)}&sort=${JSON.stringify(sort)}`)
 		const filtering = await documents.json();
 		setFilteredRecipes(filtering?.recipes);
-		setRemainingRecipes(filtering?.totalRecipes);
+		setRemainingRecipes(filtering?.count);
 	};
 
 	return (
@@ -70,7 +70,7 @@ function Home(props) {
 			) : (
 				<RecipeList
 					visibleRecipes={filteredRecipes}
-					count={remainingRecipes}
+					count={count}
 					appliedFilters={filters}
 					setRecipes={setFilteredRecipes}
 				/>

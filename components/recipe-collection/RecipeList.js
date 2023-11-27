@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import RecipeCard from "../card/RecipeCard";
 import CardSkeleton from "../skeletonCard/skeleton";
 import Button from "../UI/Button";
@@ -15,37 +15,35 @@ const RecipeList = (props) => {
 		count,
 		appliedFilters,
 		setRecipes,
-		searchTerm,
+		updateFavoriteRecipesCount
 	} = props;
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const totalPages = Math.ceil(count / PAGE_SIZE);
-  const remainingRecipes = count - visibleRecipes?.length;
+	const {searchTerm} = useContext(filterContext)
 
-  const loadMoreRecipes = async () => {
-    setLoading(true);
-    try {
-      let sort;
-      if(sortOption === ""){
-      	sort = {}
-      }else{
-      	sort = sortOption;
-      }
-      const documents = await fetch(`/api/filter?limit=${PAGE_SIZE}&filter=${JSON.stringify(appliedFilters)}&sort=${JSON.stringify(sort)}`)
-      const result = await documents.json();
-      setRecipes([...visibleRecipes, ...result.recipes]);
-      setCurrentPage(currentPage + 1);
-    } catch (error) {
-      console.error("Error fetching more recipes:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+	const [currentPage, setCurrentPage] = useState(1);
+	const [loading, setLoading] = useState(false);
+	const totalPages = Math.ceil(count / PAGE_SIZE);
+	const remainingRecipes = count - visibleRecipes?.length;
 
-  if (loading || !visibleRecipes) {
-    return <CardSkeleton />;
-  }
+	const loadMoreRecipes = async () => {
+		setLoading(true);
+		try {
+			const startIndex = currentPage * PAGE_SIZE;
+			const documents = await fetch(`/api/recipes?limit=${startIndex}`)
+			const result = await documents.json();
+			console.log("Result+++",result);
+			setRecipes([...visibleRecipes, ...result.recipes]);
+			setCurrentPage(currentPage + 1);
+		} catch (error) {
+			console.error("Error fetching more recipes:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	if (loading || !visibleRecipes) {
+		return <CardSkeleton />;
+	}
 
 	return (
 		<>
@@ -64,6 +62,7 @@ const RecipeList = (props) => {
 						images={recipe.images}
 						published={recipe.published}
 						recipe={recipe}
+						updateFavoriteRecipesCount={updateFavoriteRecipesCount}
 					/>
 				))}
 			</div>

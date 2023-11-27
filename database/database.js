@@ -156,12 +156,12 @@ export async function getViewRecipes(
     agg.push({ $limit: pageSize });
 
     if(agg != [] || queryFilter != {}){
-      const documents = (await collection.aggregate(agg).toArray()).slice(startIndex);
+      const documents = await collection.aggregate(agg).toArray();
       const number = await collection.countDocuments(queryFilter);
 
       return { documents, number };
     }else{
-      const documents = (await collection.find({}).limit(pageSize).toArray()).slice(startIndex);
+      const documents = await collection.find({}).limit(pageSize).toArray();
       const number = await collection.countDocuments();
 
       return { documents, number };
