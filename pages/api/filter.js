@@ -20,12 +20,11 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.tags && Array.isArray(filter.tags)) {
-				if(filter.tags.length > 0){
+				if(filter.tags.length > 0) {
 					queryFilter.tags = {
 						$in: filter.tags.map((tag) => new RegExp(tag, "i")),
 					};
 				}
-				
 			} else if (filter.tags) {
 				queryFilter.tags = {
 					$regex: new RegExp(filter.tags, "i"),
@@ -43,8 +42,19 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.instructions) {
-				queryFilter[`instructions.${filter.instructions}`] = { $exists: false };
-			}
+				const instructionsCount = parseInt(filter.instructions);
+			  
+				if (!isNaN(instructionsCount)) {
+				 agg.push({
+					$match: {
+					  $expr: {
+						$eq: [{ $size: "$instructions" }, instructionsCount]
+					  }
+					}
+				  });
+				}
+			  }
+			  
 
 			let querySort = {};
 
@@ -96,7 +106,7 @@ export default async function handler(req, res) {
 				if (JSON.stringify(querySort) !== "{}") {
 					agg.push({ $sort: querySort });
 				}
-			}
+			} 
 
 			if (JSON.stringify(queryFilter) !== "{}") {
 				agg.push({ $match: { ...queryFilter } });

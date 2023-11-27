@@ -67,7 +67,7 @@ const SearchBar = (props) => {
 				);
 
 				if (updatedFilters[filterType]?.length === 0) {
-					updatedFilters[filterType] = {};
+					updatedFilters[filterType] = [];
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
@@ -145,7 +145,7 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm, sortOption]);
+	}, [searchTerm,filters, sortOption]);
 
 	return (
 		<div>

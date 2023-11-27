@@ -67,11 +67,8 @@ function Modal(props) {
 			instructions: "",
 		});
 
-		await applyFilters({});
 		setNoFiltersApplied(true);
 	};
-
-	console.log(filters, "filters %%%");
 
 	return (
 		<div className={classes.modalBackdrop}>
