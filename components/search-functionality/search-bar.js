@@ -120,12 +120,7 @@ const SearchBar = (props) => {
 	const handleSort = async (event) => {
 		const newSortOption = event.target.value;
 		setSortOption(newSortOption);
-
-		if (Object.keys(filters).length === 0 && searchTerm === "") {
-			await applyFilters({}, newSortOption);
-		} else {
-			await applyFilters(filters, newSortOption);
-		}
+		await applyFilters(filters, newSortOption);
 	};
 
 	const handleResetFilters = async () => {
