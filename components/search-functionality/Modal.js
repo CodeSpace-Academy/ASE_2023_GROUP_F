@@ -117,6 +117,10 @@ function Modal(props) {
 								} else {
 									setTagOptions([]);
 								}
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									tags: newValue,
+								}))
 							}}
 							freeSolo
 							renderInput={(params) => (
