@@ -3,7 +3,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import Head from 'next/head';
 import RecipeList from '../components/recipe-collection/RecipeList';
-import { getRecipes } from './api/pre-render';
+import getRecipes from './api/pre-render';
 import SearchBar from '../components/search-functionality/search-bar';
 import { getViewRecipes } from '../lib/view-recipes';
 import { filterContext } from '../components/search-functionality/filterContext';
@@ -41,8 +41,6 @@ function Home(props) {
     };
     runLoad();
   }, [filters]);
-
- 
 
   return (
     <div>

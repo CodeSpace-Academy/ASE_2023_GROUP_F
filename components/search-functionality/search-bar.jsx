@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Chip, Button } from "@mui/material";
-import { debounce } from "lodash";
-import Modal from "./Modal";
-import { filterContext } from "./filterContext";
+import React, { useState, useEffect, useContext } from 'react';
+import { Chip, Button } from '@mui/material';
+import { debounce } from 'lodash';
+import Modal from './Modal';
+import { filterContext } from './filterContext';
 
 function SearchBar(props) {
   const { applyFilters, appliedFilters } = props;
@@ -34,11 +34,7 @@ function SearchBar(props) {
   const handleApplyFilters = async (filter) => {
     const nonEmptyFilters = {};
     for (const key in filter) {
-      if (
-        filter[key] !== null &&
-        filter[key] !== "" &&
-        filter[key].length > 0
-      ) {
+      if (filter[key] !== null && filter[key] !== '' && filter[key].length > 0) {
         nonEmptyFilters[key] = filter[key];
       }
 
@@ -62,16 +58,14 @@ function SearchBar(props) {
       const updatedFilters = { ...prevFilters };
 
       if (Array.isArray(updatedFilters[filterType])) {
-        updatedFilters[filterType] = updatedFilters[filterType].filter(
-          (item) => item !== filterValue,
-        );
+        updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
 
         if (updatedFilters[filterType].length === 0) {
-          updatedFilters[filterType] = "";
+          updatedFilters[filterType] = '';
         }
-      } else if (filterType === "category" || filterType === "ingredients") {
+      } else if (filterType === 'category' || filterType === 'ingredients') {
         updatedFilters[filterType] = null;
-      } else if (filterType === "instructions") {
+      } else if (filterType === 'instructions') {
         updatedFilters[filterType] = null;
       }
 
@@ -82,16 +76,16 @@ function SearchBar(props) {
         const updatedSelectedFilters = { ...prevFilters };
 
         if (Array.isArray(updatedSelectedFilters[filterType])) {
-          updatedSelectedFilters[filterType] = updatedSelectedFilters[
-            filterType
-          ].filter((item) => item !== filterValue);
+          updatedSelectedFilters[filterType] = updatedSelectedFilters[filterType].filter(
+            (item) => item !== filterValue,
+          );
 
           if (updatedSelectedFilters[filterType]?.length === 0) {
             updatedSelectedFilters[filterType] = {};
           }
-        } else if (filterType === "category" || filterType === "ingredients") {
+        } else if (filterType === 'category' || filterType === 'ingredients') {
           updatedSelectedFilters[filterType] = null;
-        } else if (filterType === "instructions") {
+        } else if (filterType === 'instructions') {
           updatedSelectedFilters[filterType] = null;
         }
 
@@ -99,10 +93,7 @@ function SearchBar(props) {
       });
 
       const hasNoFiltersLeft = Object.values(updatedFilters).every(
-        (value) =>
-          value === null ||
-          (Array.isArray(value) && value?.length === 0) ||
-          value === "",
+        (value) => value === null || (Array.isArray(value) && value?.length === 0) || value === '',
       );
 
       if (hasNoFiltersLeft) {
@@ -141,7 +132,7 @@ function SearchBar(props) {
     return () => {
       debouncedApplyFilters.cancel();
     };
-  }, [searchTerm, filters, sortOption]);
+  }, [searchTerm, filters, sortOption, applyFilters]);
 
   return (
     <div>
@@ -201,10 +192,7 @@ function SearchBar(props) {
         </div>
 
         <div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
-          <label
-            htmlFor="grouped-native-select"
-            className="flex items-center rounded-full md:flex"
-          >
+          <label htmlFor="grouped-native-select" className="flex items-center rounded-full md:flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -229,11 +217,7 @@ function SearchBar(props) {
             onChange={handleSort}
             className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
           >
-            <option
-              aria-label="None"
-              value=""
-              className="text-sm hidden md:block p-4 m-8"
-            >
+            <option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8">
               Default
             </option>
             <optgroup label="Prep Time">
@@ -259,101 +243,88 @@ function SearchBar(props) {
       </div>
 
       {open && (
-        <Modal
-          handleClose={handleClose}
-          applyFilters={handleApplyFilters}
-          instructions={appliedFilters.instructions}
-        />
+        <Modal handleClose={handleClose} applyFilters={handleApplyFilters} instructions={appliedFilters.instructions} />
       )}
       <div>
         <h2 className="font-bold">Applied Filters:</h2>
-        {selectedFilters.category !== null &&
-          selectedFilters.category !== "" && (
-            <div
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>Category:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <Chip
-                  label={selectedFilters.category}
-                  onDelete={() => {
-                    handleDelete("category", selectedFilters.category);
-                  }}
-                />
-              </div>
+        {selectedFilters.category !== null && selectedFilters.category !== '' && (
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: '1rem',
+              maxWidth: 500,
+            }}
+          >
+            <strong>Category:</strong>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Chip
+                label={selectedFilters.category}
+                onDelete={() => {
+                  handleDelete('category', selectedFilters.category);
+                }}
+              />
             </div>
-          )}
+          </div>
+        )}
         {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
-          filterName !== "instructions" &&
-          Array.isArray(filterValues) &&
-          filterValues?.length > 0 ? (
+          filterName !== 'instructions' && Array.isArray(filterValues) && filterValues?.length > 0 ? (
             <div
               key={filterName}
               style={{
-                display: "inline-block",
-                marginRight: "1rem",
+                display: 'inline-block',
+                marginRight: '1rem',
                 maxWidth: 500,
               }}
             >
               <strong>{filterName}:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {filterValues?.map((value) => (
-                  <Chip
-                    key={value}
-                    label={value}
-                    onDelete={() => handleDelete(filterName, value)}
-                  />
+                  <Chip key={value} label={value} onDelete={() => handleDelete(filterName, value)} />
                 ))}
               </div>
             </div>
           ) : null,
         )}
 
-        {selectedFilters?.ingredients !== null &&
-          selectedFilters?.ingredients !== "" && (
-            <div
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>Ingredients:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <Chip
-                  label={selectedFilters?.ingredients}
-                  onDelete={() => {
-                    handleDelete("ingredients", selectedFilters?.ingredients);
-                  }}
-                />
-              </div>
+        {selectedFilters?.ingredients !== null && selectedFilters?.ingredients !== '' && (
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: '1rem',
+              maxWidth: 500,
+            }}
+          >
+            <strong>Ingredients:</strong>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Chip
+                label={selectedFilters?.ingredients}
+                onDelete={() => {
+                  handleDelete('ingredients', selectedFilters?.ingredients);
+                }}
+              />
             </div>
-          )}
+          </div>
+        )}
 
-        {selectedFilters.instructions !== null &&
-          selectedFilters.instructions !== "" && (
-            <div
-              style={{
-                display: "inline-block",
-                marginRight: "1rem",
-                maxWidth: 500,
-              }}
-            >
-              <strong>Instructions:</strong>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <Chip
-                  label={selectedFilters.instructions}
-                  onDelete={() => {
-                    handleDelete("instructions", selectedFilters.instructions);
-                  }}
-                />
-              </div>
+        {selectedFilters.instructions !== null && selectedFilters.instructions !== '' && (
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: '1rem',
+              maxWidth: 500,
+            }}
+          >
+            <strong>Instructions:</strong>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <Chip
+                label={selectedFilters.instructions}
+                onDelete={() => {
+                  handleDelete('instructions', selectedFilters.instructions);
+                }}
+              />
             </div>
-          )}
+          </div>
+        )}
       </div>
 
       {!noFiltersApplied && (
@@ -366,11 +337,7 @@ function SearchBar(props) {
         />
       )}
 
-      {noFiltersApplied && (
-        <p className="font-light text-blue-950">
-          No filters have been applied.
-        </p>
-      )}
+      {noFiltersApplied && <p className="font-light text-blue-950">No filters have been applied.</p>}
     </div>
   );
 }

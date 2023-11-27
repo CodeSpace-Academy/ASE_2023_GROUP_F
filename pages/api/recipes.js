@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       const database = await connectToDatabase();
       const collection = database.collection('recipes');
 
-      const limit = parseInt(req.query.limit) || 200;
+      const limit = parseInt(req.query.limit, 10) || 200;
 
       const documents = await collection.find({}).limit(limit).toArray();
       const number = await collection.countDocuments();

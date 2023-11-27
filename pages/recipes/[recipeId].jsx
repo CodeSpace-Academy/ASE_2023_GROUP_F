@@ -6,7 +6,7 @@ import RecipeSkeleton from '../../components/skeletonCard/detailPageSkeleton';
 import { filterContext } from '../../components/search-functionality/filterContext';
 
 function SingleRecipe({ recipeId }) {
-  const { filters, setFiltes } = useContext(filterContext);
+  const { filters } = useContext(filterContext);
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ function SingleRecipe({ recipeId }) {
     }
 
     getRecipeById();
-  }, [recipeId]);
+  }, [recipeId, filters]);
 
   return (
     <>
