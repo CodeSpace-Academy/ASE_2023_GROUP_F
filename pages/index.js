@@ -31,7 +31,7 @@ function Home(props) {
 			}
 		};
 		runLoad();
-	}, [filters]);
+	}, []);
 
 	const handleApplyFilters = async (filters) => {
 		let sort;
