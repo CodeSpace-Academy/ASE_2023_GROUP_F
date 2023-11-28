@@ -37,9 +37,11 @@ export default async function handler(req, res) {
 
 			// Handle array or string for tags filter
 			if (filter.tags && Array.isArray(filter.tags)) {
-				queryFilter.tags = {
-					$in: filter.tags.map((tag) => new RegExp(tag, "i")),
-				};
+				if(filter.tags.length > 0) {
+					queryFilter.tags = {
+						$in: filter.tags.map((tag) => new RegExp(tag, "i")),
+					};
+				}
 			} else if (filter.tags) {
 				queryFilter.tags = {
 					$regex: new RegExp(filter.tags, "i"),
@@ -70,7 +72,7 @@ export default async function handler(req, res) {
 				}
 			  }
 			  
-			  
+
 			let querySort = {};
 
 			if (sort === "prep ASC") {
@@ -123,7 +125,7 @@ export default async function handler(req, res) {
 				if (JSON.stringify(querySort) !== "{}") {
 					agg.push({ $sort: querySort });
 				}
-			}
+			} 
 
 			// Add aggregation stage for filter criteria
 			if (JSON.stringify(queryFilter) !== "{}") {

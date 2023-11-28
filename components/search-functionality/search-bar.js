@@ -15,7 +15,7 @@ import { filterContext } from "./filterContext";
  */
 
 const SearchBar = (props) => {
-	const { applyFilters, appliedFilters } = props;
+	const { applyFilters } = props;
 
 	  // Context variables
 	const {
@@ -48,7 +48,7 @@ const SearchBar = (props) => {
 			if (
 				filters[key] !== null &&
 				filters[key] !== "" &&
-				filters[key].length > 0
+				filters[key]?.length > 0
 			) {
 				nonEmptyFilters[key] = filters[key];
 			}
@@ -77,8 +77,8 @@ const SearchBar = (props) => {
 					(item) => item !== filterValue,
 				);
 
-				if (updatedFilters[filterType].length === 0) {
-					updatedFilters[filterType] = "";
+				if (updatedFilters[filterType]?.length === 0) {
+					updatedFilters[filterType] = [];
 				}
 			} else {
 				if (filterType === "category" || filterType === "ingredients") {
@@ -115,7 +115,9 @@ const SearchBar = (props) => {
 
 			const hasNoFiltersLeft = Object.values(updatedFilters).every(
 				(value) =>
-					value === null || (Array.isArray(value) && value?.length === 0) || value === "",
+					value === null ||
+					(Array.isArray(value) && value?.length === 0) ||
+					value === "",
 			);
 
 			if (hasNoFiltersLeft) {
@@ -145,8 +147,8 @@ const SearchBar = (props) => {
 	};
 
 	useEffect(() => {
-		const debouncedApplyFilters = debounce((title) => {
-			applyFilters({ ...filters, title });
+		const debouncedApplyFilters = debounce(async (title) => {
+			await applyFilters({ ...filters, title });
 		}, 500);
 
 		debouncedApplyFilters(searchTerm);
@@ -240,7 +242,7 @@ const SearchBar = (props) => {
 						name="sortOption"
 						value={sortOption}
 						onChange={handleSort}
-						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
+						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
 					>
 						<option
 							aria-label="None"
@@ -275,7 +277,7 @@ const SearchBar = (props) => {
 				<Modal
 					handleClose={handleClose}
 					applyFilters={handleApplyFilters}
-					instructions={appliedFilters.instructions}
+					clearAllFilters={handleResetFilters}
 				/>
 			)}
 			<div>
