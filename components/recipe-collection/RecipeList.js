@@ -28,10 +28,8 @@ const RecipeList = (props) => {
 	const loadMoreRecipes = async () => {
 		setLoading(true);
 		try {
-			const startIndex = currentPage * PAGE_SIZE;
-			const documents = await fetch(`/api/recipes?limit=${startIndex}`)
+			const documents = await fetch(`/api/recipes`)
 			const result = await documents.json();
-			console.log("Result+++",result);
 			setRecipes([...visibleRecipes, ...result.recipes]);
 			setCurrentPage(currentPage + 1);
 		} catch (error) {

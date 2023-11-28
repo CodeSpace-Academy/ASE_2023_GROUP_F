@@ -4,6 +4,7 @@ export default async function handler(req, res) {
 	const filter = JSON.parse(req.query.filter);
 	const sort = JSON.parse(req.query.sort);
 	const limit = parseInt(req.query.limit) || 200;
+	const skip= parseInt(req.query.skip) || 0;
 	if (req.method === "GET") {
 		try {
 			const recipes = await getViewRecipes(0, limit, filter, sort);

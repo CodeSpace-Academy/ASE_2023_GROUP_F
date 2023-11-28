@@ -60,6 +60,9 @@ export async function getViewRecipes(
     const agg = [];
     const queryFilter = {};
 
+    const page = Math.floor(startIndex / pageSize);
+    const skip = page * pageSize;
+
     if(id && $set){
       await collection.updateOne(
 				{ _id: recipeId },
@@ -152,7 +155,7 @@ export async function getViewRecipes(
     if (JSON.stringify(queryFilter) !== "{}") {
       agg.push({ $match: { ...queryFilter } });
     }
-
+    agg.push({ $skip: skip})
     agg.push({ $limit: pageSize });
 
     if(agg != [] || queryFilter != {}){
