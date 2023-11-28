@@ -4,9 +4,20 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
+/**
+ * SearchBar Component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * @param {Object} props.appliedFilters - Applied filters.
+ * 
+ * @returns {JSX.Element} SearchBar component
+ */
+
 const SearchBar = (props) => {
 	const { applyFilters } = props;
 
+	  // Context variables
 	const {
 		filters,
 		setFilters,

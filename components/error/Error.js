@@ -1,3 +1,12 @@
+/**
+ * HandleError Component
+ * 
+ * @param {Object} props - Component properties
+ * @param {ReactNode} props.children - The content to be displayed within the error message.
+ * 
+ * @returns {JSX.Element} HandleError component
+ */
+
 const HandleError = (props) =>{
 
   const {children} = props
