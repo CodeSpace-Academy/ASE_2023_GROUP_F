@@ -7,7 +7,6 @@ import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
 import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
-import CardSkeleton from "@/components/skeletonCard/skeleton";
 
 /**
  *

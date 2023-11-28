@@ -1,40 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Foodies Delight 🍔🍲
 
-## Getting Started
+Foodies Delight is a web application built with React and Next.js, designed to cater to culinary enthusiasts who love exploring and sharing delicious recipes. Whether you're a seasoned chef or a home cook, Foodies Delight provides a platform to discover and contribute to a diverse collection of recipes.
 
-First, run the development server:
+## Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This React and Next.js-powered app allows users to:
+
+- Browse a wide variety of recipes from different contributors.
+- Contribute their own favorite recipes to share with the community.
+- Explore a visually appealing and user-friendly interface for an enhanced recipe browsing experience.
+
+## Contributors
+
+- [Tshireletso Mpudu](https://github.com/Tshireletso46) 🍳
+- [Rorisang Makgaka](https://github.com/Matere29) 🍰
+- [Nelson Malgas](https://github.com/NelsonMALGAS) 🍕
+- [Keamogetswe Kgakatsi](https://github.com/kgakatsikeamogetswe) 🥗
+- [Tumisang Nke](https://github.com/Tumii01) 🍣
+- [Akeem Brown](https://github.com/Akido123) 🍜
+- [Chemonique Hennings](https://github.com/chemonique) 🧁
+- [Tshegofatso Tsitsi](https://github.com/tshegotsitsi) 🍩
+
+Feel free to check out their profiles for more exciting projects!
+
+## [🚀 DEMO](https://foodiesdelight.vercel.app/)
+
+## Dependencies
+
+```json
+"dependencies": {
+  "@emotion/react": "^11.11.1",
+  "@emotion/styled": "^11.11.0",
+  "@mui/icons-material": "^5.14.14",
+  "@mui/material": "^5.14.14",
+  "classname": "^0.0.0",
+  "classnames": "^2.3.2",
+  "dotenv": "^16.3.1",
+  "icons": "^1.0.0",
+  "lodash": "^4.17.21",
+  "mongodb": "^6.1.0",
+  "next": "13.5.4",
+  "react": "^18",
+  "react-dom": "^18",
+  "react-feather": "^2.0.10",
+  "react-fontawesome": "^1.7.1",
+  "react-highlight-words": "^0.20.0"
+},
+"devDependencies": {
+  "autoprefixer": "^10",
+  "postcss": "^8",
+  "tailwindcss": "^3"
+}
+
+## Installation
+
+To install Foodies Delight and its dependencies, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/CodeSpace-Academy/ASE_2023_GROUP_F`
+2. Navigate to the project directory: `cd ASE_2023_GROUP_F`
+3. Install dependencies: `npm install`
+
+## Usage
+
+To start the application, run: `npm run dev`
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Acknowledgments
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+We would also like to express our gratitude to [CodeSpace Academy](https://www.google.com/search?gs_ssp=eJwFwTEOQEAQBdBoJQo30KjNJrNiHcEl5O_8oRKEAqf3Xll1axcCv_vUWSjF2MoTaBaZhqii6kyjPD3E86KJiEBGnmrb6dcB8wYG-vb-GkkW4w&q=codespace+academy&rlz=1C1GCEB_enZA1027ZA1027&oq=code&gs_lcrp=EgZjaHJvbWUqEggCEC4YJxivARjHARiABBiKBTIGCAAQRRg8Mg8IARBFGDkYgwEYsQMYgAQyEggCEC4YJxivARjHARiABBiKBTIQCAMQLhjHARixAxjRAxiABDIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPDIGCAcQRRg80gEIMzY1OWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8) for their unwavering support throughout the development of this project.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
