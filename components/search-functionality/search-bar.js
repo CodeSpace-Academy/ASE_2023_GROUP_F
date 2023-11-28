@@ -381,6 +381,7 @@ const SearchBar = (props) => {
 
       {!noFiltersApplied && (
         <Chip
+          style={{borderColor: 'black', marginTop: '10px'}}
           label="Clear All Filters"
           size="small"
           variant="outlined"
