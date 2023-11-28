@@ -1,3 +1,11 @@
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "react-feather";
+import TimeDisplay from "../time/TimeDisplay";
+import Link from "next/link";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Image from "next/image";
+
 /**
  * RecipeCard Component
  * 
@@ -14,14 +22,6 @@
  * 
  * @returns {JSX.Element} - A React functional component.
  */
-
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight } from "react-feather";
-import TimeDisplay from "../time/TimeDisplay";
-import Link from "next/link";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import Image from "next/image";
 
 const RecipeCard = (props) => {
   const { title, images, recipe , updateFavoriteRecipesCount } = props;

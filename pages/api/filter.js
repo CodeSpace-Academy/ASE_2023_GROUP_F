@@ -1,3 +1,5 @@
+import connectToDatabase from "../../database/database";
+
 /**
  * Recipes API Handler
  *
@@ -9,8 +11,6 @@
  * @param {Object} res - The HTTP response object.
  * @throws {Error} If there is an error fetching or updating recipe data.
  */
-
-import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
 

@@ -1,3 +1,7 @@
+import React, { useState, useEffect } from "react";
+import classes from "./cookMode.module.css";
+import Modal from "./Modal";
+
 /**
  * CookingMode Component
  *
@@ -12,11 +16,6 @@
  *
  * @returns {JSX.Element} - The JSX representation of the CookingMode component.
  */
-
-import React, { useState, useEffect } from "react";
-
-import classes from "./cookMode.module.css";
-import Modal from "./Modal";
 
 function CookingMode(props) {
   const { ingredients, instructions } = props;

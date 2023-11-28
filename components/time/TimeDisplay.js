@@ -1,3 +1,8 @@
+import CookIcon from "../icons/CookIcon";
+import PrepIcon from "../icons/PrepIcon";
+import ServingIcon from "../icons/ServingIcon";
+import TimeIcon from "../icons/TimeIcon";
+
 /**
  * TimeDisplay component displays the preparation time, cooking time,
  * total time (prep + cook), and serving information for a recipe.
@@ -11,10 +16,6 @@
  * @returns {JSX.Element|null} Returns the rendered TimeDisplay component or null if no recipe is provided.
  */
 
-import CookIcon from "../icons/CookIcon";
-import PrepIcon from "../icons/PrepIcon";
-import ServingIcon from "../icons/ServingIcon";
-import TimeIcon from "../icons/TimeIcon";
 const TimeDisplay = ({ recipe }) => {
   function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);

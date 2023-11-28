@@ -1,3 +1,6 @@
+import React from 'react';
+import { Skeleton } from '@mui/material';
+
 /**
  * RecipeSkeleton Component
  * A component that represents a skeleton loader for a recipe card.
@@ -5,8 +8,6 @@
  * @returns {JSX.Element} RecipeSkeleton component
  */
 
-import React from 'react';
-import { Skeleton } from '@mui/material';
 
 const CardSkeleton = () => {
   return (

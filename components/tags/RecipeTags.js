@@ -1,3 +1,7 @@
+import React from 'react'
+import { ToggleButton, ToggleButtonGroup } from '@mui/material'
+import HandleError from '../error/Error'
+
 /**
  * RecipeTags Component
  * 
@@ -10,10 +14,6 @@
  * 
  * @returns {JSX.Element} The rendered RecipeTags component.
  **/
-
-import React from 'react'
-import { ToggleButton, ToggleButtonGroup } from '@mui/material'
-import HandleError from '../error/Error'
 
 function RecipeTags(props) {
   const { tags, networkError } = props

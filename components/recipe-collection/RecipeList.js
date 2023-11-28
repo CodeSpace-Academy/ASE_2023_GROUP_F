@@ -6,6 +6,19 @@ import { getViewRecipes } from "@/lib/view-recipes";
 import Highlighter from "react-highlight-words";
 import { filterContext } from "../search-functionality/filterContext";
 
+/**
+ * RecipeList component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Array} props.visibleRecipes - List of visible recipes to display.
+ * @param {number} props.count - Total count of recipes (including not visible).
+ * @param {Array} props.appliedFilters - Filters applied to the recipes.
+ * @param {Function} props.setRecipes - Function to set the list of recipes.
+ * @param {string} props.searchTerm - Search term used for highlighting.
+ * 
+ * @returns {JSX.Element} RecipeList component
+ */
+
 const PAGE_SIZE = 48;
 const INITIAL_LOAD_SIZE = 48;
 
@@ -26,6 +39,7 @@ const RecipeList = (props) => {
 	const totalPages = Math.ceil(count / PAGE_SIZE);
 	const remainingRecipes = count - visibleRecipes?.length;
 
+	// Load more recipes from the server and update the state.
 	const loadMoreRecipes = async () => {
 		setLoading(true);
 		try {
@@ -44,6 +58,8 @@ const RecipeList = (props) => {
 		}
 	};
 
+	
+  // Skeleton loading state
 	if (loading || !visibleRecipes) {
 		return <CardSkeleton />;
 	}

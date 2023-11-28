@@ -1,3 +1,6 @@
+import React from "react";
+import classes from "./modal.module.css";
+
 /**
  * Modal Component
  *
@@ -12,9 +15,6 @@
  * @returns {JSX.Element} - The JSX representation of the Modal component.
  *
  **/
-
-import React from "react";
-import classes from "./modal.module.css";
 
 function Modal(props) {
   const { onClose, children } = props;

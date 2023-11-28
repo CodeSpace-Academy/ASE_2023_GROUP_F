@@ -1,3 +1,5 @@
+import connectToDatabase from "@/database/database";
+
 /**
  * Get Unique Ingredients API Handler
  *
@@ -8,8 +10,6 @@
  * @param {Object} res - The HTTP response object.
  * @throws {Error} If there is an error fetching ingredient data.
  */
-
-import connectToDatabase from "@/database/database";
 
 export default async function getIngredients(req, res) {
   // Check if the HTTP method is GET

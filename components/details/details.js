@@ -1,10 +1,3 @@
-/**
- * Details Component
- * @param {Object} props - Component properties
- * @param {Object} props.recipe - The recipe object containing various details.
- * @returns {JSX.Element} Details component
- */
-
 import Ingredients from './ingredients/ingredients'
 import Instructions from './instructions/instructions'
 import Description from '../description/description'
@@ -19,6 +12,14 @@ import StyleIcon from '@mui/icons-material/Style';
 import CookIcon from "../icons/CookIcon";
 import ServingIcon from "../icons/ServingIcon";
 import PrepIcon from "../icons/PrepIcon";
+
+/**
+ * Details Component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Object} props.recipe - The recipe object containing various details.
+ * @returns {JSX.Element} Details component
+ */
 
 function Details(props) {
   const { recipe } = props

@@ -1,16 +1,16 @@
-/**
- * RecipeBanner Component
- * @param {Object} props - Component properties
- * @param {string[]} props.images - An array of image URLs for the recipe.
- * @returns {JSX.Element} RecipeBanner component
- */
-
 import Image from 'next/image'
 import { Button } from '@mui/material'
 import { ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material'
 import Link from 'next/link'
 import { useState } from 'react'
 import Carousel from '../carousel/carousel'
+
+/**
+ * RecipeBanner Component
+ * @param {Object} props - Component properties
+ * @param {string[]} props.images - An array of image URLs for the recipe.
+ * @returns {JSX.Element} RecipeBanner component
+ */
 
 function RecipeBanner({ images }) {
 

@@ -1,3 +1,6 @@
+import { Button } from "@mui/material"
+import Image from "next/image"
+
 /**
  * Carousel Component
  *
@@ -12,9 +15,6 @@
  * @returns {JSX.Element} - The rendered Carousel component.
  *
  * */
-
-import { Button } from "@mui/material"
-import Image from "next/image"
 
 function Carousel({imageList, setFunc}){
 

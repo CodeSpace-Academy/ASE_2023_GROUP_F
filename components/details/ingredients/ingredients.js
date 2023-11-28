@@ -1,3 +1,6 @@
+import React from 'react';
+import { ToggleButton, Card, Button } from '@mui/material'
+
 /**
  * Ingredients Component
  *
@@ -11,9 +14,6 @@
  * @returns {JSX.Element} - The rendered Ingredients component.
  *
  **/
-
-import React from 'react';
-import { ToggleButton, Card, Button } from '@mui/material'
 
 function Ingredients(props) {
   const { ingredients } = props

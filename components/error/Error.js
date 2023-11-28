@@ -1,5 +1,6 @@
 /**
  * HandleError Component
+ * 
  * @param {Object} props - Component properties
  * @param {ReactNode} props.children - The content to be displayed within the error message.
  * 

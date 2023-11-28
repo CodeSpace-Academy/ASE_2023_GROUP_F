@@ -1,3 +1,5 @@
+import connectToDatabase from "../../database/database";
+
 /**
  * Get Categories API Handler
  *
@@ -8,9 +10,6 @@
  * @param {Object} res - The HTTP response object.
  * @throws {Error} If there is an error fetching the category data.
  */
-
-
-import connectToDatabase from "../../database/database";
 
 export default async function handler(req, res) {
   // Check if the HTTP method is GET

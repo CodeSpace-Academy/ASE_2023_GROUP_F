@@ -1,3 +1,7 @@
+import React, { useState, useEffect } from 'react'
+import { Card, Button, TextField, IconButton } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+
 /**
  * Instructions Component
  * @param {Object} props - Component properties
@@ -7,10 +11,6 @@
  * 
  * @returns {JSX.Element} Instructions component
  */
-
-import React, { useState, useEffect } from 'react'
-import { Card, Button, TextField, IconButton } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
 
 function Instructions(props) {
   const { recipeId, instructions, userName } = props

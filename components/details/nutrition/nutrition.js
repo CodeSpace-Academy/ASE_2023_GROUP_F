@@ -1,3 +1,5 @@
+import { Card } from '@mui/material'
+
 /**
  * Nutrition Component
  * 
@@ -6,8 +8,6 @@
  * 
  * @returns {JSX.Element} Nutrition component
  */
-
-import { Card } from '@mui/material'
 
 function Nutrition({ nutritionList }) {
 

@@ -1,5 +1,8 @@
+import { createContext, useState } from "react";
+
 /**
  * Filter Context
+ * 
  * @typedef {Object} FilterContext
  * @property {Object} filters - The filters applied to recipes.
  * @property {Function} setFilters - Function to set the filters.
@@ -14,9 +17,6 @@
  * @property {string} searchTerm - The current search term for recipes.
  * @property {Function} setSearchTerm - Function to set the search term.
  */
-
-
-import { createContext, useState } from "react";
 
 export const filterContext = createContext();
 

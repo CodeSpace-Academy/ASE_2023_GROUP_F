@@ -1,3 +1,5 @@
+import classes from "./Animation.module.css";
+
 /**
  * Animation Component
  * 
@@ -10,7 +12,6 @@
  * @returns {JSX.Element} JSX for the Animation component.
  */
 
-import classes from "./Animation.module.css";
 const Animation = () => {
   return (
     <div className={classes.backdrop}>

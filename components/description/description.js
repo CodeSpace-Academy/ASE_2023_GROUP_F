@@ -1,3 +1,7 @@
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { Card, Button, TextField } from '@mui/material'
+
 /**
  * Description Component
  *
@@ -14,10 +18,6 @@
  * @returns {JSX.Element} - The rendered Description component.
  *
 **/
-
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { Card, Button, TextField } from '@mui/material'
 
 function Description(props) {
   const { recipeId, description, userName } = props

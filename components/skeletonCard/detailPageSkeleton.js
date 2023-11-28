@@ -1,12 +1,12 @@
+import { Skeleton } from "@mui/material";
+import React from 'react';
+
 /**
  * RecipeSkeleton Component
  * 
  * A React component for displaying a skeleton or loading state for a recipe.
  * It includes placeholders for an image and various text elements.
  **/
-
-import { Skeleton } from "@mui/material";
-import React from 'react';
 
 const RecipeSkeleton = () => {
     return (

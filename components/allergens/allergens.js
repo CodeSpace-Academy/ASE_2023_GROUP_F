@@ -1,3 +1,6 @@
+import React from 'react';
+import HandleError from '../error/Error';
+
 /**
  * RecipeAllergens Component
  * 
@@ -13,9 +16,6 @@
  * 
  * @returns {JSX.Element} - A React functional component.
  */
-
-import React from 'react';
-import HandleError from '../error/Error';
 
 function RecipeAllergens(props) {
   const { allergens, ingredients } = props;
