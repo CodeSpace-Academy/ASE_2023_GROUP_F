@@ -52,6 +52,9 @@ Feel free to check out their profiles for more exciting projects!
   "tailwindcss": "^3"
 }
 
+```
+
+
 ## Installation
 
 To install Foodies Delight and its dependencies, follow these steps:
@@ -64,7 +67,7 @@ To install Foodies Delight and its dependencies, follow these steps:
 
 To start the application, run: `npm run dev`
 
-```
+
 
 ## Acknowledgments
 
