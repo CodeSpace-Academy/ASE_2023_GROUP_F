@@ -1,5 +1,16 @@
 import connectToDatabase from "../../database/database"
 
+/**
+ * Get Recipe API Handler
+ *
+ * This API handler is responsible for fetching a recipe from the database by its ID.
+ *
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @throws {Error} If there is an error fetching the recipe data.
+ */
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const recipeId = req.query.recipeId;

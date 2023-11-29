@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
-
 import classes from "./cookMode.module.css";
 import Modal from "./Modal";
+
+/**
+ * CookingMode Component
+ *
+ * A React component that represents a cooking mode interface, allowing users to
+ * interact with and track the progress of cooking a recipe. It includes sections
+ * for selecting ingredients, viewing instructions, and progressing through each step.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.ingredients - An object representing the ingredients of the recipe.
+ * @param {Array} props.instructions - An array of strings representing the steps of the recipe.
+ *
+ * @returns {JSX.Element} - The JSX representation of the CookingMode component.
+ */
 
 function CookingMode(props) {
   const { ingredients, instructions } = props;
 
+  //State varibles 
   const [checkedIngredients, setCheckedIngredients] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [showIngredients, setShowIngredients] = useState(true); // New state for controlling ingredient visibility
@@ -15,6 +30,7 @@ function CookingMode(props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false); // State to track completion
 
+  // Function to handle checkbox change for ingredients
   const handleCheckboxChange = (ingredientName) => {
     setCheckedIngredients((prevState) => ({
       ...prevState,
@@ -22,6 +38,7 @@ function CookingMode(props) {
     }));
   };
 
+  // Function to handle "Select All" button
   const handleSelectAll = () => {
     if (selectAll) {
       setCheckedIngredients({});
@@ -35,10 +52,11 @@ function CookingMode(props) {
     setSelectAll(!selectAll);
   };
 
+  // Effect to update selectedInstruction when currentStep changes
   const showInstructionsComponent = () => {
     setShowInstructions(true);
   };
-
+  // Function to close the instructions modal
   const closeInstructions = () => {
     setShowInstructions(false);
     setShowIngredients(false); // Hide ingredients after closing the modal
@@ -59,6 +77,7 @@ function CookingMode(props) {
     }
   };
 
+  // Effect to update selectedInstruction when currentStep changes
   useEffect(() => {
     setSelectedInstruction(currentStep);
   }, [currentStep]);

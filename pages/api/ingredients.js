@@ -1,11 +1,25 @@
 import connectToDatabase from "@/database/database";
 
+/**
+ * Get Unique Ingredients API Handler
+ *
+ * This API handler is responsible for fetching unique ingredients from the recipes in the database.
+ *
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @throws {Error} If there is an error fetching ingredient data.
+ */
+
 export default async function getIngredients(req, res) {
+  // Check if the HTTP method is GET
   if (req.method === "GET") {
     try {
+      // Connect to the database
       const database = await connectToDatabase();
       const collection = database.collection("recipes");
 
+      // Define aggregation pipeline stages for fetching unique ingredients
       const pipeline = [
         {
           '$project': {
@@ -13,19 +27,19 @@ export default async function getIngredients(req, res) {
           }
         }, {
           '$group': {
-            '_id': null, 
+            '_id': null,
             'ingredientsArray': {
               '$push': '$newIngredients'
             }
           }
         }, {
           '$unwind': {
-            'path': '$ingredientsArray', 
+            'path': '$ingredientsArray',
             'preserveNullAndEmptyArrays': false
           }
         }, {
           '$project': {
-            '_id': null, 
+            '_id': null,
             'ingredientsData': {
               '$objectToArray': '$ingredientsArray'
             }
@@ -36,7 +50,7 @@ export default async function getIngredients(req, res) {
           }
         }, {
           '$group': {
-            '_id': null, 
+            '_id': null,
             'ingredientsArray': {
               '$addToSet': '$ingredientsData.k'
             }
@@ -44,6 +58,7 @@ export default async function getIngredients(req, res) {
         }
       ];
 
+      // Execute aggregation and fetch documents
       const documents = await collection.aggregate(pipeline).toArray();
 
       res.status(200).json({ uniqueIngredients: documents });
