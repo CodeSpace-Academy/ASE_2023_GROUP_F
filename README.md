@@ -18,7 +18,7 @@ This React and Next.js-powered app allows users to:
 - [Keamogetswe Kgakatsi](https://github.com/kgakatsikeamogetswe) 🥗
 - [Tumisang Nke](https://github.com/Tumii01) 🍣
 - [Akeem Brown](https://github.com/Akido123) 🍜
-- [Chemonique Hennings](https://github.com/chemonique) 🧁
+- [Chemonique Henning](https://github.com/chemonique) 🧁
 - [Tshegofatso Tsitsi](https://github.com/tshegotsitsi) 🍩
 
 Feel free to check out their profiles for more exciting projects!
