@@ -61,6 +61,10 @@ export default async function handler(req, res) {
 				const instructionsCount = parseInt(filter.instructions);
 
 				if (!isNaN(instructionsCount)) {
+					queryFilter.instructions = {
+						$size: instructionsCount,
+					};
+
 					agg.push({
 						$match: {
 							$expr: {

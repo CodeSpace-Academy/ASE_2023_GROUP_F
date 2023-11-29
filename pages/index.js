@@ -7,7 +7,6 @@ import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
 import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
-import CardSkeleton from "@/components/skeletonCard/skeleton";
 
 /**
  *
@@ -26,11 +25,28 @@ const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const { filters, filteredRecipes, setFilteredRecipes, sortOption } =
-		useContext(filterContext);
+	const { 
+		filters, 
+		filteredRecipes, 
+		setFilteredRecipes, 
+		sortOption
+	 } = useContext(filterContext);
 
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
+
+	const handleApplyFilters = async (filters) => {
+		try {
+			setLoading(true);
+
+			const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
+
+			setFilteredRecipes(filtering?.recipes);
+			setRemainingRecipes(filtering?.totalRecipes);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	// useEffect hook to handle filter changes and update the displayed recipes accordingly.
 	useEffect(() => {
@@ -48,13 +64,6 @@ function Home(props) {
 		};
 		runLoad();
 	}, []);
-
-	const handleApplyFilters = async (filters) => {
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
-		setFilteredRecipes(filtering?.recipes);
-		setRemainingRecipes(filtering?.totalRecipes);
-	
-	};
 
 	return (
 		<div>
