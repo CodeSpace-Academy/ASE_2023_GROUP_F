@@ -5,6 +5,16 @@ import { Autocomplete } from "@mui/material";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
 
+/**
+ * Modal Component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Function} props.handleClose - Function to close the modal.
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * 
+ * @returns {JSX.Element} Modal component
+ */
+
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
 	const {
