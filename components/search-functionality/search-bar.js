@@ -223,7 +223,7 @@ const SearchBar = (props) => {
 								d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
 							/>
 						</svg>
-						<span className="hidden font-bold md:inline-block">Sort By</span>
+						<span className="hidden font-bold md:inline-block">Sort By :</span>
 					</label>
 
 					<select
@@ -233,7 +233,7 @@ const SearchBar = (props) => {
 						onChange={handleSort}
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
 					>
-						<optgroup></optgroup>
+						<optgroup className="p-6 m-10"></optgroup>
 						<option
 							aria-label="None"
 							value=""
