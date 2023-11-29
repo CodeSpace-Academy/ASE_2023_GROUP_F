@@ -116,7 +116,8 @@ const RecipeCard = (props) => {
           </div>
         </div>
       </div>
-
+        
+      <Link href={`/recipes/${recipe._id}`}>
       <div className="inset-0 transform">
         <div className="px-6 hover:text-black hover:bg-slate-300">
           <div className="flex flex-col justify-between">
@@ -129,11 +130,12 @@ const RecipeCard = (props) => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center py-3">
+      </Link>
+      {/* <div className="flex justify-center items-center py-3">
         <button className="hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 text-center mr-2 mt-2 dark:border-gray-600 dark:text-blue-950 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
           <Link href={`/recipes/${recipe._id}`}>View Recipe</Link>
         </button>
-      </div>
+      </div> */}
     </div>
   ) : null;
 };
