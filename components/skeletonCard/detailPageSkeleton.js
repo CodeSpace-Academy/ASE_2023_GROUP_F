@@ -1,6 +1,13 @@
 import { Skeleton } from "@mui/material";
 import React from 'react';
 
+/**
+ * RecipeSkeleton Component
+ * 
+ * A React component for displaying a skeleton or loading state for a recipe.
+ * It includes placeholders for an image and various text elements.
+ **/
+
 const RecipeSkeleton = () => {
     return (
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
