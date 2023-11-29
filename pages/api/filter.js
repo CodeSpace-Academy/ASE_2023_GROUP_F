@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       if (filter.instructions) {
         const instructionsCount = parseInt(filter.instructions, 10);
 
-        if (!isNaN(instructionsCount)) {
+        if (!Number.isNaN(instructionsCount)) {
           agg.push({
             $match: {
               $expr: {

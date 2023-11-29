@@ -77,6 +77,7 @@ function Home(props) {
 					count={remainingRecipes}
 					appliedFilters={filters}
 					setRecipes={setFilteredRecipes}
+					recipes={filteredRecipes}
 				/>
 			)}
 		</div>
