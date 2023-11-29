@@ -26,10 +26,12 @@ export default async function handler(req, res) {
 			// Respond with the fetched favorite recipes and their count
 			res.status(200).json({ favoriteRecipes: documents, count: number });
 		} catch (error) {
+			 // Log and respond with an error message if there is an error fetching the data
 			console.error("Error fetching favorite recipes:", error);
 			res.status(500).json({ message: "Favorite recipes fetching failed" });
 		}
 	} else {
+		// Respond with an error message if the HTTP method is not allowed
 		res.status(405).json({ message: "Method not allowed" });
 	}
 }

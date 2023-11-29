@@ -5,6 +5,8 @@ dotenv.config();
 
 // MongoDB connection URI from environment variables
 const uri = process.env.URI;
+
+// Name of the MongoDB database
 const dbName = "devdb";
 
 // Check if the required environment variable is present

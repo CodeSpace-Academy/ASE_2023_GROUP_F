@@ -17,6 +17,7 @@ import { filterContext } from "./filterContext";
 const SearchBar = (props) => {
 	const { applyFilters } = props;
 
+	  // Context variables
 	const {
 		filters,
 		setFilters,

@@ -44,6 +44,7 @@ const RecipeList = (props) => {
 	const totalPages = Math.ceil(count / PAGE_SIZE);
 	const remainingRecipes = count - visibleRecipes?.length;
 
+	// Load more recipes from the server and update the state.
 	const loadMoreRecipes = async () => {
 		setLoading(true);
 		try {

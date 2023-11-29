@@ -33,6 +33,7 @@ export default async function handler(req, res) {
 				};
 			}
 
+			// Handle array or string for tags filter
 			if (filter.tags && Array.isArray(filter.tags)) {
 				if (filter.tags.length > 0) {
 					queryFilter.tags = {
@@ -124,10 +125,12 @@ export default async function handler(req, res) {
 				}
 			}
 
+			// Add aggregation stage for filter criteria
 			if (JSON.stringify(queryFilter) !== "{}") {
 				agg.push({ $match: { ...queryFilter } });
 			}
 
+			// Add aggregation stage for limiting results
 			agg.push({ $limit: limit });
 
 			// Execute aggregation pipeline and fetch documents
@@ -149,6 +152,7 @@ export default async function handler(req, res) {
 			const collection = database.collection("recipes");
 
 			// Extract recipeId and isFavorite from the request body
+			// Extract recipeId and isFavorite from the request body
 			const { recipeId, isFavorite } = req.body;
 
 			// Update the isFavorite field for the specified recipe
@@ -159,6 +163,8 @@ export default async function handler(req, res) {
 
 			// Respond with a success message
 			res.status(200).json({
+				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
+					} favorite`,
 				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
 					} favorite`,
 			});

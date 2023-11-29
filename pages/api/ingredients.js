@@ -12,6 +12,7 @@ import connectToDatabase from "@/database/database";
 
 export default async function getIngredients(req, res) {
   // Check if the HTTP method is GET
+  // Check if the HTTP method is GET
   if (req.method === "GET") {
     try {
       // Connect to the MongoDB database
@@ -27,6 +28,7 @@ export default async function getIngredients(req, res) {
         }, {
           '$group': {
             '_id': null,
+            '_id': null,
             'ingredientsArray': {
               '$push': '$newIngredients'
             }
@@ -34,10 +36,12 @@ export default async function getIngredients(req, res) {
         }, {
           '$unwind': {
             'path': '$ingredientsArray',
+            'path': '$ingredientsArray',
             'preserveNullAndEmptyArrays': false
           }
         }, {
           '$project': {
+            '_id': null,
             '_id': null,
             'ingredientsData': {
               '$objectToArray': '$ingredientsArray'
@@ -49,6 +53,7 @@ export default async function getIngredients(req, res) {
           }
         }, {
           '$group': {
+            '_id': null,
             '_id': null,
             'ingredientsArray': {
               '$addToSet': '$ingredientsData.k'

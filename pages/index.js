@@ -72,6 +72,7 @@ function Home(props) {
 					content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
 				/>
 			</Head>
+			{loading && <Animation/> }
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
@@ -96,8 +97,16 @@ function Home(props) {
 	);
 }
 
+/**
+ * getStaticProps function for Next.js to fetch and pre-render data for the Home component.
+ *
+ * @async
+ * @function
+ * @returns {Object} - The props to be passed to the Home component.
+ */
 export async function getStaticProps() {
 	try {
+		// Fetching recipes and count using the getRecipes API
 		const { recipes, count } = await getRecipes(48);
 		return {
 			props: {

@@ -24,6 +24,8 @@ export default async function handler(req, res) {
       const documents = await collection.find({}).limit(limit).toArray();
 
       // Get the total count of recipes in the collection
+
+      // Get the total count of recipes in the collection
       const number = await collection.countDocuments();
 
       // Respond with the fetched recipes and the total count
@@ -58,6 +60,7 @@ export default async function handler(req, res) {
       console.error("Error updating favorite status:", error);
       res.status(500).json({ message: "Failed to update favorite status" });
     }
+    // Handling other HTTP methods
   } else {
     // Return a 405 Method Not Allowed status if the method is not GET or POST
     res.status(405).json({ message: "Method not allowed" });

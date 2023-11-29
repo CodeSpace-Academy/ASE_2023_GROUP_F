@@ -16,13 +16,17 @@ export default async function handler(req, res) {
   // Check if the HTTP method is PATCH
   if (req.method === "PATCH") {
     // Extract recipeId and updatedData from the request
+    // Extract recipeId and updatedData from the request
     const recipeId = req.query.recipeId;
     const updatedData = req.body;
+
 
     try {
       // Connect to the MongoDB database
       const database = await connectToDatabase()
       const collection = database.collection("recipes");
+
+      // Update the recipe in the database
 
       // Update the recipe in the database
       const result = await collection.updateOne(

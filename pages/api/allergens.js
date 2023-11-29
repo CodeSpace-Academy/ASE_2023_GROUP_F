@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       // Respond with the fetched allergens
       res.status(200).json({ allergens: documents });
     } catch (error) {
+      // Log and respond with an error message if there is an error fetching the data
       console.error("Error fetching data:", error);
       res.status(500).json({ message: "Data fetching failed" });
     }
