@@ -1,4 +1,4 @@
-import connectToDatabase from "../../database/database";
+import connectToDatabase from '../../database/database';
 
 /**
  * Recipes API Handler
@@ -13,40 +13,39 @@ import connectToDatabase from "../../database/database";
  */
 
 export default async function handler(req, res) {
-
-	// Parse query parameters
-	const filter = JSON.parse(req.query.filter);
-	const sort = JSON.parse(req.query.sort);
-	const limit = parseInt(req.query.limit) || 200;
+  // Parse query parameters
+  const filter = JSON.parse(req.query.filter);
+  const sort = JSON.parse(req.query.sort);
+  const limit = parseInt(req.query.limit, 10) || 200;
 
   if (req.method === 'GET') {
     try {
       const database = await connectToDatabase();
       const collection = database.collection('recipes');
 
-			// Define aggregation pipeline stages
-			const agg = [];
-			const queryFilter = {};
+      // Define aggregation pipeline stages
+      const agg = [];
+      const queryFilter = {};
 
-			// Build query filter based on provided filter parameters
-			if (filter.category) {
-				queryFilter.category = {
-					$regex: new RegExp(filter.category, "i"),
-				};
-			}
+      // Build query filter based on provided filter parameters
+      if (filter.category) {
+        queryFilter.category = {
+          $regex: new RegExp(filter.category, 'i'),
+        };
+      }
 
-			// Handle array or string for tags filter
-			if (filter.tags && Array.isArray(filter.tags)) {
-				if(filter.tags.length > 0) {
-					queryFilter.tags = {
-						$in: filter.tags.map((tag) => new RegExp(tag, "i")),
-					};
-				}
-			} else if (filter.tags) {
-				queryFilter.tags = {
-					$regex: new RegExp(filter.tags, "i"),
-				};
-			}
+      // Handle array or string for tags filter
+      if (filter.tags && Array.isArray(filter.tags)) {
+        if (filter.tags.length > 0) {
+          queryFilter.tags = {
+            $in: filter.tags.map((tag) => new RegExp(tag, 'i')),
+          };
+        }
+      } else if (filter.tags) {
+        queryFilter.tags = {
+          $regex: new RegExp(filter.tags, 'i'),
+        };
+      }
 
       if (filter.title) {
         queryFilter.title = {
@@ -58,28 +57,27 @@ export default async function handler(req, res) {
         queryFilter[`ingredients.${filter.ingredients}`] = { $exists: true };
       }
 
-			if (filter.instructions) {
-				const instructionsCount = parseInt(filter.instructions);
-			  
-				if (!isNaN(instructionsCount)) {
-				 agg.push({
-					$match: {
-					  $expr: {
-						$eq: [{ $size: "$instructions" }, instructionsCount]
-					  }
-					}
-				  });
-				}
-			  }
-			  
+      if (filter.instructions) {
+        const instructionsCount = parseInt(filter.instructions, 10);
 
-			let querySort = {};
+        if (!isNaN(instructionsCount)) {
+          agg.push({
+            $match: {
+              $expr: {
+                $eq: [{ $size: '$instructions' }, instructionsCount],
+              },
+            },
+          });
+        }
+      }
 
-			if (sort === "prep ASC") {
-				querySort.prep = 1;
-			} else if (sort === "prep DESC") {
-				querySort.prep = -1;
-			}
+      const querySort = {};
+
+      if (sort === 'prep ASC') {
+        querySort.prep = 1;
+      } else if (sort === 'prep DESC') {
+        querySort.prep = -1;
+      }
 
       if (sort === 'cook ASC') {
         querySort.cook = 1;
@@ -102,73 +100,67 @@ export default async function handler(req, res) {
       if (sort === 'instructions ASC' || sort === 'instructions DESC') {
         const sortOrder = sort === 'instructions ASC' ? 1 : -1;
 
-				agg.push(
-					{
-						$addFields: {
-							instructionsLength: { $size: "$instructions" },
-						},
-					},
-					{
-						$sort: {
-							instructionsLength: sortOrder,
-						},
-					},
-					{
-						$project: {
-							instructionsLength: 0,
-						},
-					},
-				);
-			} else {
+        agg.push(
+          {
+            $addFields: {
+              instructionsLength: { $size: '$instructions' },
+            },
+          },
+          {
+            $sort: {
+              instructionsLength: sortOrder,
+            },
+          },
+          {
+            $project: {
+              instructionsLength: 0,
+            },
+          },
+        );
+      }
+      // Add aggregation stages based on sort criteria
+      if (JSON.stringify(querySort) !== '{}') {
+        agg.push({ $sort: querySort });
+      }
 
-				// Add aggregation stages based on sort criteria
-				if (JSON.stringify(querySort) !== "{}") {
-					agg.push({ $sort: querySort });
-				}
-			} 
+      // Add aggregation stage for filter criteria
+      if (JSON.stringify(queryFilter) !== '{}') {
+        agg.push({ $match: { ...queryFilter } });
+      }
 
-			// Add aggregation stage for filter criteria
-			if (JSON.stringify(queryFilter) !== "{}") {
-				agg.push({ $match: { ...queryFilter } });
-			}
+      // Add aggregation stage for limiting results
+      agg.push({ $limit: limit });
 
-			// Add aggregation stage for limiting results
-			agg.push({ $limit: limit });
-
-			// Execute aggregation and fetch documents
-			const documents = await collection.aggregate(agg).toArray();
+      // Execute aggregation and fetch documents
+      const documents = await collection.aggregate(agg).toArray();
 
       const number = await collection.countDocuments(queryFilter);
 
-			// Respond with the fetched recipes and their count
-			res.status(200).json({ recipes: documents, count: number });
-		} catch (error) {
-			console.error("Error fetching data:", error);
-			res.status(500).json({ message: "Data fetching failed" });
-		}
-	} else if (req.method === "POST") {
-		try {
-			const database = await connectToDatabase();
-			const collection = database.collection("recipes");
+      // Respond with the fetched recipes and their count
+      res.status(200).json({ recipes: documents, count: number });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).json({ message: 'Data fetching failed' });
+    }
+  } else if (req.method === 'POST') {
+    try {
+      const database = await connectToDatabase();
+      const collection = database.collection('recipes');
 
-			// Extract recipeId and isFavorite from the request body
-			const { recipeId, isFavorite } = req.body;
+      // Extract recipeId and isFavorite from the request body
+      const { recipeId, isFavorite } = req.body;
 
-			// Update the isFavorite status in the database
-			await collection.updateOne(
-				{ _id: recipeId },
-				{ $set: { isFavorite: isFavorite } },
-			);
+      // Update the isFavorite status in the database
+      await collection.updateOne({ _id: recipeId }, { $set: { isFavorite } });
 
-			res.status(200).json({
-				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
-					} favorite`,
-			});
-		} catch (error) {
-			console.error("Error updating favorite status:", error);
-			res.status(500).json({ message: "Failed to update favorite status" });
-		}
-	} else {
-		res.status(405).json({ message: "Method not allowed" });
-	}
+      res.status(200).json({
+        message: `Recipe ${isFavorite ? 'marked as' : 'unmarked from'} favorite`,
+      });
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+      res.status(500).json({ message: 'Failed to update favorite status' });
+    }
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
+  }
 }

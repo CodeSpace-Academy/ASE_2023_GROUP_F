@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToggleButton, Card, Button } from '@mui/material'
+import { Card, Button } from '@mui/material';
 
 /**
  * Ingredients Component
@@ -13,31 +13,31 @@ import { ToggleButton, Card, Button } from '@mui/material'
  * @param {Object} props.ingredients - An object representing the ingredients, where keys are ingredient names and values are quantities.
  * @returns {JSX.Element} - The rendered Ingredients component.
  *
- **/
+ * */
 
 function Ingredients(props) {
-  const { ingredients } = props
-  let ingredient = Object.entries(ingredients)
+  const { ingredients } = props;
+  const ingredient = Object.entries(ingredients);
 
   return (
     <div>
       <div className="mx-10 rounded-xl">
-        {ingredient.map((item, index) => (
-          <Card key={index} className="p-2 bg-gray-200 text-lg">
-              {item[0]}: {item[1]}
+        {ingredient.map((item) => (
+          <Card key={item[0]} className="p-2 bg-gray-200 text-lg">
+            {item[0]}: {item[1]}
           </Card>
         ))}
         <div className="text-center">
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
           <Button value="add_to_cart" variant="outlined">
             Add to cart
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Ingredients
+export default Ingredients;

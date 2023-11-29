@@ -18,7 +18,7 @@ import connectToDatabase from '../../database/database';
  * @property {Function} setSearchTerm - Function to set the search term.
  */
 
-export async function getRecipes(limit = 48) {
+export default async function getRecipes(limit = 48) {
   try {
     const database = await connectToDatabase();
     const collection = database.collection('recipes');

@@ -1,13 +1,12 @@
 import { useEffect, useContext, useState } from "react";
 import Head from "next/head";
 import RecipeList from "../components/recipe-collection/RecipeList";
-import { getRecipes } from "./api/pre-render";
-import SearchBar from "@/components/search-functionality/search-bar";
-import { getViewRecipes } from "@/lib/view-recipes";
-import { filterContext } from "@/components/search-functionality/filterContext";
+import  getRecipes  from "./api/pre-render";
+import SearchBar from "../components/search-functionality/search-bar";
+import { getViewRecipes } from "../lib/view-recipes";
+import { filterContext } from "../components/search-functionality/filterContext";
 import HandleError from "../components/error/Error";
-import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
-import CardSkeleton from "@/components/skeletonCard/skeleton";
+import Animation from "../components/skeletonCard/loadingAnimation/LoadingAnimation";
 
 /**
  *
@@ -31,6 +30,13 @@ function Home(props) {
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
 
+	
+
+	const handleApplyFilters = async (filters) => {
+		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
+		setFilteredRecipes(filtering?.recipes);
+		setRemainingRecipes(filtering?.totalRecipes);
+	};
 	// useEffect hook to handle filter changes and update the displayed recipes accordingly.
 	useEffect(() => {
 		const runLoad = async () => {
@@ -47,12 +53,6 @@ function Home(props) {
 		};
 		runLoad();
 	}, []);
-
-	const handleApplyFilters = async (filters) => {
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
-		setFilteredRecipes(filtering?.recipes);
-		setRemainingRecipes(filtering?.totalRecipes);
-	};
 
 	return (
 		<div>

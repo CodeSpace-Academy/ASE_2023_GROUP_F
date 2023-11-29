@@ -1,4 +1,4 @@
-import connectToDatabase from "@/database/database";
+import connectToDatabase from "../../database/database";
 
 /**
  * Get Unique Ingredients API Handler

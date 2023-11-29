@@ -1,9 +1,9 @@
 import React, { useState , useContext } from "react";
+import Highlighter from "react-highlight-words";
 import RecipeCard from "../card/RecipeCard";
 import CardSkeleton from "../skeletonCard/skeleton";
 import Button from "../UI/Button";
-import { getViewRecipes } from "@/lib/view-recipes";
-import Highlighter from "react-highlight-words";
+import { getViewRecipes } from "../../lib/view-recipes";
 import { filterContext } from "../search-functionality/filterContext";
 
 /**
@@ -22,7 +22,7 @@ import { filterContext } from "../search-functionality/filterContext";
 const PAGE_SIZE = 48;
 const INITIAL_LOAD_SIZE = 48;
 
-const RecipeList = (props) => {
+function RecipeList(props) {
   
 	const {
 		visibleRecipes,
@@ -74,7 +74,7 @@ const RecipeList = (props) => {
 							<Highlighter
 								highlightClassName="YourHighlightClass"
 								searchWords={[searchTerm]}
-								autoEscape={true}
+								autoEscape
 								textToHighlight={recipe.title}
 							/>
 						}
@@ -104,6 +104,6 @@ const RecipeList = (props) => {
 			</div>
 		</>
 	);
-};
+}
 
 export default RecipeList;

@@ -1,8 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
 
 /**
  * Filter Context
- * 
+ *
  * @typedef {Object} FilterContext
  * @property {Object} filters - The filters applied to recipes.
  * @property {Function} setFilters - Function to set the filters.
@@ -20,38 +20,34 @@ import { createContext, useState } from "react";
 
 export const filterContext = createContext();
 
-export const FilterProvider = ({ children }) => {
-	const [filters, setFilters] = useState({});
-	const [filteredRecipes, setFilteredRecipes] = useState([]);
-	const [sortOption, setSortOption] = useState("");
-	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
-	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedFilters, setSelectedFilters] = useState({
-		category: null,
-		tags: [],
-		ingredients: null,
-		instructions: null,
-	});
+export function FilterProvider({ children }) {
+  const [filters, setFilters] = useState({});
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [sortOption, setSortOption] = useState('');
+  const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState({
+    category: null,
+    tags: [],
+    ingredients: null,
+    instructions: null,
+  });
 
-	// Context value to be provided to consumers
-	const contextValue = {
-		filters,
-		setFilters,
-		filteredRecipes,
-		setFilteredRecipes,
-		sortOption,
-		setSortOption,
-		selectedFilters,
-		setSelectedFilters,
-		noFiltersApplied,
-		setNoFiltersApplied,
-		searchTerm, 
-		setSearchTerm
-	};
+  // Context value to be provided to consumers
+  const contextValue = {
+    filters,
+    setFilters,
+    filteredRecipes,
+    setFilteredRecipes,
+    sortOption,
+    setSortOption,
+    selectedFilters,
+    setSelectedFilters,
+    noFiltersApplied,
+    setNoFiltersApplied,
+    searchTerm,
+    setSearchTerm,
+  };
 
-	return (
-		<filterContext.Provider value={contextValue}>
-			{children}
-		</filterContext.Provider>
-	);
-};
+  return <filterContext.Provider value={contextValue}>{children}</filterContext.Provider>;
+}

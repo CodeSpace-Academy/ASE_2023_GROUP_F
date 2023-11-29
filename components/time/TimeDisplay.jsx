@@ -4,6 +4,19 @@ import PrepIcon from "../icons/PrepIcon";
 import ServingIcon from "../icons/ServingIcon";
 import TimeIcon from "../icons/TimeIcon";
 
+/**
+ * TimeDisplay component displays the preparation time, cooking time,
+ * total time (prep + cook), and serving information for a recipe.
+ *
+ * @component
+ * @param {number} minutes - The time in minutes to be formatted.
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.recipe - The recipe object containing preparation (prep),
+ * cooking (cook), and servings information.
+ * 
+ * @returns {JSX.Element|null} Returns the rendered TimeDisplay component or null if no recipe is provided.
+ */
+
 function TimeDisplay({ recipe }) {
   function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);

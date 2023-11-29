@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   console.log("update recipe api");
   if (req.method === "PATCH") {
     // Extract recipeId and updatedData from the request
-    const recipeId = req.query.recipeId;
+    const {recipeId} = req.query;
     const updatedData = req.body;
 
     try {

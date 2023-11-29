@@ -1,6 +1,6 @@
-import Layout from "@/components/layout/layout";
+import Layout from "../components/layout/layout";
 import "../styles/globals.css";
-import { FilterProvider } from "@/components/search-functionality/filterContext";
+import { FilterProvider } from "../components/search-functionality/filterContext";
 
 /**
  * Custom Next.js App component.
@@ -14,12 +14,10 @@ import { FilterProvider } from "@/components/search-functionality/filterContext"
  */
 export default function App({ Component, pageProps }) {
 	return (
-		<>
-			<FilterProvider>
+		<FilterProvider>
 				<Layout>
 					<Component {...pageProps} />
 				</Layout>
 			</FilterProvider>
-		</>
 	);
 }

@@ -1,4 +1,13 @@
-import React from 'react';
+/**
+ * Button component represents a button used to trigger an action, such as loading more recipes.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Function} props.onClick - The function to be called when the button is clicked.
+ * @param {number} props.remainingRecipes - The number of remaining recipes to be loaded or displayed.
+ * 
+ * @returns {JSX.Element} Returns the rendered Button component.
+ */
 
 function Button(props) {
   const { onClick, remainingRecipes } = props;

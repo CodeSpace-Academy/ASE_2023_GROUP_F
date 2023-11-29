@@ -7,7 +7,7 @@
  * @returns {JSX.Element} HandleError component
  */
 
-const HandleError = (props) =>{
+function HandleError(props) {
 
   const {children} = props
 

@@ -14,7 +14,7 @@ import { filterContext } from "./filterContext";
  * @returns {JSX.Element} SearchBar component
  */
 
-const SearchBar = (props) => {
+function SearchBar(props) {
 	const { applyFilters } = props;
 
 	  // Context variables
@@ -32,7 +32,7 @@ const SearchBar = (props) => {
 	} = useContext(filterContext);
 
 	const [open, setOpen] = useState(false);
-	const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
+	const [ setUpdateAppliedfilter] = useState({
 		category: null,
 		tags: [],
 		ingredients: null,
@@ -80,13 +80,11 @@ const SearchBar = (props) => {
 				if (updatedFilters[filterType]?.length === 0) {
 					updatedFilters[filterType] = [];
 				}
-			} else {
-				if (filterType === "category" || filterType === "ingredients") {
+			} else if (filterType === "category" || filterType === "ingredients") {
 					updatedFilters[filterType] = null;
 				} else if (filterType === "instructions") {
 					updatedFilters[filterType] = null;
 				}
-			}
 
 			setUpdateAppliedfilter(updatedFilters);
 			applyFilters(updatedFilters);
@@ -102,13 +100,11 @@ const SearchBar = (props) => {
 					if (updatedSelectedFilters[filterType]?.length === 0) {
 						updatedSelectedFilters[filterType] = {};
 					}
-				} else {
-					if (filterType === "category" || filterType === "ingredients") {
+				} else if (filterType === "category" || filterType === "ingredients") {
 						updatedSelectedFilters[filterType] = null;
 					} else if (filterType === "instructions") {
 						updatedSelectedFilters[filterType] = null;
 					}
-				}
 
 				return updatedSelectedFilters;
 			});
@@ -156,7 +152,7 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm, filters, sortOption]);
+	}, [searchTerm, filters, sortOption, applyFilters]);
 
 	return (
 		<div>
@@ -316,9 +312,9 @@ const SearchBar = (props) => {
 						>
 							<strong>{filterName}:</strong>
 							<div style={{ display: "flex", flexWrap: "wrap" }}>
-								{filterValues?.map((value, index) => (
+								{filterValues?.map((value) => (
 									<Chip
-										key={index}
+										key={value}
 										label={value}
 										onDelete={() => handleDelete(filterName, value)}
 									/>
@@ -388,6 +384,6 @@ const SearchBar = (props) => {
 			)}
 		</div>
 	);
-};
+}
 
 export default SearchBar;

@@ -12,7 +12,7 @@ import HandleError from "../error/Error";
  * @param {boolean} props.networkError - Indicates whether a network error has occurred.
  * 
  * @returns {JSX.Element} The rendered RecipeTags component.
- **/
+ * */
 
 function RecipeTags(props) {
   const { tags, networkError } = props;

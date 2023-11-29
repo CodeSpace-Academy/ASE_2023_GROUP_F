@@ -9,7 +9,7 @@ import { Skeleton } from '@mui/material';
  */
 
 
-const CardSkeleton = () => {
+function CardSkeleton() {
   return (
     <div style={{ width: '100%', height: '500px', display: 'flex', flexWrap: 'wrap' }}>
       {Array.from({ length: 20 }, (_, index) => (
@@ -21,6 +21,6 @@ const CardSkeleton = () => {
       ))}
     </div>
   );
-};
+}
 
 export default CardSkeleton;

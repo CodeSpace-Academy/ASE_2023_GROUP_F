@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
   "extends": ["airbnb", "airbnb/hooks", "eslint:recommended", "prettier"],
   "parserOptions": {
@@ -31,6 +32,7 @@
     "no-restricted-syntax": "off",
     "guard-for-in": "off",
     "react/jsx-no-bind": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }
