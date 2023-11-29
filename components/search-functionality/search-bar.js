@@ -295,14 +295,13 @@ const SearchBar = (props) => {
           clearAllFilters={handleResetFilters}
         />
       )}
-      <div>
-        <h2 className="font-bold">Applied Filters:</h2>
+      <div style={{display: 'flex'}}>
         {selectedFilters.category !== null &&
           selectedFilters.category !== '' && (
             <div
               style={{
-                display: 'inline-block',
-                marginRight: '1rem',
+                display: 'flex',
+                marginRight: '10px',
                 maxWidth: 500,
               }}
             >
@@ -324,8 +323,8 @@ const SearchBar = (props) => {
             <div
               key={filterName}
               style={{
-                display: 'inline-block',
-                marginRight: '1rem',
+                display: 'flex',
+                marginRight: '10px',
                 maxWidth: 500,
               }}
             >
@@ -348,7 +347,7 @@ const SearchBar = (props) => {
             <div
               style={{
                 display: 'flex',
-                marginRight: '1rem',
+                marginRight: '10px',
                 maxWidth: 500,
               }}
             >
@@ -371,7 +370,7 @@ const SearchBar = (props) => {
             <div
               style={{
                 display: 'flex',
-                marginRight: '1rem',
+                marginRight: '10px',
                 maxWidth: 500,
               }}
             >
