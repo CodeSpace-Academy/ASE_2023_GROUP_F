@@ -4,8 +4,28 @@ import {debounce} from 'lodash'
 import Modal from './Modal'
 import {filterContext} from './filterContext'
 
+/**
+ * SearchBar Component
+ *
+ * @param {Object} props - Component properties
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * @param {Object} props.appliedFilters - Applied filters.
+ *
+ * @returns {JSX.Element} SearchBar component
+ */
+
+/**
+ * SearchBar Component
+ *
+ * @param {Object} props - Component properties
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * @param {Object} props.appliedFilters - Applied filters.
+ *
+ * @returns {JSX.Element} SearchBar component
+ */
+
 const SearchBar = (props) => {
-  const {applyFilters, appliedFilters} = props
+  const {applyFilters} = props
 
   const {
     filters,
@@ -37,7 +57,7 @@ const SearchBar = (props) => {
       if (
         filters[key] !== null &&
         filters[key] !== '' &&
-        filters[key].length > 0
+        filters[key]?.length > 0
       ) {
         nonEmptyFilters[key] = filters[key]
       }
@@ -66,8 +86,8 @@ const SearchBar = (props) => {
           (item) => item !== filterValue,
         )
 
-        if (updatedFilters[filterType].length === 0) {
-          updatedFilters[filterType] = ''
+        if (updatedFilters[filterType]?.length === 0) {
+          updatedFilters[filterType] = []
         }
       } else {
         if (filterType === 'category' || filterType === 'ingredients') {
@@ -136,8 +156,8 @@ const SearchBar = (props) => {
   }
 
   useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({...filters, title})
+    const debouncedApplyFilters = debounce(async (title) => {
+      await applyFilters({...filters, title})
     }, 500)
 
     debouncedApplyFilters(searchTerm)
@@ -234,7 +254,7 @@ const SearchBar = (props) => {
             name="sortOption"
             value={sortOption}
             onChange={handleSort}
-            className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
+            className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
             <option
               aria-label="None"
@@ -272,29 +292,22 @@ const SearchBar = (props) => {
         <Modal
           handleClose={handleClose}
           applyFilters={handleApplyFilters}
-          instructions={appliedFilters.instructions}
+          clearAllFilters={handleResetFilters}
         />
       )}
-      <div
-        style={{
-          display: 'flex',
-          paddingTop: '1rem',
-          marginRight: '1rem',
-        }}
-      >
+      <div>
+        <h2 className="font-bold">Applied Filters:</h2>
         {selectedFilters.category !== null &&
           selectedFilters.category !== '' && (
             <div
               style={{
-                display: 'flex',
+                display: 'inline-block',
                 marginRight: '1rem',
                 maxWidth: 500,
               }}
             >
               <strong>Category:</strong>
-              <div
-                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
-              >
+              <div style={{display: 'flex', flexWrap: 'wrap'}}>
                 <Chip
                   label={selectedFilters.category}
                   onDelete={() => {
@@ -311,15 +324,13 @@ const SearchBar = (props) => {
             <div
               key={filterName}
               style={{
-                display: 'flex',
+                display: 'inline-block',
                 marginRight: '1rem',
                 maxWidth: 500,
               }}
             >
               <strong>{filterName}:</strong>
-              <div
-                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
-              >
+              <div style={{display: 'flex', flexWrap: 'wrap'}}>
                 {filterValues?.map((value, index) => (
                   <Chip
                     key={index}

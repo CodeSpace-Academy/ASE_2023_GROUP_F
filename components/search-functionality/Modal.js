@@ -5,10 +5,25 @@ import { Autocomplete } from "@mui/material";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
 
+/**
+ * Modal Component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Function} props.handleClose - Function to close the modal.
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * 
+ * @returns {JSX.Element} Modal component
+ */
+
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setFilters, selectedFilters, setSelectedFilters } =
-		useContext(filterContext);
+	const {
+		filters,
+		setFilters,
+		setSelectedFilters,
+		setNoFiltersApplied,
+		noFiltersApplied,
+	} = useContext(filterContext);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
@@ -41,26 +56,29 @@ function Modal(props) {
 		data.tags = tagOptions;
 		data.category = categoryOption;
 		await applyFilters(data);
+		// setFilters(data);
 		handleClose();
 	};
 
-	const clearAllFilters = () => {
-		setFilters({
-			category: "",
-			tags: "",
-			instructions: "",
+	const clearAllFilters = async () => {
+		setSelectedFilters({
+			category: null,
+			tags: [],
 			ingredients: "",
+			instructions: "",
 		});
 
 		setIngredients("");
 		setInstructions("");
 
-		setSelectedFilters({
-			category: "",
-			tags: "",
-			instructions: "",
+		setFilters({
+			category: null,
+			tags: [],
 			ingredients: "",
+			instructions: "",
 		});
+
+		setNoFiltersApplied(true);
 	};
 
 	return (
@@ -110,13 +128,17 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={filters?.tags}
+							value={filters.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setTagOptions(newValue);
 								} else {
-									setTagOptions([]);
+									setTagOptions("");
 								}
+								setFilters((prevFilters) => ({
+									...prevFilters,
+									tags: newValue,
+								}));
 							}}
 							freeSolo
 							renderInput={(params) => (
@@ -140,22 +162,27 @@ function Modal(props) {
 						className={classes.formInput}
 						type="number"
 						name="instructions"
-						value={instructions}
+						value={instructions === null ? "" : instructions}
 						onChange={(e) => {
-							const newValue = Math.max(1, parseInt(e.target.value, 10) || 1);
+							const newValue =
+								e.target.value === ""
+									? ""
+									: Math.max(1, parseInt(e.target.value, 10) || 1);
 							setInstructions(newValue);
 						}}
 					/>
 
 					<br />
+
 					<button
-						className="flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900"
+						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${
+							noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
+						}`}
 						style={{
 							position: "absolute",
 							top: "385px",
 							left: "20px",
 							fontSize: "15px",
-							cursor: "pointer",
 							fontWeight: "600",
 						}}
 						size="small"

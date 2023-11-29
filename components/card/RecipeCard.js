@@ -6,13 +6,32 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Image from "next/image";
 
+/**
+ * RecipeCard Component
+ * 
+ * This component represents a card displaying information about a recipe. It includes
+ * the recipe title, images, and additional details such as time display. Users can
+ * toggle the recipe as a favorite and navigate through multiple images if available.
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.title - The title of the recipe.
+ * @param {Array} props.images - An array of URLs representing the images of the recipe.
+ * @param {Object} props.recipe - The recipe object containing details.
+ * @param {string} props.recipe._id - The unique identifier of the recipe.
+ * @param {boolean} props.recipe.isFavorite - The favorite status of the recipe.
+ * 
+ * @returns {JSX.Element} - A React functional component.
+ */
+
 const RecipeCard = (props) => {
   const { title, images, recipe , updateFavoriteRecipesCount } = props;
   const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
   const [isVisible, setIsVisible] = useState(true);
 
+  // State for current displayed image
   const [currentImage, setCurrentImage] = useState(0);
 
+  // Function to change displayed image
   const changeImage = (direction) => {
     const newIndex = (currentImage + direction + images.length) % images.length;
     setCurrentImage(newIndex);
@@ -73,6 +92,7 @@ const RecipeCard = (props) => {
     }
   };
 
+  // Check if the image navigation buttons should be visible
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
