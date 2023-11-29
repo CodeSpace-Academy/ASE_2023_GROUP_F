@@ -13,7 +13,6 @@ import connectToDatabase from "../../database/database";
  */
 
 export default async function handler(req, res) {
-
 	// Parse query parameters
 	const filter = JSON.parse(req.query.filter);
 	const sort = JSON.parse(req.query.sort);
@@ -37,7 +36,7 @@ export default async function handler(req, res) {
 
 			// Handle array or string for tags filter
 			if (filter.tags && Array.isArray(filter.tags)) {
-				if(filter.tags.length > 0) {
+				if (filter.tags.length > 0) {
 					queryFilter.tags = {
 						$in: filter.tags.map((tag) => new RegExp(tag, "i")),
 					};
@@ -60,18 +59,17 @@ export default async function handler(req, res) {
 
 			if (filter.instructions) {
 				const instructionsCount = parseInt(filter.instructions);
-			  
+
 				if (!isNaN(instructionsCount)) {
-				 agg.push({
-					$match: {
-					  $expr: {
-						$eq: [{ $size: "$instructions" }, instructionsCount]
-					  }
-					}
-				  });
+					agg.push({
+						$match: {
+							$expr: {
+								$eq: [{ $size: "$instructions" }, instructionsCount],
+							},
+						},
+					});
 				}
-			  }
-			  
+			}
 
 			let querySort = {};
 
@@ -120,12 +118,11 @@ export default async function handler(req, res) {
 					},
 				);
 			} else {
-
 				// Add aggregation stages based on sort criteria
 				if (JSON.stringify(querySort) !== "{}") {
 					agg.push({ $sort: querySort });
 				}
-			} 
+			}
 
 			// Add aggregation stage for filter criteria
 			if (JSON.stringify(queryFilter) !== "{}") {
@@ -161,8 +158,9 @@ export default async function handler(req, res) {
 			);
 
 			res.status(200).json({
-				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
-					} favorite`,
+				message: `Recipe ${
+					isFavorite ? "marked as" : "unmarked from"
+				} favorite`,
 			});
 		} catch (error) {
 			console.error("Error updating favorite status:", error);

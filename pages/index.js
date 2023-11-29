@@ -18,7 +18,7 @@ import CardSkeleton from "@/components/skeletonCard/skeleton";
  * @param {Array} props.visibleRecipes - An array of recipes to be displayed on the home page.
  * @param {number} props.count - The total count of recipes available.
  * @param {Object} filters - The filters to be applied.
- * 
+ *
  * @returns {JSX.Element} - The rendered Home component.
  */
 
@@ -26,7 +26,8 @@ const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const { filters, filteredRecipes, setFilteredRecipes, sortOption  } = useContext(filterContext);
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption } =
+		useContext(filterContext);
 
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
@@ -52,6 +53,7 @@ function Home(props) {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
+	
 	};
 
 	return (
@@ -63,13 +65,13 @@ function Home(props) {
 					content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
 				/>
 			</Head>
-			{loading && <Animation/> }
+			{loading && <Animation />}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
 				count={remainingRecipes}
 			/>
-			 {(!filteredRecipes )? (
+			{!filteredRecipes ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
