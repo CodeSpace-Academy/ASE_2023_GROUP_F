@@ -1,5 +1,5 @@
 import React from "react";
-import HandleError from "../error/Error";
+
 
 /**
  * RecipeAllergens Component

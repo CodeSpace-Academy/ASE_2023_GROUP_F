@@ -25,12 +25,8 @@ const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const { 
-		filters, 
-		filteredRecipes, 
-		setFilteredRecipes, 
-		sortOption
-	 } = useContext(filterContext);
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption } =
+		useContext(filterContext);
 
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
@@ -80,7 +76,7 @@ function Home(props) {
 				appliedFilters={filters}
 				count={remainingRecipes}
 			/>
-			{!filteredRecipes ? (
+			{(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
