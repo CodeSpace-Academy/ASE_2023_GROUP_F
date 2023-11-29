@@ -295,7 +295,7 @@ const SearchBar = (props) => {
           clearAllFilters={handleResetFilters}
         />
       )}
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', marginTop: '20px'}}>
         {selectedFilters.category !== null &&
           selectedFilters.category !== '' && (
             <div
@@ -306,7 +306,9 @@ const SearchBar = (props) => {
               }}
             >
               <strong>Category:</strong>
-              <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              <div
+                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
+              >
                 <Chip
                   label={selectedFilters.category}
                   onDelete={() => {
@@ -329,7 +331,9 @@ const SearchBar = (props) => {
               }}
             >
               <strong>{filterName}:</strong>
-              <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              <div
+                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
+              >
                 {filterValues?.map((value, index) => (
                   <Chip
                     key={index}
