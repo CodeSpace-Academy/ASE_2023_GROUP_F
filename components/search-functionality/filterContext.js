@@ -1,4 +1,4 @@
-import connectToDatabase from '../../database/database';
+import { createContext, useState } from "react";
 
 /**
  * Filter Context
@@ -18,17 +18,40 @@ import connectToDatabase from '../../database/database';
  * @property {Function} setSearchTerm - Function to set the search term.
  */
 
-export async function getRecipes(limit = 48) {
-  try {
-    const database = await connectToDatabase();
-    const collection = database.collection('recipes');
+export const filterContext = createContext();
 
-    const documents = await collection.find({}).limit(limit).toArray();
-    const number = await collection.countDocuments();
+export const FilterProvider = ({ children }) => {
+	const [filters, setFilters] = useState({});
+	const [filteredRecipes, setFilteredRecipes] = useState([]);
+	const [sortOption, setSortOption] = useState("");
+	const [noFiltersApplied, setNoFiltersApplied] = useState(true);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [selectedFilters, setSelectedFilters] = useState({
+		category: null,
+		tags: [],
+		ingredients: null,
+		instructions: null,
+	});
 
-    return { recipes: documents, count: number };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw new Error('Data fetching failed');
-  }
-}
+	// Context value to be provided to consumers
+	const contextValue = {
+		filters,
+		setFilters,
+		filteredRecipes,
+		setFilteredRecipes,
+		sortOption,
+		setSortOption,
+		selectedFilters,
+		setSelectedFilters,
+		noFiltersApplied,
+		setNoFiltersApplied,
+		searchTerm, 
+		setSearchTerm
+	};
+
+	return (
+		<filterContext.Provider value={contextValue}>
+			{children}
+		</filterContext.Provider>
+	);
+};

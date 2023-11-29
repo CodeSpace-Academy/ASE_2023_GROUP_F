@@ -1,15 +1,35 @@
-import connectToDatabase from '../../../database/database';
+import connectToDatabase from "../../../database/database";
+
+/**
+ * Update Recipe API Handler
+ *
+ * This API handler is responsible for updating a recipe in the database.
+ *
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @throws {Error} If there is an error updating the recipe.
+ * 
+ * @returns {void}
+ */
 
 export default async function handler(req, res) {
-  console.log('update recipe api');
-  if (req.method === 'PATCH') {
-    const { recipeId } = req.query;
+  console.log("update recipe api");
+  if (req.method === "PATCH") {
+    // Extract recipeId and updatedData from the request
+    const recipeId = req.query.recipeId;
     const updatedData = req.body;
 
     try {
-      const database = await connectToDatabase();
-      const collection = database.collection('recipes');
-      const result = await collection.updateOne({ _id: recipeId }, { $set: updatedData });
+      // Connect to the database
+      const database = await connectToDatabase()
+      const collection = database.collection("recipes");
+
+      // Update the recipe in the database
+      const result = await collection.updateOne(
+        { _id: recipeId },
+        { $set: updatedData }
+      );
 
       if (result.ok === 1) {
         res.status(200).json({ message: 'Recipe updated successfully' });
