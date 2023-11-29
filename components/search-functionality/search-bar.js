@@ -164,7 +164,7 @@ const SearchBar = (props) => {
 		return () => {
 			debouncedApplyFilters.cancel();
 		};
-	}, [searchTerm, filters, sortOption]);
+	}, [searchTerm, sortOption]);
 
 	return (
 		<div>
