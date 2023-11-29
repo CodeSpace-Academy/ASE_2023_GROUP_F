@@ -1,18 +1,32 @@
 import connectToDatabase from "../../database/database";
 
+/**
+ * API handler for fetching and updating recipes based on filters and sorting criteria.
+ *
+ * @async
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
+
 export default async function handler(req, res) {
+	// Parse filter, sort, and limit from the request query parameters
 	const filter = JSON.parse(req.query.filter);
 	const sort = JSON.parse(req.query.sort);
 	const limit = parseInt(req.query.limit) || 200;
 
+	// Check if the HTTP method is GET or POST
 	if (req.method === "GET") {
 		try {
+			// Connect to the MongoDB database
 			const database = await connectToDatabase();
 			const collection = database.collection("recipes");
 
+			// Initialize aggregation pipeline stages and query filters
 			const agg = [];
 			const queryFilter = {};
 
+			// Build query filters based on provided filter parameters
 			if (filter.category) {
 				queryFilter.category = {
 					$regex: new RegExp(filter.category, "i"),
@@ -20,7 +34,7 @@ export default async function handler(req, res) {
 			}
 
 			if (filter.tags && Array.isArray(filter.tags)) {
-				if(filter.tags.length > 0) {
+				if (filter.tags.length > 0) {
 					queryFilter.tags = {
 						$in: filter.tags.map((tag) => new RegExp(tag, "i")),
 					};
@@ -43,19 +57,19 @@ export default async function handler(req, res) {
 
 			if (filter.instructions) {
 				const instructionsCount = parseInt(filter.instructions);
-			  
-				if (!isNaN(instructionsCount)) {
-				 agg.push({
-					$match: {
-					  $expr: {
-						$eq: [{ $size: "$instructions" }, instructionsCount]
-					  }
-					}
-				  });
-				}
-			  }
-			  
 
+				if (!isNaN(instructionsCount)) {
+					agg.push({
+						$match: {
+							$expr: {
+								$eq: [{ $size: "$instructions" }, instructionsCount]
+							}
+						}
+					});
+				}
+			}
+
+			// Build query sort based on provided sort parameter
 			let querySort = {};
 
 			if (sort === "prep ASC") {
@@ -82,6 +96,7 @@ export default async function handler(req, res) {
 				querySort.instructions = -1;
 			}
 
+			// Handle special case for sorting by instructions length
 			if (sort === "instructions ASC" || sort === "instructions DESC") {
 				const sortOrder = sort === "instructions ASC" ? 1 : -1;
 
@@ -103,10 +118,11 @@ export default async function handler(req, res) {
 					},
 				);
 			} else {
+				// Add regular sorting stage to the aggregation pipeline
 				if (JSON.stringify(querySort) !== "{}") {
 					agg.push({ $sort: querySort });
 				}
-			} 
+			}
 
 			if (JSON.stringify(queryFilter) !== "{}") {
 				agg.push({ $match: { ...queryFilter } });
@@ -114,32 +130,40 @@ export default async function handler(req, res) {
 
 			agg.push({ $limit: limit });
 
+			// Execute aggregation pipeline and fetch documents
 			const documents = await collection.aggregate(agg).toArray();
 
+			// Get the total count of recipes matching the query filters
 			const number = await collection.countDocuments(queryFilter);
 
+			// Respond with the fetched recipes and the count
 			res.status(200).json({ recipes: documents, count: number });
 		} catch (error) {
 			console.error("Error fetching data:", error);
 			res.status(500).json({ message: "Data fetching failed" });
 		}
 	} else if (req.method === "POST") {
+		// Handle recipe update (marking/unmarking as favorite)
 		try {
 			const database = await connectToDatabase();
 			const collection = database.collection("recipes");
 
+			// Extract recipeId and isFavorite from the request body
 			const { recipeId, isFavorite } = req.body;
+
+			// Update the isFavorite field for the specified recipe
 			await collection.updateOne(
 				{ _id: recipeId },
 				{ $set: { isFavorite: isFavorite } },
 			);
 
+			// Respond with a success message
 			res.status(200).json({
-				message: `Recipe ${
-					isFavorite ? "marked as" : "unmarked from"
-				} favorite`,
+				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
+					} favorite`,
 			});
 		} catch (error) {
+			// Log and handle errors during the favorite status update process
 			console.error("Error updating favorite status:", error);
 			res.status(500).json({ message: "Failed to update favorite status" });
 		}
