@@ -2,9 +2,24 @@ import React from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import HandleError from '../error/Error'
 
+/**
+ * RecipeTags Component
+ * 
+ * A React component for displaying a list of recipe tags.
+ * 
+ * @component
+ * @param {Object} props - The component's properties.
+ * @param {string[]} props.tags - An array of tags to be displayed.
+ * @param {boolean} props.networkError - Indicates whether a network error has occurred.
+ * 
+ * @returns {JSX.Element} The rendered RecipeTags component.
+ * 
+ */
+
 function RecipeTags(props) {
   const { tags, networkError } = props
 
+  // Render error message if a network error occurs
   if (networkError) {
     return (
       <div>
@@ -13,6 +28,7 @@ function RecipeTags(props) {
     )
   }
 
+  // Render message if no tags are found
   if (!tags) {
     return (
       <div>
@@ -21,6 +37,7 @@ function RecipeTags(props) {
     )
   }
 
+  // Render the list of tags
   return (
     <div>
       <ul className="list-none p-0 animate-slideRight">

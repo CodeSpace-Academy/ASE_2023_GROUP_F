@@ -1,6 +1,15 @@
 import React from 'react';
 import { Skeleton } from '@mui/material';
 
+/**
+ * CardSkeleton Component
+ * 
+ * A React component that displays a skeleton loading state for a card layout.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered CardSkeleton component.
+ */
+
 const CardSkeleton = () => {
   return (
     <div style={{ width: '100%', height: '500px', display: 'flex', flexWrap: 'wrap' }}>

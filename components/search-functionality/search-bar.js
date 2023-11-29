@@ -4,6 +4,16 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
+
+/**
+ * SearchBar Component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * @param {Object} props.appliedFilters - Applied filters.
+ * @returns {JSX.Element} SearchBar component
+ */
+
 const SearchBar = (props) => {
 	const { applyFilters } = props;
 
@@ -28,9 +38,13 @@ const SearchBar = (props) => {
 		instructions: null,
 	});
 
+	// Open modal
 	const handleOpen = () => setOpen(true);
+
+	// Close modal
 	const handleClose = () => setOpen(false);
 
+	// Apply filters handler
 	const handleApplyFilters = async (filters) => {
 		const nonEmptyFilters = {};
 		for (const key in filters) {
@@ -57,6 +71,7 @@ const SearchBar = (props) => {
 		await applyFilters(filters);
 	};
 
+	// Delete filter handler
 	const handleDelete = async (filterType, filterValue) => {
 		setFilters((prevFilters) => {
 			const updatedFilters = { ...prevFilters };
@@ -117,12 +132,14 @@ const SearchBar = (props) => {
 		});
 	};
 
+	// Handle sort option change
 	const handleSort = async (event) => {
 		const newSortOption = event.target.value;
 		setSortOption(newSortOption);
 		await applyFilters(filters, newSortOption);
 	};
 
+	// Reset filters handler
 	const handleResetFilters = async () => {
 		setSelectedFilters({
 			category: null,
@@ -135,6 +152,7 @@ const SearchBar = (props) => {
 		setNoFiltersApplied(true);
 	};
 
+	// Debounced search term handler
 	useEffect(() => {
 		const debouncedApplyFilters = debounce(async (title) => {
 			await applyFilters({ ...filters, title });
@@ -293,8 +311,8 @@ const SearchBar = (props) => {
 					)}
 				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
 					filterName !== "instructions" &&
-					Array.isArray(filterValues) &&
-					filterValues?.length > 0 ? (
+						Array.isArray(filterValues) &&
+						filterValues?.length > 0 ? (
 						<div
 							key={filterName}
 							style={{

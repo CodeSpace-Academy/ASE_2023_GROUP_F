@@ -5,6 +5,21 @@ import { Autocomplete } from "@mui/material";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
 
+/**
+ * Modal Component
+ *
+ * A React component that represents a modal for applying filters in a recipe view.
+ * It includes form inputs for selecting categories, tags, and specifying ingredients
+ * and the number of instructions. Users can apply and clear filters.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Function} props.handleClose - A function to close the modal.
+ * @param {Function} props.applyFilters - A function to apply the selected filters.
+ *
+ * @returns {JSX.Element} - The JSX representation of the Modal component.
+ **/
+
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
 	const {
@@ -21,6 +36,7 @@ function Modal(props) {
 	const [ingredients, setIngredients] = useState(filters.ingredients || "");
 	const [instructions, setInstructions] = useState(filters.instructions || "");
 
+	// Fetch tags (categories) from the API on component mount
 	useEffect(() => {
 		const fetchTags = async () => {
 			const result = await getCategories();
@@ -34,6 +50,7 @@ function Modal(props) {
 		fetchTags();
 	}, []);
 
+	  // Handle form submission
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const form = new FormData(event.target);
@@ -50,6 +67,7 @@ function Modal(props) {
 		handleClose();
 	};
 
+	 // Clear all filters and reset state
 	const clearAllFilters = async () => {
 		setSelectedFilters({
 			category: null,
@@ -165,9 +183,8 @@ function Modal(props) {
 					<br />
 
 					<button
-						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${
-							noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
-						}`}
+						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
+							}`}
 						style={{
 							position: "absolute",
 							top: "385px",

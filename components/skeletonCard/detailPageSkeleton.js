@@ -1,6 +1,13 @@
 import { Skeleton } from "@mui/material";
 import React from 'react';
 
+/**
+ * RecipeSkeleton Component
+ * 
+ * A component that represents a skeleton loader for a recipe card.
+ * @returns {JSX.Element} RecipeSkeleton component
+ */
+
 const RecipeSkeleton = () => {
     return (
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

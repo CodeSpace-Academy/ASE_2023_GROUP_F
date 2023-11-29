@@ -3,32 +3,43 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// MongoDB connection URI from environment variables
 const uri = process.env.URI;
 const dbName = "devdb";
 
+// Check if the required environment variable is present
 if (!uri) {
   console.error("env values are not present.");
   process.exit(1);
 }
 
+// Create a new MongoClient instance with specific configurations
 const client = new MongoClient(uri, {
   maxIdleTimeMS: 500,
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }});
-
-  async function connectToDatabase() {
-    try {
-      await client.connect();
-  
-      return client.db(dbName);
-    } catch (error) {
-      console.error("Failed To Connect to database", error);
-    }
-  
   }
-  
-  export default connectToDatabase;
+});
+
+/**
+ * Connects to the MongoDB database using the provided URI.
+ *
+ * @async
+ * @function
+ * @returns {Promise<MongoDB.Db>} A promise that resolves to the connected database instance.
+ */
+async function connectToDatabase() {
+  try {
+    await client.connect();
+
+    return client.db(dbName);
+  } catch (error) {
+    console.error("Failed To Connect to database", error);
+  }
+
+}
+
+export default connectToDatabase;
 

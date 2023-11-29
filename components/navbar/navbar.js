@@ -2,6 +2,13 @@ import Link from "next/link";
 import LogoIcon from "../icons/LogoIcon";
 import { useState } from "react";
 
+/**
+ * NavBar Component
+ *
+ * The NavBar component represents the navigation bar of the application. It includes
+ * a logo, navigation links, and a responsive mobile menu.
+ */
+
 function NavBar() {
   const [isClick, setIsClick] = useState(false);
 

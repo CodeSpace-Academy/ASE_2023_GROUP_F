@@ -1,4 +1,16 @@
 import classes from "./Animation.module.css";
+
+/**
+ * Animation Component
+ * 
+ * This component renders an animated illustration, including sparkles and a burrito.
+ * It uses an SVG (Scalable Vector Graphics) element to create the visual representation.
+ * The sparkles and burrito are part of the illustration.
+ * 
+ * @component
+ * @returns {JSX.Element} JSX for the Animation component.
+ */
+
 const Animation = () => {
   return (
     <div className={classes.backdrop}>
