@@ -71,7 +71,7 @@ To start the application, run: `npm run dev`
 
 ## Acknowledgments
 
-We would also like to express our gratitude to [CodeSpace Academy](https://www.google.com/search?gs_ssp=eJwFwTEOQEAQBdBoJQo30KjNJrNiHcEl5O_8oRKEAqf3Xll1axcCv_vUWSjF2MoTaBaZhqii6kyjPD3E86KJiEBGnmrb6dcB8wYG-vb-GkkW4w&q=codespace+academy&rlz=1C1GCEB_enZA1027ZA1027&oq=code&gs_lcrp=EgZjaHJvbWUqEggCEC4YJxivARjHARiABBiKBTIGCAAQRRg8Mg8IARBFGDkYgwEYsQMYgAQyEggCEC4YJxivARjHARiABBiKBTIQCAMQLhjHARixAxjRAxiABDIGCAQQRRg8MgYIBRBFGDwyBggGEEUYPDIGCAcQRRg80gEIMzY1OWowajeoAgCwAgA&sourceid=chrome&ie=UTF-8) for their unwavering support throughout the development of this project.
+We would also like to express our gratitude to [CodeSpace Academy](https://www.codespace.co.za) for their unwavering support throughout the development of this project.
 
 
 
