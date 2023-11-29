@@ -9,31 +9,54 @@ import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
 import CardSkeleton from "@/components/skeletonCard/skeleton";
 
+/**
+ * Home component is the main page of the recipe app.
+ *
+ * It displays a list of recipes, allows users to apply filters, and handles
+ * the fetching of initial data for static rendering.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.visibleRecipes - The initially visible list of recipes.
+ * @param {number} props.count - The total count of recipes available.
+ * @returns {JSX.Element} - The JSX markup for the Home component.
+ */
+
 const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const { filters, filteredRecipes, setFilteredRecipes, sortOption  } = useContext(filterContext);
 
+	// Access filtering context for search functionality
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption } = useContext(filterContext);
+
+	// State to manage remaining recipes and loading state
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
 
+	// useEffect to handle initial data fetching and filter application
 	useEffect(() => {
 		const runLoad = async () => {
 			try {
 				setLoading(true);
+
+
+				// Check if there are no filters and sorting options applied
+
 				if (JSON.stringify(filters) === "{}" && sortOption === "") {
 					setFilteredRecipes(visibleRecipes);
 				} else {
+					 // Apply filters and sorting options
 					await handleApplyFilters(filters, sortOption);
 				}
 			} finally {
 				setLoading(false);
 			}
 		};
+		 // Run the load function
 		runLoad();
 	}, []);
 
+	// @param {Object} filters - The filters to be applied.
 	const handleApplyFilters = async (filters) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
 		setFilteredRecipes(filtering?.recipes);
@@ -59,7 +82,7 @@ function Home(props) {
 					<CardSkeleton />
 					<Animation />
 				</>
-			) : (!filteredRecipes )? (
+			) : (!filteredRecipes) ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
