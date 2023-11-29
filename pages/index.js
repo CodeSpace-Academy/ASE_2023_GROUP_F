@@ -7,6 +7,7 @@ import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
 import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
+import ScrollArrowButtons from "../components/UI/ScrollArrowButtons";
 import CardSkeleton from "@/components/skeletonCard/skeleton";
 
 /**
@@ -53,7 +54,6 @@ function Home(props) {
 		setFilteredRecipes(filtering?.recipes);
 		setRemainingRecipes(filtering?.totalRecipes);
 	};
-
 	return (
 		<div>
 			<Head>
@@ -69,6 +69,7 @@ function Home(props) {
 				appliedFilters={filters}
 				count={remainingRecipes}
 			/>
+			<ScrollArrowButtons/>
 			 {(!filteredRecipes )? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (

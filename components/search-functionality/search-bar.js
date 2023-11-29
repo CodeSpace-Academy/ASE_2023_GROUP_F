@@ -159,7 +159,7 @@ const SearchBar = (props) => {
 	}, [searchTerm, filters, sortOption]);
 
 	return (
-		<div>
+		<div className="my-6">
 			<div className="container flex items-center justify-between">
 				<Button
 					variant="outlined"
