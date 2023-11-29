@@ -9,24 +9,29 @@ import HandleError from "../components/error/Error";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
 import CardSkeleton from "@/components/skeletonCard/skeleton";
 
+/**
+ *
+ * This file represents the home page of the recipe application. It includes a search bar,
+ * recipe list, and functionality for applying filters to the displayed recipes.
+ *
+ * @param {Object} props - The properties passed to the Home component.
+ * @param {Array} props.visibleRecipes - An array of recipes to be displayed on the home page.
+ * @param {number} props.count - The total count of recipes available.
+ * @param {Object} filters - The filters to be applied.
+ * 
+ * @returns {JSX.Element} - The rendered Home component.
+ */
+
 const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-	const {
-		filters,
-		setFilters,
-		filteredRecipes,
-		setFilteredRecipes,
-		sortOption,
-		setSortOption,
-		searchTerm,
-		setSearchTerm
-	} = useContext(filterContext);
-	
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption  } = useContext(filterContext);
+
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
 
+	// useEffect hook to handle filter changes and update the displayed recipes accordingly.
 	useEffect(() => {
 		const runLoad = async () => {
 			try {
@@ -41,7 +46,7 @@ function Home(props) {
 			}
 		};
 		runLoad();
-	}, [filters]);
+	}, []);
 
 	const handleApplyFilters = async (filters) => {
 		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
@@ -51,19 +56,20 @@ function Home(props) {
 
 	return (
 		<div>
+			<Head>
+				<title>Foodie's Delight</title>
+				<meta
+					name="description"
+					content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
+				/>
+			</Head>
+			{loading && <Animation/> }
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
 				count={remainingRecipes}
 			/>
-			{loading ? (
-				<>
-					<CardSkeleton />
-					<Animation />
-				</>
-			) : !filteredRecipes ? (
+			 {(!filteredRecipes )? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
@@ -71,23 +77,29 @@ function Home(props) {
 					count={remainingRecipes}
 					appliedFilters={filters}
 					setRecipes={setFilteredRecipes}
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
 				/>
 			)}
 		</div>
 	);
 }
 
+/**
+ * getStaticProps function for Next.js to fetch and pre-render data for the Home component.
+ *
+ * @async
+ * @function
+ * @returns {Object} - The props to be passed to the Home component.
+ */
 export async function getStaticProps() {
 	try {
+		// Fetching recipes and count using the getRecipes API
 		const { recipes, count } = await getRecipes(48);
 		return {
 			props: {
 				visibleRecipes: recipes,
 				count,
 			},
-			revalidate: 60,
+			revalidate: 600,
 		};
 	} catch (error) {
 		return {

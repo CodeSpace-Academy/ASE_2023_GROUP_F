@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import RecipeCard from "../card/RecipeCard";
 import CardSkeleton from "../skeletonCard/skeleton";
 import Button from "../UI/Button";
 import { getViewRecipes } from "@/lib/view-recipes";
 import Highlighter from "react-highlight-words";
+import { filterContext } from "../search-functionality/filterContext";
+
+/**
+ * RecipeList component
+ * 
+ * @param {Object} props - Component properties
+ * @param {Array} props.visibleRecipes - List of visible recipes to display.
+ * @param {number} props.count - Total count of recipes (including not visible).
+ * @param {Array} props.appliedFilters - Filters applied to the recipes.
+ * @param {Function} props.setRecipes - Function to set the list of recipes.
+ * @param {string} props.searchTerm - Search term used for highlighting.
+ * 
+ * @returns {JSX.Element} RecipeList component
+ */
 
 const PAGE_SIZE = 48;
 const INITIAL_LOAD_SIZE = 48;
@@ -15,14 +29,17 @@ const RecipeList = (props) => {
 		count,
 		appliedFilters,
 		setRecipes,
-		searchTerm,
+		updateFavoriteRecipesCount
 	} = props;
+
+	const {searchTerm} = useContext(filterContext)
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const totalPages = Math.ceil(count / PAGE_SIZE);
 	const remainingRecipes = count - visibleRecipes?.length;
 
+	// Load more recipes from the server and update the state.
 	const loadMoreRecipes = async () => {
 		setLoading(true);
 		try {
@@ -41,6 +58,8 @@ const RecipeList = (props) => {
 		}
 	};
 
+	
+  // Skeleton loading state
 	if (loading || !visibleRecipes) {
 		return <CardSkeleton />;
 	}
@@ -62,6 +81,7 @@ const RecipeList = (props) => {
 						images={recipe.images}
 						published={recipe.published}
 						recipe={recipe}
+						updateFavoriteRecipesCount={updateFavoriteRecipesCount}
 					/>
 				))}
 			</div>

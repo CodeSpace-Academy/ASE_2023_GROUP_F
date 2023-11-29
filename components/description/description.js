@@ -2,8 +2,27 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Card, Button, TextField } from '@mui/material'
 
+/**
+ * Description Component
+ *
+ * This component is responsible for displaying and editing the description of a recipe.
+ * It includes functionality for editing, saving, and canceling edits, along with updating
+ * the description on the server via a PATCH request to the '/api/updateRecipe/:recipeId' endpoint.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.recipeId - The unique identifier of the recipe.
+ * @param {string} props.description - The initial description of the recipe.
+ * @param {string} props.userName - The name of the user who submitted the recipe.
+ * 
+ * @returns {JSX.Element} - The rendered Description component.
+ *
+**/
+
 function Description(props) {
   const { recipeId, description, userName } = props
+
+   // State variables for managing edit state and edited description
   const [isEditing, setIsEditing] = useState(false)
   const [editedDescription, setEditedDescription] = useState(description)
   const [originalDescription, setOriginalDescription] = useState(description)
@@ -22,10 +41,13 @@ function Description(props) {
     }
     const formattedDate = currentDate.toLocaleDateString(undefined, options)
 
+    // Concatenate information about the edit to the description
     const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`
     setEditedDescription(updatedDescription)
     setIsEditing(false)
+
     try {
+      // Make a PATCH request to update the recipe description on the server
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
         method: 'PATCH',
         headers: {
