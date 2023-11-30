@@ -10,7 +10,7 @@ import connectToDatabase from "../../database/database";
  */
 
 export default async function handler(req, res) {
-	// Parse filter, sort, and limit from the request query parameters
+	// Parse query parameters
 	const filter = JSON.parse(req.query.filter);
 	const sort = JSON.parse(req.query.sort);
 	const limit = parseInt(req.query.limit) || 200;
@@ -60,17 +60,20 @@ export default async function handler(req, res) {
 				const instructionsCount = parseInt(filter.instructions);
 
 				if (!isNaN(instructionsCount)) {
+					queryFilter.instructions = {
+						$size: instructionsCount,
+					};
+
 					agg.push({
 						$match: {
 							$expr: {
-								$eq: [{ $size: "$instructions" }, instructionsCount]
-							}
-						}
+								$eq: [{ $size: "$instructions" }, instructionsCount],
+							},
+						},
 					});
 				}
 			}
 
-			// Build query sort based on provided sort parameter
 			let querySort = {};
 
 			if (sort === "prep ASC") {
@@ -119,7 +122,7 @@ export default async function handler(req, res) {
 					},
 				);
 			} else {
-				// Add regular sorting stage to the aggregation pipeline
+				// Add aggregation stages based on sort criteria
 				if (JSON.stringify(querySort) !== "{}") {
 					agg.push({ $sort: querySort });
 				}
@@ -163,10 +166,9 @@ export default async function handler(req, res) {
 
 			// Respond with a success message
 			res.status(200).json({
-				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
-					} favorite`,
-				message: `Recipe ${isFavorite ? "marked as" : "unmarked from"
-					} favorite`,
+				message: `Recipe ${
+					isFavorite ? "marked as" : "unmarked from"
+				} favorite`,
 			});
 		} catch (error) {
 			// Log and handle errors during the favorite status update process

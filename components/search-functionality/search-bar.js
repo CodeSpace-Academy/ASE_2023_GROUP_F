@@ -7,17 +7,18 @@ import { filterContext } from "./filterContext";
 
 /**
  * SearchBar Component
- * 
+ *
  * @param {Object} props - Component properties
  * @param {Function} props.applyFilters - Function to apply filters.
  * @param {Object} props.appliedFilters - Applied filters.
+ *
  * @returns {JSX.Element} SearchBar component
  */
 
 const SearchBar = (props) => {
 	const { applyFilters } = props;
 
-	  // Context variables
+	// Context variables
 	const {
 		filters,
 		setFilters,
@@ -47,6 +48,7 @@ const SearchBar = (props) => {
 
 	// Apply filters handler
 	const handleApplyFilters = async (filters) => {
+		handleClose();
 		const nonEmptyFilters = {};
 		for (const key in filters) {
 			if (
@@ -74,7 +76,7 @@ const SearchBar = (props) => {
 
 	// Delete filter handler
 	const handleDelete = async (filterType, filterValue) => {
-		setFilters((prevFilters) => {
+		setFilters(async (prevFilters) => {
 			const updatedFilters = { ...prevFilters };
 
 			if (Array.isArray(updatedFilters[filterType])) {
@@ -94,7 +96,7 @@ const SearchBar = (props) => {
 			}
 
 			setUpdateAppliedfilter(updatedFilters);
-			applyFilters(updatedFilters);
+			await applyFilters(updatedFilters);
 
 			setSelectedFilters((prevFilters) => {
 				const updatedSelectedFilters = { ...prevFilters };
@@ -167,7 +169,7 @@ const SearchBar = (props) => {
 	}, [searchTerm, sortOption]);
 
 	return (
-		<div>
+		<div className="my-6">
 			<div className="container flex items-center justify-between">
 				<Button
 					variant="outlined"
@@ -190,7 +192,7 @@ const SearchBar = (props) => {
 						/>
 					</svg>
 
-					<span className="hidden md:inline-block ml-2">Filters</span>
+					<span className="hidden ml-2 md:inline-block">Filters</span>
 				</Button>
 
 				<div className="relative flex items-center">
@@ -242,7 +244,7 @@ const SearchBar = (props) => {
 								d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
 							/>
 						</svg>
-						<span className="hidden md:inline-block">Sort By</span>
+						<span className="hidden font-bold md:inline-block">Sort By :</span>
 					</label>
 
 					<select
@@ -252,10 +254,11 @@ const SearchBar = (props) => {
 						onChange={handleSort}
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
 					>
+						<optgroup className="p-6 m-10"></optgroup>
 						<option
 							aria-label="None"
 							value=""
-							className="text-sm hidden md:block p-4 m-8"
+							className="hidden p-4 m-8 text-sm font-bold md:block"
 						>
 							Default
 						</option>
@@ -273,10 +276,9 @@ const SearchBar = (props) => {
 						</optgroup>
 						<optgroup label="Instructions">
 							<option value="instructions ASC">Instructions ASC</option>
-							<option value="instructions DESC" className="m-8">
-								Instructions DESC
-							</option>
+							<option value="instructions DESC">Instructions DESC</option>
 						</optgroup>
+						<optgroup></optgroup>
 					</select>
 				</div>
 			</div>

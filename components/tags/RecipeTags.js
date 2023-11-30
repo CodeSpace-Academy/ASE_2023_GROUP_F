@@ -1,5 +1,5 @@
 import React from 'react'
-import { ToggleButton, ToggleButtonGroup } from '@mui/material'
+import NetworkError from '../error/NetworkError';
 import HandleError from '../error/Error'
 
 /**
@@ -23,7 +23,7 @@ function RecipeTags(props) {
   if (networkError) {
     return (
       <div>
-        <HandleError errorType="tags" />
+        <NetworkError errorMessage={networkError} />
       </div>
     )
   }

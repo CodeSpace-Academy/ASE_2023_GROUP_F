@@ -40,7 +40,7 @@ function Modal(props) {
 	useEffect(() => {
 		const fetchTags = async () => {
 			const result = await getCategories();
-			const fetchedTags = result?.categories[0].categories;
+			const fetchedTags = await result?.categories[0].categories;
 			if (Array.isArray(fetchedTags)) {
 				setTags(fetchedTags);
 				setCategories(fetchedTags);
@@ -63,7 +63,6 @@ function Modal(props) {
 		data.tags = tagOptions;
 		data.category = categoryOption;
 		await applyFilters(data);
-		// setFilters(data);
 		handleClose();
 	};
 

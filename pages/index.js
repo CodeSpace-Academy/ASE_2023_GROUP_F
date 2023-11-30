@@ -6,8 +6,8 @@ import SearchBar from "@/components/search-functionality/search-bar";
 import { getViewRecipes } from "@/lib/view-recipes";
 import { filterContext } from "@/components/search-functionality/filterContext";
 import HandleError from "../components/error/Error";
+import ScrollArrowButtons from "../components/UI/ScrollArrowButtons";
 import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimation";
-import CardSkeleton from "@/components/skeletonCard/skeleton";
 
 /**
  * Home component is the main page of the recipe app.
@@ -18,30 +18,39 @@ import CardSkeleton from "@/components/skeletonCard/skeleton";
  * @param {Object} props - The properties passed to the component.
  * @param {Array} props.visibleRecipes - The initially visible list of recipes.
  * @param {number} props.count - The total count of recipes available.
- * @returns {JSX.Element} - The JSX markup for the Home component.
+ * @param {Object} filters - The filters to be applied.
+ *
+ * @returns {JSX.Element} - The rendered Home component.
  */
 
 const PAGE_SIZE = 48;
 
 function Home(props) {
 	const { visibleRecipes, count } = props;
-
-	// Access filtering context for search functionality
-	const { filters, filteredRecipes, setFilteredRecipes, sortOption } = useContext(filterContext);
+	const { filters, filteredRecipes, setFilteredRecipes, sortOption } =
+		useContext(filterContext);
 
 	// State to manage remaining recipes and loading state
 	const [remainingRecipes, setRemainingRecipes] = useState(count);
 	const [loading, setLoading] = useState(false);
 
-	// useEffect to handle initial data fetching and filter application
+	const handleApplyFilters = async (filters) => {
+		try {
+			setLoading(true);
+
+			const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
+
+			setFilteredRecipes(filtering?.recipes);
+			setRemainingRecipes(filtering?.totalRecipes);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// useEffect hook to handle filter changes and update the displayed recipes accordingly.
 	useEffect(() => {
 		const runLoad = async () => {
 			try {
-				setLoading(true);
-
-
-				// Check if there are no filters and sorting options applied
-
 				if (JSON.stringify(filters) === "{}" && sortOption === "") {
 					setFilteredRecipes(visibleRecipes);
 				} else {
@@ -56,13 +65,6 @@ function Home(props) {
 		runLoad();
 	}, []);
 
-	// @param {Object} filters - The filters to be applied.
-	const handleApplyFilters = async (filters) => {
-		const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
-		setFilteredRecipes(filtering?.recipes);
-		setRemainingRecipes(filtering?.totalRecipes);
-	};
-
 	return (
 		<div>
 			<Head>
@@ -72,18 +74,14 @@ function Home(props) {
 					content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
 				/>
 			</Head>
-			{loading && <Animation/> }
+			{loading && <Animation />}
 			<SearchBar
 				applyFilters={handleApplyFilters}
 				appliedFilters={filters}
 				count={remainingRecipes}
 			/>
-			{loading ? (
-				<>
-					<CardSkeleton />
-					<Animation />
-				</>
-			) : (!filteredRecipes) ? (
+			<ScrollArrowButtons/>
+			{(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
 				<RecipeList
