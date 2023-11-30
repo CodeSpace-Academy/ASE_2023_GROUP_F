@@ -150,6 +150,7 @@ const RecipeCard = (props) => {
             </div>
           </div>
         </div>
+        <div className="pb-11"></div>
       </div>
       </Link>
     </div>
