@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToggleButton, Card, Button } from '@mui/material'
+import { Card, Button } from '@mui/material'
 
 /**
  * Ingredients Component
