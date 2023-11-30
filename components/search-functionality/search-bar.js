@@ -143,7 +143,7 @@ const SearchBar = (props) => {
 			instructions: null,
 		});
 		await applyFilters({});
-		setFilters({});
+		setFilters({} , sortOption);
 		setNoFiltersApplied(true);
 	};
 
