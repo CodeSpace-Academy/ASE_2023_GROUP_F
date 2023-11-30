@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { Card, Button, TextField } from '@mui/material'
 
 /**
@@ -13,14 +12,13 @@ import { Card, Button, TextField } from '@mui/material'
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.recipeId - The unique identifier of the recipe.
  * @param {string} props.description - The initial description of the recipe.
- * @param {string} props.userName - The name of the user who submitted the recipe.
  * 
  * @returns {JSX.Element} - The rendered Description component.
  *
 **/
 
 function Description(props) {
-  const { recipeId, description, userName } = props
+  const { recipeId, description } = props
 
    // State variables for managing edit state and edited description
   const [isEditing, setIsEditing] = useState(false)
@@ -42,7 +40,7 @@ function Description(props) {
     const formattedDate = currentDate.toLocaleDateString(undefined, options)
 
     // Concatenate information about the edit to the description
-    const updatedDescription = `${editedDescription} (edited by ${userName} on ${formattedDate})`
+    const updatedDescription = `${editedDescription} (edited on ${formattedDate})`
     setEditedDescription(updatedDescription)
     setIsEditing(false)
 

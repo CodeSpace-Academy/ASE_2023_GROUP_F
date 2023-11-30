@@ -1,8 +1,8 @@
-import {useState, useEffect, useContext} from 'react'
-import {Chip, Button} from '@mui/material'
-import {debounce} from 'lodash'
-import Modal from './Modal'
-import {filterContext} from './filterContext'
+import { useState, useEffect, useContext } from "react";
+import { Chip, Button } from "@mui/material";
+import { debounce } from "lodash";
+import Modal from "./Modal";
+import { filterContext } from "./filterContext";
 
 /**
  * SearchBar Component
@@ -25,8 +25,9 @@ import {filterContext} from './filterContext'
  */
 
 const SearchBar = (props) => {
-  const {applyFilters} = props
+  const { applyFilters } = props;
 
+  // Context variables
   const {
     filters,
     setFilters,
@@ -38,110 +39,111 @@ const SearchBar = (props) => {
     setNoFiltersApplied,
     searchTerm,
     setSearchTerm,
-  } = useContext(filterContext)
+  } = useContext(filterContext);
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [updateAppliedFilter, setUpdateAppliedfilter] = useState({
     category: null,
     tags: [],
     ingredients: null,
     instructions: null,
-  })
+  });
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleApplyFilters = async (filters) => {
-    const nonEmptyFilters = {}
+    handleClose();
+    const nonEmptyFilters = {};
     for (const key in filters) {
       if (
         filters[key] !== null &&
-        filters[key] !== '' &&
+        filters[key] !== "" &&
         filters[key]?.length > 0
       ) {
-        nonEmptyFilters[key] = filters[key]
+        nonEmptyFilters[key] = filters[key];
       }
 
-      setNoFiltersApplied(false)
+      setNoFiltersApplied(false);
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...nonEmptyFilters,
-    }))
+    }));
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       ...nonEmptyFilters,
-    }))
+    }));
 
-    await applyFilters(filters)
-  }
+    await applyFilters(filters);
+  };
 
   const handleDelete = async (filterType, filterValue) => {
-    setFilters((prevFilters) => {
-      const updatedFilters = {...prevFilters}
+    setFilters(async (prevFilters) => {
+      const updatedFilters = { ...prevFilters };
 
       if (Array.isArray(updatedFilters[filterType])) {
         updatedFilters[filterType] = updatedFilters[filterType].filter(
           (item) => item !== filterValue,
-        )
+        );
 
         if (updatedFilters[filterType]?.length === 0) {
-          updatedFilters[filterType] = []
+          updatedFilters[filterType] = [];
         }
       } else {
-        if (filterType === 'category' || filterType === 'ingredients') {
-          updatedFilters[filterType] = null
-        } else if (filterType === 'instructions') {
-          updatedFilters[filterType] = null
+        if (filterType === "category" || filterType === "ingredients") {
+          updatedFilters[filterType] = null;
+        } else if (filterType === "instructions") {
+          updatedFilters[filterType] = null;
         }
       }
 
-      setUpdateAppliedfilter(updatedFilters)
-      applyFilters(updatedFilters)
+      setUpdateAppliedfilter(updatedFilters);
+      await applyFilters(updatedFilters);
 
       setSelectedFilters((prevFilters) => {
-        const updatedSelectedFilters = {...prevFilters}
+        const updatedSelectedFilters = { ...prevFilters };
 
         if (Array.isArray(updatedSelectedFilters[filterType])) {
           updatedSelectedFilters[filterType] = updatedSelectedFilters[
             filterType
-          ].filter((item) => item !== filterValue)
+          ].filter((item) => item !== filterValue);
 
           if (updatedSelectedFilters[filterType]?.length === 0) {
-            updatedSelectedFilters[filterType] = {}
+            updatedSelectedFilters[filterType] = {};
           }
         } else {
-          if (filterType === 'category' || filterType === 'ingredients') {
-            updatedSelectedFilters[filterType] = null
-          } else if (filterType === 'instructions') {
-            updatedSelectedFilters[filterType] = null
+          if (filterType === "category" || filterType === "ingredients") {
+            updatedSelectedFilters[filterType] = null;
+          } else if (filterType === "instructions") {
+            updatedSelectedFilters[filterType] = null;
           }
         }
 
-        return updatedSelectedFilters
-      })
+        return updatedSelectedFilters;
+      });
 
       const hasNoFiltersLeft = Object.values(updatedFilters).every(
         (value) =>
           value === null ||
           (Array.isArray(value) && value?.length === 0) ||
-          value === '',
-      )
+          value === "",
+      );
 
       if (hasNoFiltersLeft) {
-        setNoFiltersApplied(true)
+        setNoFiltersApplied(true);
       }
 
-      return updatedFilters
-    })
-  }
+      return updatedFilters;
+    });
+  };
 
   const handleSort = async (event) => {
-    const newSortOption = event.target.value
-    setSortOption(newSortOption)
-    await applyFilters(filters, newSortOption)
-  }
+    const newSortOption = event.target.value;
+    setSortOption(newSortOption);
+    await applyFilters(filters, newSortOption);
+  };
 
   const handleResetFilters = async () => {
     setSelectedFilters({
@@ -149,26 +151,26 @@ const SearchBar = (props) => {
       tags: [],
       ingredients: null,
       instructions: null,
-    })
-    await applyFilters({})
-    setFilters({})
-    setNoFiltersApplied(true)
-  }
+    });
+    await applyFilters({});
+    setFilters({});
+    setNoFiltersApplied(true);
+  };
 
   useEffect(() => {
     const debouncedApplyFilters = debounce(async (title) => {
-      await applyFilters({...filters, title})
-    }, 500)
+      await applyFilters({ ...filters, title });
+    }, 500);
 
-    debouncedApplyFilters(searchTerm)
+    debouncedApplyFilters(searchTerm);
 
     return () => {
-      debouncedApplyFilters.cancel()
-    }
-  }, [searchTerm, filters, sortOption])
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm, sortOption]);
 
   return (
-    <div>
+    <div className="my-6">
       <div className="container flex items-center justify-between">
         <Button
           variant="outlined"
@@ -191,14 +193,11 @@ const SearchBar = (props) => {
             />
           </svg>
 
-          <span className="hidden md:inline-block ml-2">Filters</span>
+          <span className="hidden ml-2 md:inline-block">Filters</span>
         </Button>
 
         <div className="relative flex items-center">
-          <label
-            htmlFor="search"
-            className="sr-only"
-          >
+          <label htmlFor="search" className="sr-only">
             Search
           </label>
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -246,7 +245,7 @@ const SearchBar = (props) => {
                 d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
               />
             </svg>
-            <span className="hidden md:inline-block">Sort By</span>
+            <span className="hidden font-bold md:inline-block">Sort By :</span>
           </label>
 
           <select
@@ -256,10 +255,11 @@ const SearchBar = (props) => {
             onChange={handleSort}
             className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
+            <optgroup className="p-6 m-10"></optgroup>
             <option
               aria-label="None"
               value=""
-              className="text-sm hidden md:block p-4 m-8"
+              className="hidden p-4 m-8 text-sm font-bold md:block"
             >
               Default
             </option>
@@ -277,13 +277,9 @@ const SearchBar = (props) => {
             </optgroup>
             <optgroup label="Instructions">
               <option value="instructions ASC">Instructions ASC</option>
-              <option
-                value="instructions DESC"
-                className="m-8"
-              >
-                Instructions DESC
-              </option>
+              <option value="instructions DESC">Instructions DESC</option>
             </optgroup>
+            <optgroup></optgroup>
           </select>
         </div>
       </div>
@@ -295,44 +291,52 @@ const SearchBar = (props) => {
           clearAllFilters={handleResetFilters}
         />
       )}
-      <div style={{display: 'flex', marginTop: '20px'}}>
+      <div style={{ display: "flex", marginTop: "20px" }}>
         {selectedFilters.category !== null &&
-          selectedFilters.category !== '' && (
+          selectedFilters.category !== "" && (
             <div
               style={{
-                display: 'flex',
-                marginRight: '10px',
+                display: "flex",
+                marginRight: "10px",
                 maxWidth: 500,
               }}
             >
               <strong>Category:</strong>
               <div
-                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  marginLeft: "10px",
+                }}
               >
                 <Chip
                   label={selectedFilters.category}
                   onDelete={() => {
-                    handleDelete('category', selectedFilters.category)
+                    handleDelete("category", selectedFilters.category);
                   }}
                 />
               </div>
             </div>
           )}
         {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
-          filterName !== 'instructions' &&
+          filterName !== "instructions" &&
           Array.isArray(filterValues) &&
           filterValues?.length > 0 ? (
             <div
               key={filterName}
               style={{
-                display: 'flex',
-                marginRight: '10px',
+                display: "flex",
+                marginRight: "10px",
                 maxWidth: 500,
               }}
             >
               <strong>{filterName}:</strong>
               <div
-                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  marginLeft: "10px",
+                }}
               >
                 {filterValues?.map((value, index) => (
                   <Chip
@@ -347,22 +351,26 @@ const SearchBar = (props) => {
         )}
 
         {selectedFilters?.ingredients !== null &&
-          selectedFilters?.ingredients !== '' && (
+          selectedFilters?.ingredients !== "" && (
             <div
               style={{
-                display: 'flex',
-                marginRight: '10px',
+                display: "flex",
+                marginRight: "10px",
                 maxWidth: 500,
               }}
             >
               <strong>Ingredients:</strong>
               <div
-                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  marginLeft: "10px",
+                }}
               >
                 <Chip
                   label={selectedFilters?.ingredients}
                   onDelete={() => {
-                    handleDelete('ingredients', selectedFilters?.ingredients)
+                    handleDelete("ingredients", selectedFilters?.ingredients);
                   }}
                 />
               </div>
@@ -370,22 +378,26 @@ const SearchBar = (props) => {
           )}
 
         {selectedFilters.instructions !== null &&
-          selectedFilters.instructions !== '' && (
+          selectedFilters.instructions !== "" && (
             <div
               style={{
-                display: 'flex',
-                marginRight: '10px',
+                display: "flex",
+                marginRight: "10px",
                 maxWidth: 500,
               }}
             >
               <strong>Instructions:</strong>
               <div
-                style={{display: 'flex', flexWrap: 'wrap', marginLeft: '10px'}}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  marginLeft: "10px",
+                }}
               >
                 <Chip
                   label={selectedFilters.instructions}
                   onDelete={() => {
-                    handleDelete('instructions', selectedFilters.instructions)
+                    handleDelete("instructions", selectedFilters.instructions);
                   }}
                 />
               </div>
@@ -395,7 +407,7 @@ const SearchBar = (props) => {
 
       {!noFiltersApplied && (
         <Chip
-          style={{borderColor: 'black', marginTop: '10px'}}
+          style={{ borderColor: "black", marginTop: "10px" }}
           label="Clear All Filters"
           size="small"
           variant="outlined"
@@ -409,7 +421,7 @@ const SearchBar = (props) => {
         </p>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

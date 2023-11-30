@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Card, Button, TextField, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 
@@ -44,7 +44,7 @@ function Instructions(props) {
       const updatedInstructions = editedInstructions.map(
         (instruction, index) => {
           if (modifiedInstructions[index]) {
-            return `${instruction} (edited by ${userName} on ${formattedDate})`
+            return `${instruction} (edited on ${formattedDate})`
           }
           return instruction
         }
