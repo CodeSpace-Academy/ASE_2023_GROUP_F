@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
 import { filterContext } from "./filterContext";
 import { getCategories } from "@/lib/view-recipes";
+import Animation from "../skeletonCard/loadingAnimation/LoadingAnimation";
 
 /**
  * Modal Component
@@ -15,11 +16,15 @@ import { getCategories } from "@/lib/view-recipes";
  * @returns {JSX.Element} Modal component
  */
 
-
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const { filters, setSelectedFilters, setNoFiltersApplied, noFiltersApplied , setFilters } =
-		useContext(filterContext);
+	const {
+		filters,
+		setSelectedFilters,
+		setNoFiltersApplied,
+		noFiltersApplied,
+		setFilters,
+	} = useContext(filterContext);
 
 	const initialFormState = {
 		category: filters.category || "",
@@ -33,14 +38,21 @@ function Modal(props) {
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
 	const [categories, setCategories] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchTags = async () => {
-			const result = await getCategories();
-			const fetchedTags = await result?.categories[0].categories;
-			if (Array.isArray(fetchedTags)) {
-				setTags(fetchedTags);
-				setCategories(fetchedTags);
+			try {
+				const result = await getCategories();
+				const fetchedTags = await result?.categories[0].categories;
+				if (Array.isArray(fetchedTags)) {
+					setTags(fetchedTags);
+					setCategories(fetchedTags);
+				}
+			} catch (error) {
+				console.error("Error fetching tags:", error);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -75,7 +87,9 @@ function Modal(props) {
 		setNoFiltersApplied(true);
 	};
 
-	console.log(filters , 'filters')
+	if (loading) {
+		<Animation />;
+	}
 
 	return (
 		<div className={classes.modalBackdrop}>
