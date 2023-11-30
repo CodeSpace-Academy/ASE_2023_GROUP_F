@@ -7,29 +7,32 @@ import { getCategories } from "@/lib/view-recipes";
 
 /**
  * Modal Component
- * 
+ *
  * @param {Object} props - Component properties
  * @param {Function} props.handleClose - Function to close the modal.
  * @param {Function} props.applyFilters - Function to apply filters.
- * 
+ *
  * @returns {JSX.Element} Modal component
  */
 
+
 function Modal(props) {
 	const { handleClose, applyFilters } = props;
-	const {
-		filters,
-		setFilters,
-		setSelectedFilters,
-		setNoFiltersApplied,
-		noFiltersApplied,
-	} = useContext(filterContext);
+	const { filters, setSelectedFilters, setNoFiltersApplied, noFiltersApplied , setFilters } =
+		useContext(filterContext);
+
+	const initialFormState = {
+		category: filters.category || "",
+		tags: filters.tags || [],
+		ingredients: filters.ingredients || "",
+		instructions: filters.instructions || "",
+	};
+
+	const [formData, setFormData] = useState(initialFormState);
 	const [tags, setTags] = useState([]);
 	const [tagOptions, setTagOptions] = useState([]);
 	const [categoryOption, setCategoryOption] = useState([]);
 	const [categories, setCategories] = useState([]);
-	const [ingredients, setIngredients] = useState(filters.ingredients || "");
-	const [instructions, setInstructions] = useState(filters.instructions || "");
 
 	useEffect(() => {
 		const fetchTags = async () => {
@@ -46,16 +49,17 @@ function Modal(props) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const form = new FormData(event.target);
-		const data = Object.fromEntries(form);
 
-		if (data.tags) {
-			data.tags = data.tags.split(",").map((tag) => tag.trim());
-		}
+		const newData = {
+			category: formData.category,
+			tags: formData.tags,
+			ingredients: formData.ingredients,
+			instructions: formData.instructions,
+		};
 
-		data.tags = tagOptions;
-		data.category = categoryOption;
-		await applyFilters(data);
+		setFilters(newData);
+		setSelectedFilters(newData);
+		await applyFilters(newData);
 		handleClose();
 	};
 
@@ -67,18 +71,11 @@ function Modal(props) {
 			instructions: "",
 		});
 
-		setIngredients("");
-		setInstructions("");
-
-		setFilters({
-			category: null,
-			tags: [],
-			ingredients: "",
-			instructions: "",
-		});
-
+		setFormData(initialFormState);
 		setNoFiltersApplied(true);
 	};
+
+	console.log(filters , 'filters')
 
 	return (
 		<div className={classes.modalBackdrop}>
@@ -111,8 +108,12 @@ function Modal(props) {
 							id="categories"
 							options={categories}
 							getOptionLabel={(option) => option}
-							value={filters?.category || ""}
+							value={formData.category}
 							onChange={(event, newValue) => {
+								setFormData((prevData) => ({
+									...prevData,
+									category: newValue,
+								}));
 								setCategoryOption(newValue);
 							}}
 							freeSolo
@@ -127,17 +128,14 @@ function Modal(props) {
 							id="tags"
 							options={tags}
 							getOptionLabel={(option) => option}
-							value={filters.tags}
+							value={formData.tags}
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
+									setFormData((prevData) => ({ ...prevData, tags: newValue }));
 									setTagOptions(newValue);
 								} else {
-									setTagOptions("");
+									setTagOptions([]);
 								}
-								setFilters((prevFilters) => ({
-									...prevFilters,
-									tags: newValue,
-								}));
 							}}
 							freeSolo
 							renderInput={(params) => (
@@ -151,8 +149,13 @@ function Modal(props) {
 							label="Ingredients"
 							variant="outlined"
 							name="ingredients"
-							value={ingredients}
-							onChange={(e) => setIngredients(e.target.value)}
+							value={formData.ingredients}
+							onChange={(e) =>
+								setFormData((prevData) => ({
+									...prevData,
+									ingredients: e.target.value,
+								}))
+							}
 						/>
 					</div>
 
@@ -161,13 +164,16 @@ function Modal(props) {
 						className={classes.formInput}
 						type="number"
 						name="instructions"
-						value={instructions === null ? "" : instructions}
+						value={formData.instructions === null ? "" : formData.instructions}
 						onChange={(e) => {
 							const newValue =
 								e.target.value === ""
 									? ""
 									: Math.max(1, parseInt(e.target.value, 10) || 1);
-							setInstructions(newValue);
+							setFormData((prevData) => ({
+								...prevData,
+								instructions: newValue,
+							}));
 						}}
 					/>
 
