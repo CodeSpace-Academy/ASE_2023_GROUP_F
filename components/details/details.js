@@ -26,6 +26,7 @@ function Details(props) {
 
   const [toggleList, setToggleList] = useState(true)
   const [allergens, setAllergens] = useState([])
+  const [networkError, setNetworkError] = useState('')
 
   // Fetch allergens data from the server on component mount
   useEffect(() => {
@@ -35,6 +36,7 @@ function Details(props) {
         setAllergens(data.allergens[0].allergens)
         return data.allergens[0].allergens
       } catch (error) {
+        setNetworkError(error)
         console.error(error)
       }
     }
@@ -76,7 +78,6 @@ function Details(props) {
             <Description
               recipeId={recipe._id}
               description={recipe.description}
-            // userName={username should be passed here}
             />
           </p>
 
@@ -104,7 +105,7 @@ function Details(props) {
               <StyleIcon />
               <p className="font-sans font-bold">Tags</p>
             </div>
-            <RecipeTags tags={recipe.tags} />
+            <RecipeTags tags={recipe.tags} networkError={networkError} />
           </div>{' '}
 
           {/* Display nutrition information */}

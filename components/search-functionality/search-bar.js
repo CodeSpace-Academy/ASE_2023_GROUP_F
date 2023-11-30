@@ -6,18 +6,18 @@ import { filterContext } from "./filterContext";
 
 /**
  * SearchBar Component
- * 
+ *
  * @param {Object} props - Component properties
  * @param {Function} props.applyFilters - Function to apply filters.
  * @param {Object} props.appliedFilters - Applied filters.
- * 
+ *
  * @returns {JSX.Element} SearchBar component
  */
 
 const SearchBar = (props) => {
 	const { applyFilters } = props;
 
-	  // Context variables
+	// Context variables
 	const {
 		filters,
 		setFilters,
@@ -43,6 +43,7 @@ const SearchBar = (props) => {
 	const handleClose = () => setOpen(false);
 
 	const handleApplyFilters = async (filters) => {
+		handleClose();
 		const nonEmptyFilters = {};
 		for (const key in filters) {
 			if (
@@ -69,7 +70,7 @@ const SearchBar = (props) => {
 	};
 
 	const handleDelete = async (filterType, filterValue) => {
-		setFilters((prevFilters) => {
+		setFilters(async (prevFilters) => {
 			const updatedFilters = { ...prevFilters };
 
 			if (Array.isArray(updatedFilters[filterType])) {
@@ -89,7 +90,7 @@ const SearchBar = (props) => {
 			}
 
 			setUpdateAppliedfilter(updatedFilters);
-			applyFilters(updatedFilters);
+			await applyFilters(updatedFilters);
 
 			setSelectedFilters((prevFilters) => {
 				const updatedSelectedFilters = { ...prevFilters };
