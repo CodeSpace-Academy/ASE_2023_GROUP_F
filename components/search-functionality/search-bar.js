@@ -160,7 +160,7 @@ const SearchBar = (props) => {
 
 	return (
 		<div>
-			<div className="container flex items-center justify-between">
+			<div className="container flex items-center my-6 justify-between">
 				<Button
 					variant="outlined"
 					size="large"
@@ -234,7 +234,7 @@ const SearchBar = (props) => {
 								d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
 							/>
 						</svg>
-						<span className="hidden md:inline-block">Sort By</span>
+						<span className="hidden  font-bold md:inline-block">Sort By : </span>
 					</label>
 
 					<select
@@ -244,13 +244,15 @@ const SearchBar = (props) => {
 						onChange={handleSort}
 						className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
 					>
+						<optgroup></optgroup>
 						<option
 							aria-label="None"
 							value=""
-							className="text-sm hidden md:block p-4 m-8"
+							className="text-sm hidden font-bold md:block p-4 m-8"
 						>
 							Default
 						</option>
+						
 						<optgroup label="Prep Time">
 							<option value="prep ASC">Prep ASC</option>
 							<option value="prep DESC">Prep DESC</option>
@@ -269,6 +271,7 @@ const SearchBar = (props) => {
 								Instructions DESC
 							</option>
 						</optgroup>
+						<optgroup></optgroup>
 					</select>
 				</div>
 			</div>
