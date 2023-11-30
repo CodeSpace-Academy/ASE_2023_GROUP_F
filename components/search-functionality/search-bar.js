@@ -64,8 +64,9 @@ const SearchBar = (props) => {
 			...prevFilters,
 			...nonEmptyFilters,
 		}));
+		setSearchTerm(searchTerm);
 
-		await applyFilters(filters);
+		await applyFilters(filters , {searchTerm});
 
 	};
 
