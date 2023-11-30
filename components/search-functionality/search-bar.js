@@ -70,7 +70,7 @@ const SearchBar = (props) => {
 	};
 
 	const handleDelete = async (filterType, filterValue) => {
-		setFilters((prevFilters) => {
+		setFilters(async (prevFilters) => {
 			const updatedFilters = { ...prevFilters };
 
 			if (Array.isArray(updatedFilters[filterType])) {
@@ -90,7 +90,7 @@ const SearchBar = (props) => {
 			}
 
 			setUpdateAppliedfilter(updatedFilters);
-			applyFilters(updatedFilters);
+			await applyFilters(updatedFilters);
 
 			setSelectedFilters((prevFilters) => {
 				const updatedSelectedFilters = { ...prevFilters };

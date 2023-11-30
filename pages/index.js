@@ -48,7 +48,6 @@ function Home(props) {
 	useEffect(() => {
 		const runLoad = async () => {
 			try {
-				setLoading(true);
 				if (JSON.stringify(filters) === "{}" && sortOption === "") {
 					setFilteredRecipes(visibleRecipes);
 				} else {
