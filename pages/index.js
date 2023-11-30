@@ -60,6 +60,8 @@ function Home(props) {
 		runLoad();
 	}, []);
 
+	console.log(filters , 'filters title')
+
 	return (
 		<div>
 			<Head>
