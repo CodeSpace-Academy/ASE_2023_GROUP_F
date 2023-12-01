@@ -7,16 +7,19 @@ import Highlighter from "react-highlight-words";
 import { filterContext } from "../search-functionality/filterContext";
 
 /**
- * RecipeList component
- * 
- * @param {Object} props - Component properties
- * @param {Array} props.visibleRecipes - List of visible recipes to display.
- * @param {number} props.count - Total count of recipes (including not visible).
- * @param {Array} props.appliedFilters - Filters applied to the recipes.
- * @param {Function} props.setRecipes - Function to set the list of recipes.
- * @param {string} props.searchTerm - Search term used for highlighting.
- * 
- * @returns {JSX.Element} RecipeList component
+ * RecipeList Component
+ *
+ * The RecipeList component displays a grid of RecipeCard components, allowing users
+ * to view recipes. It supports lazy loading of additional recipes as the user scrolls.
+ *
+ * @component
+ * @param {Object} props - The properties of the component.
+ * @param {Array} props.visibleRecipes - The array of recipes currently visible.
+ * @param {number} props.count - The total count of recipes, including those not yet loaded.
+ * @param {Array} props.appliedFilters - The array of filters applied to the recipes.
+ * @param {Function} props.setRecipes - Function to set the recipes in the parent component.
+ * @param {Function} props.updateFavoriteRecipesCount - Function to update the count of favorite recipes.
+ * @returns {JSX.Element} - The JSX representation of the RecipeList component.
  */
 
 const PAGE_SIZE = 48;
@@ -32,8 +35,10 @@ const RecipeList = (props) => {
 		updateFavoriteRecipesCount
 	} = props;
 
+	// Accessing the searchTerm from the filterContext
 	const {searchTerm} = useContext(filterContext)
 
+	 // State for managing pagination
 	const [currentPage, setCurrentPage] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const totalPages = Math.ceil(count / PAGE_SIZE);
@@ -58,8 +63,7 @@ const RecipeList = (props) => {
 		}
 	};
 
-	
-  // Skeleton loading state
+	// If still loading or visibleRecipes is not available, display loading skeleton
 	if (loading || !visibleRecipes) {
 		return <CardSkeleton />;
 	}

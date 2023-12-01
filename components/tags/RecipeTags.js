@@ -13,12 +13,13 @@ import HandleError from '../error/Error'
  * @param {boolean} props.networkError - Indicates whether a network error has occurred.
  * 
  * @returns {JSX.Element} The rendered RecipeTags component.
- **/
+ * 
+ */
 
 function RecipeTags(props) {
   const { tags, networkError } = props
 
-    // Render error message if a network error occurs
+  // Render error message if a network error occurs
   if (networkError) {
     return (
       <div>
@@ -27,6 +28,7 @@ function RecipeTags(props) {
     )
   }
 
+  // Render message if no tags are found
   if (!tags) {
     return (
       <div>
@@ -35,6 +37,7 @@ function RecipeTags(props) {
     )
   }
 
+  // Render the list of tags
   return (
     <div>
       <ul className="list-none p-0 animate-slideRight">
