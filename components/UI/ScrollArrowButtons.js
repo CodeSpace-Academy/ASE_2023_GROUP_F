@@ -55,6 +55,7 @@ const ScrollArrowButtons = () => {
             backgroundColor: '#1976D2',
             '&:hover': {
               backgroundColor: '#1565C0',
+              color:'white'
             },
             border: '2px solid #1565C0',
             color:'#1565C0'
@@ -72,6 +73,7 @@ const ScrollArrowButtons = () => {
           backgroundColor: '#1976D2',
           '&:hover': {
             backgroundColor: '#1565C0',
+            color:'white'
           },
           border: '2px solid #1565C0',
           color:'#1565C0'
