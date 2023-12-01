@@ -152,13 +152,13 @@ const SearchBar = (props) => {
 
 
   useEffect(() => {
-    const debouncedApplyFilters = debounce(async (title) => {
+    const debouncedApplyFilters = debounce(async () => {
       await applyFilters({ ...filters, title });
       setButtonEnabled(true);
     }, 500);
 
     const shortQueryDebounce = debounce(async () => {
-      await applyFilters({ ...filters, title });
+      await applyFilters({ ...filters, title: searchTerm });
       setButtonEnabled(true);
     }, 500);
 
