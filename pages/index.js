@@ -23,9 +23,8 @@ import Animation from "@/components/skeletonCard/loadingAnimation/LoadingAnimati
  * @returns {JSX.Element} - The rendered Home component.
  */
 
-const PAGE_SIZE = 48;
-
 function Home(props) {
+	const PAGE_SIZE = 48;
 	const { visibleRecipes, count } = props;
 	const { filters, filteredRecipes, setFilteredRecipes, sortOption } =
 		useContext(filterContext);
@@ -80,7 +79,7 @@ function Home(props) {
 				appliedFilters={filters}
 				count={remainingRecipes}
 			/>
-			<ScrollArrowButtons/>
+			<ScrollArrowButtons />
 			{(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
 				<HandleError>No recipes found!!</HandleError>
 			) : (
