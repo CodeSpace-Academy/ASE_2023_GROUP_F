@@ -1,6 +1,12 @@
-import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown } from 'react-feather';
+import React, { useState, useEffect } from 'react';
+import { Fab, useScrollTrigger, Zoom } from '@mui/material';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
+/**
+ * ScrollArrowButtons component provides buttons to scroll to top and bottom of the page.
+ * It uses Material-UI icons for better user experience.
+ * @component
+ */
 const ScrollArrowButtons = () => {
   const [showScroll, setShowScroll] = useState(false);
 
@@ -17,10 +23,16 @@ const ScrollArrowButtons = () => {
     return () => window.removeEventListener('scroll', checkScrollTop);
   }, [showScroll]);
 
+  /**
+   * Scrolls to the top of the page smoothly.
+   */
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  /**
+   * Scrolls down to the bottom of the page smoothly.
+   */
   const scrollDown = () => {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
@@ -31,31 +43,46 @@ const ScrollArrowButtons = () => {
     });
   };
 
-
-  const scrollButtonText = showScroll ? 'Scroll to up' : 'Scroll Down';
-
   return (
-<div className="relative">
-  <div className="fixed right-4 bottom-4 z-50 flex flex-col">
-    {showScroll && (
-      <button
-        className="bg-black bg-opacity-25 hover:bg-opacity-50 text-gray-700 font-bold py-2 px-4 mb-4 flex items-center rounded transition duration-300"
-        onClick={scrollToTop}
+    <div className="fixed right-4 bottom-4 z-50 flex flex-col">
+      <Zoom in={useScrollTrigger({ threshold: 400 })}>
+        <Fab
+          color="primary"
+          aria-label="Scroll to Top"
+          onClick={scrollToTop}
+          sx={{
+            marginBottom: showScroll ? '1rem' : '0',
+            backgroundColor: '#1976D2',
+            '&:hover': {
+              backgroundColor: '#1565C0',
+              color:'white'
+            },
+            border: '2px solid #1565C0',
+            color:'#1565C0'
+          }}
+        >
+          <KeyboardArrowUp />
+        </Fab>
+      </Zoom>
+
+      <Fab
+        color="primary"
+        aria-label="Scroll Down"
+        onClick={scrollDown}
+        sx={{
+          backgroundColor: '#1976D2',
+          '&:hover': {
+            backgroundColor: '#1565C0',
+            color:'white'
+          },
+          border: '2px solid #1565C0',
+          color:'#1565C0'
+        }}
       >
-        <ArrowUp size={20} className="mr-2" style={{ color: 'black', opacity: 0.7 }} /> 
-      </button>
-    )}
-    <button
-      className="bg-black bg-opacity-25 hover:bg-opacity-50 text-gray-700 font-bold py-2 px-4 rounded flex items-center transition duration-300"
-      onClick={scrollDown}
-    >
-      <ArrowDown size={20} className="mr-2" style={{ color: 'black', opacity: 0.7 }} /> 
-    </button>
-  </div>
-
-</div>
-
+        <KeyboardArrowDown />
+      </Fab>
+    </div>
   );
 };
 
-export default ScrollArrowButtons; 
+export default ScrollArrowButtons;
