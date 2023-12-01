@@ -6,8 +6,7 @@ import SearchBar from '../components/search-functionality/search-bar';
 import { getViewRecipes } from '../lib/view-recipes';
 import { filterContext } from '../components/search-functionality/filterContext';
 import HandleError from '../components/error/Error';
-import ScrollArrowButtons from '../components/UI/ScrollArrowButtons';
-import Animation from '@/components/skeletonCard/loadingAnimation/LoadingAnimation';
+import Animation from '../components/skeletonCard/loadingAnimation/LoadingAnimation';
 
 /**
  *
@@ -22,8 +21,9 @@ import Animation from '@/components/skeletonCard/loadingAnimation/LoadingAnimati
  * @returns {JSX.Element} - The rendered Home component.
  */
 
+const PAGE_SIZE = 48;
+
 function Home(props) {
-  const PAGE_SIZE = 48;
   const { visibleRecipes, count } = props;
   const { filters, filteredRecipes, setFilteredRecipes, sortOption } = useContext(filterContext);
 
@@ -31,22 +31,15 @@ function Home(props) {
   const [loading, setLoading] = useState(false);
 
   const handleApplyFilters = async (filters) => {
-    try {
-      setLoading(true);
-
-      const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
-
-      setFilteredRecipes(filtering?.recipes);
-      setRemainingRecipes(filtering?.totalRecipes);
-    } finally {
-      setLoading(false);
-    }
+    const filtering = await getViewRecipes(0, PAGE_SIZE, filters, sortOption);
+    setFilteredRecipes(filtering?.recipes);
+    setRemainingRecipes(filtering?.totalRecipes);
   };
-
   // useEffect hook to handle filter changes and update the displayed recipes accordingly.
   useEffect(() => {
     const runLoad = async () => {
       try {
+        setLoading(true);
         if (JSON.stringify(filters) === '{}' && sortOption === '') {
           setFilteredRecipes(visibleRecipes);
         } else {
@@ -70,8 +63,7 @@ function Home(props) {
       </Head>
       {loading && <Animation />}
       <SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} count={remainingRecipes} />
-      <ScrollArrowButtons />
-      {(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
+      {!filteredRecipes ? (
         <HandleError>No recipes found!!</HandleError>
       ) : (
         <RecipeList

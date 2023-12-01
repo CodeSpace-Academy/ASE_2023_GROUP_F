@@ -17,6 +17,7 @@ import { filterContext } from './filterContext';
 function SearchBar(props) {
   const { applyFilters } = props;
 
+  // Context variables
   const {
     filters,
     setFilters,
@@ -31,18 +32,11 @@ function SearchBar(props) {
   } = useContext(filterContext);
 
   const [open, setOpen] = useState(false);
-  const [setUpdateAppliedfilter] = useState({
-    category: null,
-    tags: [],
-    ingredients: null,
-    instructions: null,
-  });
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleApplyFilters = async (filters) => {
-    handleClose();
     const nonEmptyFilters = {};
     for (const key in filters) {
       if (filters[key] !== null && filters[key] !== '' && filters[key]?.length > 0) {
@@ -81,7 +75,6 @@ function SearchBar(props) {
         updatedFilters[filterType] = null;
       }
 
-      setUpdateAppliedfilter(updatedFilters);
       applyFilters(updatedFilters);
 
       setSelectedFilters((prevFilters) => {

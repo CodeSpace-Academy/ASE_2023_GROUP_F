@@ -1,4 +1,4 @@
-import connectToDatabase from "../../database/database";
+import connectToDatabase from '../../database/database';
 
 /**
  * Handles incoming HTTP requests to the '/api/recipes' endpoint.
@@ -7,15 +7,14 @@ import connectToDatabase from "../../database/database";
  * @function handler
  * @param {Object} req - The HTTP request object.
  * @param {Object} res - The HTTP response object.
- * 
- * 
+ *
+ *
  * @returns {Promise<void>} - A Promise that resolves once the request is handled.
  */
 
 export default async function handler(req, res) {
-
   // Handling GET requests to fetch recipes
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     try {
       // Connect to the database
       const database = await connectToDatabase();
