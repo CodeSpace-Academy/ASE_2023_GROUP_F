@@ -249,7 +249,7 @@ const SearchBar = (props) => {
 						<option
 							aria-label="Default"
 							value=""
-							className="hidden p-4 m-8 text-sm font-bold md:block "
+							className="p-4 m-8 text-sm font-bold  md:block"
 						>
 							Default
 						</option>
