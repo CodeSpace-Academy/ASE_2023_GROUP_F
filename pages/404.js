@@ -2,6 +2,15 @@ import React from "react";
 import Link from "next/link";
 import Head from "next/head";
 
+/**
+ * NotFoundPage component displays a custom 404 error page.
+ *
+ * This component provides a user-friendly message and a link to navigate
+ * back to the home page when a user encounters a page not found (404) error.
+ *
+ * @returns {JSX.Element} - The JSX markup for the NotFoundPage component.
+ */
+
 const NotFoundPage = () => {
 	return (
 		<>

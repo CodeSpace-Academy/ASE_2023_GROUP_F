@@ -9,6 +9,7 @@ const uri = process.env.URI;
 // Name of the MongoDB database
 const dbName = "devdb";
 
+// Check if the required environment variable is present
 if (!uri) {
   console.error("env values are not present.");
   process.exit(1);
