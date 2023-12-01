@@ -40,6 +40,7 @@ function Modal(props) {
 	const [categories, setCategories] = useState([]);
 	const [loading, setLoading] = useState(true);
 
+	// Fetch tags (categories) from the API on component mount
 	useEffect(() => {
 		const fetchTags = async () => {
 			try {
@@ -59,6 +60,7 @@ function Modal(props) {
 		fetchTags();
 	}, []);
 
+	  // Handle form submission
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -75,6 +77,7 @@ function Modal(props) {
 		handleClose();
 	};
 
+	 // Clear all filters and reset state
 	const clearAllFilters = async () => {
 		setNoFiltersApplied(true);
 		setSelectedFilters({
@@ -207,9 +210,8 @@ function Modal(props) {
 					<br />
 
 					<button
-						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${
-							noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
-						}`}
+						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
+							}`}
 						style={{
 							position: "absolute",
 							top: "385px",

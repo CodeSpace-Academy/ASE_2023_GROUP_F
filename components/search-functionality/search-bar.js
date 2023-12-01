@@ -4,6 +4,7 @@ import { debounce } from "lodash";
 import Modal from "./Modal";
 import { filterContext } from "./filterContext";
 
+
 /**
  * SearchBar Component
  *
@@ -39,7 +40,10 @@ const SearchBar = (props) => {
 	});
 	const [buttonEnabled, setButtonEnabled] = useState(true);
 
+	// Open modal
 	const handleOpen = () => setOpen(true);
+
+	// Close modal
 	const handleClose = () => setOpen(false);
 	
 
@@ -72,6 +76,7 @@ const SearchBar = (props) => {
 
 	};
 
+	// Delete filter handler
 	const handleDelete = async (filterType, filterValue) => {
 		setFilters((prevFilters) => {
 			const updatedFilters = { ...prevFilters };
@@ -132,12 +137,14 @@ const SearchBar = (props) => {
 		});
 	};
 
+	// Handle sort option change
 	const handleSort = async (event) => {
 		const newSortOption = event.target.value;
 		setSortOption(newSortOption);
 		await applyFilters(filters, newSortOption);
 	};
 
+	// Reset filters handler
 	const handleResetFilters = async () => {
 		setSelectedFilters({
 			category: null,
@@ -346,8 +353,8 @@ const SearchBar = (props) => {
 					)}
 				{Object.entries(selectedFilters).map(([filterName, filterValues]) =>
 					filterName !== "instructions" &&
-					Array.isArray(filterValues) &&
-					filterValues?.length > 0 ? (
+						Array.isArray(filterValues) &&
+						filterValues?.length > 0 ? (
 						<div
 							key={filterName}
 							style={{

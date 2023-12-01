@@ -8,7 +8,6 @@ import classes from "./Animation.module.css";
  * The sparkles and burrito are part of the illustration.
  * 
  * @component
- * 
  * @returns {JSX.Element} JSX for the Animation component.
  */
 
