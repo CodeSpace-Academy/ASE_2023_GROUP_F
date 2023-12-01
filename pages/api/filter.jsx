@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   // Parse query parameters
   const filter = JSON.parse(req.query.filter);
   const sort = JSON.parse(req.query.sort);
-  const limit = parseInt(req.query.limit) || 200;
+  const limit = parseInt(req.query.limit, 10) || 200;
 
   if (req.method === 'GET') {
     try {
@@ -58,9 +58,9 @@ export default async function handler(req, res) {
       }
 
       if (filter.instructions) {
-        const instructionsCount = parseInt(filter.instructions);
+        const instructionsCount = parseInt(filter.instructions, 10);
 
-        if (!isNaN(instructionsCount)) {
+        if (!Number.isNaN(instructionsCount)) {
           queryFilter.instructions = {
             $size: instructionsCount,
           };
@@ -74,6 +74,8 @@ export default async function handler(req, res) {
           });
         }
       }
+
+      const querySort = {};
 
       if (sort === 'prep ASC') {
         querySort.prep = 1;
