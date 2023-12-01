@@ -1,41 +1,37 @@
-import React, { useState } from 'react'
-import { Card, Button, TextField, IconButton } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
+import React, { useState } from 'react';
+import { Card, Button, TextField, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 function Instructions(props) {
-  const { recipeId, instructions, userName } = props
-  const [editableIndex, setEditableIndex] = useState(-1)
-  const [editedInstructions, setEditedInstructions] = useState([
-    ...instructions,
-  ])
-  const [modifiedInstructions, setModifiedInstructions] = useState({})
+  const { recipeId, instructions } = props;
+  const [editableIndex, setEditableIndex] = useState(-1);
+  const [editedInstructions, setEditedInstructions] = useState([...instructions]);
+  const [modifiedInstructions, setModifiedInstructions] = useState({});
 
   const handleEdit = (index) => {
-    setEditableIndex(index)
-  }
+    setEditableIndex(index);
+  };
 
   const handleSave = async () => {
     try {
-      const currentDate = new Date()
+      const currentDate = new Date();
       const options = {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
-      }
-      const formattedDate = currentDate.toLocaleDateString(undefined, options)
+      };
+      const formattedDate = currentDate.toLocaleDateString(undefined, options);
 
-      const updatedInstructions = editedInstructions.map(
-        (instruction, index) => {
-          if (modifiedInstructions[index]) {
-            return `${instruction} (edited by ${userName} on ${formattedDate})`
-          }
-          return instruction
+      const updatedInstructions = editedInstructions.map((instruction, index) => {
+        if (modifiedInstructions[index]) {
+          return `${instruction} (edited on ${formattedDate})`;
         }
-      )
+        return instruction;
+      });
 
       // Update the instruction locally before making the API call
-      setEditedInstructions(updatedInstructions)
-      setEditableIndex(-1) // Reset editable index after saving
+      setEditedInstructions(updatedInstructions);
+      setEditableIndex(-1); // Reset editable index after saving
 
       // Make the API call to update the instruction in the database
       const response = await fetch(`/api/updateRecipe/${recipeId}`, {
@@ -44,32 +40,32 @@ function Instructions(props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ instructions: updatedInstructions }),
-      })
+      });
 
       if (response.ok) {
-        console.log('Recipe updated successfully')
+        console.log('Recipe updated successfully');
       } else {
-        console.error('Failed to update the recipe')
+        console.error('Failed to update the recipe');
       }
     } catch (error) {
-      console.error('Error updating recipe:', error)
+      console.error('Error updating recipe:', error);
     }
-  }
+  };
 
   const handleInputChange = (index, value) => {
-    const modifiedInstructionsCopy = { ...modifiedInstructions }
-    modifiedInstructionsCopy[index] = true
-    setModifiedInstructions(modifiedInstructionsCopy)
+    const modifiedInstructionsCopy = { ...modifiedInstructions };
+    modifiedInstructionsCopy[index] = true;
+    setModifiedInstructions(modifiedInstructionsCopy);
 
-    const updatedInstructions = [...editedInstructions]
-    updatedInstructions[index] = value
-    setEditedInstructions(updatedInstructions)
-  }
+    const updatedInstructions = [...editedInstructions];
+    updatedInstructions[index] = value;
+    setEditedInstructions(updatedInstructions);
+  };
   const handleCancel = () => {
-    setEditedInstructions([...instructions])
-    setModifiedInstructions({})
-    setEditableIndex(-1)
-  }
+    setEditedInstructions([...instructions]);
+    setModifiedInstructions({});
+    setEditableIndex(-1);
+  };
 
   return (
     <div>
@@ -85,18 +81,10 @@ function Instructions(props) {
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
                 <div className="text-center m-5">
-                  <Button
-                    value="start_cooking"
-                    variant="outlined"
-                    onClick={handleSave}
-                  >
+                  <Button value="start_cooking" variant="outlined" onClick={handleSave}>
                     Save
                   </Button>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={handleCancel}
-                  >
+                  <Button variant="outlined" color="error" onClick={handleCancel}>
                     Cancel
                   </Button>
                 </div>
@@ -114,7 +102,7 @@ function Instructions(props) {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default Instructions
+export default Instructions;

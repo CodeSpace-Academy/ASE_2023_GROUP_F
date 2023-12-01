@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   // Parse query parameters
   const filter = JSON.parse(req.query.filter);
   const sort = JSON.parse(req.query.sort);
-  const limit = parseInt(req.query.limit, 10) || 200;
+  const limit = parseInt(req.query.limit) || 200;
 
   if (req.method === 'GET') {
     try {
@@ -58,9 +58,13 @@ export default async function handler(req, res) {
       }
 
       if (filter.instructions) {
-        const instructionsCount = parseInt(filter.instructions, 10);
+        const instructionsCount = parseInt(filter.instructions);
 
-        if (!Number.isNaN(instructionsCount)) {
+        if (!isNaN(instructionsCount)) {
+          queryFilter.instructions = {
+            $size: instructionsCount,
+          };
+
           agg.push({
             $match: {
               $expr: {
@@ -70,8 +74,6 @@ export default async function handler(req, res) {
           });
         }
       }
-
-      const querySort = {};
 
       if (sort === 'prep ASC') {
         querySort.prep = 1;
@@ -117,10 +119,11 @@ export default async function handler(req, res) {
             },
           },
         );
-      }
-      // Add aggregation stages based on sort criteria
-      if (JSON.stringify(querySort) !== '{}') {
-        agg.push({ $sort: querySort });
+      } else {
+        // Add aggregation stages based on sort criteria
+        if (JSON.stringify(querySort) !== '{}') {
+          agg.push({ $sort: querySort });
+        }
       }
 
       // Add aggregation stage for filter criteria

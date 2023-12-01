@@ -1,11 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Chip, Button } from '@mui/material';
 import { debounce } from 'lodash';
 import Modal from './Modal';
 import { filterContext } from './filterContext';
 
+/**
+ * SearchBar Component
+ *
+ * @param {Object} props - Component properties
+ * @param {Function} props.applyFilters - Function to apply filters.
+ * @param {Object} props.appliedFilters - Applied filters.
+ *
+ * @returns {JSX.Element} SearchBar component
+ */
+
 function SearchBar(props) {
-  const { applyFilters, appliedFilters } = props;
+  const { applyFilters } = props;
 
   const {
     filters,
@@ -21,7 +31,7 @@ function SearchBar(props) {
   } = useContext(filterContext);
 
   const [open, setOpen] = useState(false);
-  const [, setUpdateAppliedfilter] = useState({
+  const [setUpdateAppliedfilter] = useState({
     category: null,
     tags: [],
     ingredients: null,
@@ -31,11 +41,12 @@ function SearchBar(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleApplyFilters = async (filter) => {
+  const handleApplyFilters = async (filters) => {
+    handleClose();
     const nonEmptyFilters = {};
-    for (const key in filter) {
-      if (filter[key] !== null && filter[key] !== '' && filter[key].length > 0) {
-        nonEmptyFilters[key] = filter[key];
+    for (const key in filters) {
+      if (filters[key] !== null && filters[key] !== '' && filters[key]?.length > 0) {
+        nonEmptyFilters[key] = filters[key];
       }
 
       setNoFiltersApplied(false);
@@ -49,8 +60,9 @@ function SearchBar(props) {
       ...prevFilters,
       ...nonEmptyFilters,
     }));
+    setSearchTerm(searchTerm);
 
-    await applyFilters(filters);
+    await applyFilters(filters, { searchTerm });
   };
 
   const handleDelete = async (filterType, filterValue) => {
@@ -60,8 +72,8 @@ function SearchBar(props) {
       if (Array.isArray(updatedFilters[filterType])) {
         updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
 
-        if (updatedFilters[filterType].length === 0) {
-          updatedFilters[filterType] = '';
+        if (updatedFilters[filterType]?.length === 0) {
+          updatedFilters[filterType] = [];
         }
       } else if (filterType === 'category' || filterType === 'ingredients') {
         updatedFilters[filterType] = null;
@@ -118,13 +130,13 @@ function SearchBar(props) {
       instructions: null,
     });
     await applyFilters({});
-    setFilters({});
+    setFilters({}, sortOption);
     setNoFiltersApplied(true);
   };
 
   useEffect(() => {
-    const debouncedApplyFilters = debounce((title) => {
-      applyFilters({ ...filters, title });
+    const debouncedApplyFilters = debounce(async (title) => {
+      await applyFilters({ ...filters, title });
     }, 500);
 
     debouncedApplyFilters(searchTerm);
@@ -132,10 +144,10 @@ function SearchBar(props) {
     return () => {
       debouncedApplyFilters.cancel();
     };
-  }, [searchTerm, filters, sortOption, applyFilters]);
+  }, [searchTerm, filters, sortOption]);
 
   return (
-    <div>
+    <div className="my-6">
       <div className="container flex items-center justify-between">
         <Button
           variant="outlined"
@@ -215,7 +227,7 @@ function SearchBar(props) {
             name="sortOption"
             value={sortOption}
             onChange={handleSort}
-            className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto"
+            className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
             <option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8">
               Default
@@ -243,7 +255,7 @@ function SearchBar(props) {
       </div>
 
       {open && (
-        <Modal handleClose={handleClose} applyFilters={handleApplyFilters} instructions={appliedFilters.instructions} />
+        <Modal handleClose={handleClose} applyFilters={handleApplyFilters} clearAllFilters={handleResetFilters} />
       )}
       <div>
         <h2 className="font-bold">Applied Filters:</h2>

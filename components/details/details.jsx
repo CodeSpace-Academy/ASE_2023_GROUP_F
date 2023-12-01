@@ -16,7 +16,7 @@ import PrepIcon from '../icons/PrepIcon';
 
 /**
  * Details Component
- * 
+ *
  * @param {Object} props - Component properties
  * @param {Object} props.recipe - The recipe object containing various details.
  * @returns {JSX.Element} Details component
@@ -63,21 +63,18 @@ function Details(props) {
         <div className="mt-5 md:mt-0 md:ml-5 md:flex-grow">
           <div className="font-serif text-4xl text-center">{recipe.title}</div>
           <br />
-
           {/* Display allergens based on the provided allergens data */}
           <div>
             <RecipeAllergens allergens={allergens} ingredients={recipe.ingredients} />
           </div>
-
           {/* Display description of the recipe */}
           <p className="mt-5 text-lg text-center">
             <Description
               recipeId={recipe._id}
               description={recipe.description}
-            // userName={username should be passed here}
+              // userName={username should be passed here}
             />
           </p>
-
           {/* Display recipe details including cook time, prep time, and servings */}
           <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0">
             <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
@@ -100,7 +97,6 @@ function Details(props) {
               {recipe.servings}
             </div>
           </div>
-
           {/* Display recipe tags */}
           <div className="mt-5">
             <div className="flex items-center justify-center space-x-2">
@@ -109,7 +105,6 @@ function Details(props) {
             </div>
             <RecipeTags tags={recipe.tags} />
           </div>{' '}
-
           {/* Display nutrition information */}
           <div className="mt-5">
             <p className="font-sans font-bold text-center">Nutrition</p>
