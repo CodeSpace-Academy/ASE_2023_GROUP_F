@@ -38,7 +38,7 @@ const TimeDisplay = ({ recipe }) => {
   const totalCookingTime = recipe.prep + recipe.cook;
 
   return (
-    <div>
+    <div className="mb-10">
       <div className="flex gap-7 mb-4">
         <span className="flex">
           <PrepIcon fill="#000000" width="35" height="35" />

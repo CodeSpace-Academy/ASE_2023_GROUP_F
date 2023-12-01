@@ -36,25 +36,20 @@ function RecipeBanner({ images }) {
     setCurrentImage(param);
   }
 
-  const areButtonsVisible = images.length > 1;
+  const areButtonsVisible = images?.length > 1;
 
   return (
     <div className="relative flex flex-row">
       <Carousel imageList={images} setFunc={imageHandler} />
       <div>
+        <div className="container p-10"  >
         <Image
           layout="responsive"
-          src={images[currentImage]}
-          alt="recipe image"
-          width={650}
-          height={650}
+          src={images?.[currentImage]}
+          alt={`Recipe image ${currentImage + 1}`}
+          width={500}
+          height={500}
         />
-        <div className="absolute top-0 right-0">
-          <Link href="/recipes/instructions">
-            <Button variant="contained" color="secondary" size="small">
-              Start Cooking
-            </Button>
-          </Link>
         </div>
         {areButtonsVisible && (
           <>
