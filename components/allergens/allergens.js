@@ -45,14 +45,14 @@ function RecipeAllergens(props) {
 		<div >
 			<p>
 				{allergensFound.length > 0 ? (
-					<div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 my-4 rounded-md">
+					<div className="px-6 py-4 my-4 text-red-700 bg-red-100 border border-red-400 rounded-md">
 						<strong className="block mb-2">⚠️ Attention:</strong>
 						The following allergens are found in the recipe's ingredients:
 						<strong className="block mt-2">{allergensFound.join(", ")}</strong>
 						Please consume with care.
 					</div>
 				) : (
-					<span className="bg-yellow-100 border border-yellow-300 text-yellow-900 p-4 rounded-lg mb-4">Good news! Our magical ingredient mix has no hidden allergens. It's an allergen-free party! 🎉</span>
+					<span className="p-4 mb-4 text-yellow-900 bg-yellow-100 border border-yellow-300 rounded-lg">Good news! Our magical ingredient mix has no hidden allergens. It's an allergen-free party! 🎉</span>
 
 				)}
 			</p>

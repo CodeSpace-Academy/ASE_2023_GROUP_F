@@ -66,7 +66,7 @@ const RecipeList = (props) => {
 
 	return (
 		<>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 mt-5">
+			<div className="grid grid-cols-1 gap-8 mt-5 transition-all sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
 				{visibleRecipes.map((recipe) => (
 					<RecipeCard
 						key={recipe._id}
@@ -88,7 +88,7 @@ const RecipeList = (props) => {
 			<div>
 				{count > INITIAL_LOAD_SIZE && (
 					<div className="mt-4 text-center">
-						<p className="text-gray-500 font-bold">
+						<p className="font-bold text-gray-500">
 							Showing page {currentPage} of {totalPages}
 						</p>
 						{remainingRecipes > 0 && (
