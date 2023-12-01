@@ -4,31 +4,47 @@ import CardSkeleton from "@/components/skeletonCard/skeleton";
 import { getFavoriteRecipes } from "@/lib/view-recipes";
 import Head from "next/head";
 
+/**
+ * Functional component for the Favorite Recipes page.
+ *
+ * @component
+ * @returns {JSX.Element} The JSX representation of the Favorite Recipes page.
+ */
+
 const FavoriteRecipesPage = () => {
+  // State variables for managing favorite recipes, loading state, and count
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [favoriteRecipesCount, setFavoriteRecipesCount] = useState(0);
 
+  // Effect hook to fetch favorite recipes on component mount.
   useEffect(() => {
     const fetchFavoriteRecipes = async () => {
       try {
+        // Fetch favorite recipes and update state
         const recipes = await getFavoriteRecipes();
-
         setFavoriteRecipes(recipes.favoriteRecipes);
         setFavoriteRecipesCount(recipes.count);
       } catch (error) {
         console.error("Error fetching favorite recipes:", error);
       } finally {
+        // Set loading state to false when fetching is complete
         setIsLoading(false);
       }
     };
 
+    // Call the fetch function on component mount
     fetchFavoriteRecipes();
   }, []);
 
-
+ /**
+   * Updates the count of favorite recipes based on the visibility state of a recipe card.
+   * @param {Object} newState - The state object containing visibility information.
+   */
   const updateFavoriteRecipesCount = (newState) => {
     setFavoriteRecipesCount((prevCount) => {
+
+       // Decrease count when a recipe card becomes invisible
       if (newState.isVisible === false) {
         return prevCount - 1;
       } else {

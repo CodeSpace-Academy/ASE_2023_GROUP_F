@@ -4,9 +4,9 @@ import React from 'react';
 /**
  * RecipeSkeleton Component
  * 
- * A React component for displaying a skeleton or loading state for a recipe.
- * It includes placeholders for an image and various text elements.
- **/
+ * A component that represents a skeleton loader for a recipe card.
+ * @returns {JSX.Element} RecipeSkeleton component
+ */
 
 const RecipeSkeleton = () => {
     return (

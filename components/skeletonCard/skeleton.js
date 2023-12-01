@@ -2,12 +2,13 @@ import React from 'react';
 import { Skeleton } from '@mui/material';
 import { useMediaQuery } from 'react-responsive';
 /**
- * RecipeSkeleton Component
- * A component that represents a skeleton loader for a recipe card.
+ * CardSkeleton Component
  * 
- * @returns {JSX.Element} RecipeSkeleton component
+ * A React component that displays a skeleton loading state for a card layout.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered CardSkeleton component.
  */
-
 
 const CardSkeleton = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
