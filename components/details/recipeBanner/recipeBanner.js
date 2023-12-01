@@ -48,6 +48,7 @@ function RecipeBanner({ images }) {
           alt="recipe image"
           width={650}
           height={650}
+          layout='responsive'
         />
         <div className="absolute top-0 right-0">
           <Link href="/recipes/instructions">

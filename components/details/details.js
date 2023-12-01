@@ -57,27 +57,27 @@ function Details(props) {
       <div className="flex flex-col justify-between p-5 md:flex-row">
         {/* RecipeBanner component displaying recipe images */}
         <div className="md:mr-5">
-          <RecipeBanner images={recipe.images} />
+          <RecipeBanner images={recipe?.images} />
         </div>
 
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className="mt-5 md:mt-0 md:ml-5 md:flex-grow">
-          <div className="font-serif text-4xl text-center">{recipe.title}</div>
+          <div className="font-serif font-bold lg:text-4xl md:text-sm text-center">{recipe?.title}</div>
           <br />
 
           {/* Display allergens based on the provided allergens data */}
           <div>
             <RecipeAllergens
               allergens={allergens}
-              ingredients={recipe.ingredients}
+              ingredients={recipe?.ingredients}
             />
           </div>
 
           {/* Display description of the recipe */}
           <p className="mt-5 text-lg text-center">
             <Description
-              recipeId={recipe._id}
-              description={recipe.description}
+              recipeId={recipe?._id}
+              description={recipe?.description}
             />
           </p>
 
@@ -85,18 +85,22 @@ function Details(props) {
           <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0">
             <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
               <CookIcon fill="#000000" width="35" height="35" />
-              Cook time {recipe.cook} mins
+              Cook time {recipe?.cook} mins
             </div>
 
             <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
               <PrepIcon fill="#000000" width="35" height="35" />
-              Preparation time {recipe.prep} mins
+              Preparation time {recipe?.prep} mins
             </div>
 
-            <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
-              <ServingIcon width="25" height="25" fill="#2B5B95" />
-              Serves {recipe.servings}
-            </div>
+            {recipe?.servings && (
+          <>
+            <ServingIcon width="25" height="25" fill="#2B5B95" />
+            <p>
+              <strong>Serving:</strong> {recipe?.servings}
+            </p>
+          </>
+        )}
           </div>
 
           {/* Display recipe tags */}
