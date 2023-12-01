@@ -37,9 +37,11 @@ const SearchBar = (props) => {
 		ingredients: null,
 		instructions: null,
 	});
+	const [buttonEnabled, setButtonEnabled] = useState(true);
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+	
 
 	const handleApplyFilters = async (filters) => {
 		handleClose()
@@ -148,17 +150,46 @@ const SearchBar = (props) => {
 		setNoFiltersApplied(true);
 	};
 
-	useEffect(() => {
-		const debouncedApplyFilters = debounce(async (title) => {
-			await applyFilters({ ...filters, title });
-		}, 500);
 
-		debouncedApplyFilters(searchTerm);
+  useEffect(() => {
+    const debouncedApplyFilters = debounce(async (title) => {
+      await applyFilters({ ...filters, title });
+      setButtonEnabled(true);
+    }, 500);
 
-		return () => {
-			debouncedApplyFilters.cancel();
-		};
-	}, [searchTerm, filters , sortOption]);
+    const shortQueryDebounce = debounce(async () => {
+      await applyFilters({ ...filters, title });
+      setButtonEnabled(true);
+    }, 500);
+
+    const longQueryDebounce = debounce(async () => {
+      if (searchTerm.length > 10) {
+        await applyFilters({ ...filters, title: searchTerm });
+        setButtonEnabled(true);
+      }
+    }, 1000);
+
+    const applyDebounce = () => {
+      if (searchTerm.length < 10) {
+        shortQueryDebounce();
+      } else {
+        longQueryDebounce();
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      if (searchTerm.length > 0) {
+        applyDebounce();
+      }
+    }, 500);
+
+    return () => {
+      debouncedApplyFilters.cancel();
+      shortQueryDebounce.cancel();
+      longQueryDebounce.cancel();
+      clearTimeout(timeoutId);
+    };
+  }, [searchTerm, filters, sortOption]);
 
 	return (
 		<div className="my-6">
@@ -215,6 +246,15 @@ const SearchBar = (props) => {
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
 					/>
+					 {buttonEnabled && (
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => applyFilters({ ...filters, title: searchTerm })}
+          >
+            Submit
+          </Button>
+        )}
 				</div>
 
 				<div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
