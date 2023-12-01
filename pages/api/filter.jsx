@@ -121,12 +121,12 @@ export default async function handler(req, res) {
             },
           },
         );
-      } else {
+      }
         // Add aggregation stages based on sort criteria
         if (JSON.stringify(querySort) !== '{}') {
           agg.push({ $sort: querySort });
         }
-      }
+      
 
       // Add aggregation stage for filter criteria
       if (JSON.stringify(queryFilter) !== '{}') {
