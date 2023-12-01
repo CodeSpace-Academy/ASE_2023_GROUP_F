@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ArrowUp, ArrowDown } from 'react-feather';
 
 const ScrollArrowButtons = () => {
   const [showScroll, setShowScroll] = useState(false);
@@ -21,29 +22,40 @@ const ScrollArrowButtons = () => {
   };
 
   const scrollDown = () => {
-    window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    window.scrollTo({
+      top: documentHeight - windowHeight,
+      behavior: 'smooth',
+    });
   };
 
-  const scrollButtonText = showScroll ? 'Scroll down' : 'Scroll Down';
+
+  const scrollButtonText = showScroll ? 'Scroll to up' : 'Scroll Down';
 
   return (
-    <div className="fixed right-4 bottom-4 z-50 flex flex-col">
-      {showScroll && (
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-4"
-          onClick={scrollToTop}
-        >
-          Scroll to Top
-        </button>
-      )}
+<div className="relative">
+  <div className="fixed right-4 bottom-4 z-50 flex flex-col">
+    {showScroll && (
       <button
-        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-        onClick={scrollDown}
+        className="bg-black bg-opacity-25 hover:bg-opacity-50 text-gray-700 font-bold py-2 px-4 mb-4 flex items-center rounded transition duration-300"
+        onClick={scrollToTop}
       >
-        {scrollButtonText}
+        <ArrowUp size={20} className="mr-2" style={{ color: 'black', opacity: 0.7 }} /> 
       </button>
-    </div>
+    )}
+    <button
+      className="bg-black bg-opacity-25 hover:bg-opacity-50 text-gray-700 font-bold py-2 px-4 rounded flex items-center transition duration-300"
+      onClick={scrollDown}
+    >
+      <ArrowDown size={20} className="mr-2" style={{ color: 'black', opacity: 0.7 }} /> 
+    </button>
+  </div>
+
+</div>
+
   );
 };
 
-export default ScrollArrowButtons;
+export default ScrollArrowButtons; 
