@@ -76,6 +76,7 @@ function Modal(props) {
 	};
 
 	const clearAllFilters = async () => {
+		setNoFiltersApplied(true);
 		setSelectedFilters({
 		  category: "",
 		  tags: [],
@@ -97,7 +98,6 @@ function Modal(props) {
 		  instructions: "",
 		});
 	  
-		setNoFiltersApplied(true);
 	  };
 	  
 	if (loading) {
