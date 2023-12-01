@@ -80,16 +80,29 @@ function Modal(props) {
 	 // Clear all filters and reset state
 	const clearAllFilters = async () => {
 		setSelectedFilters({
-			category: null,
-			tags: [],
-			ingredients: "",
-			instructions: "",
+		  category: "",
+		  tags: [],
+		  ingredients: "",
+		  instructions: "",
 		});
-
-		setFormData(initialFormState);
+	  
+		setFormData({
+		  category: "",
+		  tags: [],
+		  ingredients: "",
+		  instructions: "",
+		});
+	  
+		setFilters({
+		  category: "",
+		  tags: [],
+		  ingredients: "",
+		  instructions: "",
+		});
+	  
 		setNoFiltersApplied(true);
-	};
-
+	  };
+	  
 	if (loading) {
 		<Animation />;
 	}
