@@ -107,8 +107,8 @@ function Modal(props) {
 		setTagOptions([]);
 	  
 		await applyFilters({});
-		setNoFiltersApplied(false);
-		console.log("Filters applied" , filters)
+		setNoFiltersApplied(true);
+		
 	  };	  
 	  
 	  

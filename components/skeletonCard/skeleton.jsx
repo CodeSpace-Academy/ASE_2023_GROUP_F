@@ -17,7 +17,7 @@ function CardSkeleton() {
 
   return (
     <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap' }}>
-      {Array.from({ length: 20 }, (_, index) => (
+      {Array.from({ length: 48 }, (_, index) => (
         <div key={index} style={{ padding: '20px' }} className={classes.cardSkeletonItem}>
           <Skeleton variant="rectangular" width="100%" height={300} style={{ borderRadius: '5px' }} />
           <Skeleton variant="rectangular" width='100%' height={40} style={{ marginTop: '10px' }} />
