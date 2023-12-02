@@ -69,9 +69,9 @@ function Details(props) {
 
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className="mt-5 md:mt-0 md:ml-5 container p-5 md:flex-grow">
-          <div className="font-serif text-4xl text-center">{recipe?.title}</div>
+          <div className="font-serif font-bold lg:text-4xl md:text-sm text-center">{recipe?.title}</div>
           <br />
-          {/* Display allergens based on the provided allergens data */}
+          
           {/* Display description of the recipe */}
           <div className="flex items-center justify-center space-x-2">
               <AssignmentIcon />
@@ -95,11 +95,16 @@ function Details(props) {
               Preparation time {recipe?.prep} mins
             </div>
 
-            <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
-              <ServingIcon width="25" height="25" fill="#2B5B95" />
-              Serves {recipe?.servings}
-            </div>
+            {recipe.servings && (
+          <>
+            <ServingIcon width="25" height="25" fill="#2B5B95" />
+            <p>
+              <strong>Serving:</strong> {recipe.servings}
+            </p>
+          </>
+        )}
           </div>
+
           {/* Display recipe tags */}
           <div className="mt-5">
             <div className="flex items-center justify-center space-x-2">

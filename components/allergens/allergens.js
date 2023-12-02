@@ -52,7 +52,7 @@ function RecipeAllergens(props) {
 						Please consume with care.
 					</div>
 				) : (
-					<span className="bg-yellow-100 border border-yellow-300 text-yellow-900 p-4 rounded-md ">⚠️ Good news! There Are No Allergens. It's an allergen-free party! 🎉</span>
+					<p className="bg-yellow-100 border border-yellow-300 text-yellow-900 p-4 rounded-md ">⚠️ Good news! There Are No Allergens. It's an allergen-free party! 🎉</p>
 
 				)}
 			</p>
