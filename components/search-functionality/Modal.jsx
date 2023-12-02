@@ -203,7 +203,7 @@ function Modal(props) {
 						className={classes.formInput}
 						type="number"
 						name="instructions"
-						value={formData.instructions === null ? "" : formData.instructions}
+						value={formData.instructions || ""}
 						onChange={(e) => {
 							const newValue =
 								e.target.value === ""
