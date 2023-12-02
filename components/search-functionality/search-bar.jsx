@@ -73,62 +73,55 @@ function SearchBar(props) {
 	// Delete filter handler
 	const handleDelete = async (filterType, filterValue) => {
 		setFilters((prevFilters) => {
-			const updatedFilters = { ...prevFilters };
-
-			if (Array.isArray(updatedFilters[filterType])) {
-				updatedFilters[filterType] = updatedFilters[filterType].filter(
-					(item) => item !== filterValue,
-				);
-
-				if (updatedFilters[filterType]?.length === 0) {
-					updatedFilters[filterType] = [];
-				}
-			} 
-				if (filterType === "category" || filterType === "ingredients") {
-					updatedFilters[filterType] = null;
-				} else if (filterType === "instructions") {
-					updatedFilters[filterType] = null;
-				}
-			
-
-			applyFilters(updatedFilters);
-
-			setSelectedFilters((prevFilters) => {
-				const updatedSelectedFilters = { ...prevFilters };
-
-				if (Array.isArray(updatedSelectedFilters[filterType])) {
-					updatedSelectedFilters[filterType] = updatedSelectedFilters[
-						filterType
-					].filter((item) => item !== filterValue);
-
-					if (updatedSelectedFilters[filterType]?.length === 0) {
-						updatedSelectedFilters[filterType] = {};
-					}
-				} 
-					if (filterType === "category" || filterType === "ingredients") {
-						updatedSelectedFilters[filterType] = null;
-					} else if (filterType === "instructions") {
-						updatedSelectedFilters[filterType] = null;
-					}
-				
-
-				return updatedSelectedFilters;
-			});
-
-			const hasNoFiltersLeft = Object.values(updatedFilters).every(
-				(value) =>
-					value === null ||
-					(Array.isArray(value) && value?.length === 0) ||
-					value === "",
+		  const updatedFilters = { ...prevFilters };
+	  
+		  if (Array.isArray(updatedFilters[filterType])) {
+			updatedFilters[filterType] = updatedFilters[filterType].filter(
+			  (item) => item !== filterValue
 			);
-
-			if (hasNoFiltersLeft) {
-				setNoFiltersApplied(true);
+	  
+			if (updatedFilters[filterType]?.length === 0) {
+			  updatedFilters[filterType] = null;
 			}
-
-			return updatedFilters;
+		  } else {
+			updatedFilters[filterType] = null;
+		  }
+	  
+		  applyFilters(updatedFilters);
+	  
+		  setSelectedFilters((prevFilters) => {
+			const updatedSelectedFilters = { ...prevFilters };
+	  
+			if (Array.isArray(updatedSelectedFilters[filterType])) {
+			  updatedSelectedFilters[filterType] = updatedSelectedFilters[filterType].filter(
+				(item) => item !== filterValue
+			  );
+	  
+			  if (updatedSelectedFilters[filterType]?.length === 0) {
+				updatedSelectedFilters[filterType] = null;
+			  }
+			} else {
+			  updatedSelectedFilters[filterType] = null;
+			}
+	  
+			return updatedSelectedFilters;
+		  });
+	  
+		  const hasNoFiltersLeft = Object.values(updatedFilters).every(
+			(value) =>
+			  value === null ||
+			  (Array.isArray(value) && value?.length === 0) ||
+			  value === ""
+		  );
+	  
+		  if (hasNoFiltersLeft) {
+			setNoFiltersApplied(true);
+		  }
+	  
+		  return updatedFilters;
 		});
-	};
+	  };
+	  
 
 	// Handle sort option change
 	const handleSort = async (event) => {

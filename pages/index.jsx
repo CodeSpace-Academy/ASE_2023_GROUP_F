@@ -76,7 +76,7 @@ function Home(props) {
       {loading && <Animation /> }
       <SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} count={remainingRecipes} />
       <ScrollArrowButtons />
-      {(!filteredRecipes || filteredRecipes.length === 0) && !visibleRecipes ? (
+      {(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
         <HandleError>No recipes found!!</HandleError>
       ) : (
         <RecipeList
