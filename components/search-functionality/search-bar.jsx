@@ -278,7 +278,7 @@ function SearchBar(props) {
 					clearAllFilters={handleResetFilters}
 				/>
 			)}
-			<div>
+			<div >
 				<h2 className="font-bold">Applied Filters:</h2>
 				{selectedFilters.category !== null &&
 					selectedFilters.category !== "" && (

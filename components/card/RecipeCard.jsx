@@ -19,6 +19,7 @@ import TimeDisplay from '../time/TimeDisplay';
  * @param {Object} props.recipe - The recipe object containing details.
  * @param {string} props.recipe._id - The unique identifier of the recipe.
  * @param {boolean} props.recipe.isFavorite - The favorite status of the recipe.
+ * @param {Function} props.updateFavoriteRecipesCount - The function to update the recipe's favorites count
  *
  * @returns {JSX.Element} - A React functional component.
  */
@@ -104,6 +105,7 @@ function RecipeCard(props) {
             height={224}
             src={images?.[currentImage]}
             alt={`Recipe image ${currentImage + 1}`}
+            priority
           />
         </div>
         {isButtonVisible && (
