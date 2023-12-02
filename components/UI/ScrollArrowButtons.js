@@ -46,43 +46,25 @@ const ScrollArrowButtons = () => {
   return (
     <div className="fixed right-4 bottom-4 z-50 flex flex-col">
       <Zoom in={useScrollTrigger({ threshold: 400 })}>
-        <Fab
-          color="primary"
-          aria-label="Scroll to Top"
+        <button
+          className={`bg-gray-400 text-white hover:bg-gray-600  p-2 rounded-md transition duration-300 ${
+            showScroll ? 'mb-4' : 'mb-0'
+          } bg-opacity-80 text-opacity-80`}
           onClick={scrollToTop}
-          sx={{
-            marginBottom: showScroll ? '1rem' : '0',
-            backgroundColor: '#1976D2',
-            '&:hover': {
-              backgroundColor: '#1565C0',
-              color:'white'
-            },
-            border: '2px solid #1565C0',
-            color:'#1565C0'
-          }}
         >
           <KeyboardArrowUp />
-        </Fab>
+        </button>
       </Zoom>
-
-      <Fab
-        color="primary"
-        aria-label="Scroll Down"
+  
+      <button
+        className="bg-gray-400 text-white hover:bg-gray-600 p-2 rounded-md transition duration-300 mt-2 bg-opacity-80 text-opacity-80"
         onClick={scrollDown}
-        sx={{
-          backgroundColor: '#1976D2',
-          '&:hover': {
-            backgroundColor: '#1565C0',
-            color:'white'
-          },
-          border: '2px solid #1565C0',
-          color:'#1565C0'
-        }}
       >
         <KeyboardArrowDown />
-      </Fab>
+      </button>
     </div>
   );
+  
 };
 
 export default ScrollArrowButtons;

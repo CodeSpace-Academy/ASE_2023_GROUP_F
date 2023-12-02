@@ -8,23 +8,23 @@ import Image from "next/image";
 
 /**
  * RecipeCard Component
- * 
+ *
  * This component represents a card displaying information about a recipe. It includes
  * the recipe title, images, and additional details such as time display. Users can
  * toggle the recipe as a favorite and navigate through multiple images if available.
- * 
+ *
  * @param {Object} props - The component props.
  * @param {string} props.title - The title of the recipe.
  * @param {Array} props.images - An array of URLs representing the images of the recipe.
  * @param {Object} props.recipe - The recipe object containing details.
  * @param {string} props.recipe._id - The unique identifier of the recipe.
  * @param {boolean} props.recipe.isFavorite - The favorite status of the recipe.
- * 
+ *
  * @returns {JSX.Element} - A React functional component.
  */
 
 const RecipeCard = (props) => {
-  const { title, images, recipe , updateFavoriteRecipesCount } = props;
+  const { title, images, recipe, updateFavoriteRecipesCount } = props;
   const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -137,21 +137,29 @@ const RecipeCard = (props) => {
           </div>
         </div>
       </div>
-        
+
       <Link href={`/recipes/${recipe._id}`}>
-      <div className="inset-0 transform">
-        <div className="px-6 hover:text-black hover:bg-slate-300">
-          <div className="flex flex-col justify-between">
-            <div className="font-bold font-serif lg:text-lg pt-2 mb-4 md:text-sm">
-              <strong style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</strong>
-            </div>
-            <div>
-              <TimeDisplay recipe={recipe} />
+        <div className="inset-0 transform">
+          <div className="px-6 hover:text-black hover:bg-slate-300">
+            <div className="flex flex-col justify-between">
+              <div className="font-bold font-serif text-lg pt-2 mb-4 ">
+                <strong
+                  style={{
+                    display: "block",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {title}
+                </strong>
+              </div>
+              <div>
+                <TimeDisplay recipe={recipe} />
+              </div>
             </div>
           </div>
         </div>
-        <div className="pb-11"></div>
-      </div>
       </Link>
     </div>
   ) : null;

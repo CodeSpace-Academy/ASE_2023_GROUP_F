@@ -24,7 +24,8 @@
     "react-dom": "^18",
     "react-feather": "^2.0.10",
     "react-fontawesome": "^1.7.1",
-    "react-highlight-words": "^0.20.0"
+    "react-highlight-words": "^0.20.0",
+    "react-responsive": "^9.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^10",
