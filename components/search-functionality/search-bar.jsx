@@ -236,7 +236,7 @@ function SearchBar(props) {
             onChange={handleSort}
             className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
-            <option aria-label="None" value="" className="text-sm hidden md:block p-4 m-8">
+            <option aria-label="None" value="" className="text-sm md:block p-4 m-8">
               Default
             </option>
             <optgroup label="Prep Time">
