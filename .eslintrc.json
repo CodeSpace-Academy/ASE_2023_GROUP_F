@@ -35,6 +35,7 @@
     "no-shadow": "off",
     "react/jsx-no-constructed-context-values": "off",
     "react-hooks/exhaustive-deps": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-lonely-if": "warn"
   }
 }
