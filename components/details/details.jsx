@@ -71,7 +71,7 @@ function Details(props) {
         <div className="mt-5 md:mt-0 md:ml-5 container p-5 md:flex-grow">
           <div className="font-serif text-4xl text-center">{recipe?.title}</div>
           <br />
-          {/* Display allergens based on the provided allergens data */}
+          
           {/* Display description of the recipe */}
           <div className="flex items-center justify-center space-x-2">
               <AssignmentIcon />
