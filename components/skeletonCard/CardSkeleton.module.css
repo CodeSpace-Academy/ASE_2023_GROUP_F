@@ -1,0 +1,23 @@
+
+.cardSkeletonContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .cardSkeletonItem {
+    width: 100%;
+  
+    @media (min-width: 600px) {
+      width: 50%; 
+    }
+  
+    @media (min-width: 900px) {
+      width: 33.33%; 
+    }
+  
+    @media (min-width: 1200px) {
+      width: 25%; 
+    }
+  
+  }
+  

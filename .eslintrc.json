@@ -1,0 +1,40 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "jest": true
+    },
+    "extends": ["airbnb", "airbnb/hooks", "eslint:recommended", "prettier"],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": ["react"],
+  
+    "rules": {
+      "react/react-in-jsx-scope": "off",
+      "react/no-unescaped-entities": "off",
+      "no-nested-ternary": "off",
+      "no-underscore-dangle": "off",
+      "linebreak-style": "off",
+      "double-quoted": "off",
+      "quotes": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "react/prop-types": "off",
+      "no-console": "off",
+      "array-callback-return": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
+      "jsx-a11y/no-static-element-interactions": "off",
+      "consistent-return": "off",
+      "jsx-a11y/label-has-associated-control": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react/no-unknown-property": "off",
+      "no-restricted-syntax": "off",
+      "guard-for-in": "off",
+      "react/jsx-no-bind": "off",
+      "no-shadow": "off",
+      "react/jsx-no-constructed-context-values": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    }
+  }
