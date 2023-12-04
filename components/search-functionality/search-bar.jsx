@@ -32,6 +32,8 @@ function SearchBar(props) {
 
   const [open, setOpen] = useState(false);
 
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+
   // Open modal
   const handleOpen = () => setOpen(true);
 
@@ -67,33 +69,32 @@ function SearchBar(props) {
   const handleDelete = async (filterType, filterValue) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters };
-  
+
       if (Array.isArray(updatedFilters[filterType])) {
         updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
-  
+
         if (updatedFilters[filterType].length === 0) {
           updatedFilters[filterType] = null; // Set to null only if no tags left
         }
       } else if (typeof updatedFilters[filterType] === 'string') {
         updatedFilters[filterType] = ''; // Set to empty string for non-array string filters
       }
-      if(updatedFilters[filterType]){
-        updatedFilters[filterType] = null
-        
+      if (updatedFilters[filterType]) {
+        updatedFilters[filterType] = null;
       }
 
-      console.log("Updated" , updatedFilters[filterType])
-  
+      console.log('Updated', updatedFilters[filterType]);
+
       applyFilters(updatedFilters);
-  
+
       setSelectedFilters((prevFilters) => {
         const updatedSelectedFilters = { ...prevFilters };
-  
+
         if (Array.isArray(updatedSelectedFilters[filterType])) {
           updatedSelectedFilters[filterType] = updatedSelectedFilters[filterType].filter(
             (item) => item !== filterValue,
           );
-  
+
           if (updatedSelectedFilters[filterType].length === 0) {
             updatedSelectedFilters[filterType] = null; // Set to null only if no tags left
           }
@@ -101,21 +102,21 @@ function SearchBar(props) {
           updatedSelectedFilters[filterType] = null; // Set to empty string for non-array string filters
         }
 
-        if(updatedSelectedFilters[filterType]){
-          updatedSelectedFilters[filterType] = null
+        if (updatedSelectedFilters[filterType]) {
+          updatedSelectedFilters[filterType] = null;
         }
-  
+
         return updatedSelectedFilters;
       });
-  
+
       const hasNoFiltersLeft = Object.values(updatedFilters).every(
         (value) => value === null || (Array.isArray(value) && value.length === 0) || value === '',
       );
-  
+
       if (hasNoFiltersLeft) {
         setNoFiltersApplied(true);
       }
-  
+
       return updatedFilters;
     });
   };
@@ -142,14 +143,42 @@ function SearchBar(props) {
 
   // Debounced search term handler
   useEffect(() => {
-    const debouncedApplyFilters = debounce(async (title) => {
-      await applyFilters({ ...filters, title });
+    const debouncedApplyFilters = debounce(async () => {
+      await applyFilters({ ...filters, title: searchTerm });
+      setButtonEnabled(false);
     }, 500);
 
-    debouncedApplyFilters(searchTerm);
+    const shortQueryDebounce = debounce(async () => {
+      await applyFilters({ ...filters, title: searchTerm });
+      setButtonEnabled(false);
+    }, 500);
+
+    const longQueryDebounce = debounce(async () => {
+      if (searchTerm.length > 10) {
+        await applyFilters({ ...filters, title: searchTerm });
+        setButtonEnabled(true);
+      }
+    }, 1000);
+
+    const applyDebounce = () => {
+      if (searchTerm.length < 10) {
+        shortQueryDebounce();
+      } else {
+        longQueryDebounce();
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      if (searchTerm.length > 0) {
+        applyDebounce();
+      }
+    }, 500);
 
     return () => {
       debouncedApplyFilters.cancel();
+      shortQueryDebounce.cancel();
+      longQueryDebounce.cancel();
+      clearTimeout(timeoutId);
     };
   }, [searchTerm, filters, sortOption]);
 
@@ -208,6 +237,11 @@ function SearchBar(props) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          {buttonEnabled && (
+            <Button variant="contained" size="large" onClick={() => applyFilters({ ...filters, title: searchTerm })}>
+              Submit
+            </Button>
+          )}
         </div>
 
         <div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
