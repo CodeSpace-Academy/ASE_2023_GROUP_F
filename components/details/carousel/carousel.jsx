@@ -16,17 +16,16 @@ import Image from "next/image"
  *
  * */
 
-function Carousel({imageList, setFunc}){
-
-  return(
-    <div className="mr-5 bg-gray-200 p-5 flex flex-col justify-between overflow-y-auto max-h-96">
+function Carousel({ imageList, setFunc }) {
+  return (
+    <div className="hidden md:flex md:flex-col md:justify-between md:overflow-y-auto md:max-h-96 md:transition-opacity md:ease-in-out md:duration-300">
       {imageList.map((image, index) => (
         <Button onClick={() => setFunc(index)} key={image}>
-          <Image src={image} alt="recipe image" width={200} height={200} className="mb-4"/>
+          <Image src={image} alt="recipe image" width={200} height={200} className="mb-4" />
         </Button>
       ))}
     </div>
-  )
+  );
 }
 
-export default Carousel
+export default Carousel;
