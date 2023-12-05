@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { Button } from "@mui/material";
-import { ArrowCircleLeft, ArrowCircleRight } from "@mui/icons-material";
-import { useState } from "react";
-import Carousel from "../carousel/carousel";
+import Image from 'next/image';
+import { Button } from '@mui/material';
+import { ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material';
+import { useState } from 'react';
+import Carousel from '../carousel/carousel';
 
 /**
  * RecipeBanner Component
@@ -38,29 +38,22 @@ function RecipeBanner({ images }) {
   const areButtonsVisible = images?.length > 1;
 
   return (
-    <div className="relative flex flex-row">
-      <Carousel imageList={images} setFunc={imageHandler} />
-      <div>
-        <div className="container p-10"  >
-        <Image
-          layout="responsive"
-          src={images?.[currentImage]}
-          alt={`Recipe image ${currentImage + 1}`}
-          width={500}
-          height={500}
-        />
-        </div>
-        {areButtonsVisible && (
-          <>
-            <div className="absolute top-32">
-              <Button startIcon={<ArrowCircleLeft />} onClick={prev}/>
-            </div>
-            <div className="absolute top-32 right-0">
-              <Button endIcon={<ArrowCircleRight />} onClick={next}/>
-            </div>
-          </>
-        )}
+    <div className="relative">
+      <div style={{ height: '40vh', overflow: 'hidden', position: 'relative' }}>
+        <Image src={images?.[currentImage]} alt={`Recipe image ${currentImage + 1}`} objectFit="cover" layout="fill" />
       </div>
+      {areButtonsVisible && (
+        <>
+          <div className="absolute left-0 top-1/3 transform-translate-y-1/3 z-1">
+            <Button startIcon={<ArrowCircleLeft />} onClick={prev} />
+          </div>
+          <div className="absolute right-0 top-1/3 transform-translate-y-1/3 z-1">
+            <Button endIcon={<ArrowCircleRight />} onClick={next} />
+          </div>
+        </>
+      )}
+
+      <Carousel imageList={images} setFunc={imageHandler} />
     </div>
   );
 }
