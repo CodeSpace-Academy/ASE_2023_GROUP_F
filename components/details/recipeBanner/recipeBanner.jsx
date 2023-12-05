@@ -38,10 +38,12 @@ function RecipeBanner({ images }) {
   const areButtonsVisible = images?.length > 1;
 
   return (
-    <div className="relative flex flex-row">
-      <Carousel imageList={images} setFunc={imageHandler} />
-      <div>
-        <div className="container p-10"  >
+    <div className="relative flex flex-row space-x-0 ">
+      <Carousel 
+      imageList={images} setFunc={imageHandler} />
+      <div className="relative flex flex-row container max-h-3xl max-w-lg m-auto bg-gray-200">
+        <div >
+        <div className="container p-10">
         <Image
           layout="responsive"
           src={images?.[currentImage]}
@@ -60,6 +62,7 @@ function RecipeBanner({ images }) {
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   );

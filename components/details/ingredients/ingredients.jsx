@@ -24,13 +24,13 @@ function Ingredients(props) {
 
   return (
     <div>
-      <div className="mx-10 rounded-xl">
+      <div className="mx-4 rounded-xl">
         {visibleIngredients.map((item) => (
           <Card key={item} className="p-2 bg-gray-200 lg:text-lg md:text-sm">
             {item[0]}: {item[1]}
           </Card>
         ))}
-        {ingredient.length > 3 && (
+        {ingredients.length > 3 && (
           <div className="flex justify-center mt-2">
             {showAll ? (
               <Button variant="outlined" onClick={() => setShowAll(false)}>

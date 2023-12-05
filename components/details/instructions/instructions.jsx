@@ -80,9 +80,9 @@ function Instructions(props) {
 
   return (
     <div>
-      <div className="overflow-y-auto mx-10 rounded-xl">
+      <div className="overflow-y-auto rounded-xl mx-10">
         {displayedInstructions.map((item, index) => (
-          <Card key={item} className="m-0 p-2 bg-gray-200 lg:text-lg md:text-sm">
+          <Card key={item} className=" p-2 bg-gray-200 lg:text-lg md:text-sm">
             {editableIndex === index ? (
               <div>
                 <TextField
@@ -118,7 +118,7 @@ function Instructions(props) {
             )}
           </Card>
         ))}
-        {instructions.length > 2 && (
+        {instructions.length > 5 && (
           <div className="flex justify-center mt-2">
             <Button
               variant="outlined"
