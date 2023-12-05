@@ -15,15 +15,20 @@ function Nutrition({ nutritionList }) {
   const nutrition = Object.entries(nutritionList)
 
   return (
-    <div className=" overflow-y-auto flex flex-row rounded-xl">
-      {nutrition.map(([key, value]) => (
-        <Card  sx={{ margin: 0.5, padding: 1  }}>
-          <div >
-            {key}: {value}
+    <div className="overflow-y-auto flex  rounded-xl p-2 ">
+    {nutrition.map(([key, value]) => (
+      <div className="w-full sm:w-1/6 md:w-1/6 lg:w-1/6 xl:w-1/6 mb-2 px-2 " key={key}>
+        <div className="bg-gray-200 rounded-xl p-2 shadow-md">
+          <div className="text-gray-800 text-sm sm:text-base md:text-sm lg:text-sm xl:text-sm">
+            <span className="font-semibold">{key}:</span> {value}
           </div>
-        </Card>
-      ))}
-    </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  
+  
   )
 }
 
