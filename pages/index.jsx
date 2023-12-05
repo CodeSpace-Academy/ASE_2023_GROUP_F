@@ -8,7 +8,6 @@ import { filterContext } from '../components/search-functionality/filterContext'
 import HandleError from '../components/error/Error';
 import ScrollArrowButtons from '../components/UI/ScrollArrowButtons';
 import Animation from '../components/skeletonCard/loadingAnimation/LoadingAnimation';
-import CardSkeleton from '../components/skeletonCard/skeleton';
 
 /**
  * Home component is the main page of the recipe app.
@@ -75,24 +74,18 @@ function Home(props) {
         />
       </Head>
       <SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} count={remainingRecipes} />
-      {loading && (
-        <>
-          <Animation />
-          <CardSkeleton />
-        </>
-      )}
+      {loading && <Animation />}
       <ScrollArrowButtons />
-      {!loading &&
-        (filteredRecipes && filteredRecipes.length > 0 ? (
-          <RecipeList
-            visibleRecipes={filteredRecipes}
-            count={remainingRecipes}
-            appliedFilters={filters}
-            setRecipes={setFilteredRecipes}
-          />
-        ) : (
-          <HandleError>No recipes found!!</HandleError>
-        ))}
+      {!loading && (!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
+        <HandleError>No recipes found!! 😢</HandleError>
+      ) : (
+        <RecipeList
+          visibleRecipes={filteredRecipes}
+          count={remainingRecipes}
+          appliedFilters={filters}
+          setRecipes={setFilteredRecipes}
+        />
+      )}
     </div>
   );
 }
@@ -104,12 +97,10 @@ function Home(props) {
  * @function
  * @returns {Object} - The props to be passed to the Home component.
  */
-
 export async function getStaticProps() {
   try {
     // Fetching recipes and count using the getRecipes API
     const { recipes, count } = await getRecipes(48);
-
     return {
       props: {
         visibleRecipes: recipes,
