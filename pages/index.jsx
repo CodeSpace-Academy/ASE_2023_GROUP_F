@@ -31,6 +31,7 @@ function Home(props) {
   const [loading, setLoading] = useState(false);
 
   const handleApplyFilters = async (filters) => {
+    console.log("trigger handle apply filters")
     try {
       setLoading(true);
 
