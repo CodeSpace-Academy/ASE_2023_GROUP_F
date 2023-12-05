@@ -3,7 +3,7 @@ import { Chip, Button } from '@mui/material';
 import { debounce } from 'lodash';
 import Modal from './Modal';
 import { filterContext } from './filterContext';
-import Animation from '../skeletonCard/loadingAnimation/LoadingAnimation';
+
 
 /**
  * SearchBar Component
@@ -36,7 +36,6 @@ function SearchBar(props) {
 
   // Open modal
   const handleOpen = () => setOpen(true);
-  const [loading , setLoading] = useState(false)
 
   // Close modal
   const handleClose = () => setOpen(false);
@@ -75,10 +74,10 @@ function SearchBar(props) {
         updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
   
         if (updatedFilters[filterType].length === 0) {
-          updatedFilters[filterType] = null; // Set to null only if no tags left
+          updatedFilters[filterType] = null; 
         }
       } else if (typeof updatedFilters[filterType] === 'string') {
-        updatedFilters[filterType] = ''; // Set to empty string for non-array string filters
+        updatedFilters[filterType] = ''; 
       }
       if(updatedFilters[filterType]){
         updatedFilters[filterType] = null
@@ -96,10 +95,10 @@ function SearchBar(props) {
           );
   
           if (updatedSelectedFilters[filterType].length === 0) {
-            updatedSelectedFilters[filterType] = null; // Set to null only if no tags left
+            updatedSelectedFilters[filterType] = null; 
           }
         } else if (typeof updatedSelectedFilters[filterType] === 'string') {
-          updatedSelectedFilters[filterType] = null; // Set to empty string for non-array string filters
+          updatedSelectedFilters[filterType] = null; 
         }
 
         if(updatedSelectedFilters[filterType]){
@@ -125,9 +124,8 @@ function SearchBar(props) {
   const handleSort = async (event) => {
     const newSortOption = event.target.value;
     setSortOption(newSortOption);
-    setLoading(true);
     await applyFilters(filters, newSortOption);
-    setLoading(false)
+    
   };
 
   // Reset filters handler
@@ -155,10 +153,6 @@ function SearchBar(props) {
       debouncedApplyFilters.cancel();
     };
   }, [searchTerm, filters, sortOption]);
-
-  if(loading){
-    return <Animation/>
-  }
 
   return (
     <div className="my-6">
