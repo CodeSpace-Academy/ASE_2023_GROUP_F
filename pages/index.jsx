@@ -8,6 +8,7 @@ import { filterContext } from '../components/search-functionality/filterContext'
 import HandleError from '../components/error/Error';
 import ScrollArrowButtons from '../components/UI/ScrollArrowButtons';
 import Animation from '../components/skeletonCard/loadingAnimation/LoadingAnimation';
+import CardSkeleton from '../components/skeletonCard/skeleton';
 
 /**
  * Home component is the main page of the recipe app.
@@ -73,10 +74,15 @@ function Home(props) {
           content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
         />
       </Head>
-      {loading && <Animation /> }
       <SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} count={remainingRecipes} />
+      {loading && (
+        <>
+          <Animation />
+          <CardSkeleton />
+        </>
+      )}
       <ScrollArrowButtons />
-      {(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
+      {!loading && !filteredRecipes ? (
         <HandleError>No recipes found!!</HandleError>
       ) : (
         <RecipeList
@@ -97,10 +103,12 @@ function Home(props) {
  * @function
  * @returns {Object} - The props to be passed to the Home component.
  */
+
 export async function getStaticProps() {
   try {
     // Fetching recipes and count using the getRecipes API
     const { recipes, count } = await getRecipes(48);
+
     return {
       props: {
         visibleRecipes: recipes,
