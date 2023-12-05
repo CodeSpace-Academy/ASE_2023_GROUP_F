@@ -29,6 +29,10 @@ function Details(props) {
   const [allergens, setAllergens] = useState([]);
   const [networkError, setNetworkError] = useState("");
 
+  const handleShowMore = () => {
+    setShowMore(!showMore);
+  };
+
   // Fetch allergens data from the server on component mount
   useEffect(() => {
     const callAllergens = async () => {
@@ -55,6 +59,7 @@ function Details(props) {
 
   return (
     <>
+    <div className="font-serif font-bold lg:text-4xl md:text-sm text-center mt-6">{recipe?.title}</div>
       <div className="flex flex-col justify-between mt-5 md:flex-row ">
         {/* RecipeBanner component displaying recipe images */}
         <div className="md:mr-5 container">
@@ -69,13 +74,10 @@ function Details(props) {
 
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className="mt-5 md:mt-0 md:ml-5 container p-5 md:flex-grow">
-          <div className="font-serif text-4xl text-center">{recipe?.title}</div>
-          <br />
-          
           {/* Display description of the recipe */}
           <div className="flex items-center justify-center space-x-2">
               <AssignmentIcon />
-              <p className="font-sans font-bold">Description</p>
+              <p className="font-sans font-bold lg:text-lg md:text-sm">Description</p>
             </div>
           <p className="mt-1 text-sm text-center container ">
             <Description
@@ -95,10 +97,14 @@ function Details(props) {
               Preparation time {recipe?.prep} mins
             </div>
 
-            <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
-              <ServingIcon width="25" height="25" fill="#2B5B95" />
-              Serves {recipe?.servings}
-            </div>
+           {recipe?.servings && (
+          <div className="flex items-center justify-center p-4 my-4 font-bold bg-gray-200 rounded-xl">
+            <ServingIcon width="25" height="25" fill="#2B5B95" />
+            <p>
+              <strong>Serving:</strong> {recipe.servings}
+            </p>
+          </div>
+        )}
           </div>
           {/* Display recipe tags */}
           <div className="mt-5">
@@ -108,9 +114,10 @@ function Details(props) {
             </div>
             <RecipeTags tags={recipe?.tags} networkError={networkError} />
           </div>{" "}
+
           {/* Display nutrition information */}
           <div className="mt-5">
-            <p className="font-sans font-bold text-center">Nutrition</p>
+            <p className="font-sans font-bold text-center lg:text-lg md:text-sm">Nutrition</p>
             <Nutrition nutritionList={recipe?.nutrition} />
           </div>
         </div>
@@ -152,7 +159,7 @@ function Details(props) {
               !toggleList ? "xs:block" : "xs:hidden"
             }`}
           >
-            <p className="text-center mt-5 text-lg font-bold md:block xs:hidden">
+            <p className="text-center  text-lg font-bold md:block xs:hidden">
               Instructions
             </p>
             <Instructions

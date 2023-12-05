@@ -143,7 +143,7 @@ function RecipeCard(props) {
         <div className="inset-0 transform">
           <div className="px-6 hover:text-black hover:bg-slate-300">
             <div className="flex flex-col justify-between">
-              <div className="font-bold font-serif text-lg pt-2 mb-4 ">
+              <div className="font-bold font-serif lg:text-lg md:text-sm pt-2 mb-4 ">
                 <strong
                   style={{
                     display: 'block',

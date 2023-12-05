@@ -68,7 +68,7 @@ function FavoriteRecipesPage() {
         />
       </Head>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4">
+        <h1 className="lg:text-3xl md:text-sm font-bold mb-4 text-gray-500">
           Favorite Recipes ({favoriteRecipesCount})
         </h1>
         {isLoading ? (
