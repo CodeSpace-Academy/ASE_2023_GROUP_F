@@ -144,18 +144,18 @@ function SearchBar(props) {
   // Debounced search term handler
   useEffect(() => {
     const debouncedApplyFilters = debounce(async () => {
-      await applyFilters({ ...filters, title: searchTerm });
+      await applyFilters({ ...filters, searchTerm });
       setButtonEnabled(true);
     }, 500);
 
     const shortQueryDebounce = debounce(async () => {
-      await applyFilters({ ...filters, title: searchTerm });
+      await applyFilters({ ...filters, searchTerm });
       setButtonEnabled(true);
     }, 500);
 
     const longQueryDebounce = debounce(async () => {
       if (searchTerm.length > 10) {
-        await applyFilters({ ...filters, title: searchTerm });
+        await applyFilters({ ...filters, searchTerm });
         setButtonEnabled(true);
       }
     }, 1000);
