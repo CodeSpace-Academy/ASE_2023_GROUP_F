@@ -32,7 +32,7 @@ function SearchBar(props) {
 
   const [open, setOpen] = useState(false);
 
-  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
 
   // Open modal
   const handleOpen = () => setOpen(true);
@@ -145,12 +145,12 @@ function SearchBar(props) {
   useEffect(() => {
     const debouncedApplyFilters = debounce(async () => {
       await applyFilters({ ...filters, title: searchTerm });
-      setButtonEnabled(false);
+      setButtonEnabled(true);
     }, 500);
 
     const shortQueryDebounce = debounce(async () => {
       await applyFilters({ ...filters, title: searchTerm });
-      setButtonEnabled(false);
+      setButtonEnabled(true);
     }, 500);
 
     const longQueryDebounce = debounce(async () => {
