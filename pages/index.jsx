@@ -82,7 +82,7 @@ function Home(props) {
         </>
       )}
       <ScrollArrowButtons />
-      {!loading && !filteredRecipes ? (
+      {!loading && !filteredRecipes || filteredRecipes.length === 0 || visibleRecipes.length === 0 ? (
         <HandleError>No recipes found!!</HandleError>
       ) : (
         <RecipeList
