@@ -81,7 +81,7 @@ function Instructions(props) {
   return (
     <div>
       <div className="overflow-y-auto mx-10 rounded-xl">
-        {displayedInstructions.map((item, index) => (
+        {displayedInstructions.map((item) => (
           <Card key={item} className="m-0 p-2 bg-gray-200 lg:text-lg md:text-sm">
             {editableIndex === index ? (
               <div>
