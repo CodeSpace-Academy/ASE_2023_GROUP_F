@@ -29,9 +29,6 @@ function Details(props) {
   const [allergens, setAllergens] = useState([]);
   const [networkError, setNetworkError] = useState("");
 
-  const handleShowMore = () => {
-    setShowMore(!showMore);
-  };
 
   // Fetch allergens data from the server on component mount
   useEffect(() => {
@@ -159,7 +156,7 @@ function Details(props) {
               !toggleList ? "xs:block" : "xs:hidden"
             }`}
           >
-            <p className="text-center  text-lg font-bold md:block xs:hidden">
+            <p className="text-center mt-5 text-lg font-bold md:block xs:hidden">
               Instructions
             </p>
             <Instructions

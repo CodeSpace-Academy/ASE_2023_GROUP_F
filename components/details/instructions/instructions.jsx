@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
  */
 
 function Instructions(props) {
-  const { recipeId, instructions } = props;
+  const {  instructions } = props;
 
   // State variables to manage editing functionality
   const [editableIndex, setEditableIndex] = useState(-1);
@@ -82,7 +82,7 @@ function Instructions(props) {
     <div>
       <div className="overflow-y-auto mx-10 rounded-xl">
         {displayedInstructions.map((item, index) => (
-          <Card key={index} className="m-0 p-2 bg-gray-200 lg:text-lg md:text-sm">
+          <Card key={item} className="m-0 p-2 bg-gray-200 lg:text-lg md:text-sm">
             {editableIndex === index ? (
               <div>
                 <TextField
