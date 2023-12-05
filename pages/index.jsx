@@ -82,16 +82,17 @@ function Home(props) {
         </>
       )}
       <ScrollArrowButtons />
-      {!loading && !filteredRecipes || filteredRecipes.length === 0 || visibleRecipes.length === 0 ? (
-        <HandleError>No recipes found!!</HandleError>
-      ) : (
-        <RecipeList
-          visibleRecipes={filteredRecipes}
-          count={remainingRecipes}
-          appliedFilters={filters}
-          setRecipes={setFilteredRecipes}
-        />
-      )}
+      {!loading &&
+        (filteredRecipes && filteredRecipes.length > 0 ? (
+          <RecipeList
+            visibleRecipes={filteredRecipes}
+            count={remainingRecipes}
+            appliedFilters={filters}
+            setRecipes={setFilteredRecipes}
+          />
+        ) : (
+          <HandleError>No recipes found!!</HandleError>
+        ))}
     </div>
   );
 }
