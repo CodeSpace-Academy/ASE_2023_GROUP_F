@@ -3,6 +3,7 @@ import { Chip, Button } from '@mui/material';
 import { debounce } from 'lodash';
 import Modal from './Modal';
 import { filterContext } from './filterContext';
+import Animation from '../skeletonCard/loadingAnimation/LoadingAnimation';
 
 /**
  * SearchBar Component
@@ -32,8 +33,10 @@ function SearchBar(props) {
 
   const [open, setOpen] = useState(false);
 
+
   // Open modal
   const handleOpen = () => setOpen(true);
+  const [loading , setLoading] = useState(false)
 
   // Close modal
   const handleClose = () => setOpen(false);
@@ -81,8 +84,6 @@ function SearchBar(props) {
         updatedFilters[filterType] = null
         
       }
-
-      console.log("Updated" , updatedFilters[filterType])
   
       applyFilters(updatedFilters);
   
@@ -124,7 +125,9 @@ function SearchBar(props) {
   const handleSort = async (event) => {
     const newSortOption = event.target.value;
     setSortOption(newSortOption);
+    setLoading(true);
     await applyFilters(filters, newSortOption);
+    setLoading(false)
   };
 
   // Reset filters handler
@@ -152,6 +155,10 @@ function SearchBar(props) {
       debouncedApplyFilters.cancel();
     };
   }, [searchTerm, filters, sortOption]);
+
+  if(loading){
+    return <Animation/>
+  }
 
   return (
     <div className="my-6">
