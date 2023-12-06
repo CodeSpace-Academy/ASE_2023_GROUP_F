@@ -95,9 +95,9 @@ function RecipeCard(props) {
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
-    <div className="bg-slate-600 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105 hover:bg-slate-700">
+    <div className="max-w-sm transition duration-300 ease-in-out rounded-lg shadow-lg hover:bg-slate-700 bg-slate-600">
       <div className="relative rounded-lg">
-        <div className="h-56 overflow-hidden">
+        <div className="h-56 overflow-hidden ">
           <Image
             className="rounded-lg"
             layout="fill"
@@ -111,7 +111,7 @@ function RecipeCard(props) {
           <div className="absolute inset-0 flex items-center justify-between p-4">
             <button
               type="button"
-              className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white"
+              className="p-1 text-gray-800 bg-white rounded-full shadow hover:bg-white"
               onClick={() => changeImage(-1)}
               aria-label="Previous Image"
             >
@@ -120,7 +120,7 @@ function RecipeCard(props) {
 
             <button
               type="button"
-              className="p-1 rounded-full shadow bg-white text-gray-800 hover:bg-white"
+              className="p-1 text-gray-800 bg-white rounded-full shadow hover:bg-white"
               onClickCapture={() => changeImage(1)}
               aria-label="Next Image"
             >
@@ -129,7 +129,7 @@ function RecipeCard(props) {
           </div>
         )}
 
-        <div className="bg-secondary-100 text-red-500 text-xs uppercase font-bold rounded-full p-2 absolute top-0 right-0  mr-2 mt-2">
+        <div className="absolute top-0 right-0 p-2 mt-2 mr-2 text-xs font-bold text-red-500 uppercase rounded-full bg-secondary-100">
           <div className="flex items-center justify-center gap-2">
             <div style={{ cursor: 'pointer' }} onClick={toggleFavorite}>
               {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
@@ -139,12 +139,18 @@ function RecipeCard(props) {
       </div>
 
       <Link href={`/recipes/${recipe._id}`}>
-        <div className="px-6">
-          <div className="font-bold text-lg font-serif p-3 h-16 overflow-hidden">
-            <strong className=" text-slate-300">{title}</strong>
-          </div>
-          <div className="mt-2">
-            <TimeDisplay recipe={recipe} />
+        <div className="inset-0 transform">
+          <div className="px-6 hover:text-black hover:bg-slate-300">
+            <div className="flex flex-col justify-between">
+              <div className="pt-2 mb-4 font-serif font-bold lg:text-lg md:text-sm ">
+                <strong className="block overflow-hidden font-extrabold md:text-lg lg:text-base xl:text-lg md:text-md sm:text-sm2xl:text-sm">
+                  {title}
+                </strong>
+              </div>
+              <div>
+                <TimeDisplay recipe={recipe} />
+              </div>
+            </div>
           </div>
         </div>
       </Link>

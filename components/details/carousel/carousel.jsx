@@ -1,5 +1,5 @@
-import { Button } from "@mui/material"
-import Image from "next/image"
+import { Button } from '@mui/material';
+import Image from 'next/image';
 
 /**
  * Carousel Component
@@ -16,17 +16,19 @@ import Image from "next/image"
  *
  * */
 
-function Carousel({imageList, setFunc}){
+function Carousel({ imageList, setFunc }) {
+  return (
+    <div className="flex flex-row justify-between pt-2 overflow-y-auto border max-48 md:border-current md:border-solid md:border-2">
+    {imageList.map((image, index) => (
+      <Button onClick={() => setFunc(index)} key={image}>
+        <div className="p-2 m-6 h-15 w-30" style={{ paddingRight: '6px' }}>
+          <Image src={image} alt="recipe image" layout="fill" objectFit="cover" />
+        </div>
+      </Button>
+    ))}
+  </div>
 
-  return(
-    <div className="mr-5 bg-gray-200 p-5 flex flex-col justify-between overflow-y-auto max-h-96">
-      {imageList.map((image, index) => (
-        <Button onClick={() => setFunc(index)} key={image}>
-          <Image src={image} alt="recipe image" width={200} height={200} className="mb-4"/>
-        </Button>
-      ))}
-    </div>
-  )
+  );
 }
 
-export default Carousel
+export default Carousel;

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { Card, Button, TextField } from '@mui/material'
-import NetworkError from '../error/NetworkError'
+import React, { useState } from 'react';
+import { Button, TextField, Typography, useMediaQuery } from '@mui/material';
 
 /**
  * Description Component
@@ -13,37 +12,40 @@ import NetworkError from '../error/NetworkError'
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.recipeId - The unique identifier of the recipe.
  * @param {string} props.description - The initial description of the recipe.
- * 
+ *
  * @returns {JSX.Element} - The rendered Description component.
  *
-* */
+ */
 
 function Description(props) {
-  const { recipeId, description , error } = props
+  const { recipeId, description } = props;
 
-   // State variables for managing edit state and edited description
-  const [isEditing, setIsEditing] = useState(false)
-  const [editedDescription, setEditedDescription] = useState(description)
-  const [originalDescription, setOriginalDescription] = useState(description)
+  // State variables for managing edit state and edited description
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(description);
+  const [originalDescription, setOriginalDescription] = useState(description);
+  const [showRemaining, setShowRemaining] = useState(description.length > 300);
+
+  const isSmallScreen = useMediaQuery('(max-width: 600px)');
 
   const handleEdit = () => {
-    setOriginalDescription(editedDescription)
-    setIsEditing(true)
-  }
+    setOriginalDescription(editedDescription);
+    setIsEditing(true);
+  };
 
   const handleSave = async () => {
-    const currentDate = new Date()
+    const currentDate = new Date();
     const options = {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    }
-    const formattedDate = currentDate.toLocaleDateString(undefined, options)
+    };
+    const formattedDate = currentDate.toLocaleDateString(undefined, options);
 
     // Concatenate information about the edit to the description
-    const updatedDescription = `${editedDescription} (edited on ${formattedDate})`
-    setEditedDescription(updatedDescription)
-    setIsEditing(false)
+    const updatedDescription = `${editedDescription} (edited on ${formattedDate})`;
+    setEditedDescription(updatedDescription);
+    setIsEditing(false);
 
     try {
       // Make a PATCH request to update the recipe description on the server
@@ -53,64 +55,79 @@ function Description(props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ description: updatedDescription }),
-      })
+      });
 
       if (response.ok) {
-        console.log('Description updated successfully')
-        setIsEditing(false)
+        console.log('Description updated successfully');
+        setIsEditing(false);
       } else {
-        console.error('Failed to update the description')
+        console.error('Failed to update the description');
       }
     } catch (error) {
-      console.error('Error updating description:', error)
+      console.error('Error updating description:', error);
     }
-  }
+
+    setShowRemaining(editedDescription.length > 300);
+  };
 
   const handleCancel = () => {
-    setIsEditing(false)
-    setEditedDescription(originalDescription)
-  }
+    setIsEditing(false);
+    setEditedDescription(originalDescription);
+    setShowRemaining(originalDescription.length > 300);
+  };
 
-  if(error){
-    return <NetworkError errorMessage={`Description not found , ${error}`} />
-  }
+  const toggleShowRemaining = () => {
+    setShowRemaining(!showRemaining);
+  };
 
   return (
-    <div>
-      <div>
-        <Card className="bg-gray-200">
-          {isEditing ? (
+    <div style={{ backgroundColor: '#cbd5e1' }}>
+      {isEditing ? (
+        <div>
+          <TextField
+            multiline
+            value={editedDescription}
+            fullWidth
+            onChange={(e) => setEditedDescription(e.target.value)}
+          />
+          <div className="flex-row space-x-4 text-center">
+            <Button variant="outlined" onClick={handleSave}>
+              Save
+            </Button>
+            <Button variant="outlined" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="text-center">
+          {isSmallScreen && showRemaining ? (
             <div>
-              <TextField
-                multiline
-                value={editedDescription}
-                fullWidth
-                onChange={(e) => setEditedDescription(e.target.value)}
-              />
-              <div className="flex-row space-x-4">
-                <Button variant="outlined" onClick={handleSave}>
-                  Save
-                </Button>
-                <Button variant="outlined" onClick={handleCancel}>
-                  Cancel
-                </Button>
-              </div>
+              <Typography variant="body1" component="p" className="m-1 text-start">
+                {editedDescription.length > 300 ? `${editedDescription.slice(0, 300)}...` : editedDescription}
+              </Typography>
+
+              <Button
+                variant="text"
+                style={{ color: 'black', textDecoration: 'underline', fontWeight: 'bold' }}
+                onClick={toggleShowRemaining}
+              >
+                Show More
+              </Button>
             </div>
           ) : (
-            <div>
-              <p className="text-xl m-1">
-                {editedDescription}
-                <br />
-                <Button variant="outlined" onClick={handleEdit}>
-                  Edit
-                </Button>
-              </p>
-            </div>
+            <Typography variant="body1" component="p" className="m-1 text-start">
+              {editedDescription}
+            </Typography>
           )}
-        </Card>
-      </div>
+
+          <Button variant="outlined" onClick={handleEdit}>
+            Edit
+          </Button>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Description
+export default Description;

@@ -153,7 +153,7 @@ function SearchBar(props) {
     <div className="my-6">
       <div className=" flex items-center justify-between">
         <button
-        type='button'
+          type="button"
           onClick={handleOpen}
           className="  border border-slate-300  text-blue-950 hover:text-white hover:bg-gray-900 p-3 rounded-lg w-28 flex items-center justify-center"
         >
@@ -231,7 +231,7 @@ function SearchBar(props) {
             onChange={handleSort}
             className="text-slate-300 bg-slate-500 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
-            <option aria-label="None" value="" className="text-sm md:block p-4 m-8">
+            <option aria-label="None" value="" className="p-4 m-8 text-sm md:block">
               Default
             </option>
             <optgroup label="Prep Time">
@@ -259,19 +259,25 @@ function SearchBar(props) {
       {open && (
         <Modal handleClose={handleClose} applyFilters={handleApplyFilters} clearAllFilters={handleResetFilters} />
       )}
-      <div>
-        <h2 className="font-bold text-slate-300">Applied Filters:</h2>
+      <div
+        className=" font-bold text-slate-300"
+        style={{
+          display: 'flex',
+          marginRight: '1rem',
+          marginTop: '1rem',
+        }}
+      >
         {selectedFilters.category !== null && selectedFilters.category !== '' && (
           <div
             className="text-slate-800"
             style={{
-              display: 'inline-block',
+              display: 'flex',
               marginRight: '1rem',
               maxWidth: 500,
             }}
           >
             <strong>Category:</strong>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
               <Chip
                 className="bg-slate-300 text-slate-900"
                 label={selectedFilters.category}
@@ -288,13 +294,13 @@ function SearchBar(props) {
               className="text-slate-800"
               key={filterName}
               style={{
-                display: 'inline-block',
+                display: 'flex',
                 marginRight: '1rem',
                 maxWidth: 500,
               }}
             >
               <strong>{filterName}:</strong>
-              <div style={{ display: 'flex', flexWrap: 'wrap' }} className="text-slate-800">
+              <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }} className="text-slate-800">
                 {filterValues?.map((value) => (
                   <Chip
                     key={value}
@@ -312,13 +318,13 @@ function SearchBar(props) {
           <div
             className="text-slate-800"
             style={{
-              display: 'inline-block',
+              display: 'flex',
               marginRight: '1rem',
               maxWidth: 500,
             }}
           >
             <strong>Ingredients:</strong>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
               <Chip
                 className="bg-slate-300 text-slate-900"
                 label={selectedFilters?.ingredients}
@@ -334,13 +340,13 @@ function SearchBar(props) {
           <div
             className="text-slate-800"
             style={{
-              display: 'inline-block',
+              display: 'flex',
               marginRight: '1rem',
               maxWidth: 500,
             }}
           >
             <strong>Instructions:</strong>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
               <Chip
                 className="bg-slate-300 text-slate-900"
                 label={selectedFilters.instructions}
@@ -356,7 +362,7 @@ function SearchBar(props) {
       {!noFiltersApplied && (
         <Chip
           className="bg-slate-900 text-slate-300 ml-2 mt-2"
-          color="secondary"
+          style={{ borderColor: 'black', marginTop: '10px', textAlign: 'start' }}
           label="Clear All Filters"
           size="small"
           variant="outlined"
