@@ -41,18 +41,18 @@ function TimeDisplay({ recipe }) {
   const totalCookingTime = recipe.prep + recipe.cook;
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 ml-3">
       <div className="flex gap-7 mb-4">
         <span className="flex">
-          <PrepIcon fill="#000000" width="35" height="35" />
-          <span className="ml-2 text-sm">
+          <PrepIcon fill="#cbd5e1" width="35" height="35" />
+          <span className="ml-2 text-sm text-purple-950">
             <strong>Prep Time</strong> <br />
             {formattedPrepTime}
           </span>
         </span>
         <span className="flex items-center">
-          <CookIcon fill="#000000" width="35" height="35" />
-          <span className="ml-2 text-sm">
+          <CookIcon fill="#cbd5e1" width="35" height="35" />
+          <span className="ml-2 text-sm text-purple-950">
             <p>
               <strong>Cooking Time</strong> <br /> {formattedCookingTime}
             </p>
@@ -61,7 +61,7 @@ function TimeDisplay({ recipe }) {
       </div>
       <span className="flex items-center">
         <TimeIcon />
-        <span className="ml-2 mr-8 text-sm">
+        <span className="ml-2 mr-8 text-sm text-purple-950">
           <p>
             <strong>(Prep+cook)</strong> <br />
             {formatTime(totalCookingTime)}
@@ -69,8 +69,8 @@ function TimeDisplay({ recipe }) {
         </span>
         {recipe.servings && (
           <>
-            <ServingIcon width="25" height="25" fill="#2B5B95" />
-            <p>
+            <ServingIcon width="25" height="25" fill="#cbd5e1" />
+            <p className="text-fuchsia-950 ml-3">
               <strong>Serving:</strong> {recipe.servings}
             </p>
           </>
