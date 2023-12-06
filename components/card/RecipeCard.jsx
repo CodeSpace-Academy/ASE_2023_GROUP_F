@@ -95,10 +95,10 @@ function RecipeCard(props) {
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
-    <div className="bg-slate-200 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105">
+    <div className="bg-slate-600 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105">
       <div className="relative rounded-lg">
         <div className=" h-56 overflow-hidden">
-          <Image
+          {/* <Image
             className="rounded-lg"
             layout="responsive"
             width={400}
@@ -106,7 +106,7 @@ function RecipeCard(props) {
             src={images?.[currentImage]}
             alt={`Recipe image ${currentImage + 1}`}
             priority
-          />
+          /> */}
         </div>
         {isButtonVisible && (
           <div className="absolute inset-0 flex items-center justify-between p-4">
@@ -141,9 +141,9 @@ function RecipeCard(props) {
 
       <Link href={`/recipes/${recipe._id}`}>
         <div className="inset-0 transform">
-          <div className="px-6 hover:text-black hover:bg-slate-300">
+          <div className="px-6 hover:text-black hover:bg-slate-700">
             <div className="flex flex-col justify-between">
-              <div className="font-bold font-serif text-lg pt-2 mb-4 ">
+              <div className="font-bold font-serif text-lg pt-2 mb-4 text-slate-300 ">
                 <strong
                   style={{
                     display: 'block',
