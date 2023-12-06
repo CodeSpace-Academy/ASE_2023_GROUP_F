@@ -73,7 +73,7 @@ function SearchBar(props) {
           (item) => item !== filterValue
         );
   
-        if (updatedFilters[filterType]?.length === 0) {
+        if (updatedFilters[filterType].length === 0) {
           delete updatedFilters[filterType];
         }
       } else {
@@ -83,7 +83,6 @@ function SearchBar(props) {
           delete updatedFilters[filterType];
         }
       }
-  
       applyFilters(updatedFilters);
   
       return updatedFilters;
@@ -97,14 +96,14 @@ function SearchBar(props) {
           (item) => item !== filterValue
         );
   
-        if (updatedSelectedFilters[filterType]?.length === 0) {
+        if (updatedSelectedFilters[filterType].length === 0) {
           delete updatedSelectedFilters[filterType];
         }
       } else {
         if (filterType === "category" || filterType === "ingredients") {
-          delete updatedSelectedFilters[filterType];
+           updatedSelectedFilters[filterType]=null
         } else if (filterType === "instructions") {
-          delete updatedSelectedFilters[filterType];
+           updatedSelectedFilters[filterType]=""
         }
       }
   
