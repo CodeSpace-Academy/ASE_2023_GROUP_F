@@ -65,14 +65,16 @@ function FavoriteRecipesPage() {
         />
       </Head>
       <div className="container mx-auto p-4">
-        <h1 className="lg:text-3xl md:text-sm font-bold mb-4 text-white">Favorite Recipes ({favoriteRecipesCount})</h1>
+        <h1 className="lg:text-3xl md:text-xl sm:text-lg font-bold mb-4 text-white">
+          Favorite Recipes ({favoriteRecipesCount})
+        </h1>
 
         {isLoading ? (
           <CardSkeleton />
         ) : favoriteRecipesCount > 0 ? (
           <RecipeList visibleRecipes={favoriteRecipes} updateFavoriteRecipesCount={updateFavoriteRecipesCount} />
         ) : (
-          <p className="text-gray-600 text-3xl font-bold">No favorite recipes found.</p>
+          <p className="text-white text-3xl font-bold">No favorite recipes found.</p>
         )}
       </div>
     </>
