@@ -1,5 +1,5 @@
-import React from "react";
-import { Card } from "@mui/material";
+import React, { useState } from 'react';
+import { Card, Button } from '@mui/material';
 
 /**
  * Ingredients Component
@@ -17,19 +17,34 @@ import { Card } from "@mui/material";
 
 function Ingredients(props) {
   const { ingredients } = props;
+  const [showAll, setShowAll] = useState(false);
+
   const ingredient = Object.entries(ingredients);
+  const visibleIngredients = showAll ? ingredient : ingredient.slice(0, 5);
 
   return (
     <div>
-      <div className="mx-10 rounded-xl">
-        {ingredient.map((item) => (
-          <Card key={item} className="p-2 bg-gray-200 text-lg">
+      <div className="mx-4 rounded-xl">
+        {visibleIngredients.map((item) => (
+          <Card key={item} className="p-2 bg-gray-200 lg:text-lg md:text-sm">
             {item[0]}: {item[1]}
           </Card>
         ))}
+        {ingredients.length > 3 && (
+          <div className="flex justify-center mt-2">
+            {showAll ? (
+              <Button variant="outlined" onClick={() => setShowAll(false)}>
+                ▲
+              </Button>
+            ) : (
+              <Button variant="outlined" onClick={() => setShowAll(true)}>
+                ▼
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
 export default Ingredients;

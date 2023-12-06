@@ -71,29 +71,30 @@ function Details(props) {
           <div className="font-serif text-4xl text-center xs:hidden md:block">{recipe?.title}</div>
           <br />
           {/* Display description of the recipe */}
-          <div className="flex items-center justify-center space-x-2">
-            <AssignmentIcon />
-            <p className="font-sans font-bold">Description</p>
-          </div>
+
           <p className="mt-1 text-sm text-center container ">
             <Description recipeId={recipe?._id} description={recipe?.description} error={error} />
           </p>
           {/* Display recipe details including cook time, prep time, and servings */}
           <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0">
-            <div className="flex items-center justify-center p-4 my-4 font-bold ">
+            <div className="flex items-center justify-center p-2 my-2 font-bold bg-gray-200 rounded-xl">
               <CookIcon fill="#000000" width="35" height="35" />
-              Cook time: {recipe?.cook} mins
+              Cook time {recipe?.cook} mins
             </div>
 
-            <div className="flex items-center justify-center p-4 my-4 font-bold ">
+            <div className="flex items-center justify-center p-2 my-2 font-bold bg-gray-200 rounded-xl">
               <PrepIcon fill="#000000" width="35" height="35" />
-              Preparation time: {recipe?.prep} mins
+              Preparation time {recipe?.prep} mins
             </div>
 
-            <div className="flex items-center justify-center p-4 my-4 font-bold ">
-              <ServingIcon width="25" height="25" fill="#000000" />
-              Serves: {recipe?.servings}
-            </div>
+            {recipe?.servings && (
+              <div className="flex items-center justify-center p-2  font-bold bg-gray-200 rounded-xl">
+                <ServingIcon width="25" height="25" fill="#000000" />
+                <p>
+                  <strong>Serving:</strong> {recipe.servings}
+                </p>
+              </div>
+            )}
           </div>
           {/* Display recipe tags */}
           <div className="mt-5 flex flex-row items-center justify-center space-x-2">
@@ -102,7 +103,7 @@ function Details(props) {
           </div>
           {/* Display nutrition information */}
           <div className="mt-5">
-            <p className="font-sans font-bold text-center">Nutrition</p>
+            <p className="font-sans font-bold text-center lg:text-lg md:text-sm">Nutrition</p>
             <Nutrition nutritionList={recipe?.nutrition} />
           </div>
         </div>

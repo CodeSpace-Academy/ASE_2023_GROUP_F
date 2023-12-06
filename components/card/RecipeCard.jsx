@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'react-feather';
 import TimeDisplay from '../time/TimeDisplay';
 
-
 /**
  * RecipeCard Component
  *
@@ -144,7 +143,7 @@ function RecipeCard(props) {
         <div className="inset-0 transform">
           <div className="px-6 hover:text-black hover:bg-slate-300">
             <div className="flex flex-col justify-between">
-              <div className="font-bold font-serif pt-2 mb-4 max-w-full overflow-hidden">
+              <div className="font-bold font-serif lg:text-lg md:text-sm pt-2 mb-4 ">
                 <strong className="block font-extrabold overflow-hidden md:text-lg lg:text-base xl:text-sm 2xl:text-sm">
                   {title}
                 </strong>
