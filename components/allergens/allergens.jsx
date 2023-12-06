@@ -33,16 +33,17 @@ function RecipeAllergens(props) {
   const allergensFound = allergensInIngredients();
   return (
     <div>
-      <p>
-        {allergensFound.length > 0 ? (
-          <div className="">
-            <strong className=" mb-2">NB:</strong>
-            The following allergens are found in the recipe's ingredients:
-            <strong className=" mt-2">{allergensFound.join(', ')}</strong>
-          </div>
-        ) : null}
-      </p>
-    </div>
+    <p>
+      {allergensFound.length > 0 && (
+        <div className=" text-white p-4 rounded mb-4">
+          <strong className="mb-2 block">Note:</strong>
+          The following allergens are found in the recipe's ingredients:
+          <strong className="mt-2 block">{allergensFound.join(', ')}</strong>
+        </div>
+      )}
+    </p>
+  </div>
+  
   );
 }
 export default RecipeAllergens;
