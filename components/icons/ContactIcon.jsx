@@ -1,15 +1,17 @@
 // Your React component
 import React from 'react';
 
-const ContactIcon = () => (
-  <svg
+function ContactIcon(){
+
+    return (
+        <svg
     fill="#cbd5e1"
     height="35px"
     width="35px"
     version="1.1"
     id="Icons"
     viewBox="0 0 32 32"
-    xmlSpace="preserve "
+    xmlSpace="preserve "     
     
   >
     <g>
@@ -20,6 +22,7 @@ const ContactIcon = () => (
     </g>
     <path d="M25.3,23.9L25.3,23.9c-0.2-1.5-1.1-2.7-2.3-3.5v2.9c0.1,0.3,0.3,0.6,0.3,0.9l0.5,3.8H8.2l0.5-3.8c0-0.3,0.2-0.6,0.3-0.9 v-2.9c-1.2,0.8-2.1,2.1-2.3,3.5l-0.7,5c0,0.3,0,0.6,0.2,0.8C6.4,29.9,6.7,30,7,30h18c0.3,0,0.6-0.1,0.8-0.3 c0.2-0.2,0.3-0.5,0.2-0.8 L25.3,23.9z" />
   </svg>
-);
+    )
+}
 
 export default ContactIcon;
