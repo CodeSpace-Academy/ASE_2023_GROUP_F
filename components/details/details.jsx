@@ -23,7 +23,7 @@ import PrepIcon from "../icons/PrepIcon";
  */
 
 function Details(props) {
-  const { recipe } = props;
+  const { recipe , error } = props;
 
   const [toggleList, setToggleList] = useState(true);
   const [allergens, setAllergens] = useState([]);
@@ -71,7 +71,6 @@ function Details(props) {
         <div className="mt-5 md:mt-0 md:ml-5 container p-5 md:flex-grow">
           <div className="font-serif text-4xl text-center">{recipe?.title}</div>
           <br />
-          {/* Display allergens based on the provided allergens data */}
           {/* Display description of the recipe */}
           <div className="flex items-center justify-center space-x-2">
               <AssignmentIcon />
@@ -81,6 +80,7 @@ function Details(props) {
             <Description
               recipeId={recipe?._id}
               description={recipe?.description}
+              error={error}
             />
           </p>
           {/* Display recipe details including cook time, prep time, and servings */}
@@ -159,6 +159,7 @@ function Details(props) {
               recipeId={recipe?._id}
               instructions={recipe?.instructions}
               description={recipe?.description}
+              error={error}
             />
           </div>
         </div>

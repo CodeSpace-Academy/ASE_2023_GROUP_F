@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, Button, TextField, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
+import NetworkError from "../../error/NetworkError"
 
 /**
  * Instructions Component
@@ -13,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
  */
 
 function Instructions(props) {
-  const { recipeId, instructions } = props
+  const { recipeId, instructions , error } = props
 
   // State variables to manage editing functionality
   const [editableIndex, setEditableIndex] = useState(-1)
@@ -90,6 +91,10 @@ function Instructions(props) {
     setEditedInstructions([...instructions])
     setModifiedInstructions({})
     setEditableIndex(-1)
+  }
+
+  if(error){
+    return <NetworkError errorMessage={`Instructions not found , ${error}`} />
   }
 
   return (
