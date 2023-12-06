@@ -124,7 +124,6 @@ function SearchBar(props) {
   const handleSort = async (event) => {
     const newSortOption = event.target.value;
     setSortOption(newSortOption);
-    await applyFilters(filters, newSortOption);
     
   };
 
