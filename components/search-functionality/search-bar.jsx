@@ -151,12 +151,10 @@ function SearchBar(props) {
 
   return (
     <div className="my-6">
-      <div className="container flex items-center justify-between">
-        <Button
-          variant="outlined"
-          size="large"
+      <div className=" flex items-center justify-between">
+        <button
           onClick={handleOpen}
-          className="  border border-slate-300 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+          className="  border border-slate-300  text-blue-950 hover:text-white hover:bg-gray-900 p-3 rounded-lg w-28 flex items-center justify-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +172,7 @@ function SearchBar(props) {
           </svg>
 
           <span className="hidden md:inline-block ml-2">Filters</span>
-        </Button>
+        </button>
 
         <div className="relative flex items-center">
           <label htmlFor="search" className="sr-only">
@@ -286,7 +284,7 @@ function SearchBar(props) {
         {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
           filterName !== 'instructions' && Array.isArray(filterValues) && filterValues?.length > 0 ? (
             <div
-            className="text-slate-800"
+              className="text-slate-800"
               key={filterName}
               style={{
                 display: 'inline-block',
@@ -311,7 +309,7 @@ function SearchBar(props) {
 
         {selectedFilters?.ingredients !== null && selectedFilters?.ingredients !== '' && (
           <div
-          className="text-slate-800"
+            className="text-slate-800"
             style={{
               display: 'inline-block',
               marginRight: '1rem',
@@ -333,7 +331,7 @@ function SearchBar(props) {
 
         {selectedFilters.instructions !== null && selectedFilters.instructions !== '' && (
           <div
-          className="text-slate-800"
+            className="text-slate-800"
             style={{
               display: 'inline-block',
               marginRight: '1rem',
