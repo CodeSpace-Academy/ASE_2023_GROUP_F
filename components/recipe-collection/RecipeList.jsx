@@ -92,7 +92,7 @@ function RecipeList(props) {
 			<div>
 				{count > INITIAL_LOAD_SIZE && (
 					<div className="mt-4 text-center">
-						<p className="text-gray-500 font-bold">
+						<p className="text-white font-bold">
 							Showing page {currentPage} of {totalPages}
 						</p>
 						{remainingRecipes > 0 && (
