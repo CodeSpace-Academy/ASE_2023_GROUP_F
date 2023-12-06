@@ -261,8 +261,8 @@ function SearchBar(props) {
         <Modal handleClose={handleClose} applyFilters={handleApplyFilters} clearAllFilters={handleResetFilters} />
       )}
       <div
+        className="lg:flex"
         style={{
-          display: 'flex',
           marginRight: '1rem',
           marginTop: '1rem',
         }}
@@ -272,7 +272,7 @@ function SearchBar(props) {
             style={{
               display: 'flex',
               marginRight: '1rem',
-              maxWidth: 500,
+              maxWidth: '500',
             }}
           >
             <strong>Category:</strong>
@@ -293,7 +293,7 @@ function SearchBar(props) {
               style={{
                 display: 'flex',
                 marginRight: '1rem',
-                maxWidth: 500,
+                maxWidth: '500',
               }}
             >
               <strong>{filterName}:</strong>
@@ -311,7 +311,7 @@ function SearchBar(props) {
             style={{
               display: 'flex',
               marginRight: '1rem',
-              maxWidth: 500,
+              maxWidth: '500',
             }}
           >
             <strong>Ingredients:</strong>
@@ -331,7 +331,7 @@ function SearchBar(props) {
             style={{
               display: 'flex',
               marginRight: '1rem',
-              maxWidth: 500,
+              maxWidth: '500',
             }}
           >
             <strong>Instructions:</strong>
@@ -349,7 +349,7 @@ function SearchBar(props) {
 
       {!noFiltersApplied && (
         <Chip
-          style={{ borderColor: 'black', marginTop: '10px' }}
+          style={{ borderColor: 'black', marginTop: '10px', textAlign: 'start' }}
           label="Clear All Filters"
           size="small"
           variant="outlined"
