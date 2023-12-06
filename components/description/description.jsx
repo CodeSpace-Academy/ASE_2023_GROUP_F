@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Button, TextField } from '@mui/material'
+import NetworkError from '../error/NetworkError'
 
 /**
  * Description Component
@@ -18,7 +19,7 @@ import { Card, Button, TextField } from '@mui/material'
 * */
 
 function Description(props) {
-  const { recipeId, description } = props
+  const { recipeId, description , error } = props
 
    // State variables for managing edit state and edited description
   const [isEditing, setIsEditing] = useState(false)
@@ -68,6 +69,10 @@ function Description(props) {
   const handleCancel = () => {
     setIsEditing(false)
     setEditedDescription(originalDescription)
+  }
+
+  if(error){
+    return <NetworkError errorMessage={`Description not found , ${error}`} />
   }
 
   return (
