@@ -55,26 +55,28 @@ function Details(props) {
 
   return (
     <>
-      <div className="flex flex-col justify-between p-5 grid gap-2 xs:grid-cols-1 md:grid-cols-3 ">
-        <div className="font-serif text-4xl text-center mb-5 xs:grid-cols-1 xs:block md:hidden">{recipe?.title}</div>
+      <div className="flex grid flex-col justify-between gap-2 p-5 xs:grid-cols-1 md:grid-cols-3 ">
+        <div className="mb-5 font-serif text-4xl text-center xs:grid-cols-1 xs:block md:hidden">{recipe?.title}</div>
         {/* RecipeBanner component displaying recipe images  */}
 
         <div className="md:mr-5 xs:col-span-1 md:col-span-1 top:10 ">
-          <div className="md:border-current md:border-solid md:border-2 md:p-2">
-            <RecipeBanner images={recipe?.images} />
-          </div>
+        <div className="p-4 md:border-current md:border-solid md:border-2 md:p-4 md:m-4">
+      <RecipeBanner images={recipe?.images} />
+    </div>
         </div>
         {/* style={{ border: 'grey 1px solid', padding: '8px' }} */}
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className=" md:mt-0 md:ml-5 md:flex-grow xs:col-span-1 md:col-span-2">
+          <div className='p-6 border border-black'>
           <div className="font-serif text-4xl text-center xs:hidden md:block">{recipe?.title}</div>
           <br />
           {/* Display description of the recipe */}
 
-          <p className="mt-1 text-sm text-center container ">
+          <p className="container mt-1 text-sm text-center ">
             <Description recipeId={recipe?._id} description={recipe?.description} error={error} />
           </p>
-          <div className=" mt-10 container">
+          </div>
+          <div className="container mt-10 ">
             <RecipeAllergens allergens={allergens} ingredients={recipe?.ingredients} />
           </div>
           {/* Display recipe details including cook time, prep time, and servings */}
@@ -90,7 +92,7 @@ function Details(props) {
             </div>
 
             {recipe?.servings && (
-              <div className="flex items-center justify-center p-2  font-bold ">
+              <div className="flex items-center justify-center p-2 font-bold ">
                 <ServingIcon width="25" height="25" fill="#000000" />
                 <p>
                   <strong>Serving:</strong> {recipe.servings}
@@ -99,7 +101,7 @@ function Details(props) {
             )}
           </div>
           {/* Display recipe tags */}
-          <div className="mt-5 flex flex-row items-center space-x-2 md:border-current md:border-solid md:border-2 md:p-2">
+          <div className="flex flex-row items-center mt-5 space-x-2 md:border-current md:border-solid md:border-2 md:p-2">
             <StyleIcon />
             <RecipeTags tags={recipe?.tags} networkError={networkError} />
           </div>
@@ -113,7 +115,7 @@ function Details(props) {
 
       {/* Responsive buttons for toggling between ingredients and instructions on small screens */}
       <div>
-        <div className="block space-x-2 md:hidden text-center mb-5">
+        <div className="block mb-5 space-x-2 text-center md:hidden">
           <Button value="ingredients" variant={toggleList ? 'outlined' : 'text'} onClick={toggleIngredients}>
             Ingredients
           </Button>
@@ -125,11 +127,11 @@ function Details(props) {
         {/* Display ingredients or instructions based on the toggle state */}
         <div className="grid gap-2 md:grid-cols-3">
           <div className={`md:block col-span-1 mb-5 ${toggleList ? 'xs:block' : 'xs:hidden'}`}>
-            <p className="text-center text-lg font-bold md:block xs:hidden">Ingredients</p>
+            <p className="text-lg font-bold text-center md:block xs:hidden">Ingredients</p>
             <Ingredients ingredients={recipe?.ingredients} />
           </div>
           <div className={`md:block col-span-2 ${!toggleList ? 'xs:block' : 'xs:hidden'}`}>
-            <p className="text-center  text-lg font-bold md:block xs:hidden">Instructions</p>
+            <p className="text-lg font-bold text-center md:block xs:hidden">Instructions</p>
             <Instructions
               recipeId={recipe?._id}
               instructions={recipe?.instructions}

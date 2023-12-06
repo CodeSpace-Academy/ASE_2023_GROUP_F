@@ -18,15 +18,16 @@ import Image from 'next/image';
 
 function Carousel({ imageList, setFunc }) {
   return (
-    <div className="pt-1 flex flex-row justify-between overflow-y-auto max-48 md:border-current md:border-solid md:border-2">
-      {imageList.map((image, index) => (
-        <Button onClick={() => setFunc(index)} key={image}>
-          <div style={{ width: '40px', height: '20px', margin: '10px' }}>
-            <Image src={image} alt="recipe image" layout="fill" objectFit="cover" style={{ paddingRight: '6px' }} />
-          </div>
-        </Button>
-      ))}
-    </div>
+    <div className="flex flex-row justify-between pt-2 overflow-y-auto max-48 md:border-current md:border-solid md:border-2">
+    {imageList.map((image, index) => (
+      <Button onClick={() => setFunc(index)} key={image}>
+        <div className="w-40 h-20 p-2 m-6" style={{ paddingRight: '6px' }}>
+          <Image src={image} alt="recipe image" layout="fill" objectFit="cover" />
+        </div>
+      </Button>
+    ))}
+  </div>
+
   );
 }
 
