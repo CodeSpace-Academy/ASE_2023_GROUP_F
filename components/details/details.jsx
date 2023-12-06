@@ -67,7 +67,7 @@ function Details(props) {
         {/* style={{ border: 'grey 1px solid', padding: '8px' }} */}
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className=" md:mt-0 md:ml-5 md:flex-grow xs:col-span-1 md:col-span-2">
-        <div className='p-6 border-2 border-black'>
+        <div className='p-6 mt-2 border-2 border-black'>
           <div className="font-serif text-4xl text-center xs:hidden md:block">{recipe?.title}</div>
           <br />
           {/* Display description of the recipe */}
