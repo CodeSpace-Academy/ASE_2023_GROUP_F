@@ -173,7 +173,7 @@ function SearchBar(props) {
             />
           </svg>
 
-          <span className="hidden md:inline-block ml-2">Filters</span>
+          <span className="hidden ml-2 md:inline-block">Filters</span>
         </Button>
 
         <div className="relative flex items-center">
@@ -232,7 +232,7 @@ function SearchBar(props) {
             onChange={handleSort}
             className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
-            <option aria-label="None" value="" className="text-sm md:block p-4 m-8">
+            <option aria-label="None" value="" className="p-4 m-8 text-sm md:block">
               Default
             </option>
             <optgroup label="Prep Time">
@@ -349,7 +349,7 @@ function SearchBar(props) {
 
       {!noFiltersApplied && (
         <Chip
-          style={{ borderColor: 'black', marginTop: '10px' }}
+          style={{ borderColor: 'black', marginTop: '10px' , textAlign:'start'}}
           label="Clear All Filters"
           size="small"
           variant="outlined"
