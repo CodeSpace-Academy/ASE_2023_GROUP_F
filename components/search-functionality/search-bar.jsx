@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 import { useState, useEffect, useContext } from 'react';
 import { Chip } from '@mui/material';
 import { debounce } from 'lodash';
@@ -63,59 +64,54 @@ function SearchBar(props) {
     await applyFilters(filters, { searchTerm });
   };
 
-  // Delete filter handler
   const handleDelete = async (filterType, filterValue) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters };
-
+  
       if (Array.isArray(updatedFilters[filterType])) {
-        updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
-
-        if (updatedFilters[filterType].length === 0) {
-          updatedFilters[filterType] = null;
+        updatedFilters[filterType] = updatedFilters[filterType].filter(
+          (item) => item !== filterValue
+        );
+  
+        if (updatedFilters[filterType]?.length === 0) {
+          delete updatedFilters[filterType];
         }
-      } else if (typeof updatedFilters[filterType] === 'string') {
-        updatedFilters[filterType] = '';
+      } else {
+        if (filterType === "category" || filterType === "ingredients") {
+          delete updatedFilters[filterType];
+        } else if (filterType === "instructions") {
+          delete updatedFilters[filterType];
+        }
       }
-      if (updatedFilters[filterType]) {
-        updatedFilters[filterType] = null;
-      }
-
+  
       applyFilters(updatedFilters);
-
-      setSelectedFilters((prevFilters) => {
-        const updatedSelectedFilters = { ...prevFilters };
-
-        if (Array.isArray(updatedSelectedFilters[filterType])) {
-          updatedSelectedFilters[filterType] = updatedSelectedFilters[filterType].filter(
-            (item) => item !== filterValue,
-          );
-
-          if (updatedSelectedFilters[filterType].length === 0) {
-            updatedSelectedFilters[filterType] = null;
-          }
-        } else if (typeof updatedSelectedFilters[filterType] === 'string') {
-          updatedSelectedFilters[filterType] = null;
-        }
-
-        if (updatedSelectedFilters[filterType]) {
-          updatedSelectedFilters[filterType] = null;
-        }
-
-        return updatedSelectedFilters;
-      });
-
-      const hasNoFiltersLeft = Object.values(updatedFilters).every(
-        (value) => value === null || (Array.isArray(value) && value.length === 0) || value === '',
-      );
-
-      if (hasNoFiltersLeft) {
-        setNoFiltersApplied(true);
-      }
-
+  
       return updatedFilters;
     });
+  
+    setSelectedFilters((prevFilters) => {
+      const updatedSelectedFilters = { ...prevFilters };
+  
+      if (Array.isArray(updatedSelectedFilters[filterType])) {
+        updatedSelectedFilters[filterType] = updatedSelectedFilters[filterType].filter(
+          (item) => item !== filterValue
+        );
+  
+        if (updatedSelectedFilters[filterType]?.length === 0) {
+          delete updatedSelectedFilters[filterType];
+        }
+      } else {
+        if (filterType === "category" || filterType === "ingredients") {
+          delete updatedSelectedFilters[filterType];
+        } else if (filterType === "instructions") {
+          delete updatedSelectedFilters[filterType];
+        }
+      }
+  
+      return updatedSelectedFilters;
+    });
   };
+  
 
   // Handle sort option change
   const handleSort = async (event) => {
