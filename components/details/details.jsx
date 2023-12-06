@@ -55,8 +55,8 @@ function Details(props) {
 
   return (
     <>
-      <div className="flex grid flex-col justify-between gap-2 p-5 xs:grid-cols-1 md:grid-cols-3 ">
-        <div className="mb-5 font-serif text-4xl text-center xs:grid-cols-1 xs:block md:hidden">{recipe?.title}</div>
+      <div className="grid flex-col justify-between gap-2 p-2 xs:grid-cols-1 md:grid-cols-3">
+        <div className="p-4 mb-8 font-serif text-4xl text-center xs:grid-cols-1 xs:block md:hidden">{recipe?.title}</div>
         {/* RecipeBanner component displaying recipe images  */}
 
         <div className="md:mr-5 xs:col-span-1 md:col-span-1 top:10 ">
@@ -67,7 +67,7 @@ function Details(props) {
         {/* style={{ border: 'grey 1px solid', padding: '8px' }} */}
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className=" md:mt-0 md:ml-5 md:flex-grow xs:col-span-1 md:col-span-2">
-          <div className='p-6 border border-black'>
+        <div className='p-6 border-2 border-black'>
           <div className="font-serif text-4xl text-center xs:hidden md:block">{recipe?.title}</div>
           <br />
           {/* Display description of the recipe */}

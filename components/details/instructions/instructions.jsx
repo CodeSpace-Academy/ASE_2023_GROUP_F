@@ -80,9 +80,9 @@ function Instructions(props) {
 
   return (
     <div>
-      <div className="overflow-y-auto rounded-xl mx-10">
+      <div className="mx-10 overflow-y-auto rounded-xl">
         {displayedInstructions.map((item, index) => (
-          <Card key={item} className=" p-2 bg-gray-200 lg:text-lg md:text-sm">
+          <Card key={item} className="p-2 bg-gray-200 lg:text-lg md:text-sm">
             {editableIndex === index ? (
               <div>
                 <TextField
@@ -91,7 +91,7 @@ function Instructions(props) {
                   fullWidth
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
-                <div className="text-center m-5">
+                <div className="m-5 text-center">
                   <Button variant="outlined" onClick={handleSave}>
                     Save
                   </Button>
@@ -113,7 +113,7 @@ function Instructions(props) {
         ))}
         {instructions.length > 5 && (
           <div className="flex justify-center mt-2">
-            <Button variant="outlined" onClick={handleShowMore}>
+            <Button onClick={handleShowMore}>
               {showAllInstructions ? '▲' : '▼'}
             </Button>
           </div>

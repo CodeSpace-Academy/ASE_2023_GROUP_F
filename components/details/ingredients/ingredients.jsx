@@ -33,11 +33,11 @@ function Ingredients(props) {
         {ingredients.length > 3 && (
           <div className="flex justify-center mt-2">
             {showAll ? (
-              <Button variant="outlined" onClick={() => setShowAll(false)}>
+              <Button onClick={() => setShowAll(false)}>
                 ▲
               </Button>
             ) : (
-              <Button variant="outlined" onClick={() => setShowAll(true)}>
+              <Button onClick={() => setShowAll(true)}>
                 ▼
               </Button>
             )}

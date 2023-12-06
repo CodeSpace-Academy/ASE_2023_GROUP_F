@@ -39,9 +39,9 @@ function RecipeBanner({ images }) {
 
   return (
     <div className="relative">
-      <div style={{ height: '40vh', overflow: 'hidden', position: 'relative' }}>
-        <Image src={images?.[currentImage]} alt={`Recipe image ${currentImage + 1}`} objectFit="cover" layout="fill" />
-      </div>
+       <div style={{ height: '57vh', width: '100%', overflow: 'hidden', position: 'relative' }}>
+      <Image src={images?.[currentImage]} alt={`Recipe image ${currentImage + 1}`} objectFit="cover" layout="fill" />
+    </div>
       {areButtonsVisible && (
         <>
           <div className="absolute left-0 top-1/3 transform-translate-y-1/3 z-1">
