@@ -19,7 +19,7 @@ function Nutrition({ nutritionList }) {
   const visibleNutrition = showAll ? nutrition : nutrition.slice(0, 3);
 
   return (
-    <div className="overflow-y-auto mx-10 lg:rounded-xl md:rounded-sm lg:flex flex-row">
+    <div className="flex-row mx-10 overflow-y-auto lg:rounded-xl md:rounded-sm lg:flex">
       {visibleNutrition.map(([key, value]) => (
         <Card sx={{ margin: 0.5, padding: 1 }} key={key}>
           <div>
@@ -28,8 +28,8 @@ function Nutrition({ nutritionList }) {
         </Card>
       ))}
       {nutrition.length > 3 && (
-        <div className="lg:hidden flex flex-col items-center">
-          <Button variant="outlined" onClick={() => setShowAll(!showAll)} sx={{ mt: 1 }}>
+        <div className="flex flex-col items-center lg:hidden">
+          <Button onClick={() => setShowAll(!showAll)} sx={{ mt: 1 }}>
             {showAll ? '▲' : ' ▼'}
           </Button>
         </div>
