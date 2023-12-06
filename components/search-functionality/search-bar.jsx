@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Chip, Button } from '@mui/material';
+import { Chip } from '@mui/material';
 import { debounce } from 'lodash';
 import Modal from './Modal';
 import { filterContext } from './filterContext';
@@ -153,6 +153,7 @@ function SearchBar(props) {
     <div className="my-6">
       <div className=" flex items-center justify-between">
         <button
+        type='button'
           onClick={handleOpen}
           className="  border border-slate-300  text-blue-950 hover:text-white hover:bg-gray-900 p-3 rounded-lg w-28 flex items-center justify-center"
         >
