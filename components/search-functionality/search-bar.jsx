@@ -145,7 +145,7 @@ function SearchBar(props) {
  // Function to handle submitting the form
  const handleSubmit = async () => {
   // Auto-submit for short queries
-  if (searchTerm.length <= 10) {
+  if (searchTerm.length >= 10) {
     await applyFilters({ ...filters, searchTerm });
   } else {
     // Perform any other action for long queries
