@@ -95,7 +95,7 @@ function RecipeCard(props) {
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
-    <div className="max-w-sm transition duration-300 ease-in-out rounded-lg shadow-lg hover:bg-slate-700 bg-slate-600">
+    <div className="mx-auto max-w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg 2xl:max-w-xl transition duration-300 ease-in-out rounded-lg shadow-lg hover:bg-slate-700 bg-slate-600">
       <div className="relative rounded-lg">
         <div className="h-56 overflow-hidden ">
           <Image
