@@ -57,7 +57,9 @@ function Details(props) {
   return (
     <>
       <div className="container grid flex-col justify-between gap-2 p-2 xs:grid-cols-1 md:grid-cols-3">
-        <div className="p-4 mb-8 font-serif font-bold text-center lg:text-4xl md:text-2xl xs:grid-cols-1 xs:block md:hidden">{recipe?.title}</div>
+        <div className="p-4 mb-8 font-serif font-bold text-center lg:text-4xl md:text-2xl xs:grid-cols-1 xs:block md:hidden">
+          {recipe?.title}
+        </div>
         {/* RecipeBanner component displaying recipe images  */}
         <div className="md:mr-5 xs:col-span-1 md:col-span-1 top:10 ">
           <div className={`p-4 md:border-slate-300 md:border-solid md:border-2 md:p-4 md:m-4`}>
@@ -69,7 +71,7 @@ function Details(props) {
         <div className="md:mt-0 md:ml-5 md:flex-grow xs:col-span-1 md:col-span-2">
           <div className={`p-6 mt-2 border-slate-300 border-solid border-2`}>
             <div className="font-serif text-4xl text-center xs:hidden md:block">{recipe?.title}</div>
-            
+
             {/* Display description of the recipe */}
             <p className="container mt-1 text-sm text-center ">
               <Description recipeId={recipe?._id} description={recipe?.description} error={error} />
@@ -82,12 +84,16 @@ function Details(props) {
 
           {/* Display recipe details including cook time, prep time, and servings */}
           <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0 md:border-slate-300 md:border-solid md:border-2 md:p-2">
-            <div className={`flex items-center justify-center p-2 my-2 font-bold border-slate-300 border-solid border-2`}>
+            <div
+              className={`flex items-center justify-center p-2 my-2 font-bold border-slate-300 border-solid border-2`}
+            >
               <CookIcon fill="#000000" width="35" height="35" />
               Cook time {recipe?.cook} mins
             </div>
 
-            <div className={`flex items-center justify-center p-2 my-2 font-bold border-slate-300 border-solid border-2`}>
+            <div
+              className={`flex items-center justify-center p-2 my-2 font-bold border-slate-300 border-solid border-2`}
+            >
               <PrepIcon fill="#000000" width="35" height="35" />
               Preparation time {recipe?.prep} mins
             </div>
@@ -103,9 +109,14 @@ function Details(props) {
           </div>
 
           {/* Display recipe tags */}
-          <div className={`flex flex-row items-center mt-5 space-x-2 border-slate-300 border-solid border-2 p-2`}>
-            <StyleIcon />
-            <RecipeTags tags={recipe?.tags} networkError={networkError} />
+          <div className="flex flex-col items-center mt-5 space-x-2 border-slate-300 border-solid border-2 p-2">
+            <div className="flex items-center space-x-2">
+              <StyleIcon />
+              <strong>Tags</strong>
+            </div>
+            <div className="flex flex-row items-center space-x-2">
+              <RecipeTags tags={recipe?.tags} networkError={networkError} />
+            </div>
           </div>
 
           {/* Display nutrition information */}
@@ -118,8 +129,8 @@ function Details(props) {
 
       {/* Responsive buttons for toggling between ingredients and instructions on small screens */}
       <div>
-      <div className="block mb-5 space-x-2 text-center md:hidden rounded-md overflow-hidden">
-        <Button
+        <div className="block mb-5 space-x-2 text-center md:hidden rounded-md overflow-hidden">
+          <Button
             value="ingredients"
             variant={toggleList ? 'outlined' : 'text'}
             onClick={toggleIngredients}
