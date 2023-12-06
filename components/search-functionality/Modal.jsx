@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Autocomplete } from "@mui/material";
@@ -6,6 +5,7 @@ import classes from "./modal.module.css";
 import { filterContext } from "./filterContext";
 import { getCategories } from "../../lib/view-recipes";
 import Animation from "../skeletonCard/loadingAnimation/LoadingAnimation";
+
 
 /**
  * Modal Component
@@ -36,8 +36,6 @@ function Modal(props) {
 
 	const [formData, setFormData] = useState(initialFormState);
 	const [tags, setTags] = useState([]);
-	const [tagOptions, setTagOptions] = useState([]);
-	const [categoryOption, setCategoryOption] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -103,9 +101,6 @@ function Modal(props) {
 		  instructions: "",
 		});
 	  
-		// Clear the tags directly
-		setTagOptions([]);
-	  
 		await applyFilters({});
 		setNoFiltersApplied(true);
 		
@@ -153,7 +148,7 @@ function Modal(props) {
 									...prevData,
 									category: newValue,
 								}));
-								setCategoryOption(newValue);
+								
 							}}
 							freeSolo
 							renderInput={(params) => (
@@ -171,9 +166,6 @@ function Modal(props) {
 							onChange={(event, newValue) => {
 								if (newValue !== undefined && Array.isArray(newValue)) {
 									setFormData((prevData) => ({ ...prevData, tags: newValue }));
-									setTagOptions(newValue);
-								} else {
-									setTagOptions([]);
 								}
 							}}
 							freeSolo

@@ -73,11 +73,11 @@ function Home(props) {
           content="Welcome to Foodie's Delight, the ultimate companion for culinary enthusiasts and gastronomic adventurers! Unleash your inner chef and explore a world of delectable delights with our intuitive and feature-packed recipe app."
         />
       </Head>
-      {loading && <Animation /> }
       <SearchBar applyFilters={handleApplyFilters} appliedFilters={filters} count={remainingRecipes} />
+      {loading && <Animation />}
       <ScrollArrowButtons />
-      {(!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
-        <HandleError>No recipes found!!</HandleError>
+      {!loading && (!filteredRecipes || filteredRecipes.length === 0) && visibleRecipes ? (
+        <HandleError>No recipes found!! 😢</HandleError>
       ) : (
         <RecipeList
           visibleRecipes={filteredRecipes}
