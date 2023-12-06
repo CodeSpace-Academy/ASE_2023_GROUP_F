@@ -140,10 +140,23 @@ function SearchBar(props) {
     setNoFiltersApplied(true);
   };
 
+  const isLongQuery = searchTerm.length >= 10
+
+    // Function to handle submitting the form for both short and long queries
+    const handleSubmit = async () => {
+      if (searchTerm.length >= 10) {
+        await applyFilters({ ...filters, title: searchTerm });
+      } else {
+        console.log('Short query submitted:', searchTerm);
+      }
+    };
+
   // Debounced search term handler
   useEffect(() => {
     const debouncedApplyFilters = debounce(async (title) => {
+     if(!isLongQuery){
       await applyFilters({ ...filters, title });
+     }
     }, 500);
 
     debouncedApplyFilters(searchTerm);
@@ -151,7 +164,7 @@ function SearchBar(props) {
     return () => {
       debouncedApplyFilters.cancel();
     };
-  }, [searchTerm, filters, sortOption]);
+  }, [searchTerm, filters]);
 
   return (
     <div className="my-6">
@@ -208,6 +221,11 @@ function SearchBar(props) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+         
+        <button type="button" className="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full" onClick={handleSubmit}>
+          Submit
+        </button>
+     
         </div>
 
         <div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
