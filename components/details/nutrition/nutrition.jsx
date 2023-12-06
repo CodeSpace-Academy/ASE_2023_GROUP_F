@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from '@mui/material';
+import { Card } from '@mui/material';
 
 /**
  * Nutrition Component
@@ -19,22 +19,33 @@ function Nutrition({ nutritionList }) {
   const visibleNutrition = showAll ? nutrition : nutrition.slice(0, 3);
 
   return (
-    <div className="overflow-y-auto mx-10 lg:rounded-xl md:rounded-sm lg:flex flex-row">
-      {visibleNutrition.map(([key, value]) => (
-        <Card sx={{ margin: 0.5, padding: 1 }} key={key}>
-          <div>
-            {key}: {value}
+    <>
+      <div className="overflow-y-auto mx-2 fontSize:5 lg:rounded-xl md:rounded-sm lg:flex flex-row lg:block xs:hidden">
+        {nutrition.map(([key, value]) => (
+          <Card sx={{ margin: 0.5, padding: 1 }} key={key}>
+            <div>
+              {key}: {value}
+            </div>
+          </Card>
+        ))}
+      </div>
+      <div className="overflow-y-auto mx-5 md:rounded-sm lg:flex flex-row lg:hidden">
+        {visibleNutrition.map(([key, value]) => (
+          <Card sx={{ margin: 0.5, padding: 1 }} key={key}>
+            <div>
+              {key}: {value}
+            </div>
+          </Card>
+        ))}
+        {nutrition.length > 3 && (
+          <div className=" flex flex-col items-center">
+            <div onClick={() => setShowAll(!showAll)} sx={{ mt: 1 }}>
+              {showAll ? '▲' : ' ▼'}
+            </div>
           </div>
-        </Card>
-      ))}
-      {nutrition.length > 3 && (
-        <div className="lg:hidden flex flex-col items-center">
-          <Button variant="outlined" onClick={() => setShowAll(!showAll)} sx={{ mt: 1 }}>
-            {showAll ? '▲' : ' ▼'}
-          </Button>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from '@mui/material';
+import { Card } from '@mui/material';
 
 /**
  * Ingredients Component
@@ -32,15 +32,7 @@ function Ingredients(props) {
         ))}
         {ingredients.length > 3 && (
           <div className="flex justify-center mt-2">
-            {showAll ? (
-              <Button variant="outlined" onClick={() => setShowAll(false)}>
-                ▲
-              </Button>
-            ) : (
-              <Button variant="outlined" onClick={() => setShowAll(true)}>
-                ▼
-              </Button>
-            )}
+            {showAll ? <div onClick={() => setShowAll(false)}>▲</div> : <div onClick={() => setShowAll(true)}>▼</div>}
           </div>
         )}
       </div>

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
 
 import StyleIcon from '@mui/icons-material/Style';
 import Ingredients from './ingredients/ingredients';
@@ -114,12 +113,24 @@ function Details(props) {
       {/* Responsive buttons for toggling between ingredients and instructions on small screens */}
       <div>
         <div className="block space-x-2 md:hidden text-center mb-5">
-          <Button value="ingredients" variant={toggleList ? 'outlined' : 'text'} onClick={toggleIngredients}>
+          <button
+            type="button"
+            value="ingredients"
+            className=" p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+            variant={toggleList ? 'outlined' : 'text'}
+            onClick={toggleIngredients}
+          >
             Ingredients
-          </Button>
-          <Button value="instructions" variant={!toggleList ? 'outlined' : 'text'} onClick={toggleInstructions}>
+          </button>
+          <button
+            className=" p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+            type="button"
+            value="instructions"
+            variant={!toggleList ? 'outlined' : 'text'}
+            onClick={toggleInstructions}
+          >
             Instructions
-          </Button>
+          </button>
         </div>
 
         {/* Display ingredients or instructions based on the toggle state */}

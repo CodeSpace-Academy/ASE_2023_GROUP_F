@@ -113,9 +113,7 @@ function Instructions(props) {
         ))}
         {instructions.length > 5 && (
           <div className="flex justify-center mt-2">
-            <Button variant="outlined" onClick={handleShowMore}>
-              {showAllInstructions ? '▲' : '▼'}
-            </Button>
+            <div onClick={handleShowMore}>{showAllInstructions ? '▲' : '▼'}</div>
           </div>
         )}
       </div>
