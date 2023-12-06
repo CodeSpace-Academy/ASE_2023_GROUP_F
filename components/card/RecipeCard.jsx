@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'react-feather';
 import TimeDisplay from '../time/TimeDisplay';
 
-
 /**
  * RecipeCard Component
  *
@@ -96,18 +95,17 @@ function RecipeCard(props) {
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
-    <div className="bg-slate-600 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105">
+    <div className="bg-slate-600 rounded-lg shadow-lg max-w-sm transition duration-300 ease-in-out hover:scale-105 hover:bg-slate-700">
       <div className="relative rounded-lg">
-        <div className=" h-56 overflow-hidden">
-          {/* <Image
+        <div className="h-56 overflow-hidden">
+          <Image
             className="rounded-lg"
-            layout="responsive"
-            width={400}
-            height={224}
+            layout="fill"
+            objectFit="cover"
             src={images?.[currentImage]}
             alt={`Recipe image ${currentImage + 1}`}
             priority
-          /> */}
+          />
         </div>
         {isButtonVisible && (
           <div className="absolute inset-0 flex items-center justify-between p-4">
@@ -141,18 +139,12 @@ function RecipeCard(props) {
       </div>
 
       <Link href={`/recipes/${recipe._id}`}>
-        <div className="inset-0 transform">
-          <div className="px-6 hover:text-black hover:bg-slate-700">
-            <div className="flex flex-col justify-between">
-              <div className="font-bold font-serif pt-2 mb-4 max-w-full overflow-hidden">
-                <strong className="block font-extrabold overflow-hidden md:text-lg lg:text-base xl:text-sm 2xl:text-sm">
-                  {title}
-                </strong>
-              </div>
-              <div>
-                <TimeDisplay recipe={recipe} />
-              </div>
-            </div>
+        <div className="px-6">
+          <div className="font-bold text-lg font-serif p-3 h-16 overflow-hidden">
+            <strong className=" text-slate-300">{title}</strong>
+          </div>
+          <div className="mt-2">
+            <TimeDisplay recipe={recipe} />
           </div>
         </div>
       </Link>

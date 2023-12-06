@@ -212,7 +212,7 @@ function Modal(props) {
 
 					<button
 					type="button"
-						className={`flex items-center p-2 border border-gray-800 rounded-full dark:text-black-950 hover:text-white hover:bg-gray-900 ${noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
+						className={`flex items-center p-2 border border-slate-300 rounded-full text-slate-300 hover:text-white hover:bg-gray-900 ${noFiltersApplied ? "opacity-50 cursor-not-allowed" : ""
 							}`}
 						style={{
 							position: "absolute",
@@ -229,7 +229,7 @@ function Modal(props) {
 					</button>
 
 					<button
-						className="flex items-center p-2 border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+						className="flex items-center p-2 border border-slate-300 rounded-full dark:text-slate-300 hover:text-white hover:bg-gray-900"
 						form="form"
 						id="applyFilterSort"
 						type="submit"

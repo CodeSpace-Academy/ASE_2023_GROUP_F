@@ -41,7 +41,7 @@ function TimeDisplay({ recipe }) {
   const totalCookingTime = recipe.prep + recipe.cook;
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 ml-3">
       <div className="flex gap-7 mb-4">
         <span className="flex">
           <PrepIcon fill="#cbd5e1" width="35" height="35" />
@@ -69,8 +69,8 @@ function TimeDisplay({ recipe }) {
         </span>
         {recipe.servings && (
           <>
-            <ServingIcon width="25" height="25" fill="#1e1b4b" />
-            <p className="text-fuchsia-950">
+            <ServingIcon width="25" height="25" fill="#cbd5e1" />
+            <p className="text-fuchsia-950 ml-3">
               <strong>Serving:</strong> {recipe.servings}
             </p>
           </>
