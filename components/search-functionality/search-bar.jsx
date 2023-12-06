@@ -83,6 +83,14 @@ function SearchBar(props) {
           delete updatedFilters[filterType];
         }
       }
+
+      const hasNoFiltersLeft = Object.values(updatedFilters).every(
+        (value) => value === null || (Array.isArray(value) && value.length === 0) || value === '',
+      );
+
+      if (hasNoFiltersLeft) {
+        setNoFiltersApplied(true);
+      }
       applyFilters(updatedFilters);
   
       return updatedFilters;
@@ -106,6 +114,7 @@ function SearchBar(props) {
            updatedSelectedFilters[filterType]=""
         }
       }
+      
   
       return updatedSelectedFilters;
     });
