@@ -95,14 +95,13 @@ function RecipeCard(props) {
   const isButtonVisible = images?.length > 1;
 
   return isVisible ? (
-    <div className="max-w-sm transition duration-300 ease-in-out rounded-lg shadow-lg bg-slate-200 hover:scale-105">
+    <div className="max-w-sm transition duration-300 ease-in-out rounded-lg shadow-lg hover:bg-slate-700 bg-slate-600">
       <div className="relative rounded-lg">
         <div className="h-56 overflow-hidden ">
           <Image
             className="rounded-lg"
-            layout="responsive"
-            width={400}
-            height={224}
+            layout="fill"
+            objectFit="cover"
             src={images?.[currentImage]}
             alt={`Recipe image ${currentImage + 1}`}
             priority

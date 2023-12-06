@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { Chip, Button } from '@mui/material';
+import { Chip } from '@mui/material';
 import { debounce } from 'lodash';
 import Modal from './Modal';
 import { filterContext } from './filterContext';
@@ -151,12 +151,11 @@ function SearchBar(props) {
 
   return (
     <div className="my-6">
-      <div className="container flex items-center justify-between">
-        <Button
-          variant="outlined"
-          size="large"
+      <div className=" flex items-center justify-between">
+        <button
+          type="button"
           onClick={handleOpen}
-          className="flex items-center border border-gray-800 rounded-full dark:text-blue-950 hover:text-white hover:bg-gray-900"
+          className="  border border-slate-300  text-blue-950 hover:text-white hover:bg-gray-900 p-3 rounded-lg w-28 flex items-center justify-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +163,7 @@ function SearchBar(props) {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 text-slate-300"
           >
             <path
               strokeLinecap="round"
@@ -173,8 +172,8 @@ function SearchBar(props) {
             />
           </svg>
 
-          <span className="hidden ml-2 md:inline-block">Filters</span>
-        </Button>
+          <span className="hidden md:inline-block ml-2">Filters</span>
+        </button>
 
         <div className="relative flex items-center">
           <label htmlFor="search" className="sr-only">
@@ -197,7 +196,7 @@ function SearchBar(props) {
             </svg>
           </div>
           <input
-            className="w-full md:min-w-[500px] p-2 pl-10 text-2xl rounded-full"
+            className="w-full md:min-w-[500px] p-2 pl-10 text-2xl border border-slate-300 text-slate-300 rounded-full bg-slate-600"
             type="text"
             id="search"
             placeholder="Search...."
@@ -206,7 +205,7 @@ function SearchBar(props) {
           />
         </div>
 
-        <div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
+        <div className="flex items-center border border-slate-300 rounded-full p-2 m-1 min-w-[50px]">
           <label htmlFor="grouped-native-select" className="flex items-center rounded-full md:flex">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +213,7 @@ function SearchBar(props) {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-6 h-6 md:mr-2"
+              className="w-6 h-6 md:mr-2 text-slate-300"
             >
               <path
                 strokeLinecap="round"
@@ -222,7 +221,7 @@ function SearchBar(props) {
                 d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
               />
             </svg>
-            <span className="hidden md:inline-block">Sort By</span>
+            <span className="hidden md:inline-block text-slate-900">Sort By</span>
           </label>
 
           <select
@@ -230,7 +229,7 @@ function SearchBar(props) {
             name="sortOption"
             value={sortOption}
             onChange={handleSort}
-            className="text-gray-800 bg-slate-300 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
+            className="text-slate-300 bg-slate-500 outline-none border-none min-w-[50px] md:flex-grow md:w-auto "
           >
             <option aria-label="None" value="" className="p-4 m-8 text-sm md:block">
               Default
@@ -261,6 +260,7 @@ function SearchBar(props) {
         <Modal handleClose={handleClose} applyFilters={handleApplyFilters} clearAllFilters={handleResetFilters} />
       )}
       <div
+        className=" font-bold text-slate-300"
         style={{
           display: 'flex',
           marginRight: '1rem',
@@ -269,6 +269,7 @@ function SearchBar(props) {
       >
         {selectedFilters.category !== null && selectedFilters.category !== '' && (
           <div
+            className="text-slate-800"
             style={{
               display: 'flex',
               marginRight: '1rem',
@@ -278,6 +279,7 @@ function SearchBar(props) {
             <strong>Category:</strong>
             <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
               <Chip
+                className="bg-slate-300 text-slate-900"
                 label={selectedFilters.category}
                 onDelete={() => {
                   handleDelete('category', selectedFilters.category);
@@ -289,6 +291,7 @@ function SearchBar(props) {
         {Object.entries(selectedFilters).map(([filterName, filterValues]) =>
           filterName !== 'instructions' && Array.isArray(filterValues) && filterValues?.length > 0 ? (
             <div
+              className="text-slate-800"
               key={filterName}
               style={{
                 display: 'flex',
@@ -297,9 +300,14 @@ function SearchBar(props) {
               }}
             >
               <strong>{filterName}:</strong>
-              <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }} className="text-slate-800">
                 {filterValues?.map((value) => (
-                  <Chip key={value} label={value} onDelete={() => handleDelete(filterName, value)} />
+                  <Chip
+                    key={value}
+                    label={value}
+                    onDelete={() => handleDelete(filterName, value)}
+                    className="bg-slate-300 text-slate-900"
+                  />
                 ))}
               </div>
             </div>
@@ -308,6 +316,7 @@ function SearchBar(props) {
 
         {selectedFilters?.ingredients !== null && selectedFilters?.ingredients !== '' && (
           <div
+            className="text-slate-800"
             style={{
               display: 'flex',
               marginRight: '1rem',
@@ -317,6 +326,7 @@ function SearchBar(props) {
             <strong>Ingredients:</strong>
             <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
               <Chip
+                className="bg-slate-300 text-slate-900"
                 label={selectedFilters?.ingredients}
                 onDelete={() => {
                   handleDelete('ingredients', selectedFilters?.ingredients);
@@ -328,6 +338,7 @@ function SearchBar(props) {
 
         {selectedFilters.instructions !== null && selectedFilters.instructions !== '' && (
           <div
+            className="text-slate-800"
             style={{
               display: 'flex',
               marginRight: '1rem',
@@ -337,6 +348,7 @@ function SearchBar(props) {
             <strong>Instructions:</strong>
             <div style={{ display: 'flex', flexWrap: 'wrap', marginLeft: '10px' }}>
               <Chip
+                className="bg-slate-300 text-slate-900"
                 label={selectedFilters.instructions}
                 onDelete={() => {
                   handleDelete('instructions', selectedFilters.instructions);
@@ -349,7 +361,8 @@ function SearchBar(props) {
 
       {!noFiltersApplied && (
         <Chip
-          style={{ borderColor: 'black', marginTop: '10px' , textAlign:'start'}}
+          className="bg-slate-900 text-slate-300 ml-2 mt-2"
+          style={{ borderColor: 'black', marginTop: '10px', textAlign: 'start' }}
           label="Clear All Filters"
           size="small"
           variant="outlined"
@@ -357,7 +370,7 @@ function SearchBar(props) {
         />
       )}
 
-      {noFiltersApplied && <p className="font-light text-blue-950">No filters have been applied.</p>}
+      {noFiltersApplied && <p className="font-light text-slate-900">No filters have been applied.</p>}
     </div>
   );
 }
