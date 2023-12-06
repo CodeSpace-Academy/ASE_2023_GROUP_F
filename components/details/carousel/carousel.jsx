@@ -18,7 +18,7 @@ import Image from 'next/image';
 
 function Carousel({ imageList, setFunc }) {
   return (
-    <div className="pt-1 flex flex-row justify-between overflow-y-auto max-48">
+    <div className="pt-1 flex flex-row justify-between overflow-y-auto max-48 md:border-current md:border-solid md:border-2">
       {imageList.map((image, index) => (
         <Button onClick={() => setFunc(index)} key={image}>
           <div style={{ width: '40px', height: '20px', margin: '10px' }}>

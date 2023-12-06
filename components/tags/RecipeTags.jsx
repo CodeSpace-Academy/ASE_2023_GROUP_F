@@ -1,23 +1,23 @@
-import React from 'react'
+import React from 'react';
 import NetworkError from '../error/NetworkError';
-import HandleError from '../error/Error'
+import HandleError from '../error/Error';
 
 /**
  * RecipeTags Component
- * 
+ *
  * A React component for displaying a list of recipe tags.
- * 
+ *
  * @component
  * @param {Object} props - The component's properties.
  * @param {string[]} props.tags - An array of tags to be displayed.
  * @param {boolean} props.networkError - Indicates whether a network error has occurred.
- * 
+ *
  * @returns {JSX.Element} The rendered RecipeTags component.
- * 
+ *
  */
 
 function RecipeTags(props) {
-  const { tags, networkError } = props
+  const { tags, networkError } = props;
 
   // Render error message if a network error occurs
   if (networkError) {
@@ -25,7 +25,7 @@ function RecipeTags(props) {
       <div>
         <NetworkError errorMessage={networkError} />
       </div>
-    )
+    );
   }
 
   // Render message if no tags are found
@@ -34,7 +34,7 @@ function RecipeTags(props) {
       <div>
         <HandleError>No tags found</HandleError>
       </div>
-    )
+    );
   }
 
   // Render the list of tags
@@ -48,7 +48,7 @@ function RecipeTags(props) {
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
-export default RecipeTags
+export default RecipeTags;

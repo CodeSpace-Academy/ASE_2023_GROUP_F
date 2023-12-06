@@ -57,15 +57,14 @@ function Details(props) {
     <>
       <div className="flex flex-col justify-between p-5 grid gap-2 xs:grid-cols-1 md:grid-cols-3 ">
         <div className="font-serif text-4xl text-center mb-5 xs:grid-cols-1 xs:block md:hidden">{recipe?.title}</div>
-        {/* RecipeBanner component displaying recipe images */}
+        {/* RecipeBanner component displaying recipe images  */}
 
         <div className="md:mr-5 xs:col-span-1 md:col-span-1 top:10 ">
-          <RecipeBanner images={recipe?.images} />
-          <div className=" mt-10 container">
-            <RecipeAllergens allergens={allergens} ingredients={recipe?.ingredients} />
+          <div className="md:border-current md:border-solid md:border-2 md:p-2">
+            <RecipeBanner images={recipe?.images} />
           </div>
         </div>
-
+        {/* style={{ border: 'grey 1px solid', padding: '8px' }} */}
         {/* Details about the recipe, including title, allergens, and other information */}
         <div className=" md:mt-0 md:ml-5 md:flex-grow xs:col-span-1 md:col-span-2">
           <div className="font-serif text-4xl text-center xs:hidden md:block">{recipe?.title}</div>
@@ -75,20 +74,23 @@ function Details(props) {
           <p className="mt-1 text-sm text-center container ">
             <Description recipeId={recipe?._id} description={recipe?.description} error={error} />
           </p>
+          <div className=" mt-10 container">
+            <RecipeAllergens allergens={allergens} ingredients={recipe?.ingredients} />
+          </div>
           {/* Display recipe details including cook time, prep time, and servings */}
-          <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0">
-            <div className="flex items-center justify-center p-2 my-2 font-bold bg-gray-200 rounded-xl">
+          <div className="flex flex-col mt-5 md:flex-row md:space-x-4 md:space-y-0 md:border-current md:border-solid md:border-2 md:p-2">
+            <div className="flex items-center justify-center p-2 my-2 font-bold ">
               <CookIcon fill="#000000" width="35" height="35" />
               Cook time {recipe?.cook} mins
             </div>
 
-            <div className="flex items-center justify-center p-2 my-2 font-bold bg-gray-200 rounded-xl">
+            <div className="flex items-center justify-center p-2 my-2 font-bold ">
               <PrepIcon fill="#000000" width="35" height="35" />
               Preparation time {recipe?.prep} mins
             </div>
 
             {recipe?.servings && (
-              <div className="flex items-center justify-center p-2  font-bold bg-gray-200 rounded-xl">
+              <div className="flex items-center justify-center p-2  font-bold ">
                 <ServingIcon width="25" height="25" fill="#000000" />
                 <p>
                   <strong>Serving:</strong> {recipe.servings}
@@ -97,12 +99,12 @@ function Details(props) {
             )}
           </div>
           {/* Display recipe tags */}
-          <div className="mt-5 flex flex-row items-center justify-center space-x-2">
+          <div className="mt-5 flex flex-row items-center space-x-2 md:border-current md:border-solid md:border-2 md:p-2">
             <StyleIcon />
             <RecipeTags tags={recipe?.tags} networkError={networkError} />
           </div>
           {/* Display nutrition information */}
-          <div className="mt-5">
+          <div className="mt-5 md:border-current md:border-solid md:border-2 md:p-2">
             <p className="font-sans font-bold text-center lg:text-lg md:text-sm">Nutrition</p>
             <Nutrition nutritionList={recipe?.nutrition} />
           </div>
