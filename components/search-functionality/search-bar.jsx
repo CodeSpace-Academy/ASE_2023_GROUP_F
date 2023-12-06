@@ -72,16 +72,14 @@ function SearchBar(props) {
         updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
 
         if (updatedFilters[filterType].length === 0) {
-          updatedFilters[filterType] = null; // Set to null only if no tags left
+          updatedFilters[filterType] = null;
         }
       } else if (typeof updatedFilters[filterType] === 'string') {
-        updatedFilters[filterType] = ''; // Set to empty string for non-array string filters
+        updatedFilters[filterType] = '';
       }
       if (updatedFilters[filterType]) {
         updatedFilters[filterType] = null;
       }
-
-      console.log('Updated', updatedFilters[filterType]);
 
       applyFilters(updatedFilters);
 
@@ -94,10 +92,10 @@ function SearchBar(props) {
           );
 
           if (updatedSelectedFilters[filterType].length === 0) {
-            updatedSelectedFilters[filterType] = null; // Set to null only if no tags left
+            updatedSelectedFilters[filterType] = null;
           }
         } else if (typeof updatedSelectedFilters[filterType] === 'string') {
-          updatedSelectedFilters[filterType] = null; // Set to empty string for non-array string filters
+          updatedSelectedFilters[filterType] = null;
         }
 
         if (updatedSelectedFilters[filterType]) {
@@ -123,7 +121,6 @@ function SearchBar(props) {
   const handleSort = async (event) => {
     const newSortOption = event.target.value;
     setSortOption(newSortOption);
-    await applyFilters(filters, newSortOption);
   };
 
   // Reset filters handler

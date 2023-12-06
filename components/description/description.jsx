@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Card, Button, TextField } from '@mui/material';
+import NetworkError from '../error/NetworkError';
 
 /**
  * Description Component
@@ -18,7 +19,7 @@ import { Button, TextField, Typography, useMediaQuery } from '@mui/material';
  */
 
 function Description(props) {
-  const { recipeId, description } = props;
+  const { recipeId, description, error } = props;
 
   // State variables for managing edit state and edited description
   const [isEditing, setIsEditing] = useState(false);
@@ -73,12 +74,11 @@ function Description(props) {
   const handleCancel = () => {
     setIsEditing(false);
     setEditedDescription(originalDescription);
-    setShowRemaining(originalDescription.length > 300);
   };
 
-  const toggleShowRemaining = () => {
-    setShowRemaining(!showRemaining);
-  };
+  if (error) {
+    return <NetworkError errorMessage={`Description not found , ${error}`} />;
+  }
 
   return (
     <div style={{ backgroundColor: '#cbd5e1' }}>
