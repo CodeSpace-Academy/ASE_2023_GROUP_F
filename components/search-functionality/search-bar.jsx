@@ -67,7 +67,7 @@ function SearchBar(props) {
 
   // Delete filter handler
   const handleDelete = async (filterType, filterValue) => {
-    setFilters((prevFilters) => {
+    setFilters(async (prevFilters) => {
       const updatedFilters = { ...prevFilters };
   
       if (Array.isArray(updatedFilters[filterType])) {
@@ -84,7 +84,7 @@ function SearchBar(props) {
         
       }
   
-      applyFilters(updatedFilters);
+      await applyFilters(updatedFilters);
   
       setSelectedFilters((prevFilters) => {
         const updatedSelectedFilters = { ...prevFilters };
@@ -145,10 +145,8 @@ function SearchBar(props) {
     // Function to handle submitting the form for both short and long queries
     const handleSubmit = async () => {
       if (searchTerm.length >= 10) {
-        await applyFilters({ ...filters, title: searchTerm });
-      } else {
-        console.log('Short query submitted:', searchTerm);
-      }
+        await applyFilters({ ...filters , searchTerm });
+      } 
     };
 
   // Debounced search term handler
@@ -164,7 +162,7 @@ function SearchBar(props) {
     return () => {
       debouncedApplyFilters.cancel();
     };
-  }, [searchTerm, filters]);
+  }, [searchTerm, filters , sortOption]);
 
   return (
     <div className="my-6">
