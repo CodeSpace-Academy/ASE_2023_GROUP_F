@@ -30,7 +30,7 @@ function SearchBar(props) {
     setSearchTerm,
   } = useContext(filterContext);
 
-  // const [buttonEnabled, setButtonEnabled] = useState(true); 
+  // const [buttonEnabled, setButtonEnabled] = useState(true);
 
   const [open, setOpen] = useState(false);
 
@@ -69,31 +69,30 @@ function SearchBar(props) {
   const handleDelete = async (filterType, filterValue) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters };
-  
+
       if (Array.isArray(updatedFilters[filterType])) {
         updatedFilters[filterType] = updatedFilters[filterType].filter((item) => item !== filterValue);
-  
+
         if (updatedFilters[filterType].length === 0) {
           updatedFilters[filterType] = null; // Set to null only if no tags left
         }
       } else if (typeof updatedFilters[filterType] === 'string') {
         updatedFilters[filterType] = ''; // Set to empty string for non-array string filters
       }
-      if(updatedFilters[filterType]){
-        updatedFilters[filterType] = null
-        
+      if (updatedFilters[filterType]) {
+        updatedFilters[filterType] = null;
       }
-  
+
       applyFilters(updatedFilters);
-  
+
       setSelectedFilters((prevFilters) => {
         const updatedSelectedFilters = { ...prevFilters };
-  
+
         if (Array.isArray(updatedSelectedFilters[filterType])) {
           updatedSelectedFilters[filterType] = updatedSelectedFilters[filterType].filter(
             (item) => item !== filterValue,
           );
-  
+
           if (updatedSelectedFilters[filterType].length === 0) {
             updatedSelectedFilters[filterType] = null; // Set to null only if no tags left
           }
@@ -101,21 +100,21 @@ function SearchBar(props) {
           updatedSelectedFilters[filterType] = null; // Set to empty string for non-array string filters
         }
 
-        if(updatedSelectedFilters[filterType]){
-          updatedSelectedFilters[filterType] = null
+        if (updatedSelectedFilters[filterType]) {
+          updatedSelectedFilters[filterType] = null;
         }
-  
+
         return updatedSelectedFilters;
       });
-  
+
       const hasNoFiltersLeft = Object.values(updatedFilters).every(
         (value) => value === null || (Array.isArray(value) && value.length === 0) || value === '',
       );
-  
+
       if (hasNoFiltersLeft) {
         setNoFiltersApplied(true);
       }
-  
+
       return updatedFilters;
     });
   };
@@ -142,34 +141,32 @@ function SearchBar(props) {
 
   const isLongQuery = searchTerm.length > 10;
 
- // Function to handle submitting the form
- const handleSubmit = async () => {
-  // Auto-submit for short queries
-  if (searchTerm.length >= 10) {
-    await applyFilters({ ...filters, searchTerm });
-  } else {
-    // Perform any other action for long queries
-    console.log('Long query submitted:', { searchTerm, filters, sortOption });
-  }
-};
-
-// Debounced search term handler
-useEffect(() => {
-  const debouncedApplyFilters = debounce(async (title) => {
-    if(!isLongQuery)
-    await applyFilters({ ...filters, title });
-  }, 500);
-
-  debouncedApplyFilters(searchTerm);
-
-  return () => {
-    debouncedApplyFilters.cancel();
+  // Function to handle submitting the form
+  const handleSubmit = async () => {
+    if (searchTerm.length >= 10) {
+      await applyFilters({ ...filters, searchTerm });
+    } else {
+      // Perform any other action for long queries
+      console.log('Long query submitted:', { searchTerm, filters, sortOption });
+    }
   };
-}, [searchTerm, filters, sortOption]);
 
-  // const handleSubmit =async () => {
-  //     await applyFilters({ ...filters, searchTerm });
-  // };
+  console.log(filters)
+
+  // Debounced search term handler
+  useEffect(() => {
+    const debouncedApplyFilters = debounce((title) => {
+      if (!isLongQuery) {
+        applyFilters({ ...filters, title });
+      }
+    }, 500);
+
+    debouncedApplyFilters(searchTerm);
+
+    return () => {
+      debouncedApplyFilters.cancel();
+    };
+  }, [searchTerm, filters, sortOption, isLongQuery]);
 
   return (
     <div className="my-6">
@@ -226,9 +223,9 @@ useEffect(() => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        <button type="button" onClick={handleSubmit}>
-          Submit
-        </button>
+          <button type="button" onClick={handleSubmit}>
+            Submit
+          </button>
         </div>
 
         <div className="flex items-center border border-gray-800 rounded-full p-2 m-1 min-w-[50px]">
