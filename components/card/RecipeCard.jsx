@@ -140,10 +140,10 @@ function RecipeCard(props) {
 
       <Link href={`/recipes/${recipe._id}`}>
         <div className="inset-0 transform">
-          <div className="px-6 hover:text-black hover:bg-slate-300">
+          <div className="px-6 hover:text-black">
             <div className="flex flex-col justify-between">
               <div className="pt-2 mb-4 font-serif font-bold lg:text-lg md:text-sm ">
-                <strong className="block overflow-hidden font-extrabold md:text-lg lg:text-base xl:text-lg md:text-md sm:text-sm2xl:text-sm">
+                <strong className="block overflow-hidden font-extrabold md:text-lg lg:text-base xl:text-lg md:text-md sm:text-sm 2xl:text-sm text-slate-300">
                   {title}
                 </strong>
               </div>
