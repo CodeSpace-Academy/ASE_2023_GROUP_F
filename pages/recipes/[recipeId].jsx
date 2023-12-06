@@ -1,9 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Details from '../../components/details/details';
 import { getSingleRecipe } from '../../lib/view-recipes';
 import RecipeSkeleton from '../../components/skeletonCard/detailPageSkeleton';
-import { filterContext } from '../../components/search-functionality/filterContext';
+
 
 /**
  * SingleRecipe component renders details of a single recipe.
@@ -13,14 +13,14 @@ import { filterContext } from '../../components/search-functionality/filterConte
  */
 
 function SingleRecipe({ recipeId }) {
-  const { filters } = useContext(filterContext);
+  
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
   // Effect hook to fetch recipe data when the component mounts or when recipeId changes
   useEffect(() => {
-    console.log('filters in recipeId', filters);
+   
 
     //  Fetch recipe by ID
     async function getRecipeById() {
